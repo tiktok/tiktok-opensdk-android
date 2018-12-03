@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.tiktok.sdk.demo.auth"
+        minSdkVersion 21
+        targetSdkVersion rootProject.ext.compileSdkVersion
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "CLIENT_KEY", '"awp9h9mdmo510fct"'
+        buildConfigField "String", "REDIRECT_URL", '"demoapp://oauthresponse"'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        disable 'MissingTranslation'
+        abortOnError false
+        ignoreWarnings true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xjvm-default=all"]
+    }
+}
+
+dependencies {
+    implementation project(path: ':tiktok-open-sdk-auth')
+    implementation "androidx.core:core-ktx:$androidxCoreVersion"
+    implementation "androidx.activity:activity-ktx:$androidxActivityVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion"
+    implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayoutVersion"
+
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidTestJunitVersion"
+    androidTestImplementation "androidx.test:runner:$androidTestVersion"
+}

@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.parcelize'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion rootProject.ext.compileSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "SHARE_SDK_NAME", "\"$SHARE_SDK_NAME\""
+        buildConfigField "String", "SHARE_SDK_VERSION", "\"$ARTIFACT_VERSION\""
+    }
+    lintOptions {
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    api project(path: ':tiktok-open-sdk-core')
+    implementation "com.google.code.gson:gson:$gson"
+
+    androidTestImplementation "io.mockk:mockk-android:$mockk"
+    androidTestImplementation "androidx.test.ext:junit:$androidTestJunitVersion"
+    androidTestImplementation "androidx.test:runner:$androidTestVersion"
+    androidTestImplementation "androidx.test:rules:$androidTestVersion"
+}
+
+ext {
+    artifactId = findProperty('SHARE_SDK_ARTIFACT_ID')
+    artifactName = findProperty('SHARE_SDK_NAME')
+    artifactDescrption = findProperty('SHARE_SDK_DESCRIPTION')
+}
+
+apply from: "${rootDir}/deploy.gradle"

@@ -1,0 +1,92 @@
+apply plugin: "maven-publish"
+
+def getReleaseRepositoryUrl() {
+    return findProperty('REPOSITORY') ?: ""
+}
+
+def getSnapshotRepositoryUrl() {
+    return findProperty('REPOSITORY_SNAPSHOT_EXTERNAL') ?: ""
+}
+
+def getRepositoryUsername() {
+    return findProperty('EXTERNAL_USERNAME') ?: ""
+}
+
+def getRepositoryPassword() {
+    return findProperty('EXTERNAL_PASSWORD') ?: ""
+}
+
+if (project.hasProperty('android')) {
+    task androidSourcesJar(type: Jar) {
+        archiveClassifier.set('sources')
+        from android.sourceSets.main.java.srcDirs
+    }
+}
+
+afterEvaluate { project ->
+    publishing {
+        publications {
+            release(MavenPublication) {
+                if (project.hasProperty('android')) {
+                    artifact androidSourcesJar
+                    artifact bundleReleaseAar
+                } else if (project.hasProperty('artifactPath')) {
+                    artifact project.artifactPath
+                }
+
+                groupId = rootProject.groupName
+                artifactId = project.artifactId
+                version = findProperty('ARTIFACT_VERSION')
+
+                pom {
+                    name = project.artifactName
+                    packaging = "aar"
+                    description = project.artifactDescrption
+                    url = "https://github.com/tiktokcom/tiktok-opensdk-android"
+
+                    licenses {
+                        license {
+                            name = "Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0"
+                            distribution = "repo"
+                        }
+                    }
+                }
+
+                pom.withXml {
+                    final dependenciesNode = asNode().appendNode("dependencies")
+                    ext.addDependency = { dep, scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
+                            return
+                        }
+
+                        final depGroup = dep.group
+                        final depName = dep.name
+                        final depVersion = dep.version != 'unspecified' ? dep.version : VERSION_NAME
+
+                        final dependencyNode = dependenciesNode.appendNode("dependency")
+                        dependencyNode.appendNode("groupId", depGroup)
+                        dependencyNode.appendNode("artifactId", depName)
+                        dependencyNode.appendNode("version", depVersion)
+                        dependencyNode.appendNode("scope", scope)
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                url getReleaseRepositoryUrl()
+                credentials {
+                    username = getRepositoryUsername()
+                    password = getRepositoryPassword()
+                }
+            }
+        }
+    }
+
+    artifacts {
+        if (project.hasProperty('android')) {
+            archives androidSourcesJar
+        }
+    }
+}
