@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">LoginKitDemo</string>
+    <string name="config">Config</string>
+    <string name="scope_configuration">Scope configuration</string>
+    <string name="always_in_browser">Always in Browser</string>
+    <string name="always_in_browser_description">Always authorize in browser</string>
+    <string name="basic_scope_description">Read your profile info (avatar, display name)</string>
+    <string name="video_upload_scope_description">Share videos as a draft to your TikTok account</string>
+    <string name="video_list_scope_description">Read your public videos on TikTok</string>
+    <string name="access_token_error">Access Token Error</string>
+    <string name="user_info_error">User Info Error</string>
+    <string name="getting_user_info_succeeds">Getting user info succeeded</string>
+    <string name="user_info_description_granted_permission">Granted permission: %1$s</string>
+    <string name="user_info_description_access_token">Access Token: %1$s</string>
+    <string name="user_info_description_display_name">Display name: %1$s</string>
+    <string name="copy_access_token">Copy access token</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="error_dialog_title">Authorization Failed!</string>
+    <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
+    <string name="error_code_with_error">Error Code: %1$d\nError: %2$s</string>
+    <string name="error_code_with_error_description">Error: %2$s\nError Description: %3$s</string>
+    <string name="invalid_scope">Invalid scope</string>
+    <string name="invalid_scope_description">Please select at least one scope</string>
+    <string name="auth_success">Auth Successful</string>
+    <string name="auth_error">Auth error: %1$s</string>
+    <string name="intent_error">Intent error</string>
+    <string name="invalid_scope_auth">Unable to Change the Scope</string>
+    <string name="invalid_scope_auth_desc">Not Allowed to Change this Scope</string>
+</resources>

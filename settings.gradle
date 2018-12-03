@@ -1,0 +1,5 @@
+include ':demo-auth'
+include ':demo-share'
+include ':tiktok-open-sdk-core'
+include ':tiktok-open-sdk-share'
+include ':tiktok-open-sdk-auth'
