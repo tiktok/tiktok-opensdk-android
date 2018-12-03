@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">opentt</string>
+
+    <string name="title_bar_back">取消</string>
+    <string name="title_bar_title">头条登录</string>
+
+    <string name="error_tips_common">系统繁忙，请稍后重试</string>
+    <string name="error_tips_wrong_inside">请联系头条技术</string>
+    <string name="error_tips_cancel">取消</string>
+    <string name="network_error_title">登录失败</string>
+    <string name="network_error_tips">当前网络不可用，请稍后重试</string>
+    <string name="network_error_confirm">确定</string>
+</resources>
