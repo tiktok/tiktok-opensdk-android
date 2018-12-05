@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.open.tt.api;
+package com.bytedance.sdk.account.open.aweme.api;
 
 import android.content.Intent;
 

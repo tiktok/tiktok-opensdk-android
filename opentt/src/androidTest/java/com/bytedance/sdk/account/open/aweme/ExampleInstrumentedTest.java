@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.open.tt;
+package com.bytedance.sdk.account.open.aweme;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.open.tt.impl;
+package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -8,11 +8,10 @@ import android.view.View;
 
 import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.tt.R;
-import com.bytedance.sdk.account.open.tt.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.R;
+import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 
 /**
  * Created by yangzhirong on 2018/10/10.

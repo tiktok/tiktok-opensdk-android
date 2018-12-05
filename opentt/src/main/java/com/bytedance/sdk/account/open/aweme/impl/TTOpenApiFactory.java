@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.open.tt.impl;
+package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenAPiFactory;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
-import com.bytedance.sdk.account.open.tt.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 
 /**
  * 创建 TTOpenApi

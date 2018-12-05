@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.open.tt.impl;
+package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.tt.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 
 /**
  * Created by yangzhirong on 2018/10/17.
