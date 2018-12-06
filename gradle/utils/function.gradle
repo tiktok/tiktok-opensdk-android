@@ -1,0 +1,117 @@
+/**
+ * 全局常用方法
+ */
+
+def getGitSha() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'sh', '-c', 'git rev-parse --short HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getGitBranch() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'sh', '-c', 'git rev-parse --abbrev-ref HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getAppType() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+
+        commandLine 'sh', '-c', 'git rev-parse --abbrev-ref HEAD'
+        standardOutput = stdout
+    }
+    if (stdout.toString().trim().contains("lite/")) {
+        return "lite"
+    } else {
+        return "normal"
+    }
+}
+
+// script from：『https://issues.gradle.org/browse/GRADLE-1419 』
+// how to import funcion in other files, from：『http://stackoverflow.com/questions/18715137/extract-common-methods-from-gradle-build-script 』, 『https://discuss.gradle.org/t/how-to-access-a-function-defined-in-init-gradle-in-build-script/6200/5 』as well.
+def loadProperties(sourceFileName) {
+    def propFile = new File(sourceFileName)
+    if (!propFile.canRead()) return
+    def loadFlag = "load_${propFile}_properties"
+    if (ext.has(loadFlag)) return
+
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    for (Map.Entry property in properties) {
+        ext[property.key] = property.value
+//        println "load property: ${property.key} -> ${ext[property.key]} from ${propFile}"
+    }
+    ext[loadFlag] = true
+}
+
+def loadSysProperties(sourceFileName) {
+    try {
+        def propFile = new File(sourceFileName)
+        if (!propFile.canRead()) return
+        def loadFlag = "load_${propFile}_system_properties"
+        if (System.properties[loadFlag]) return
+
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(propFile))
+        for (Map.Entry property in properties) {
+            System.properties[property.key] = property.value
+//            println "load system property: ${property.key} -> ${System.properties[property.key]} from ${propFile}"
+        }
+        System.properties[loadFlag] = true
+    } catch (e) {
+    }
+}
+
+def getChannel(Project project) {
+    def umeng_channels
+    def projectDir = project.projectDir
+    try {
+        loadProperties("$projectDir/release.properties")
+        umeng_channels = findProperty("umeng_channels")
+        if (!umeng_channels) {
+            println "---------------${projectDir} get channel: ! umeng_channels " + !umeng_channels
+            loadProperties("$projectDir/src/main/assets/ss.properties")
+            umeng_channels = findProperty("meta_umeng_channel")
+        }
+        println "---------------${projectDir} get channel: str " + umeng_channels
+    } catch (exception2) {
+        println "---------------${projectDir} get channel: error " + exception2.message
+    }
+    return umeng_channels
+}
+
+def isInValidStartParameters() {
+    return project.gradle.startParameter == null ||
+            project.gradle.startParameter.taskNames ==
+            null ||
+            project.gradle.startParameter.taskNames.isEmpty()
+}
+
+static List<String> changeStyle(String str) {
+    if (!str || str.size() <= 1) {
+        return str
+    }
+
+    str = str[0].toLowerCase() + str[1..-1]
+    str = str.collect { cc -> ((char) cc).isUpperCase() ? '_' + cc.toLowerCase() : cc }.join('')
+    return str.split("_")
+}
+
+// 只对外导出函数，不执行，否则会执行多次
+ext {
+    isInValidStartParameters = this.&isInValidStartParameters
+    loadSysProperties = this.&loadSysProperties
+    loadProperties = this.&loadProperties
+    getChannel = this.&getChannel
+    getGitSha = this.&getGitSha
+    getGitBranch = this.&getGitBranch
+    getAppType = this.&getAppType
+    changeStyle = this.&changeStyle
+}

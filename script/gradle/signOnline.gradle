@@ -1,0 +1,285 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
+        classpath 'org.apache.httpcomponents:httpclient:4.3.5'
+        classpath 'org.apache.httpcomponents:httpmime:4.3.5'
+    }
+}
+
+
+/**
+ * 线上服务签名脚本
+ *
+ * 用法：在Application对应build.gradle中: apply from: "${rootDir}/signOnline.gradle"即可
+ * 开关：项目根目录下local.properties中：publish_sign=true。
+ * gradle.properties 中设置 SIGN_PACKAGE_NAME = 签名对应产品包名
+ *
+ * @author fuzhengchao
+ *
+ */
+
+import groovyx.net.http.HTTPBuilder
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+import static groovyx.net.http.Method.POST
+import org.apache.http.entity.mime.MultipartEntityBuilder
+
+// 加载配置信息
+loadConfigs()
+
+
+// 根目录：local.properties中配置了publish_sign=true 才执行。
+if (ext.publishSign && plugins.hasPlugin("com.android.application")) {
+    project.afterEvaluate {
+
+        def singPackageName = ext.signPackageName
+
+        android.applicationVariants.each { variant ->
+
+            // 宿主、内置插件签名处理
+            def packageTask = project.tasks.findByName("package${variant.name.capitalize()}")
+            if (null != packageTask) {
+                packageTask.doLast {
+                    log(" start...")
+
+                    def apkFile = getTargetApk(variant)
+                    log("apk location: ${apkFile.absolutePath}")
+
+                    signOnline(singPackageName, apkFile, new File(apkFile.absolutePath))
+
+                    log(" end...")
+                }
+            }
+
+            // robust patch包签名处理
+            def autoPatchTask = project.tasks.findByName("transformClassesWithAutoPatchTransformFor${variant.name.capitalize()}")
+            if (null != autoPatchTask) {
+                autoPatchTask.doLast {
+                    log(" start...")
+
+                    def patchFile = new File("${project.buildDir.absolutePath}${File.separator}outputs${File.separator}robust${File.separator}patch_unsigned.jar")
+                    if (!patchFile.exists()) {
+                        throw new IllegalStateException("Target patch does not exist in sign-online job: ${patchFile.absolutePath}")
+                    }
+
+                    log("patch location: ${patchFile.absolutePath}")
+
+                    signOnline(singPackageName, patchFile, new File(patchFile.getParent(), "patch.jar"))
+
+                    log("end...")
+                }
+            }
+        }
+    }
+}
+
+
+
+def loadConfigs() {
+    ext.publishSign = false
+
+    try {
+        ext.signPackageName = getCurrentApplicationId()
+    } catch(Exception e) {
+        throw new IllegalArgumentException("getCurrentApplicationId error: " + e.toString())
+    }
+
+    def localFile = project.rootProject.file("local.properties")
+    if (localFile.exists()) {
+        Properties localProperties = new Properties()
+        localProperties.load(localFile.newDataInputStream())
+        ext.publishSign = localProperties.getProperty("publish_sign") == "true"
+    }
+
+    log("load config: publish_sign = ${ext.publishSign} packageName = ${ext.signPackageName}")
+}
+
+/**
+ * 获取编译生成的Apk
+ *
+ * @param variant
+ */
+def getTargetApk(variant) {
+    def variantScope = variant.variantData.scope
+    // 兼容gradle不同版本
+    def apkDir = null
+    try {
+        apkDir = variantScope.globalScope.apkLocation
+    } catch(Exception e) {
+        apkDir = variantScope.apkLocation
+    }
+
+    def apkFile =  new File(apkDir, "${variantScope.globalScope.archivesBaseName}-${variantScope.variantConfiguration.baseName}.apk")
+
+    if (apkFile.exists()) {
+        return apkFile
+    }
+
+    throw new IllegalStateException("Target apk does not exist in sign-online job: ${apkFile.absolutePath}")
+}
+
+/**
+ *
+ * 将inApk上传到线上签名，输出outApk.
+ *
+ * @param inApk
+ * @param outApk
+ */
+def signOnline(packageName, inApk, outApk) {
+
+    def retryCount = 0
+    def signedApkUrl = ''
+
+    // 线上签名
+    while (true) {
+        try {
+            signedApkUrl = signApkOnLine(packageName, inApk)
+            break
+        } catch(Exception e) {
+            if (retryCount >= 3) {
+                throw e
+            }
+        }
+
+        Thread.sleep(3000)
+
+        retryCount++
+        log("retry sign online: ${retryCount}")
+    }
+
+    log("Sign file online success: ${signedApkUrl}")
+
+    retryCount = 0
+
+    while (true) {
+
+        try {
+            downloadApk(signedApkUrl, outApk)
+            if (!outApk.exists()) {
+                throw new FileNotFoundException("Downloaded apk file does not exist: ${outApk.absolutePath}")
+            }
+
+            break
+        } catch(Exception e) {
+            if (retryCount >= 3) {
+                throw e
+            }
+        }
+
+        Thread.sleep(3000)
+
+        retryCount++
+        log("retry download signed apk: ${retryCount}")
+    }
+
+    log("Download signed apk success")
+
+}
+
+/**
+ * 将inApk上传到服务器上签名
+ *
+ * @param 签名产品包名
+ * @param inApk
+ * @return 已签名apk下载地址
+ */
+def signApkOnLine(String packageName, inApk) {
+    def http = new HTTPBuilder("http://apksign.bytedance.net/sign?package=${packageName}")
+
+    http.request(POST) { multipartRequest ->
+        MultipartEntityBuilder multipartRequestEntity = new MultipartEntityBuilder()
+        multipartRequestEntity.addBinaryBody('file', inApk)
+        multipartRequest.entity = multipartRequestEntity.build()
+
+        response.success= {resp,json->
+            // 网络请求失败
+            if (200 != resp.statusLine.statusCode ) {
+                throw new IllegalStateException("Request ${uri} failed, and erorCode is ${resp.statusLine.statusCode}")
+            }
+
+
+            if (0 != json['code']) {
+                throw new IllegalStateException("Sign file failed online, erorCode:${json['code']} - message:${json['message']}")
+            }
+
+            if (json['file'] == null || json['file'] == '') {
+                throw new IllegalStateException("Sign file success, but the return file is null")
+            }
+
+            if (!json['file'].toString().startsWith("http://")) {
+                json['file'] = "http://" + json['file']
+            }
+
+            return json['file']
+        }
+
+
+        //未根据响应码指定的失败处理闭包
+        response.failure = { resp ->
+            throw new IllegalStateException("Request ${uri} failed, and erorCode is ${resp.statusLine.statusCode}")
+        }
+    }
+}
+
+/**
+ *
+ * 根据url下载apk到指定位置
+ * @param apkUrl 下载apk url
+ * @param outApk apk下载后保存位置
+ * @return
+ */
+def downloadApk(apkUrl, outApk) {
+    if (outApk.exists()) {
+        outApk.delete()
+    }
+
+    def file = new File(outApk.absolutePath).newOutputStream()
+    file << new URL(apkUrl).openStream()
+    file.close()
+}
+
+def log(message) {
+    println ":${project.name}:【sign-online】 ${message}"
+}
+
+def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String  tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+
+    Pattern pattern;
+
+    if( tskReqStr.contains( "assemble" ) )
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    else
+        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+
+    Matcher matcher = pattern.matcher( tskReqStr )
+
+    if( matcher.find() )
+        return matcher.group(1).toLowerCase()
+    else
+    {
+        println "default flavor"
+        return "";
+    }
+}
+
+def getCurrentApplicationId() {
+    def currFlavor = getCurrentFlavor()
+
+    def outStr = 'com.ss.android.ugc.aweme'
+    android.productFlavors.all{ flavor ->
+
+        if( flavor.name==currFlavor )
+            outStr=flavor.applicationId
+    }
+
+    return outStr
+}

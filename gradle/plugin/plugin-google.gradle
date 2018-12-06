@@ -1,0 +1,14 @@
+/**
+ * google-services plugin could not detect any version for com.google.android.gms or com.google.firebase, default version: 9.0.0 will be used.
+ * please apply google-services plugin at the bottom of the build file.
+ */
+apply plugin: 'com.google.gms.google-services'
+
+project.afterEvaluate {
+    project.tasks.each { task ->
+        if (task.getName().contains("Cn") && task.getName().contains("GoogleServices")) {
+            task.enabled = false
+            println "Set task disabled: " + task.getName()
+        }
+    }
+}

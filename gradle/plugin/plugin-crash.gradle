@@ -1,0 +1,38 @@
+apply plugin: 'bugly'
+
+/**
+ * bugly
+ * @see https://bugly.qq.com/docs/utility-tools/plugin-gradle-bugly/?v=20180521124306
+ */
+bugly {
+    appId = 'ff33feb715' // 注册时分配的App ID
+    appKey = '2a99f68c-9d47-49d7-87f7-3a42663fc252' // 注册时分配的App Key
+    debug = true
+}
+
+apply plugin: 'io.fabric'
+
+/**
+ * fabric
+ * @see https://docs.fabric.io/android/crashlytics/ndk.html?highlight=upload#uploading-symbols-for-external-dependencies
+ * @see https://docs.fabric.io/android/crashlytics/dex-and-proguard.html#gradle
+ */
+crashlytics {
+}
+
+/**
+ * 非Release版本关闭 bugly,fabric等上报，防止污染crash平台bug准确性
+ */
+if (!BuildContext.isRelease()) {
+    tasks.whenTaskAdded { task ->
+        if (task.name.endsWith("SymtabFile")) {
+            task.enabled = false
+        }
+        if (task.name.contains("crashlytics")) {
+            task.enabled = false
+        }
+        if (task.name.contains("fabric")) {
+            task.enabled = false
+        }
+    }
+}

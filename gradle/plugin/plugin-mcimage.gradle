@@ -1,0 +1,36 @@
+/**
+ *   Android优雅的打包时自动化获取全部res资源
+ *
+ *   McImage is a Non-invasive plugin for compress all res in your project.
+ *
+ *   Include
+ *
+ *     The img in Jar
+ *     The img in AAR
+ *     The img in Module
+ *
+ *   Used algorithm
+ *
+ *     pngquant compress png
+ *     guetzli compress jpg
+ *     cwebp compress webp
+ *
+ * @see https://github.com/Mobcase/McImage
+ * @see https://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/
+ * @陈龙博
+ */
+
+apply plugin: 'McImage'
+
+McImageConfig {
+    isCheck true //default true
+    isCompress true //default true
+    maxSize 1 * 1024 * 1024 //default 1MB
+    isWebpConvert true //default true
+    isJPGConvert true //default true
+    enableWhenDebug false //default true
+    isCheckSize false //default true
+    mctoolsDir "$rootDir/tools"
+}
+apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.vanniktech.android.apk.size'

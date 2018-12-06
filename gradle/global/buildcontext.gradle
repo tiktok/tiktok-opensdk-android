@@ -1,0 +1,207 @@
+import groovy.json.JsonBuilder
+
+/**
+ * 全局构建上下文
+ *
+ * 构建环境相关的参数添加到BuildContext
+ */
+
+class BuildContext {
+
+    String cmd
+    String maven_mirror
+    String git_hash
+
+    String module
+    String mode
+    String flavor
+    String channel
+    String buildType
+
+    boolean isMusically
+    boolean isTiktok
+    boolean isDouyin
+    boolean isRelease
+    boolean isAssembleOrInstall
+    boolean isBuild
+    boolean isSpeed
+    boolean isFast
+
+    def isCn() {
+        return isDouyin
+    }
+
+    def isI18n() {
+        return isMusically || isTiktok
+    }
+
+    def isDouyin() {
+        return isDouyin
+    }
+
+    def isTiktok() {
+        return isTiktok
+    }
+
+    def isMusically() {
+        return isMusically
+    }
+
+    def isAssembleOrInstall() {
+        return isAssembleOrInstall
+    }
+
+    def isRelease() {
+        return isRelease
+    }
+
+    def isSpeed() {
+        return isSpeed
+    }
+
+    def isFast() {
+        return isFast
+    }
+
+    def isSpeedOrFast() {
+        return isSpeed || isFast
+    }
+
+    def isOpenMcImage() {
+        return "true".equalsIgnoreCase(findProperty("isOpenMcImage"))
+    }
+
+    def isLocalTest() {
+        return "local_test".equalsIgnoreCase(channel)
+    }
+
+    def mode() {
+        if (isI18n()) {
+            return "i18n"
+        } else if (isCn()) {
+            return "cn"
+        }
+        return "unknown"
+    }
+
+    def app() {
+        if (isDouyin) {
+            return "douyin"
+        } else if (isTiktok) {
+            return "tiktok"
+        } else if (isMusically) {
+            return "musically"
+        }
+        return "unknown"
+    }
+
+    @Override
+    String toString() {
+        return "\n====== BuildContext ======\n" +
+                "\n" + "cmd = " + cmd +
+                "\n" + "module = " + module +
+                "\n" + "maven_mirror = " + maven_mirror +
+                "\n" + "isSpeedBuild = " + isSpeed() +
+                "\n" + "isFastBuild = " + isFast() +
+
+                "\n" +
+
+                "\n" + "flavor = " + flavor +
+                "\n" + "mode = " + mode() +
+                "\n" + "app = " + app() +
+                "\n" + "channel = " + channel +
+                "\n" + "buildType = " + buildType +
+                "\n" + "isRelease = " + isRelease +
+                "\n" + "isBuild = " + isBuild +
+                "\n\n====== BuildContext ======\n\n"
+    }
+}
+
+class TaskInfo {
+    String module
+    List<String> args = []
+
+    @Override
+    String toString() {
+        try {
+            return new JsonBuilder(this).toPrettyString()
+        } catch (ignore) {
+            return ""
+        }
+    }
+}
+
+def initBuildContext() {
+    def context = new BuildContext()
+    parseEnv(context)
+    parseMirror(context)
+    parseTask(context)
+    print context.toString()
+    return context
+}
+
+def parseEnv(context) {
+    // 初始化时机太迟，直接找app
+    context.channel = getChannel(project.childProjects.get(APPLICATION_PROJECT_NAME))
+    context.isSpeed = System.getProperty("speed", 'false').equals('true') || 'true'.equalsIgnoreCase(findProperty('speed'))
+    context.cmd = gradle.getStartParameter().getTaskRequests().toString()
+    context.isFast ='true'.equalsIgnoreCase(findProperty('fast'))
+}
+
+def parseMirror(context) {
+    context.maven_mirror = currentMaven()
+}
+
+def parseTask(context) {
+    List<String> taskInfos = []
+    gradle.startParameter.taskNames.each { task ->
+        if (task == null) return
+        def taskInfo = new TaskInfo()
+        def args = task.split(":")
+        taskInfo.module = args.length < 2 ? null : args[args.length - 2]
+        taskInfo.args = changeStyle(args[args.length - 1])
+        taskInfos.add(taskInfo)
+    }
+    if (taskInfos == null) return awemeTask
+    taskInfos.each { task ->
+        // [clean, :amodule-api-adapter:generateDebugSources, :custom-lint-library:generateDebugSources, :app:generateDouyinCnDebugSources, :debugbox:generateDebugSources, :awemepush-api:generateDebugSources, :aweme-base:generateDebugSources, :ml:generateDebugSources, :debugbox-empty:generateDebugSources, :app:generateDouyinCnDebugSources, :awemepushlib:generateDebugSources, :debugbox-base:generateDebugSources, :map:generateDebugSources]
+        if (task.module == APPLICATION_PROJECT_NAME || task.module == null) {
+            context.module = APPLICATION_PROJECT_NAME
+            if (task.args.contains("douyin") || task.args.contains("d")) {
+                context.isDouyin = true
+                context.flavor = "douyinCn"
+            }
+            if (task.args.contains("musically") || task.args.contains("m")) {
+                context.isMusically = true
+                context.flavor = "musicallyI18n"
+            }
+            if (task.args.contains("tiktok") || task.args.contains("t")) {
+                context.isTiktok = true
+                context.flavor = "tiktokI18n"
+            }
+            if (task.args.last() == "release" || task.args.last() == "r") {
+                context.isRelease = true
+                context.buildType = "release"
+            } else if (task.args.last() == "debug" || task.args.last() == "d") {
+                context.isRelease = false
+                context.buildType = "debug"
+            } else if (task.args.first() == "generate") {
+                if (task.args.contains("debug")) {
+                    context.buildType = "debug"
+                } else if (task.args.contains("relese")) {
+                    context.buildType = "relese"
+                }
+            }
+            if (task.args.first() == "assemble" || task.args.first() == "a"
+                    || task.args.first() == "install" || task.args.first() == "i") {
+                context.isAssembleOrInstall = true
+            }
+            if (context.isAssembleOrInstall
+                    || task.args.first() == "resguard" || task.args.first() == "r") {
+                context.isBuild = true
+            }
+        }
+    }
+}
+
+ext.initBuildContext = this.&initBuildContext

@@ -1,0 +1,152 @@
+/**
+ * @see https://github.com/shwenzhang/AndResGuard
+ */
+
+apply plugin: 'AndResGuard'
+
+andResGuard {
+    if (BuildContext.isLocalTest()) {
+        if (BuildContext.isCn()) {
+            mappingFile = file("${project.rootDir}/app/resource_mapping_douyin.txt")
+        } else if (BuildContext.isI18n()) {
+            mappingFile = file("${project.rootDir}/app/resource_mapping_i18n.txt")
+        }
+    } else {
+        mappingFile = null
+    }
+    use7zip = true
+    useSign = true
+    // it will keep the origin path of your resources when it's true
+    keepRoot = false
+
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+
+    if (BuildContext.isCn()) {
+        whiteList = [
+                // your icon
+                "R.drawable.icon",
+                // for fabric
+                "R.string.com.crashlytics.*",
+                // for umeng update
+                "R.string.umeng*",
+                "R.string.UM*",
+                "R.string.tb_*",
+                "R.layout.umeng*",
+                "R.layout.tb_*",
+                "R.drawable.umeng*",
+                "R.drawable.tb_*",
+                "R.anim.umeng*",
+                "R.color.umeng*",
+                "R.color.tb_*",
+                "R.style.*UM*",
+                "R.style.umeng*",
+                "R.id.umeng*",
+                // umeng share for sina
+                "R.drawable.sina*",
+                // for google-services.json
+                "R.string.google_app_id",
+                "R.string.gcm_defaultSenderId",
+                "R.string.default_web_client_id",
+                "R.string.ga_trackingId",
+
+                "R.string.firebase_database_url",
+                "R.string.google_api_key",
+                "R.string.google_crash_reporting_api_key",
+                "R.dimen.navigation_bar_height",
+                "R.bool.config_showNavigationBar",
+                "R.drawable.src_res*",
+                "R.drawable.bg_rectangular_button_grey",
+                "R.drawable.splash_activity_banner",
+                "R.string.CODE_PUSH_APK_BUILD_TIME",
+                "R.dimen.navigation_bar_height",
+                "R.dimen.status_bar_height",
+                "R.bool.config_showNavigationBar",
+                "R.raw.*",
+                "R.drawable.mz_push_notification_small_icon",
+                "R.layout.notification_text_43",
+                "R.layout.notification_text_34",
+                "R.layout.notification_text",
+                "R.id.title",
+                "R.id.text",
+                "R.id.time"
+        ]
+
+        sevenzip {
+            artifact = 'com.tencent.mm:SevenZip:1.2.3'
+        }
+
+        /**
+         * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
+         * to the path which assemble[Task] write to
+         **/
+        finalApkBackupPath = "${project.rootDir}/tools/andResGuard/aweme_7zip_resguard.apk"
+    } else if (BuildContext.isI18n()) {
+        whiteList = [
+                // your icon
+                "R.drawable.icon",
+                // for fabric
+                "R.string.com.crashlytics.*",
+                // for umeng update
+                "R.string.umeng*",
+                "R.string.UM*",
+                "R.string.tb_*",
+                "R.layout.umeng*",
+                "R.layout.tb_*",
+                "R.drawable.umeng*",
+                "R.drawable.tb_*",
+                "R.anim.umeng*",
+                "R.color.umeng*",
+                "R.color.tb_*",
+                "R.style.*UM*",
+                "R.style.umeng*",
+                "R.id.umeng*",
+                // umeng share for sina
+                "R.drawable.sina*",
+                // for google-services.json
+                "R.string.google_app_id",
+                "R.string.gcm_defaultSenderId",
+                "R.string.default_web_client_id",
+                "R.string.ga_trackingId",
+
+                // VK SDK
+                "R.integer.com_vk_sdk_AppId",
+
+                "R.string.firebase_database_url",
+                "R.string.google_api_key",
+                "R.string.google_crash_reporting_api_key",
+                "R.dimen.navigation_bar_height",
+                "R.bool.config_showNavigationBar",
+                "R.drawable.src_res*",
+                "R.drawable.bg_rectangular_button_grey",
+                "R.drawable.splash_activity_banner",
+                "R.string.CODE_PUSH_APK_BUILD_TIME",
+                "R.dimen.navigation_bar_height",
+                "R.dimen.status_bar_height",
+                "R.bool.config_showNavigationBar",
+                "R.string.CODE_PUSH_APK_BUILD_TIME",
+                "R.string.CODE_PUSH_APK_BUILD_TIME_KEY",
+                "R.drawable.bg_follow_dialog_button_normal2",
+                "R.drawable.bg_followed",
+                "R.drawable.splash_activity_bg",
+                "R.drawable.ic_splash",
+                "R.drawable.splash",
+                "R.raw.*",
+                "R.layout.notification_text_43",
+                "R.layout.notification_text_34",
+                "R.layout.notification_text",
+                "R.id.title",
+                "R.id.text",
+                "R.id.time"
+        ]
+
+        sevenzip {
+            artifact = 'com.tencent.mm:SevenZip:1.2.10'
+        }
+    }
+}

@@ -1,0 +1,111 @@
+/**
+ * 1、preBuild task前插入DependenceChecker task
+ * 2、获取所有编译依赖，最终版本，以及版本选择理由
+ * 3、写入buildConfigField
+ * 4、运行时展示 {@link com.ss.android.ugc.aweme.setting.ui.TestDependenciesActivity}
+ */
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+class DependenceBean {
+    HashSet<String> allVersion = new HashSet<>()
+    String selectVersion
+    String selectionReason
+}
+
+class DependenceChecker {
+    String flavor
+    String buildType
+}
+
+final def EXT_NAME = "DependenceChecker"
+final def PLUGIN_NAME = "DependenceCheckerTask"
+project.extensions.create(EXT_NAME, DependenceChecker)
+println("=============apply DependenceCheckerTask===============")
+
+static def resolveDependencies(Map<String, DependenceBean> map, DependencyResult dr) {
+    def depName = dr.requested.displayName
+    if (dr != null && !depName.contains("project")) {
+        String[] depSplit = depName.split(":")
+        if (depSplit.length > 2) {
+            def packageName = depSplit[0] + depSplit[1]
+            def dependenceBean = map.get(packageName)
+            if (dependenceBean == null) {
+                dependenceBean = new DependenceBean()
+                map.put(packageName, dependenceBean)
+            }
+            if (dr instanceof ResolvedDependencyResult) {
+                dependenceBean.selectVersion = dr.selected.moduleVersion
+                dependenceBean.selectionReason = dr.selected.selectionReason.description
+            }
+            dependenceBean.allVersion.add(depName)
+        }
+    }
+    if (dr instanceof ResolvedDependencyResult) {
+        dr.selected.dependencies.each { subDr ->
+            resolveDependencies(map, subDr)
+        }
+    }
+}
+
+def parseBuildContext() {
+    DependenceChecker dependenceChecker = new DependenceChecker()
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    Pattern pattern
+    if (tskReqStr.contains("assemble"))
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    else if (tskReqStr.contains("resguard"))
+        pattern = Pattern.compile("resguard(\\w+)(Release|Debug)")
+    else if (tskReqStr.contains("install"))
+        pattern = Pattern.compile("install(\\w+)(Release|Debug)")
+    else
+        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+
+    Matcher matcher = pattern.matcher(tskReqStr)
+    if (matcher.find()) {
+        dependenceChecker.flavor = matcher.group(1).toLowerCase()
+        if (tskReqStr.contains("Debug")) {
+            dependenceChecker.buildType = "Debug"
+        } else if (tskReqStr.contains("Release")) {
+            dependenceChecker.buildType = "Release"
+        }
+    } else {
+        dependenceChecker.flavor = ""
+    }
+    return dependenceChecker
+}
+
+project.task(PLUGIN_NAME).doLast {
+    DependenceChecker dependenceChecker = parseBuildContext()
+    Map<String, DependenceBean> depMap = new HashMap()
+    String checkMode = "${dependenceChecker.flavor}${dependenceChecker.buildType}runtimeclasspath".toLowerCase()
+    println EXT_NAME + " - " + checkMode
+    project.configurations.each { Configuration conf ->
+        if (conf.name.toLowerCase().contains(checkMode)) {
+            conf.incoming.resolutionResult.root.dependencies.each { dr ->
+                resolveDependencies(depMap, dr)
+            }
+            String dependenciesStr = ""
+            depMap.each { k, v ->
+                DependenceBean dependenceBean = v
+                dependenceBean.allVersion.each { data ->
+                    if (data.equals(dependenceBean.selectVersion)) {
+                        data = "*" + data + "(" + dependenceBean.selectionReason + ")"
+                    }
+                    dependenciesStr += data + ","
+                }
+            }
+            project.android.applicationVariants.all { variant ->
+                android.productFlavors.all {
+                    flavor ->
+                        if (dependenceChecker.flavor.contains(flavor.name)) {
+                            variant.buildConfigField 'String', 'DEPENDENCIES_COLLECT', "\"" + dependenciesStr + "\""
+                        }
+                }
+            }
+        }
+    }
+}
+project.tasks.findByName('preBuild').dependsOn(project.tasks.findByName(PLUGIN_NAME))

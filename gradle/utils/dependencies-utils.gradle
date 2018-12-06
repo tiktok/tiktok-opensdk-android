@@ -1,0 +1,267 @@
+/**
+ * 自动依赖工具类
+ *
+ * <p>在versions.gradle声明相关依赖，在相关dependencies调用autoDependencies
+ * {@code dependencies{
+ *     autoDependencies(dependencies, dp_main)
+ *}}
+ *
+ * douyin，tiktok，musically版本声明 {@link gradle/versions.gradle}
+ */
+import groovy.json.JsonBuilder
+
+def keyword = ["transitive", "configurationName"]
+
+class DependencyNode {
+    /**
+     * 依赖的key，支持
+     * external， 如com.bytedance.ies.ugc.aweme:im-service
+     * project，如 :project
+     * files, 如 :main/libs/open_sdk_r5923_lite.jar 或 :main/libs
+     */
+    String key
+
+    boolean transitive
+
+    /**
+     * 参考 {@link https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html}
+     * {@link https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:configurations(groovy.lang.Closure)}
+     */
+    String configurationName
+
+    /**
+     * external 类型依赖声明的版本 如1.0
+     */
+    String version
+
+    /**
+     * 是否force，特别注意的是，主工程下沉后，变为library，configuration作用域只在module，所声明的force不是全局，可能存在其他module 依赖版本覆盖的问题
+     * 排查方法参考{@link gradle/utils/dependencies-analysis.gradle}
+     */
+    Boolean force
+
+    /**
+     * 是否检测重复引用
+     */
+    Boolean checkReply
+
+    /**
+     * 是否引入该库，默认true
+     */
+    Boolean visible
+
+    /**
+     * 依赖声明的相关ConfigurationClosure，
+     */
+    Closure configureClosure
+
+    /**
+     * 依赖类型 external，project，files
+     */
+    String dependenciesType
+
+    /**
+     * 如果dependenciesType是project类型，project为空则且project name为{@link #key}，不为空覆盖{@link #key}
+     */
+    String project
+
+    /**
+     * 如果dependenciesType是files类型，files为空则且files name为{@link #key}，不为空覆盖{@link #key}
+     */
+    String files
+
+    static newInstance(String key, Object obj, DependencyNode parentsDependencyNode) {
+        assert obj != null && key != null
+        DependencyNode dependencyNode = new DependencyNode()
+        dependencyNode.key = key
+        if (obj instanceof String) {
+            dependencyNode.version = obj
+        }
+        if (obj instanceof Map) {
+            dependencyNode.transitive = obj.get("transitive", false)
+            dependencyNode.configurationName = obj.get("configurationName", "")
+            dependencyNode.version = obj.get("version", "")
+            dependencyNode.force = obj.get("force", false)
+            dependencyNode.checkReply = obj.get("checkReply", false)
+            dependencyNode.visible = obj.get("visible", true)
+            dependencyNode.configureClosure = obj.get("configureClosure", null)
+            dependencyNode.dependenciesType = obj.get("dependenciesType", "external")
+            dependencyNode.project = obj.get("project", null)
+            dependencyNode.files = obj.get("files", null)
+        }
+        // 如果子类没有该属性，继承父类属性
+        if (parentsDependencyNode != null) {
+            if (dependencyNode.configurationName == null || dependencyNode.configurationName == '') {
+                dependencyNode.configurationName = parentsDependencyNode.configurationName
+            }
+            if (dependencyNode.dependenciesType == null || dependencyNode.dependenciesType == '') {
+                dependencyNode.dependenciesType = parentsDependencyNode.dependenciesType
+            }
+            if (dependencyNode.version == null || dependencyNode.version == '') {
+                dependencyNode.version = parentsDependencyNode.version
+            }
+            if (dependencyNode.force == null) {
+                dependencyNode.force = parentsDependencyNode.force
+            }
+            if (dependencyNode.visible == null) {
+                dependencyNode.visible = parentsDependencyNode.visible
+            }
+            if (dependencyNode.configureClosure == null) {
+                dependencyNode.configureClosure = parentsDependencyNode.configureClosure
+            }
+        }
+        return dependencyNode
+    }
+
+    @Override
+    String toString() {
+        try {
+            return new JsonBuilder(this).toPrettyString()
+        } catch (ignore) {
+            return ""
+        }
+    }
+}
+
+def isDependencyNode(String key, value) {
+    if (key != null && key.contains(":")) {
+        return true
+    }
+    return false
+}
+
+/**
+ * 配置表自动依赖
+ */
+ext.autoDependencies = { DependencyHandler dependencies, Map nodeMap, Object... params ->
+    assert dependencies != null && nodeMap != null
+    def nodeName = params != null && params.length == 1 ? params[0] : '$root'
+    DependencyNode rootDependencyNode = DependencyNode.newInstance(nodeName, nodeMap, null)
+    nodeMap.each { key, nodeItem ->
+        if (isDependencyNode(key, nodeItem)) {
+            DependencyNode dependencyNode = DependencyNode.newInstance(key, nodeItem, rootDependencyNode)
+            addDependency(dependencies, dependencyNode)
+        } else if (rootDependencyNode.transitive && nodeItem instanceof Map) {
+            autoDependencies(dependencies, nodeItem, key, rootDependencyNode)
+        }
+    }
+}
+
+/**
+ *
+ * @params dependencies
+ * @params dependencyNode
+ * {@link org.gradle.api.artifacts.dsl.DependencyHandler}
+ *
+ * {@link https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.dsl.DependencyHandler.html}
+ *
+ */
+ext.addDependency = { DependencyHandler dependencies, DependencyNode dependencyNode ->
+
+    assert dependencies != null && dependencyNode != null
+    assert dependencyNode.configurationName != ''
+
+    if (!dependencyNode.visible) {
+        return
+    }
+    switch (dependencyNode.dependenciesType) {
+        case "external":
+            /**
+             * External dependencies
+             * {@link ExternalModuleDependency}
+             */
+            assert dependencyNode.version != ''
+            assert dependencyNode.key != ''
+            def dependencyNotation = String.format("%s:%s", dependencyNode.key, dependencyNode.version)
+            dependencies.add(dependencyNode.configurationName, dependencyNotation, dependencyNode.configureClosure)
+            break
+        case "project":
+            /**
+             * Project dependencies
+             * {@link ProjectDependency}
+             */
+            assert dependencyNode.key != ''
+            def projectName = dependencyNode.project
+            if (projectName == null || projectName == '') {
+                projectName = dependencyNode.key
+            }
+            dependencies.add(dependencyNode.configurationName, rootProject.project(projectName))
+            break
+        case "files":
+            /**
+             * File dependencies
+             */
+            assert dependencyNode.key != ''
+            def filesPath
+            if (dependencyNode.files == null || dependencyNode.files == '') {
+                filesPath = dependencyNode.key
+            } else {
+                filesPath = dependencyNode.files
+            }
+            if (filesPath.startsWith(":")) {
+                filesPath = filesPath.substring(1, filesPath.length())
+            }
+            def dependencyNotation
+            if (filesPath.endsWith(".jar")
+                    || filesPath.endsWith(".aar")) {
+                dependencyNotation = rootProject.files(filesPath)
+            } else {
+                dependencyNotation = rootProject.fileTree(filesPath)
+            }
+            dependencies.add(dependencyNode.configurationName, dependencyNotation)
+            break
+    }
+    print " \naddDependency >> " + dependencyNode.key
+}
+
+ext.isDependenciesWithProject = { Map group, key ->
+    assert key != null && group != null
+    try {
+        return group.get(key).dependenciesType == 'project'
+    } catch (ignore) {
+        return false
+    }
+}
+
+/**
+ * 1.对于porject 引入，自动全局剔除相关module
+ * 2.子库的configure force作用域太低，由于主工程下沉成为app，force仍然需要全局生效，通过统一依赖入口，自动增加application force
+ */
+ext.autoGlobalForceAndExclude = { Map nodeMap, Object... params ->
+    assert nodeMap != null
+    def nodeName = params != null && params.length == 1 ? params[0] : '$root'
+    DependencyNode rootDependencyNode = DependencyNode.newInstance(nodeName, nodeMap, null)
+    nodeMap.each { key, nodeItem ->
+        if (isDependencyNode(key, nodeItem)) {
+            DependencyNode dependencyNode = DependencyNode.newInstance(key, nodeItem, rootDependencyNode)
+            if (dependencyNode.dependenciesType == 'external' && dependencyNode.force) {
+                def dependencyNotation = String.format("%s:%s", dependencyNode.key, dependencyNode.version)
+                rootProject.getChildProjects().each { name, projectItem ->
+                    projectItem.configurations.all {
+                        resolutionStrategy.force dependencyNotation
+                    }
+                }
+                print " \nresolutionStrategy.force >> " + dependencyNotation
+            }
+            /**
+             * key 为 group:name 类型，project引入时，全局app 和 main exclude
+             * configurationName "group:name:version:classifier@extension"
+             */
+            if (dependencyNode.dependenciesType == 'project'
+                    && !dependencyNode.key.startsWith(":")) {
+                def nodeParams = dependencyNode.key.split(":")
+                def group = nodeParams[0]
+                def name = nodeParams[1]
+                rootProject.getChildProjects().get(APPLICATION_PROJECT_NAME).configurations.all {
+                    all*.exclude group: group, module: name
+                }
+                rootProject.getChildProjects().get(MAIN_MODULE_NAME).configurations.all {
+                    all*.exclude group: group, module: name
+                }
+                print " \nall*.exclude >> " + group + ":" + name
+            }
+        } else if (rootDependencyNode.transitive && nodeItem instanceof Map) {
+            globalForce(project, nodeItem, key, rootDependencyNode)
+        }
+    }
+}

@@ -1,0 +1,4 @@
+/**
+ * @see https://github.com/alibaba/freeline
+ */
+apply plugin: 'com.antfortune.freeline'

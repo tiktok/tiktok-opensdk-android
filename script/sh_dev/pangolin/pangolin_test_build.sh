@@ -1,0 +1,1 @@
+python2.7 tools/python_dev/build_new.py --custom_build /Users/leo.zhong/Desktop/pangolin.conf

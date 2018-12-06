@@ -1,0 +1,27 @@
+/**
+ *
+ * Treasure是一个Android平台上基于SharePreferences的偏好存储库，只需要定义接口，无需编写实现，默认支持Serializable和Parcelable。运行时0反射，不仅使用方便而且性能和原生写法几乎无差别。
+ *
+ * @see Github https://github.com/baoyongzhang/Treasure
+ *
+ * 添加依赖
+ * Gradle
+ *
+ * compile 'com.baoyz.treasure:treasure:0.7.4'
+ * annotationProcessor 'com.baoyz.treasure:treasure-compiler:0.7.4'
+ * Gradle Plugin
+ *
+ * 如果在多 Module 中同时使用 Treasure，会出现 Multiple dex files define Lcom/baoyz/treasure/PreferencesFinder错误，使用 Treasure Gradle Plugin 可以解决这个错误。
+ *
+ * 在 buildscript 中添加依赖
+ *
+ * dependencies {*     classpath 'com.baoyz.treasure:treasure-gradle:0.7.4'
+ * }
+ * 然后只在你的 Application Module 中 apply 插件，Library Module 不需要。
+ *
+ * apply plugin: 'com.baoyz.treasure'
+ * 如果没有多 Module 同时使用 Treasure 的情况，不需要使用这个插件。
+ *
+ * @see https://wiki.bytedance.net/pages/viewpage.action?pageId=197049560
+ */
+apply plugin: 'com.baoyz.treasure'

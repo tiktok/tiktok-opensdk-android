@@ -1,0 +1,28 @@
+/**
+ *
+ * 声明式自动依赖
+ *
+ * 抖音全局依赖版本统一声明管理，全工程所有maven，files，project，统一一处gradle声明版本，依赖使用autoDependencies自动依赖
+ * {@code dependencies{
+ *     autoDependencies(dependencies, dp_main)
+ *}}
+ * 实现参考{@link gradle/utils/dependencies-utils.gradle}
+ */
+
+/**
+ * {@link module/amodule-api-adapter/build.gradle}
+ */
+ext.dp_api_adapter = [
+
+]
+
+/**
+ *
+ * 主工程自动引入库
+ *
+ * {@link gradle/dependencies/dependencies-common.gradle}
+ */
+ext.dp_main = [
+        
+]
+

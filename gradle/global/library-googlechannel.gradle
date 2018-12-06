@@ -1,0 +1,62 @@
+
+/**
+ * python 构建google渠道时，使用此脚本 {@link tools/python_dev/TaskStore.py#solve_operation}
+ *
+ * <p> 由于FunnyGallery及PpmmGallery在google market曾被下架，需要更换包名发布，设置为yes后可以将当前project的package加上.google后缀并打包。
+ *
+ * @see python打包脚本浅析 https://wiki.bytedance.net/pages/viewpage.action?pageId=226087660
+ */
+
+apply plugin: 'com.android.library'
+apply from: rootProject.file('gradle/plugin/plugin-treasure.gradle')
+
+def isEclipseProject() {
+    return !project.file('src/main').exists()
+}
+
+if (BuildContext.isRelease()) {
+    if ("true".equalsIgnoreCase(findProperty("isOpenMcImage"))) {
+        apply plugin: 'McImage'
+        McImageConfig {
+            isCheck true //default true
+            isCompress true //default true
+            maxSize 1 * 1024 * 1024 //default 1MB
+            isWebpConvert true //default true
+            isJPGConvert true //default true
+            enableWhenDebug false //default true
+            isCheckSize false //default true
+            mctoolsDir "$rootDir/tools"
+        }
+    }
+}
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    useLibrary 'org.apache.http.legacy'
+
+    if (isEclipseProject()) {
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                resources.srcDirs = ['src']
+                aidl.srcDirs = ['src']
+                renderscript.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+                jniLibs.srcDirs = ['libs']
+            }
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: '*.jar', exclude: 'android-support-v4.jar')
+}

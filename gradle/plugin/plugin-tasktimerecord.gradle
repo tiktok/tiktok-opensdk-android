@@ -1,0 +1,48 @@
+/**
+ * 输出gradle task构建用时
+ */
+class TaskTimer implements TaskExecutionListener, BuildListener {
+    private start = 0l
+    private Map<String, Long> times = new HashMap<>()
+
+    @Override
+    void beforeExecute(Task task) {
+        start = System.currentTimeMillis()
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState state) {
+//        println("${task.path} cost ${System.currentTimeMillis() - start}ms")
+        times.put(task.path, System.currentTimeMillis() - start)
+    }
+
+    @Override
+    void buildStarted(Gradle gradle) {
+        start = 0l
+    }
+
+    @Override
+    void settingsEvaluated(Settings settings) {
+
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        times.each {
+            if (it.value > 50)
+                println("${it.key}             ${it.value}ms")
+        }
+    }
+}
+
+gradle.addListener(new TaskTimer())

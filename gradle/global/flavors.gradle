@@ -1,0 +1,62 @@
+android {
+
+    /**
+     * 最终打包的时候，遇到相同的资源，使用优先级最高
+     * 则优先级顺序为：
+     * buildType > dimen1 > dimen2 > dimen3 > ... > main > library
+     *
+     * @see https://developer.android.com/studio/build/manifest-merge#appendix_merge_policies
+     * @see https://developer.android.com/studio/build/build-variants#sourceset-build
+     * @see https://www.jianshu.com/p/e7c6adc09801
+     */
+    flavorDimensions "app", "mode"
+
+    productFlavors {
+
+        i18n {
+            dimension "mode"
+        }
+
+        cn {
+            dimension "mode"
+        }
+
+        douyin {
+            dimension "app"
+        }
+
+        musically {
+            dimension "app"
+        }
+
+        tiktok {
+            dimension "app"
+        }
+    }
+
+    variantFilter { variant ->
+        // cnDouyin
+        // i18nMusically
+        // i18nTiktok
+        def names = variant.flavors*.name
+        if (names.contains("cn") && !(names.contains("douyin"))) {
+            setIgnore(true)
+        } else if (names.contains("i18n") && !(names.contains("musically") || names.contains("tiktok"))) {
+            setIgnore(true)
+        }
+    }
+
+    configurations {
+        douyinCnApi
+        douyinCnDebugApi
+        douyinCnRuntimeOnly
+        douyinCnReleaseRuntimeOnly
+        douyinCnDebugImplementation
+        musicallyI18nApi
+        musicallyI18nRuntimeOnly
+        musicallyI18nReleaseRuntimeOnly
+        tiktokI18nApi
+        tiktokI18nRuntimeOnly
+        tiktokI18nReleaseRuntimeOnly
+    }
+}

@@ -1,0 +1,68 @@
+
+project.afterEvaluate {
+    android.applicationVariants.all {variant ->
+        //替换mergeResource后的string.xml中的特殊字符串，例如品牌名
+        def variantName = variant.name.capitalize()
+        project.tasks.matching {
+            it.name == "merge${variantName}Resources"
+        }.each { task ->
+            if (variant.buildType.name == 'release') {
+                testStrings.dependsOn task.taskDependencies.getDependencies(task)
+                task.dependsOn testStrings
+            }
+        }
+    }
+}
+
+
+import org.w3c.dom.Node
+import javax.xml.parsers.DocumentBuilderFactory
+import java.util.regex.Pattern
+
+// 匹配中文
+Pattern pattern = Pattern.compile("[\\u4e00-\\u9fa5]")
+
+
+
+task testStrings(group: 'Verification') {
+    doLast {
+        def errorLog = new StringBuilder()
+        FileTree tree = fileTree(dir: "$rootDir/main/src/i18n/res/values/", include: '*strings*.xml', exclude: 'strings_setting.xml')
+        tree.each { File f ->
+            def rootElement = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f).getDocumentElement()
+            def stringElements = rootElement.getElementsByTagName('string')
+            stringElements.each {
+                if (it.textContent.find(pattern)) {
+                    errorLog =
+                            errorLog + "Error: cant't use Chinese in string: \"${it.getAttribute('name')}\", value: \"${it.textContent}\" @: ${f.path}!\n"
+                }
+            }
+
+            def stringArrayElements = rootElement.getElementsByTagName('string-array')
+            stringArrayElements.each { stringArrayElement ->
+                stringArrayElement.each {
+                    if (it.getNodeType() != Node.ELEMENT_NODE) return
+                    if (it.textContent.find(pattern)) {
+                        errorLog =
+                                errorLog + "Error: cant't use Chinese in string-array: \"${stringArrayElement.getAttribute('name')}\", value: \"${it.textContent}\" @: ${f.path}!\n"
+                    }
+                }
+            }
+
+            def arrayElements = rootElement.getElementsByTagName('array')
+            arrayElements.each { arrayElement ->
+                arrayElement.each {
+                    if (it.getNodeType() != Node.ELEMENT_NODE) return
+                    if (it.textContent.find(pattern)) {
+                        errorLog =
+                                errorLog + "Error: cant't use Chinese in array: \"${arrayElement.getAttribute('name')}\", value: \"${it.textContent}\" @: ${f.path}!\n"
+                    }
+                }
+            }
+        }
+
+        if (errorLog != null && errorLog.length() > 0) {
+            throw new GradleException(errorLog.toString())
+        }
+    }
+}

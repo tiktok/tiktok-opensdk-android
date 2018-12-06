@@ -1,0 +1,34 @@
+/**
+ *
+ * buildscript 功能类似initscript, 仅用作全局插件初始化, 普通插件在build.gradle声明, 莫要增加其他逻辑
+ *
+ * <p> gradle 执行顺序
+ *     init.gradle -> setting.gradle -> build.gradle
+ *
+ *  * @see https://code.byted.org/ugc-android/AwemeModule
+ */
+buildscript {
+    repositories {
+        apply from: file("$rootDir/script/gradle/function.gradle")
+
+        // 可添加额外的config配置参数
+        loadProperties("$rootDir/local.properties")
+        loadSysProperties("$rootDir/local.properties")
+        addRepos(repositories)
+    }
+    dependencies {
+        classpath "com.bytedance.amodule:plugin:$AMODULE_VERSION"
+    }
+}
+
+/**
+ *
+ * <p> InitGradlePlugin 源码参考
+ * @see https://wiki.bytedance.net/pages/viewpage.action?pageId=226067498
+ */
+com.bytedance.amodule.plugin.InitGradlePlugin.injectExt(rootDir, ext)
+try {
+    com.bytedance.amodule.plugin.InitGradlePlugin.injectSettings(settings)
+} catch (ignore) {
+
+}

@@ -1,0 +1,265 @@
+def getGitSha() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'sh', '-c', 'git rev-parse --short HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getGitBranch() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'sh', '-c', 'git rev-parse --abbrev-ref HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+def getAppType() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+
+        commandLine 'sh', '-c', 'git rev-parse --abbrev-ref HEAD'
+        standardOutput = stdout
+    }
+    if (stdout.toString().trim().contains("lite/")) {
+        return "lite"
+    } else {
+        return "normal"
+    }
+}
+
+/**
+ * Shared file between builds so that they can all use the same dependencies and
+ * maven repositories.
+ * <p> from local.properties
+ *
+ * @see aweme maven 说明 https://wiki.bytedance.net/pages/viewpage.action?pageId=240235931
+ *
+ * @simple AWEME_MIRROR=origin   AWEME_MIRROR=bj
+ * @parame 默认 无配置默认北京nexus代理  等同{@code AWEME_MIRROR=http://maven.byted.org/repository/android_public/}
+ *         origin 原始maven，不使用任何代理  {@code AWEME_MIRROR=origin}
+ *         http://xxx/ 自定义代理  {@code AWEME_MIRROR=http://10.15.65.92:8081/repository/aweme}
+ *
+ */
+def addRepos(RepositoryHandler handler) {
+    def awemeMirror = System.properties['AWEME_MIRROR']
+    println("plugin-tag:AWEME_MIRROR:" + awemeMirror)
+    handler.flatDir { dirs "$rootDir/libs" }
+    handler.mavenLocal()
+    if (awemeMirror != null && awemeMirror != "") {
+        if ("origin" == awemeMirror) {
+            handler.google()
+            handler.maven { url "https://maven.byted.org/nexus/content/repositories/ugc_android/" }
+            handler.maven { url 'https://maven.byted.org/nexus/content/repositories/ss_app_android/' }
+            handler.maven { url 'https://maven.byted.org/nexus/content/repositories/central/' }
+            handler.maven { url 'https://maven.byted.org/nexus/content/repositories/lark_android/' }
+            handler.maven { url "https://maven.byted.org/nexus/content/repositories/ttplayer/" }
+            handler.maven { url "https://maven.byted.org/nexus/content/repositories/ugc_android_snapshot/" }
+            handler.maven { url "https://maven.byted.org/nexus/content/repositories/ss_app_android_snapshots/" }
+            handler.maven { url 'https://maven.fabric.io/public' }
+            handler.maven { url "https://plugins.gradle.org/m2/" }
+            handler.maven { url "https://dl.bintray.com/c8682y/maven/" }
+            handler.maven { url "http://dl.bintray.com/lukaville/maven" }
+            handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+            handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" }
+            handler.maven { url 'https://maven.google.com/' }
+
+            // 第三方仓库
+            handler.maven { url "https://storage.googleapis.com/snap-kit-build/maven" }
+            handler.maven { url "http://devrepo.kakao.com:8088/nexus/content/groups/public/" }
+            handler.jcenter()
+            handler.mavenCentral()
+        } else {
+            handler.maven {
+                url awemeMirror
+            }
+        }
+    } else {
+        /**
+         *
+         * <p> 新增maven步骤
+         *     1.登录代理仓库后台（账号密码 admin admin123）增加
+         *     2.在上面的origin条件增加maven地址
+         * <p> 建议不要使用个人maven，尽量统一使用公司统一maven，尽量减少maven源数量
+         * <p> 参考文档 https://wiki.bytedance.net/pages/viewpage.action?pageId=240235931
+         */
+        handler.maven {
+            url "http://10.15.65.92:8081/repository/aweme"
+        }
+    }
+}
+
+// script from：『https://issues.gradle.org/browse/GRADLE-1419 』
+// how to import funcion in other files, from：『http://stackoverflow.com/questions/18715137/extract-common-methods-from-gradle-build-script 』, 『https://discuss.gradle.org/t/how-to-access-a-function-defined-in-init-gradle-in-build-script/6200/5 』as well.
+def loadProperties(sourceFileName) {
+    def propFile = new File(sourceFileName)
+    if (!propFile.canRead()) return
+    def loadFlag = "load_${propFile}_properties"
+    if (ext.has(loadFlag)) return
+
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    for (Map.Entry property in properties) {
+        ext[property.key] = property.value
+        println "load property: ${property.key} -> ${ext[property.key]} from ${propFile}"
+    }
+    ext[loadFlag] = true
+}
+
+def loadSysProperties(sourceFileName) {
+    try {
+        def propFile = new File(sourceFileName)
+        if (!propFile.canRead()) return
+        def loadFlag = "load_${propFile}_system_properties"
+        if (System.properties[loadFlag]) return
+
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(propFile))
+        for (Map.Entry property in properties) {
+            System.properties[property.key] = property.value
+            println "load system property: ${property.key} -> ${System.properties[property.key]} from ${propFile}"
+        }
+        System.properties[loadFlag] = true
+    } catch (e) {
+    }
+}
+
+def getChannel(Project project) {
+    def umeng_channels
+    def projectDir = project.projectDir
+    try {
+        loadProperties("$projectDir/release.properties")
+        umeng_channels = findProperty("umeng_channels")
+        if (!umeng_channels) {
+            println "---------------${projectDir} get channel: ! umeng_channels " + !umeng_channels
+            loadProperties("$projectDir/src/main/assets/ss.properties")
+            umeng_channels = findProperty("meta_umeng_channel")
+        }
+        println "---------------${projectDir} get channel: str " + umeng_channels
+    } catch (exception2) {
+        println "---------------${projectDir} get channel: error " + exception2.message
+    }
+    return umeng_channels
+}
+
+class TaskInfo {
+    String module
+    List<String> args = []
+
+    @Override
+    String toString() {
+        return "TaskInfo{" +
+                "module='" + module + '\'' +
+                ", args=" + args +
+                '}'
+    }
+}
+
+class AwemeTask {
+    String module
+    boolean isMusically
+    boolean isTiktok
+    boolean isDouyin
+    boolean isI18n
+    boolean isCn
+    boolean isRelease
+    boolean isBuild
+
+    @Override
+    String toString() {
+        return "AwemeTask{" +
+                "module='" + module + '\'' +
+                ", isMusically=" + isMusically +
+                ", isTiktok=" + isTiktok +
+                ", isDouyin=" + isDouyin +
+                ", isI18n=" + isI18n +
+                ", isCn=" + isCn +
+                ", isRelease=" + isRelease +
+                ", isBuild=" + isBuild +
+                '}'
+    }
+}
+
+def parseTaskInfo() {
+    List<String> taskInfos = []
+    gradle.startParameter.taskNames.each { task ->
+        if (task == null) return
+
+        def taskInfo = new TaskInfo()
+        def args = task.split(":")
+        taskInfo.module = args.length < 2 ? null : args[args.length - 2]
+        taskInfo.args = changeStyle(args[args.length - 1])
+        taskInfos.add(taskInfo)
+    }
+    println "*************************** " + taskInfos
+    return taskInfos
+}
+
+def parseAwemeTask() {
+    def awemeTask = new AwemeTask()
+    def taskInfos = parseTaskInfo()
+
+    if (taskInfos == null) return awemeTask
+
+    taskInfos.each { task ->
+        if (task.module == "app" || task.module == null) {
+//            if (awemeTask.module) throw new GradleException("Not support more than one application module in one command line!" + taskInfos)
+            awemeTask.module = "app"
+
+            if (task.args.contains("douyin") || task.args.contains("d")) {
+                awemeTask.isDouyin = true
+                awemeTask.isCn = true
+            }
+            if (task.args.contains("musically") || task.args.contains("m")) {
+                awemeTask.isMusically = true
+                awemeTask.isI18n = true
+            }
+            if (task.args.contains("tiktok") || task.args.contains("t")) {
+                awemeTask.isTiktok = true
+                awemeTask.isI18n = true
+            }
+            if (task.args.last() == "release" || task.args.last() == "r") {
+                awemeTask.isRelease = true
+            }
+            if (task.args.first() == "assemble" || task.args.first() == "a"
+                    || task.args.first() == "install" || task.args.first() == "i"
+                    || task.args.first() == "resguard" || task.args.first() == "r") {
+                awemeTask.isBuild = true
+            }
+        }
+    }
+    println "*************************** AwemeTask= " + awemeTask
+    return awemeTask
+}
+
+def isInValidStartParameters() {
+    return project.gradle.startParameter == null ||
+            project.gradle.startParameter.taskNames ==
+            null ||
+            project.gradle.startParameter.taskNames.isEmpty()
+}
+
+static List<String> changeStyle(String str) {
+    if (!str || str.size() <= 1) {
+        return str
+    }
+
+    str = str[0].toLowerCase() + str[1..-1]
+    str = str.collect { cc -> ((char) cc).isUpperCase() ? '_' + cc.toLowerCase() : cc }.join('')
+    return str.split("_")
+}
+
+// 只对外导出函数，不执行，否则会执行多次
+ext {
+    isInValidStartParameters = this.&isInValidStartParameters
+    loadSysProperties = this.&loadSysProperties
+    loadProperties = this.&loadProperties
+    addRepos = this.&addRepos
+    getChannel = this.&getChannel
+    getGitSha = this.&getGitSha
+    getGitBranch = this.&getGitBranch
+    getAppType = this.&getAppType
+    parseAwemeTask = this.&parseAwemeTask
+}
