@@ -85,6 +85,14 @@ public interface TTOpenApi {
     boolean sendInnerWebAuthRequest(SendAuth.Request request);
 
     /**
+     *  h5页授权 预加载
+     *
+     * @param request
+     * @return
+     */
+    boolean preloadWebAuth(SendAuth.Request request);
+
+    /**
      * 请求授权。如果没有安装应用。使用h5页面授权
      *
      * @param request

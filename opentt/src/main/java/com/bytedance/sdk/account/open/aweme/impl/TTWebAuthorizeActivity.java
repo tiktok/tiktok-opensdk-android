@@ -18,6 +18,9 @@ import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
  */
 public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
+    public static final String AUTH_HOST = "open.douyin.com";
+    public static final String DOMAIN = "api.snssdk.com";
+
     private boolean isShowNetworkError = false;
 
     private TTOpenApi ttOpenApi;
@@ -45,7 +48,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected String getHost() {
-        return "open.douyin.com";
+        return AUTH_HOST;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected String getDomain() {
-        return "api.snssdk.com";
+        return DOMAIN;
     }
 
     /**
