@@ -91,6 +91,6 @@ class TTOpenApiImpl implements TTOpenApi {
 
     @Override
     public boolean preloadWebAuth(SendAuth.Request request) {
-        return bdOpenApi.preloadWebAuth(request, TTWebAuthorizeActivity.AUTH_HOST, TTWebAuthorizeActivity.DOMAIN);
+        return bdOpenApi.preloadWebAuth(request, TTWebAuthorizeActivity.AUTH_HOST, TTWebAuthorizeActivity.AUTH_PATH, TTWebAuthorizeActivity.DOMAIN);
     }
 }
