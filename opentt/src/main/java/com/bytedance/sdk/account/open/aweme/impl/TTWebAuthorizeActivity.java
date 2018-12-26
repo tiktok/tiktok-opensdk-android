@@ -20,6 +20,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     public static final String AUTH_HOST = "open.douyin.com";
     public static final String DOMAIN = "api.snssdk.com";
+    public static final String AUTH_PATH = "/platform/oauth/connect/";
 
     private boolean isShowNetworkError = false;
 
@@ -53,7 +54,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected String getAuthPath() {
-        return "/platform/oauth/connect/";
+        return AUTH_PATH;
     }
 
     @Override
