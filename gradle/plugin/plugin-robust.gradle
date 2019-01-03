@@ -1,3 +1,0 @@
-project.setProperty("robustXml", "$rootDir/config/robust/robust.xml")
-
-apply plugin: 'robust'

@@ -2,9 +2,11 @@ package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
@@ -30,6 +32,11 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TTOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 设置状态栏透明
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Override

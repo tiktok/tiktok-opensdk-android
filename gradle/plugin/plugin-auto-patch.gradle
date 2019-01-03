@@ -1,5 +1,0 @@
-//是否patch请在根目录的gradle.properties中的NEED_PATCH字段修改
-if(project.findProperty("NEED_PATCH").equals("true")) {
-    project.setProperty("robustXml", "$rootDir/config/robust/robust.xml")
-    apply plugin: 'auto-patch-plugin'
-}
