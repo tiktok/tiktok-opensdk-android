@@ -14,6 +14,7 @@ import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.R;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.utils.ViewUtils;
 
 /**
  * Created by yangzhirong on 2018/10/10.
@@ -33,10 +34,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         ttOpenApi = TTOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 设置状态栏透明
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        ViewUtils.setTranslucentStatusBar(this);
     }
 
     @Override
