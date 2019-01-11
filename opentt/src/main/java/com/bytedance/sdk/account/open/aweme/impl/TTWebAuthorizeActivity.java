@@ -16,6 +16,8 @@ import com.bytedance.sdk.account.open.aweme.R;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 import com.bytedance.sdk.account.open.aweme.utils.ViewUtils;
 
+import static com.bytedance.sdk.account.open.aweme.impl.TTOpenApiImpl.WAP_AUTHORIZE_URL;
+
 /**
  * Created by yangzhirong on 2018/10/10.
  */
@@ -49,6 +51,12 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected void sendInnerResponse(SendAuth.Request req, BaseResp resp) {
+        if (resp != null && mContentWebView != null) {
+            if (resp.extras == null) {
+                resp.extras = new Bundle();
+            }
+            resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
+        }
         ttOpenApi.sendInnerResponse(req, resp);
     }
 

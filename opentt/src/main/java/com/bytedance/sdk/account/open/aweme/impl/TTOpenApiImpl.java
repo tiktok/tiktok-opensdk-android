@@ -2,6 +2,7 @@ package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
@@ -15,6 +16,8 @@ import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
  */
 
 class TTOpenApiImpl implements TTOpenApi {
+
+    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
     private Context mContext;
     private BDOpenApi bdOpenApi;
@@ -82,6 +85,15 @@ class TTOpenApiImpl implements TTOpenApi {
         } else {
             return sendInnerWebAuthRequest(request);
         }
+    }
+
+    @Nullable
+    @Override
+    public String getWapUrlIfAuthByWap(SendAuth.Response response) {
+        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+            return response.extras.getString(WAP_AUTHORIZE_URL, "");
+        }
+        return null;
     }
 
     @Override

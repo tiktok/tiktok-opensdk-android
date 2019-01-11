@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
@@ -40,6 +41,10 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
         // 授权成功可以获得authCode
         SendAuth.Response response = (SendAuth.Response) resp;
         Log.d("AuthResultTest","authCode " + response.authCode);
+        String wapUrlIfAuthByWap = ttOpenApi.getWapUrlIfAuthByWap(response);
+        if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
+            Log.d("AuthResultTest", "this is from wap, url : " + wapUrlIfAuthByWap);
+        }
     }
 
     @Override
