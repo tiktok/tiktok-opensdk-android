@@ -7,6 +7,7 @@ import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenAPiFactory;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.share.ShareImpl;
 
 /**
  * 创建 TTOpenApi
@@ -32,6 +33,7 @@ public class TTOpenApiFactory {
      */
     public static TTOpenApi create(Context context) {
         BDOpenApi bdOpenApi = BDOpenAPiFactory.create(context, sConfig);
-        return new TTOpenApiImpl(context, bdOpenApi);
+        ShareImpl share = new ShareImpl(context, sConfig);
+        return new TTOpenApiImpl(context, bdOpenApi, share);
     }
 }

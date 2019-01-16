@@ -6,6 +6,9 @@ import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.account.open.aweme.share.Share;
+
+import java.util.List;
 
 /**
  * 今日头条 open API
@@ -99,4 +102,11 @@ public interface TTOpenApi {
      * @return
      */
     boolean sendAuthLogin(SendAuth.Request request);
+
+    /**
+     * 分享视频、图片
+     *
+     * @return
+     */
+    boolean share(Share.Request request);
 }
