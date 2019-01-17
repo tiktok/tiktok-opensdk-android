@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.account.bdopen.api.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
-import com.bytedance.sdk.account.common.constants.BDOpenConstants;
+import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.
@@ -41,12 +41,12 @@ public class ShareImpl {
             // packages
             Bundle bundle = new Bundle();
             request.toBundle(bundle);
-            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
+            bundle.putString(DYOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(DYOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(DYOpenConstants.Params.CALLER_SDK_VERSION, BDBaseOpenBuildConstants.VERSION);
             // 没有主动设置CallerLocalEntry
-            if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.Params.FROM_ENTRY, buildComponentClassName(mContext.getPackageName(), localEntry));
+            if (TextUtils.isEmpty(request.mLocalEntry)) {
+                bundle.putString(DYOpenConstants.Params.CALLER_LOCAL_ENTRY, buildComponentClassName(mContext.getPackageName(), localEntry));
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
@@ -60,20 +60,6 @@ public class ShareImpl {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            }
-
-            //medias
-            if (request.medias.size() == 1) {
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, request.medias.get(0));
-            } else  {
-                intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-                intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, request.medias);
-            }
-            if (request.shareType == Share.VIDEO) {
-                intent.setType("video/*");
-            } else if (request.shareType == Share.IMAGE) {
-                intent.setType("image/*");
             }
             try {
                 mContext.startActivity(intent);

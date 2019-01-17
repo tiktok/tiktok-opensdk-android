@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.base.DYImageObject;
+import com.bytedance.sdk.account.open.aweme.base.DYMediaContent;
 import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
 import com.bytedance.sdk.account.open.aweme.share.Share;
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int PHOTO_REQUEST_GALLERY = 10;
 
-    @Share.ShareType int currentShareType;
+    int currentShareType;
 
     private ArrayList<Uri> mUri = new ArrayList<>();
 
@@ -192,13 +194,15 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private boolean share(@Share.ShareType int shareType, ArrayList<Uri> medias) {
+    private boolean share(int shareType, ArrayList<Uri> medias) {
         Share.Request request = new Share.Request();
-        request.scope = "user_info";                            // 用户授权时必选权限
-        request.optionalScope1 = "friend_relation,message";     // 用户授权时可选权限（默认不选）
-        request.state = "ww";
-        request.shareType = shareType;
-        request.medias = medias;
+        DYImageObject imageObject = new DYImageObject();
+        imageObject.mImagePaths = mUri;
+        DYMediaContent mediaContent = new DYMediaContent();
+        mediaContent.mMediaObject = imageObject;
+        request.mMediaContent = mediaContent;
+        request.mState = "ww";
+
         return bdOpenApi.share(request);
     }
 }
