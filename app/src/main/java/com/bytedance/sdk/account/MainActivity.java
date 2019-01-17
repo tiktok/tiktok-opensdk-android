@@ -1,5 +1,6 @@
 package com.bytedance.sdk.account;
 
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = "user_info,friend_relation,message";
         request.optionalScope1 = "friend_relation,message";
         request.state = "ww";
+        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         bdOpenApi.preloadWebAuth(request);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {

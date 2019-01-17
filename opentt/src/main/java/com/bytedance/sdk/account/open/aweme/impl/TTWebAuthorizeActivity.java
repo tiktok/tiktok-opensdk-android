@@ -2,6 +2,7 @@ package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         ttOpenApi = TTOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
 
-        ViewUtils.setTranslucentStatusBar(this);
+        ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
     }
 
     @Override
@@ -73,6 +74,27 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     @Override
     protected String getDomain() {
         return DOMAIN;
+    }
+
+    @Override
+    protected void setHeaderViewBgColor() {
+        if (mHeaderView != null) {
+            mHeaderView.setBackgroundColor(Color.parseColor("#161823"));
+        }
+    }
+
+    @Override
+    protected void setContainerViewBgColor() {
+        if (mContainer != null) {
+            mContainer.setBackgroundColor(Color.parseColor("#161823"));
+        }
+    }
+
+    @Override
+    protected void setCancelViewColor() {
+        if (mCancelTxt != null) {
+            mCancelTxt.setTextColor(Color.parseColor("#e8e8e9"));
+        }
     }
 
     /**
