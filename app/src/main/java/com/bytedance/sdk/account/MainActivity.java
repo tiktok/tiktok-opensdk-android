@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     int currentShareType;
 
-    private ArrayList<Uri> mUri = new ArrayList<>();
+    private ArrayList<String> mUri = new ArrayList<>();
 
 
     @Override
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         mShareToDouyin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share(currentShareType, mUri);
+                share(currentShareType);
             }
         });
 
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case PHOTO_REQUEST_GALLERY:
                     Uri uri = data.getData();
-                    mUri.add(uri);
+                    mUri.add(UriUtil.convertUriToPath(this,uri));
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
@@ -194,14 +194,19 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private boolean share(int shareType, ArrayList<Uri> medias) {
+    // image为例
+    private boolean share(int shareType) {
         Share.Request request = new Share.Request();
-        DYImageObject imageObject = new DYImageObject();
-        imageObject.mImagePaths = mUri;
-        DYMediaContent mediaContent = new DYMediaContent();
-        mediaContent.mMediaObject = imageObject;
-        request.mMediaContent = mediaContent;
-        request.mState = "ww";
+        switch (shareType) {
+            case Share.IMAGE:
+                DYImageObject imageObject = new DYImageObject();
+                imageObject.mImagePaths = mUri;
+                DYMediaContent mediaContent = new DYMediaContent();
+                mediaContent.mMediaObject = imageObject;
+                request.mMediaContent = mediaContent;
+                request.mState = "ww";
+                break;
+        }
 
         return bdOpenApi.share(request);
     }
