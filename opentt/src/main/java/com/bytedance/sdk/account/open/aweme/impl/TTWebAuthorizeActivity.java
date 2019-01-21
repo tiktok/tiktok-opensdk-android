@@ -3,8 +3,12 @@ package com.bytedance.sdk.account.open.aweme.impl;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -77,6 +81,20 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
+    protected void setBackBtnStyle() {
+        if (mCancelTxt != null) {
+            mCancelTxt.setVisibility(View.VISIBLE);
+            mCancelTxt.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()));
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.selector_web_authorize_titlebar_back);
+            if (drawable != null) {
+                int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+                drawable.setBounds(0, 0, size, size);
+            }
+            mCancelTxt.setCompoundDrawables(drawable, null, null, null);
+        }
+    }
+
+    @Override
     protected void setHeaderViewBgColor() {
         if (mHeaderView != null) {
             mHeaderView.setBackgroundColor(Color.parseColor("#161823"));
@@ -87,13 +105,6 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     protected void setContainerViewBgColor() {
         if (mContainer != null) {
             mContainer.setBackgroundColor(Color.parseColor("#161823"));
-        }
-    }
-
-    @Override
-    protected void setCancelViewColor() {
-        if (mCancelTxt != null) {
-            mCancelTxt.setTextColor(Color.parseColor("#e8e8e9"));
         }
     }
 
