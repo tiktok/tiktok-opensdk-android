@@ -2,6 +2,7 @@
     package="com.bytedance.sdk.account.open.aweme" >
 
     <application>
-        <activity android:name=".impl.TTWebAuthorizeActivity" />
+        <activity android:name=".impl.TTWebAuthorizeActivity"
+            android:screenOrientation="behind"/>
     </application>
 </manifest>

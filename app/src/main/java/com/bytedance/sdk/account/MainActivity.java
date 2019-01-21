@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = "user_info";                            // 用户授权时必选权限
         request.optionalScope1 = "friend_relation,message";     // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         if (isWebAuth) {
             return bdOpenApi.sendInnerWebAuthRequest(request);
         } else {
