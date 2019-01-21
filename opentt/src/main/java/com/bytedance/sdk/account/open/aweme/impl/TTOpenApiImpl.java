@@ -95,6 +95,11 @@ class TTOpenApiImpl implements TTOpenApi {
     }
 
     @Override
+    public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
+        return shareImpl.handleShareIntent(intent, eventHandler);
+    }
+
+    @Override
     public boolean sendInnerWebAuthRequest(SendAuth.Request request) {
         return bdOpenApi.sendInnerWebAuthRequest(TTWebAuthorizeActivity.class, request);
     }

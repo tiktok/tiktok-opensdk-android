@@ -8,7 +8,12 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.account.bdopen.api.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
+import com.bytedance.sdk.account.common.api.BDApiEventHandler;
+import com.bytedance.sdk.account.common.api.BDDataHandler;
 import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.
@@ -17,10 +22,12 @@ public class ShareImpl {
 
     private Context mContext;
     private BDOpenConfig openConfig;
+    private List<BDDataHandler> handlers = new ArrayList<>();
 
     public ShareImpl(Context context, BDOpenConfig sConfig) {
-        mContext = context;
-        openConfig = sConfig;
+        this.mContext = context;
+        this.openConfig = sConfig;
+        this.handlers.add(new ShareDataHandler());
     }
 
     /**
@@ -45,7 +52,7 @@ public class ShareImpl {
             bundle.putString(DYOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
             bundle.putString(DYOpenConstants.Params.CALLER_SDK_VERSION, BDBaseOpenBuildConstants.VERSION);
             // 没有主动设置CallerLocalEntry
-            if (TextUtils.isEmpty(request.mLocalEntry)) {
+            if (TextUtils.isEmpty(request.callerLocalEntry)) {
                 bundle.putString(DYOpenConstants.Params.CALLER_LOCAL_ENTRY, buildComponentClassName(mContext.getPackageName(), localEntry));
             }
             Intent intent = new Intent();
@@ -72,5 +79,28 @@ public class ShareImpl {
 
     private String buildComponentClassName(String packageName, String classPath) {
         return packageName + "." + classPath;
+    }
+
+    public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
+        if (eventHandler == null) {
+            return false;
+        }
+        if (intent == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+        Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+        int type = bundle.getInt(DYOpenConstants.Params.TYPE);
+        for (BDDataHandler handler : handlers) {
+            if (handler.handle(type, bundle, eventHandler)) {
+                return true;
+            }
+        }
+        eventHandler.onErrorIntent(intent);
+        return false;
     }
 }

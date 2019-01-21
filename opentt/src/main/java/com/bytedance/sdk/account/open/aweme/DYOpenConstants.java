@@ -26,6 +26,11 @@ public class DYOpenConstants {
          * share
          */
         int SHARE_CONTENT_TO_DY = 3;
+
+        /**
+         * share response
+         */
+        int SHARE_CONTENT_TO_DY_RESP = 4;
     }
 
     /**
@@ -44,9 +49,27 @@ public class DYOpenConstants {
          */
         String EXTRA = "_aweme_open_sdk_params_extra";
         String TYPE = "_aweme_open_sdk_params_type";
+
+        String ERROR_CODE = "_aweme_open_sdk_params_error_code";
+        String ERROR_MSG = "_aweme_open_sdk_params_error_msg";
     }
 
     public interface TargetSceneType {
         int SHARE_DEFAULT_TYPE = 0;
+    }
+
+    public interface ErrorCode {
+        /**
+         * 正常
+         */
+        int ERROR_CODE_OK = 0;
+        /**
+         * 未知错误
+         */
+        int ERROR_CODE_UNKNOW = -1;
+        /**
+         * 用户手动取消
+         */
+        int ERROR_CODE_CANCEL = -2;
     }
 }
