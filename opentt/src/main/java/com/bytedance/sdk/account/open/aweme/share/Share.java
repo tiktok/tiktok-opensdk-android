@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.account.open.aweme.base.DYBaseRequest;
+import com.bytedance.sdk.account.open.aweme.base.DYBaseResp;
 import com.bytedance.sdk.account.open.aweme.base.DYMediaContent;
 
 /**
@@ -55,6 +56,35 @@ public class Share {
             } else {
                 return this.mMediaContent.checkArgs();
             }
+        }
+    }
+
+    public static class Response extends DYBaseResp {
+        public String state;
+
+        public Response() {
+        }
+
+        public Response(Bundle bundle) {
+            fromBundle(bundle);
+        }
+
+        @Override
+        public int getType() {
+            return DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP;
+        }
+
+        @Override
+        public void fromBundle(Bundle bundle) {
+            super.fromBundle(bundle);
+            this.state = bundle.getString(DYOpenConstants.Params.STATE);
+
+        }
+
+        @Override
+        public void toBundle(Bundle bundle) {
+            super.toBundle(bundle);
+            bundle.putString(DYOpenConstants.Params.STATE, state);
         }
     }
 }

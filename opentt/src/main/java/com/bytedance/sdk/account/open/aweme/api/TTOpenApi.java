@@ -19,7 +19,7 @@ import java.util.List;
 public interface TTOpenApi {
 
     /**
-     * 解析 Intent 请求
+     * 解析 Intent 请求(针对auth)
      *
      * @param intent
      * @param eventHandler
@@ -109,4 +109,13 @@ public interface TTOpenApi {
      * @return
      */
     boolean share(Share.Request request);
+
+    /**
+     * 解析 share Intent 请求
+     *
+     * @param intent
+     * @param eventHandler
+     * @return
+     */
+    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
 }
