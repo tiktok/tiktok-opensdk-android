@@ -11,4 +11,6 @@
     <string name="clear">清空</string>
     <string name="image">照片</string>
     <string name="video">视频</string>
+    <string name="auth_success">授权成功</string>
+    <string name="share_success">分享成功</string>
 </resources>

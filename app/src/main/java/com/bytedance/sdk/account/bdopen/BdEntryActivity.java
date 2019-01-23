@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.constants.BDOpenConstants;
@@ -15,6 +16,8 @@ import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
 import com.bytedance.sdk.account.open.aweme.share.Share;
+
+import com.bytedance.sdk.account.R;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -47,8 +50,10 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             // 授权成功可以获得authCode
             SendAuth.Response response = (SendAuth.Response) resp;
             Log.d("AuthResultTest","authCode " + response.authCode);
+            Toast.makeText(this, R.string.auth_success, Toast.LENGTH_SHORT).show();
         } else if (resp.getType() == DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
             Share.Response response = (Share.Response) resp;
+            Toast.makeText(this, R.string.share_success, Toast.LENGTH_SHORT).show();
         }
     }
 

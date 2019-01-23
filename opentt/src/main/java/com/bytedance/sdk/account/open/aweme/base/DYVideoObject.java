@@ -18,7 +18,7 @@ public class DYVideoObject implements IMediaObject{
 
     @Override
     public void unserialize(Bundle bundle) {
-        this.mVideoPaths = bundle.getStringArrayList(DYOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
+        this.mVideoPaths = bundle.getStringArrayList(DYOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH);
     }
 
     @Override

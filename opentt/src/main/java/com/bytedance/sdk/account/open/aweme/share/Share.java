@@ -14,7 +14,7 @@ import com.bytedance.sdk.account.open.aweme.base.DYMediaContent;
 public class Share {
 
     private static final String TAG = "Aweme.OpenSDK.Share";
-    public static int VIDEO = 0;
+    public static final int VIDEO = 0;
     public static final int IMAGE = 1;
 
     public static class Request extends DYBaseRequest {
