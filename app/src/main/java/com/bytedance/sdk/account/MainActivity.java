@@ -22,6 +22,7 @@ import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 import com.bytedance.sdk.account.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.account.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.account.open.aweme.base.DYVideoObject;
 import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
 import com.bytedance.sdk.account.open.aweme.share.Share;
 
@@ -194,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // image为例
     private boolean share(int shareType) {
         Share.Request request = new Share.Request();
         switch (shareType) {
@@ -205,6 +205,14 @@ public class MainActivity extends AppCompatActivity {
                 mediaContent.mMediaObject = imageObject;
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
+                break;
+            case Share.VIDEO:
+                DYVideoObject videoObject = new DYVideoObject();
+                videoObject.mVideoPaths = mUri;
+                DYMediaContent content = new DYMediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
                 break;
         }
 
