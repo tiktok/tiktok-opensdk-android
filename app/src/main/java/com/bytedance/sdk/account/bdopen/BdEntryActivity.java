@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
@@ -45,10 +47,21 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
         if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
             Log.d("AuthResultTest", "this is from wap, url : " + wapUrlIfAuthByWap);
         }
+        if (resp.isSuccess()) {
+            Toast.makeText(this, "授权成功", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show();
+        }
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override
     public void onErrorIntent(@Nullable Intent intent) {
         // 错误数据
+        Toast.makeText(this, "intent出错啦", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

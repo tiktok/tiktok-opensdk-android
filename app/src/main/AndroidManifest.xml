@@ -23,6 +23,8 @@
 
         <activity
             android:name=".bdopen.BdEntryActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.bytedance.sdk.account"
             android:exported="true">
         </activity>
 
