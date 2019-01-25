@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -51,6 +52,10 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             SendAuth.Response response = (SendAuth.Response) resp;
             Log.d("AuthResultTest","authCode " + response.authCode);
             Toast.makeText(this, R.string.auth_success, Toast.LENGTH_SHORT).show();
+            String wapUrlIfAuthByWap = ttOpenApi.getWapUrlIfAuthByWap(response);
+            if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
+                Log.d("AuthResultTest", "this is from wap, url : " + wapUrlIfAuthByWap);
+            }
         } else if (resp.getType() == DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
             Share.Response response = (Share.Response) resp;
             Toast.makeText(this, R.string.share_success, Toast.LENGTH_SHORT).show();

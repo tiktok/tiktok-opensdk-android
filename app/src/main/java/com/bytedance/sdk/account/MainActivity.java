@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = "user_info,friend_relation,message";
         request.optionalScope1 = "friend_relation,message";
         request.state = "ww";
+        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         bdOpenApi.preloadWebAuth(request);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = "user_info";                            // 用户授权时必选权限
         request.optionalScope1 = "friend_relation,message";     // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         if (isWebAuth) {
             return bdOpenApi.sendInnerWebAuthRequest(request);
         } else {
