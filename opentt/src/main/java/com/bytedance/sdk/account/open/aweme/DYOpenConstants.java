@@ -62,14 +62,90 @@ public class DYOpenConstants {
         /**
          * 正常
          */
-        int ERROR_CODE_OK = 0;
+        int OK = 10000;
         /**
          * 未知错误
          */
-        int ERROR_CODE_UNKNOW = -1;
+        int UNKNOW = 10001;
+
         /**
-         * 用户手动取消
+         * 无效的请求参数
          */
-        int ERROR_CODE_CANCEL = -2;
+        int INVALID_REQ = 10002;
+
+        /**
+         * 请求授权时网络出错
+         */
+        int GRANT_NETWORK_ERR = 10003;
+
+        /**
+         * 授权失败/无权限
+         */
+        int INVALID_GRANT = 10004;
+
+        /**
+         * 用户手动取消登录
+         */
+        int CANCEL_LOGIN = 10005;
+        /**
+         * 用户未授权使用相册
+         */
+        int GALLERY_PERMISSION_ERROR = 10006;
+
+        /**
+         * 分享图文不支持
+         * 要求
+         * a:宽高都大于360
+         * b:1/2.2<=宽高比<=2.2
+         */
+        int INVALID_PHOTO = 10007;
+
+        /**
+         * 视频时长不支持
+         */
+        int INVALID_VIDEO_LENGTH = 10008;
+
+        /**
+         * 视频尺寸不支持
+         * 最大边小于1100
+         */
+        int INVALID_VIDEO_SIZE = 10009;
+
+        /**
+         * 视频格式不支持（要求mp4）
+         */
+        int INVALID_VIDEO_TYPE = 10010;
+
+        /**
+         * 视频比例不支持
+         * 最大边除以最小边 要小于4
+         *
+         */
+        int INVALID_VIDEO_RATIO = 10011;
+
+        /**
+         *  解析媒体资源失败，包含图片，视频
+         */
+        int PARSE_MEDIA_FAIL = 10012;
+
+        /**
+         *  不支持的分辨率
+         */
+        int INVALID_VIDEO_RESOLUTION = 10013;
+
+        /**
+         *  视频整体时长超过1小时（多视频场景）
+         */
+        int OVER_MAX_VIDEO_LENGTH = 10014;
+
+        /**
+         * 用户手动取消发布
+         */
+        int CANCEL_PUBLISH = 10015;
+
+        /**
+         * 用户存为草稿
+         */
+        int SAVE_TO_DRAFT = 10016;
     }
 }
