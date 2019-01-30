@@ -57,15 +57,15 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
                 Log.d("AuthResultTest", "this is from wap, url : " + wapUrlIfAuthByWap);
             }
+            if (resp.isSuccess()) {
+                Toast.makeText(this, "授权成功", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show();
+            }
         } else if (resp.getType() == DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
             Share.Response response = (Share.Response) resp;
             Toast.makeText(this, " code：" + response.errorCode + " 文案：" + response.errorMsg, Toast.LENGTH_SHORT).show();
-        }
-        if (resp.isSuccess()) {
-            Toast.makeText(this, "授权成功", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show();
         }
         startActivity(new Intent(this, MainActivity.class));
         finish();
