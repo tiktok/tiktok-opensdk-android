@@ -58,7 +58,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             }
         } else if (resp.getType() == DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
             Share.Response response = (Share.Response) resp;
-            Toast.makeText(this, response.errorCode + "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " code：" + response.errorCode + " 文案：" + response.errorMsg, Toast.LENGTH_SHORT).show();
         }
     }
 
