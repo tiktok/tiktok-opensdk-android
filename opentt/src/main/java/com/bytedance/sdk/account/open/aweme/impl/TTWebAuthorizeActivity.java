@@ -6,15 +6,18 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
+import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.R;
@@ -32,7 +35,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 
-    private boolean isShowNetworkError = false;
+    private AlertDialog mDialog;
 
     private TTOpenApi ttOpenApi;
 
@@ -42,6 +45,48 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         super.onCreate(savedInstanceState);
 
         ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
+    }
+
+    /**
+     * 显示网络错误对话框
+     */
+    @Override
+    protected void showNetworkErrorDialog(final int errCode) {
+        if (mDialog != null && mDialog.isShowing()) {
+            return;
+        }
+        if (mDialog == null) {
+            View mDialogView = LayoutInflater.from(this).inflate(R.layout.layout_open_network_error_dialog, null, false);
+            mDialogView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCancel(errCode);
+                }
+            });
+            mDialog = new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setView(mDialogView)
+                    .create();
+        }
+        mDialog.show();
+    }
+
+    @Override
+    protected View getLoadingView(ViewGroup root) {
+        View loadingView = LayoutInflater.from(this).inflate(R.layout.layout_open_loading_view, root, false);
+        return loadingView;
+    }
+
+    @Override
+    protected View getHeaderView(ViewGroup root) {
+        View headerView = LayoutInflater.from(this).inflate(R.layout.layout_open_web_header_view, root, false);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
+            }
+        });
+        return headerView;
     }
 
     @Override
@@ -81,55 +126,10 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
-    protected void setBackBtnStyle() {
-        if (mCancelTxt != null) {
-            mCancelTxt.setVisibility(View.VISIBLE);
-            mCancelTxt.setCompoundDrawablePadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, getResources().getDisplayMetrics()));
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.selector_web_authorize_titlebar_back);
-            if (drawable != null) {
-                int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
-                drawable.setBounds(0, 0, size, size);
-            }
-            mCancelTxt.setCompoundDrawables(drawable, null, null, null);
-        }
-    }
-
-    @Override
-    protected void setHeaderViewBgColor() {
-        if (mHeaderView != null) {
-            mHeaderView.setBackgroundColor(Color.parseColor("#161823"));
-        }
-    }
-
-    @Override
     protected void setContainerViewBgColor() {
         if (mContainer != null) {
             mContainer.setBackgroundColor(Color.parseColor("#161823"));
         }
-    }
-
-    /**
-     * 显示网络错误对话框
-     */
-    @Override
-    protected void showNetworkErrorDialog() {
-        if (isShowNetworkError) {
-            return;
-        }
-        isShowNetworkError = true;
-        //hideProgressBar();
-        View mDialogView = LayoutInflater.from(this).inflate(R.layout.network_error_dialog, null, false);
-        mDialogView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //onCancel();
-            }
-        });
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setCancelable(false)
-                .setView(mDialogView)
-                .create();
-        dialog.show();
     }
 
     @Override
