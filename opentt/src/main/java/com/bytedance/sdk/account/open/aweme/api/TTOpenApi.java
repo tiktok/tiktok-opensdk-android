@@ -7,6 +7,9 @@ import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.account.open.aweme.share.Share;
+
+import java.util.List;
 
 /**
  * 今日头条 open API
@@ -17,7 +20,7 @@ import com.bytedance.sdk.account.common.model.SendAuth;
 public interface TTOpenApi {
 
     /**
-     * 解析 Intent 请求
+     * 解析 Intent 请求(针对auth)
      *
      * @param intent
      * @param eventHandler
@@ -102,6 +105,22 @@ public interface TTOpenApi {
     boolean sendAuthLogin(SendAuth.Request request);
 
     /**
+     * 分享视频、图片
+     *
+     * @return
+     */
+    boolean share(Share.Request request);
+
+    /**
+     * 解析 share Intent 请求
+     *
+     * @param intent
+     * @param eventHandler
+     * @return
+     */
+    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
+
+    /*
      * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
      *
      * @param response

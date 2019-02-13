@@ -10,6 +10,8 @@ import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.share.Share;
+import com.bytedance.sdk.account.open.aweme.share.ShareImpl;
 
 /**
  * Created by yangzhirong on 2018/10/17.
@@ -21,6 +23,7 @@ class TTOpenApiImpl implements TTOpenApi {
 
     private Context mContext;
     private BDOpenApi bdOpenApi;
+    private ShareImpl shareImpl;
 
     /**
      * 以下参数  需要改成提供授权方App的
@@ -30,12 +33,14 @@ class TTOpenApiImpl implements TTOpenApi {
     static final String REMOTE_ENTRY_PACKAGE = "com.ss.android.ugc.aweme"; // 授权方包名
     static final String REMOTE_ENTRY_ACTIVITY = "openauthorize.AwemeAuthorizedActivity"; // 提供授权的Activity入口
     static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+    static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
     static final int REQUIRE_API = 1; // 用于验证api版本是否支持
 
-    TTOpenApiImpl(Context context, BDOpenApi bdOpenApi) {
+    TTOpenApiImpl(Context context, BDOpenApi bdOpenApi, ShareImpl shareImpl) {
         this.mContext = context;
         this.bdOpenApi = bdOpenApi;
+        this.shareImpl = shareImpl;
     }
 
     @Override
@@ -94,6 +99,16 @@ class TTOpenApiImpl implements TTOpenApi {
             return response.extras.getString(WAP_AUTHORIZE_URL, "");
         }
         return null;
+    }
+
+    @Override
+    public boolean share(Share.Request request) {
+        return shareImpl.share(LOCAL_ENTRY_ACTIVITY, REMOTE_ENTRY_PACKAGE, REMOTE_SHARE_ACTIVITY, request);
+    }
+
+    @Override
+    public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
+        return shareImpl.handleShareIntent(intent, eventHandler);
     }
 
     @Override
