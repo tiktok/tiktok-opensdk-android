@@ -30,23 +30,14 @@ public abstract class DYBaseResp extends BaseResp {
     public DYBaseResp() {
 
     }
-
-//    /**
-//     * 是否请求取消
-//     *
-//     * @return
-//     */
-//    public boolean isCancel() {
-//        return errorCode == DYOpenConstants.ErrorCode.ERROR_CODE_CANCEL;
-//    }
-
+    
     /**
      * 是否请求成功
      *
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == DYOpenConstants.ErrorCode.OK;
+        return errorCode == DYOpenConstants.ErrorCode.ERR_OK;
     }
 
     /**
