@@ -9,8 +9,6 @@ import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.account.open.aweme.share.Share;
 
-import java.util.List;
-
 /**
  * 今日头条 open API
  * Created by yangzhirong on 2018/10/17.
@@ -18,6 +16,14 @@ import java.util.List;
  * @author yangzhirong@bytedance.com
  */
 public interface TTOpenApi {
+
+    /**
+     * 各功能要求的最低版本（抖音侧定义）
+     */
+    interface REQUIRED_API_VERSION {
+        // 分享
+        int SHARE_REQUIRED_MIN_VERSION = 2; //对应抖音5.2.0及以上
+    }
 
     /**
      * 解析 Intent 请求(针对auth)
@@ -89,7 +95,7 @@ public interface TTOpenApi {
     boolean sendInnerWebAuthRequest(SendAuth.Request request);
 
     /**
-     *  h5页授权 预加载
+     * h5页授权 预加载
      *
      * @param request
      * @return
@@ -110,6 +116,12 @@ public interface TTOpenApi {
      * @return
      */
     boolean share(Share.Request request);
+
+    /**
+     * 判断当前抖音版本是否支持分享
+     * @return
+     */
+    boolean isAppSupportShare();
 
     /**
      * 解析 share Intent 请求

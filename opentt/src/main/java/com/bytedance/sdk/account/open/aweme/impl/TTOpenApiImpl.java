@@ -103,7 +103,15 @@ class TTOpenApiImpl implements TTOpenApi {
 
     @Override
     public boolean share(Share.Request request) {
-        return shareImpl.share(LOCAL_ENTRY_ACTIVITY, REMOTE_ENTRY_PACKAGE, REMOTE_SHARE_ACTIVITY, request);
+        if (isAppInstalled() && isAppSupportShare()) {
+            return shareImpl.share(LOCAL_ENTRY_ACTIVITY, REMOTE_ENTRY_PACKAGE, REMOTE_SHARE_ACTIVITY, request);
+        } else
+            return false;
+    }
+
+    @Override
+    public boolean isAppSupportShare() {
+        return isAppSupportAPI(REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
     }
 
     @Override
