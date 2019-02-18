@@ -30,7 +30,7 @@ public abstract class DYBaseResp extends BaseResp {
     public DYBaseResp() {
 
     }
-    
+
     /**
      * 是否请求成功
      *
