@@ -37,8 +37,8 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
         ttOpenApi= TTOpenApiFactory.create(this);
 
         //auth使用handleIntent，share使用handleShareIntent
-        //ttOpenApi.handleIntent(getIntent(),this);
-        ttOpenApi.handleShareIntent(getIntent(), this);
+        ttOpenApi.handleIntent(getIntent(),this);
+        //ttOpenApi.handleShareIntent(getIntent(), this);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
                 Log.d("AuthResultTest", "this is from wap, url : " + wapUrlIfAuthByWap);
             }
             if (resp.isSuccess()) {
-                Toast.makeText(this, "授权成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "获得权限："+response.grantedPermissions, Toast.LENGTH_LONG).show();
             }
             else {
                 Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show();
