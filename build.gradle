@@ -2,11 +2,14 @@
 
 buildscript {
     repositories {
-        google()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.3'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -16,7 +19,10 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
         jcenter()
         maven { url "https://maven.byted.org/nexus/content/repositories/ugc_android/" }
         maven { url 'https://maven.byted.org/nexus/content/repositories/ss_app_android/' }
