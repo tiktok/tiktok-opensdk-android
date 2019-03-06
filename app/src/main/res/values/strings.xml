@@ -13,4 +13,8 @@
     <string name="video">视频</string>
     <string name="auth_success">授权成功</string>
     <string name="share_success">分享成功</string>
+    <string name="scope_hint">必选权限(以 , 号间隔)</string>
+    <string name="optional_scope">可选权限，默认不选（以 , 号间隔)</string>
+    <string name="optional_1_scope">可选权限，默认选择（以 , 号间隔)</string>
+    <string name="set_scope_btn">设置</string>
 </resources>
