@@ -26,11 +26,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    api "com.bytedance.sdk.account:bd-opensdk:0.0.2.3"
-//    api "com.bytedance.sdk.account:bd-account-common: 0.0.2.2"
+    compile "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
 
-    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.3"
-    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.2"
+//    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
+//    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
 
     compile 'com.android.support:appcompat-v7:27.1.1'
     testCompile 'junit:junit:4.12'
