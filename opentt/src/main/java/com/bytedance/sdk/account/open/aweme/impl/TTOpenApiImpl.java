@@ -2,13 +2,16 @@ package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
+import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 import com.bytedance.sdk.account.open.aweme.share.Share;
 import com.bytedance.sdk.account.open.aweme.share.ShareImpl;
@@ -45,7 +48,34 @@ class TTOpenApiImpl implements TTOpenApi {
 
     @Override
     public boolean handleIntent(Intent intent, BDApiEventHandler eventHandler) {
-        return bdOpenApi.handleIntent(intent, eventHandler);
+        if (eventHandler == null) {
+            return false;
+        }
+        if (intent == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+        Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+
+        int type = bundle.getInt(BDOpenConstants.Params.TYPE) == 0 ? bundle.getInt(DYOpenConstants.Params.TYPE) : 0;
+        return distributionIntent(type, intent, eventHandler);
+    }
+
+    private boolean distributionIntent(int type, Intent intent, BDApiEventHandler eventHandler) {
+        switch (type) {
+            case BDOpenConstants.ModeType.SEND_AUTH_REQUEST:
+            case BDOpenConstants.ModeType.SEND_AUTH_RESPONSE:
+                return bdOpenApi.handleIntent(intent, eventHandler);
+            case DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY:
+            case DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP:
+                return shareImpl.handleShareIntent(intent, eventHandler);
+            default:
+                return bdOpenApi.handleIntent(intent, eventHandler);
+        }
     }
 
     @Override
@@ -115,6 +145,7 @@ class TTOpenApiImpl implements TTOpenApi {
     }
 
     @Override
+    @Deprecated
     public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
         return shareImpl.handleShareIntent(intent, eventHandler);
     }

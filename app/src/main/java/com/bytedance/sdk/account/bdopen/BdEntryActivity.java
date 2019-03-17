@@ -19,8 +19,6 @@ import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
 import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
 import com.bytedance.sdk.account.open.aweme.share.Share;
 
-import com.bytedance.sdk.account.R;
-
 /**
  * 主要功能：接受授权返回结果的activity
  *
@@ -35,10 +33,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ttOpenApi= TTOpenApiFactory.create(this);
-
-        //auth使用handleIntent，share使用handleShareIntent
         ttOpenApi.handleIntent(getIntent(),this);
-        //ttOpenApi.handleShareIntent(getIntent(), this);
     }
 
     @Override

@@ -130,6 +130,7 @@ public interface TTOpenApi {
      * @param eventHandler
      * @return
      */
+    @Deprecated
     boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
 
     /*
