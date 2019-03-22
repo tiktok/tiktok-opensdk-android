@@ -3,6 +3,7 @@
 
     <application>
         <activity android:name=".impl.TTWebAuthorizeActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
     </application>
 </manifest>
