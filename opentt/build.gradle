@@ -22,6 +22,36 @@ android {
         }
     }
 
+
+    // open sdk分为国内和海外版本
+    flavorDimensions "mode"
+
+    productFlavors {
+        // 国内版
+        china {
+            dimension "mode"
+        }
+
+        // 海外版
+        overseas {
+            dimension "mode"
+        }
+    }
+
+    sourceSets {
+        china {
+            manifest.srcFile "src/china/AndroidManifest.xml"
+            java.srcDirs += 'src/china/java'
+            res.srcDirs += "src/china/res"
+        }
+
+        overseas {
+            manifest.srcFile "src/overseas/AndroidManifest.xml"
+            java.srcDirs += 'src/overseas/java'
+            res.srcDirs += "src/overseas/res"
+        }
+    }
+
 }
 
 dependencies {

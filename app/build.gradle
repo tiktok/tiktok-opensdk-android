@@ -17,6 +17,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // open sdk分为国内和海外版本
+    flavorDimensions "mode"
+
+    productFlavors {
+        // 国内版
+        china {
+            dimension "mode"
+        }
+
+        // 海外版
+        overseas {
+            dimension "mode"
+        }
+    }
 }
 
 dependencies {
