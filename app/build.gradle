@@ -19,17 +19,27 @@ android {
     }
 
     // open sdk分为国内和海外版本
-    flavorDimensions "mode"
+    flavorDimensions "area", "mode"
 
     productFlavors {
+        // 内部版本，多一些额外的功能支持，上公司内部公仓
+        internal {
+            dimension "mode"
+        }
+
+        // 外部版本，上外部公仓和开发者平台
+        external {
+            dimension "mode"
+        }
+
         // 国内版
         china {
-            dimension "mode"
+            dimension "area"
         }
 
         // 海外版
         overseas {
-            dimension "mode"
+            dimension "area"
         }
     }
 }
