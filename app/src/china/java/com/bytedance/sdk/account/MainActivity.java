@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String CODE_KEY = "code";
+
     TTOpenApi bdOpenApi;
 
     String[] mPermissionList = new String[]{

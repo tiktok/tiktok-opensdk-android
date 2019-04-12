@@ -2,7 +2,7 @@
     package="com.bytedance.sdk.account.open.aweme" >
 
     <application>
-        <activity android:name=".impl.TTWebAuthorizeActivity"
+        <activity android:name=".impl.TikTokWebAuthorizeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
     </application>

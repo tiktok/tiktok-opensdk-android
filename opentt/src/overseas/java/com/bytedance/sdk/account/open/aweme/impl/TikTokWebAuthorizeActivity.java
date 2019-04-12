@@ -3,6 +3,7 @@ package com.bytedance.sdk.account.open.aweme.impl;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,33 +11,38 @@ import android.view.ViewGroup;
 
 import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
+import com.bytedance.sdk.account.common.constants.BDAuthConstants;
 import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
+import com.bytedance.sdk.account.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.account.open.aweme.utils.ViewUtils;
 
-import static com.bytedance.sdk.account.open.aweme.impl.TTOpenApiImpl.WAP_AUTHORIZE_URL;
 
 /**
- * Created by yangzhirong on 2018/10/10.
+ * tiktok authroize wap
+ *
+ * @author changlei@bytedance.com
  */
-public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
+public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
-    public static final String AUTH_HOST = "open.douyin.com";
+    public static final String AUTH_HOST = "open-api.tiktok.com";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 
     private AlertDialog mDialog;
 
-    private TTOpenApi ttOpenApi;
+    private TiktokOpenApi ttOpenApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = TTOpenApiFactory.create(this);
+        ttOpenApi = TikTokOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
 
-        ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mContentWebView.setWebContentsDebuggingEnabled(true);
+        }
+        ViewUtils.setStatusBarColor(this, Color.parseColor("#FFFFFFFF"));
     }
 
     /**
@@ -72,7 +78,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     @Override
     protected View getHeaderView(ViewGroup root) {
         View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_web_header_view", "layout", getPackageName()), root, false);
-        headerView.setOnClickListener(new View.OnClickListener() {
+        headerView.findViewById(getResources().getIdentifier("txt_cancel", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
@@ -93,12 +99,6 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected void sendInnerResponse(SendAuth.Request req, BaseResp resp) {
-        if (resp != null && mContentWebView != null) {
-            if (resp.extras == null) {
-                resp.extras = new Bundle();
-            }
-            resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
-        }
         ttOpenApi.sendInnerResponse(req, resp);
     }
 
@@ -120,7 +120,7 @@ public class TTWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     @Override
     protected void setContainerViewBgColor() {
         if (mContainer != null) {
-            mContainer.setBackgroundColor(Color.parseColor("#161823"));
+            mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
     }
 

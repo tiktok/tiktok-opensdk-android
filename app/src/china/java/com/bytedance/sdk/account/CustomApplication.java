@@ -15,7 +15,7 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        String clientkey = "f7938a4c95ff3108"; // 需要到开发者网站申请
+        String clientkey = BuildConfig.CLIENT_KEY; // 需要到开发者网站申请
         TTOpenApiFactory.init(new BDOpenConfig(clientkey));
     }
 }
