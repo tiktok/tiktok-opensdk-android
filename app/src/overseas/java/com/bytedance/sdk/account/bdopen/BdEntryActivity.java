@@ -50,12 +50,11 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             Toast.makeText(this, "授权成功，获得权限："+response.grantedPermissions, Toast.LENGTH_LONG).show();
             intent = new Intent(this, UserInfoActivity.class);
             intent.putExtra(MainActivity.CODE_KEY, response.authCode);
+            startActivity(intent);
         }
         else {
             Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show();
-            intent = new Intent(this, MainActivity.class);
         }
-//        startActivity(intent);
         finish();
     }
 
@@ -63,7 +62,6 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     public void onErrorIntent(@Nullable Intent intent) {
         // 错误数据
         Toast.makeText(this, "intent出错啦", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }
