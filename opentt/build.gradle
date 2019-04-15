@@ -66,7 +66,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
+    api "com.bytedance.sdk.account:bd-opensdk:0.0.2.7"
 
 //    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
 //    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
