@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static boolean IS_AUTH_BY_M = true;
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi bdOpenApi;
@@ -120,6 +122,15 @@ public class MainActivity extends AppCompatActivity {
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
         mClearMedia = findViewById(R.id.clear_media);
+
+        RadioButton authByM = findViewById(R.id.auth_by_m);
+        authByM.setChecked(IS_AUTH_BY_M);
+        authByM.setOnClickListener(v -> {
+            IS_AUTH_BY_M = true;
+        });
+        findViewById(R.id.auth_by_t).setOnClickListener(v -> {
+            IS_AUTH_BY_M = false;
+        });
 
         mAddMedia.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.bytedance.sdk.account.user
 
+import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfo
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
@@ -16,12 +17,17 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class NetworkManager {
 
-    private var retrofit = Retrofit.Builder()
-            .baseUrl("https:\\open-api.tiktok.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
     private fun <T> createApi(apiClass: Class<T>): T {
+        var retrofitBuilder = Retrofit.Builder()
+        if (MainActivity.IS_AUTH_BY_M) {
+            retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
+        }
+        else {
+            retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
+        }
+        var retrofit = retrofitBuilder
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
         return retrofit.create(apiClass)
     }
 
