@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">opentt</string>
+
+    <string name="tiktok_error_tips_common">Server busy. Please try again later.</string>
+
+    <string name="tiktok_network_error_title">Login failed</string>
+    <string name="tiktok_network_error_tips">Network error. Please try again.</string>
+    <string name="tiktok_network_error_confirm">OK</string>
+    <string name="tiktok_loading">Loading...</string>
 </resources>

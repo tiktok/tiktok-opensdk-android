@@ -54,8 +54,8 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
             return;
         }
         if (mDialog == null) {
-            View mDialogView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_network_error_dialog", "layout", getPackageName()), null, false);
-            mDialogView.findViewById(getResources().getIdentifier("tv_confirm", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+            View mDialogView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_network_error_dialog", "layout", getPackageName()), null, false);
+            mDialogView.findViewById(getResources().getIdentifier("tiktok_confirm", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onCancel(errCode);
@@ -71,14 +71,14 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected View getLoadingView(ViewGroup root) {
-        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_loading_view", "layout", getPackageName()), root, false);
+        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view", "layout", getPackageName()), root, false);
         return loadingView;
     }
 
     @Override
     protected View getHeaderView(ViewGroup root) {
-        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_web_header_view", "layout", getPackageName()), root, false);
-        headerView.findViewById(getResources().getIdentifier("txt_cancel", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view", "layout", getPackageName()), root, false);
+        headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
@@ -131,7 +131,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
          */
         switch (errorCode) {
             default:
-                return getString(getResources().getIdentifier("error_tips_common", "string", getPackageName()));
+                return getString(getResources().getIdentifier("tiktok_error_tips_common", "string", getPackageName()));
         }
     }
 }

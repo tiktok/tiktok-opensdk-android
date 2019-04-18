@@ -27,7 +27,7 @@
             android:layout_marginBottom="15dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="加载中"
+            android:text="@string/tiktok_loading"
             android:textColor="#e6ffffff"
             android:textSize="13dp" />
 
