@@ -42,7 +42,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mContentWebView.setWebContentsDebuggingEnabled(true);
         }
-        ViewUtils.setStatusBarColor(this, Color.parseColor("#FFFFFFFF"));
+        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
 
     /**
