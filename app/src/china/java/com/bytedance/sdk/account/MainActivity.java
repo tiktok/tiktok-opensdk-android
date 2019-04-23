@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static boolean IS_AUTH_BY_M = false;
     public static final String CODE_KEY = "code";
 
     TTOpenApi bdOpenApi;

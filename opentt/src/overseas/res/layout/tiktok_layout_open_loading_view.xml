@@ -13,14 +13,12 @@
         android:gravity="center">
 
         <ProgressBar
-            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             style="@android:style/Widget.ProgressBar.Small.Inverse"/>
 
         <TextView
-            android:id="@+id/loading_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
