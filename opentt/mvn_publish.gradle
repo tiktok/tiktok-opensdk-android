@@ -2,15 +2,11 @@ apply plugin: 'digital.wup.android-maven-publish'
 publishing {
     repositories {
         maven {
-            def releasesInternalRepoUrl = RELEASE_REPOSITORY_URL     // 内部版本的仓库
-            def releasesExternalRepoUrl = RELEASE_REPOSITORY_URL     // 外部版本的仓库
-            def snapshotsRepoUrl = SNAPSHOT_REPOSITORY_URL   // 测试版本的源码仓库
-            def artifactName = ARTIFACT_VERSION.toLowerCase()
-            url = artifactName.endsWith('snapshot') ? snapshotsRepoUrl :
-                    artifactName.contains("Internal") ? releasesInternalRepoUrl : releasesExternalRepoUrl
+            url = BuildContext.isSnapshot() ? SNAPSHOT_REPOSITORY_URL :
+                    BuildContext.isChina() ? INTERNAL_RELEASE_REPOSITORY_URL : EXTERNAL_RELEASE_REPOSITORY_URL
             credentials {
-                username = USERNAME
-                password = PASSWORD
+                username = BuildContext.isChina() ? INTERNAL_USERNAME : EXTERNAL_USERNAME
+                password = BuildContext.isChina() ? INTERNAL_PASSWORD : EXTERNAL_PASSWORD
             }
         }
     }
@@ -45,14 +41,24 @@ publishing {
                         artifact javadocJar
                         artifact sourcesJar
                         groupId GROUP_ID
-                        if (variant.flavorName == null || variant.flavorName == "") {
+                        if (BuildContext.isChina()) {
                             artifactId ARTIFACT_ID
-                        } else if (variant.flavorName.toLowerCase().contains("internal") && variant.flavorName.toLowerCase().contains("china")) {
-                            artifactId ARTIFACT_ID
-                        } else if (variant.flavorName.toLowerCase().contains("internal") && variant.flavorName.toLowerCase().contains("overseas")) {
+                        } else {
                             artifactId "${ARTIFACT_ID}-overseas"
                         }
-                        version ARTIFACT_VERSION
+                        if (!BuildContext.isSnapshot()) {
+                            if (BuildContext.isChina()) {
+                                version ARTIFACT_CHINAL_VERSION
+                            } else {
+                                version ARTIFACT_OVERSEAS_VERSION
+                            }
+                        } else {
+                            if (BuildContext.isChina()) {
+                                version "${ARTIFACT_CHINAL_VERSION}-SNAPSHOT"
+                            } else {
+                                version "${ARTIFACT_OVERSEAS_VERSION}-SNAPSHOT"
+                            }
+                        }
                         pom.withXml {
                             def depsNode = asNode()["dependencies"][0]
                             if (depsNode != null) {
@@ -71,24 +77,6 @@ publishing {
                         }
                     }
                 }
-            }
-        } else if (project.plugins.hasPlugin("java-library") || project.plugins.hasPlugin("java")) {
-            task sourcesJar(type: Jar) {
-                from sourceSets.main.allJava
-                classifier = 'sources'
-            }
-
-            task javadocJar(type: Jar) {
-                from javadoc
-                classifier = 'javadoc'
-            }
-            "publishJar"(MavenPublication) {
-                from components.java
-                artifact sourcesJar
-                artifact javadocJar
-                groupId GROUP_ID
-                artifactId ARTIFACT_ID
-                version ARTIFACT_VERSION
             }
         }
     }
