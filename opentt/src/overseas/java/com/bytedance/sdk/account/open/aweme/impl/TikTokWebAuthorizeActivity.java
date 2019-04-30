@@ -30,8 +30,6 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 
-    private AlertDialog mDialog;
-
     private TiktokOpenApi ttOpenApi;
 
     @Override
@@ -43,30 +41,6 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
             mContentWebView.setWebContentsDebuggingEnabled(true);
         }
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
-    }
-
-    /**
-     * 显示网络错误对话框
-     */
-    @Override
-    protected void showNetworkErrorDialog(final int errCode) {
-        if (mDialog != null && mDialog.isShowing()) {
-            return;
-        }
-        if (mDialog == null) {
-            View mDialogView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_network_error_dialog", "layout", getPackageName()), null, false);
-            mDialogView.findViewById(getResources().getIdentifier("tiktok_confirm", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCancel(errCode);
-                }
-            });
-            mDialog = new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setView(mDialogView)
-                    .create();
-        }
-        mDialog.show();
     }
 
     @Override
@@ -126,12 +100,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected String errorCode2Message(int errorCode) {
-        /**
-         * 示范。。 根据 业务定制返回 error message
-         */
-        switch (errorCode) {
-            default:
-                return getString(getResources().getIdentifier("tiktok_error_tips_common", "string", getPackageName()));
-        }
+        // 目前Tiktok没有自定义的错误码，不需要转换
+        return "";
     }
 }

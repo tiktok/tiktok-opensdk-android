@@ -61,7 +61,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
             Share.Response response = (Share.Response) resp;
             Toast.makeText(this, " code：" + response.errorCode + " 文案：" + response.errorMsg, Toast.LENGTH_SHORT).show();
         }
-//        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

@@ -68,7 +68,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     chinaApi "com.bytedance.sdk.account:bd-opensdk:0.0.2.7"
-    overseasApi "com.bytedance.sdk.account:bd-opensdk-oversea:0.0.2.6-20190418.104701-1"
+    overseasApi "com.bytedance.sdk.account:bd-opensdk-oversea:0.0.2.6-20190429.085745-2"
 
 //    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
 //    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
