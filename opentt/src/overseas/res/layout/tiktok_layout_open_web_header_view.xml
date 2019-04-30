@@ -6,11 +6,12 @@
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tiktok_cancel"
-        android:src="@drawable/tiktok_selector_web_authorize_titlebar_back"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:paddingLeft="19dp"
+        android:paddingStart="19dp"
         android:paddingRight="19dp"
+        android:paddingEnd="19dp"
         android:tint="#000000"
         android:scaleType="centerInside"
         android:gravity="center" />

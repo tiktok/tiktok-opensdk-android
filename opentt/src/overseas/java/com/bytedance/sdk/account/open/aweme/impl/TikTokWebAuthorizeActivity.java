@@ -1,13 +1,18 @@
 package com.bytedance.sdk.account.open.aweme.impl;
 
 import android.app.AlertDialog;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
@@ -52,7 +57,15 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     @Override
     protected View getHeaderView(ViewGroup root) {
         View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view", "layout", getPackageName()), root, false);
-        headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName())).setOnClickListener(new View.OnClickListener() {
+        ImageView cancelView = headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName()));
+        Drawable arrowPic = ContextCompat.getDrawable(this, getResources().getIdentifier("tiktok_selector_web_authorize_titlebar_back", "drawable", getPackageName()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (arrowPic != null) {
+                arrowPic.setAutoMirrored(true);
+            }
+        }
+        cancelView.setImageDrawable(arrowPic);
+        cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
