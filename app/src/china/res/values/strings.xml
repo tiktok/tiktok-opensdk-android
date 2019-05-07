@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AwemeOpenSDK</string>
+    <string name="authorize_title">抖音授权测试</string>
+    <string name="authorize">去抖音授权</string>
+</resources>

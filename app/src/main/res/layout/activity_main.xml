@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/authorize_title"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -101,5 +101,24 @@
         app:layout_constraintTop_toBottomOf="@id/media_text"
         android:visibility="gone"/>
 
+    <RadioGroup
+        app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/auth_by_m"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Musically"/>
+
+        <RadioButton
+            android:id="@+id/auth_by_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiktok"/>
+    </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

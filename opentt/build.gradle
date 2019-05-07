@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: 'fat-aar.gradle'
+//apply from: 'fat-aar.gradle'
 
 android {
     compileSdkVersion 27
@@ -22,17 +22,61 @@ android {
         }
     }
 
+
+    // open sdk分为国内和海外版本
+    flavorDimensions "area", "mode"
+
+    productFlavors {
+        // 内部版本，多一些额外的功能支持，上公司内部公仓
+        internal {
+            dimension "mode"
+        }
+
+        // 外部版本，上外部公仓和开发者平台
+        external {
+            dimension "mode"
+        }
+
+        // 国内版
+        china {
+            dimension "area"
+        }
+
+        // 海外版
+        overseas {
+            dimension "area"
+        }
+    }
+
+    sourceSets {
+        china {
+            manifest.srcFile "src/china/AndroidManifest.xml"
+            java.srcDirs += 'src/china/java'
+            res.srcDirs += "src/china/res"
+        }
+
+        overseas {
+            manifest.srcFile "src/overseas/AndroidManifest.xml"
+            java.srcDirs += 'src/overseas/java'
+            res.srcDirs += "src/overseas/res"
+        }
+    }
+
 }
 
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    chinaApi "com.bytedance.sdk.account:bd-opensdk:0.0.2.7"
+    overseasApi "com.bytedance.sdk.account:bd-opensdk-oversea:0.0.2.7"
 
 //    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
 //    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
 
-    compile 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:1.0.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+apply from:'./mvn_publish.gradle'
