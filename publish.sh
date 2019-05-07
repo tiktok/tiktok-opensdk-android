@@ -48,13 +48,11 @@ do
         esac
 done
 
-uncommit=$(git status | grep -iE "new\ file|modified")
-unpush=$(git status | grep -i "git\ push")
-if [ -n "$uncommit" ];then
+if [ -n "$(git status | grep -iE "new\ file|modified")" ];then
     echo "There are changes not staged for commit"
     exit 1
 fi
-if [ -n "$unpush" ];then
+if [ -n "$(git status | grep -i "git\ push")" ];then
     echo "There are commits not pushed"
     exit 1
 fi
@@ -86,5 +84,5 @@ if [[ $snapshot == True ]];then
 else
     # TODO： 如果是出正式版，则升级一位版本号，然后成功后，打tag
 
-    ./gradlew publish${area}${mode}AARPublicationToMavenRepository -Psnapshot=false >> publish_cache
+    ./gradlew publish${area}${mode}AARPublicationToMavenRepository -Psnapshot=false
 fi
