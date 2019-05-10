@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,12 +21,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
-import com.bytedance.sdk.account.open.aweme.base.DYImageObject;
-import com.bytedance.sdk.account.open.aweme.base.DYMediaContent;
-import com.bytedance.sdk.account.open.aweme.base.DYVideoObject;
-import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
-import com.bytedance.sdk.account.open.aweme.share.Share;
+import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.base.DYImageObject;
+import com.bytedance.sdk.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.open.aweme.base.DYVideoObject;
+import com.bytedance.sdk.open.aweme.impl.DYOpenApiFactory;
+import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;
 
@@ -34,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
     public static boolean IS_AUTH_BY_M = false;
     public static final String CODE_KEY = "code";
 
-    TTOpenApi bdOpenApi;
+    DYOpenApi bdOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     Button mShareToDouyin;
+
+    EditText mSetDefaultHashTag;
 
     EditText mMediaPathList;
 
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TTOpenApiFactory.create(this);
+        bdOpenApi = DYOpenApiFactory.create(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mShareToDouyin = findViewById(R.id.share_to_douyin);
+        mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
         mClearMedia = findViewById(R.id.clear_media);
@@ -180,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
+                    mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mAddMedia.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
@@ -231,6 +236,9 @@ public class MainActivity extends AppCompatActivity {
                 mediaContent.mMediaObject = imageObject;
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                }
                 break;
             case Share.VIDEO:
                 DYVideoObject videoObject = new DYVideoObject();
@@ -238,6 +246,10 @@ public class MainActivity extends AppCompatActivity {
                 DYMediaContent content = new DYMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
+
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                }
                 request.mState = "ss";
                 break;
         }

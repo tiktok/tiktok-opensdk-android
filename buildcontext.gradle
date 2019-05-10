@@ -68,7 +68,7 @@ def parseTask(context) {
         return
     }
     def snapshot = project.gradle.startParameter.projectProperties["snapshot"]
-    context.isSnapshot = snapshot == null ? true : snapshot.toBoolean()
+    context.isSnapshot = snapshot == null ? false : snapshot.toBoolean()
     taskInfos.each { task ->
         if (task.module == null || task.module == 'opentt') {
             // 这是opentt的任务
