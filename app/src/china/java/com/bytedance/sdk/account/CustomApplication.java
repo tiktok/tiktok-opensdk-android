@@ -3,7 +3,7 @@ package com.bytedance.sdk.account;
 import android.app.Application;
 
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
-import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
+import com.bytedance.sdk.open.aweme.impl.DYOpenApiFactory;
 
 /**
  * 主要功能：自定义{@link Application}
@@ -16,6 +16,6 @@ public class CustomApplication extends Application {
         super.onCreate();
 
         String clientkey = BuildConfig.CLIENT_KEY; // 需要到开发者网站申请
-        TTOpenApiFactory.init(new BDOpenConfig(clientkey));
+        DYOpenApiFactory.init(new BDOpenConfig(clientkey));
     }
 }

@@ -4,14 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,20 +18,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.account.open.aweme.impl.TikTokOpenApiFactory;
-import com.bytedance.sdk.account.user.IUserApiBack;
-import com.bytedance.sdk.account.user.NetworkManager;
-import com.bytedance.sdk.account.user.bean.UserInfo;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.base.DYImageObject;
+import com.bytedance.sdk.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.open.aweme.base.DYVideoObject;
+import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;
 
@@ -56,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     Button mAddMedia;
 
     Button mClearMedia;
+
+    EditText mSetDefaultHashTag;
 
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
@@ -103,13 +98,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.go_to_system_picture).setVisibility(View.GONE);
-//        findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
-//            }
-//        });
+        findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
+            }
+        });
 
         findViewById(R.id.set_scope).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mShareToDouyin = findViewById(R.id.share_to_douyin);
+        mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
         mClearMedia = findViewById(R.id.clear_media);
@@ -196,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     Uri uri = data.getData();
                     mUri.add(UriUtil.convertUriToPath(this,uri));
                     mMediaPathList.setVisibility(View.VISIBLE);
+                    mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mAddMedia.setVisibility(View.VISIBLE);
@@ -213,54 +209,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openSystemGallery() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage(R.string.add_photo_video)
-//                .setNegativeButton(R.string.video, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        currentShareType = Share.VIDEO;
-//                        Intent intent = new Intent(Intent.ACTION_PICK);
-//                        intent.setType("video/*");
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-//                    }
-//                })
-//                .setPositiveButton(R.string.image, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        currentShareType = Share.IMAGE;
-//                        Intent intent = new Intent(Intent.ACTION_PICK);
-//                        intent.setType("image/*");
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-//                    }
-//                });
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.add_photo_video)
+                .setNegativeButton(R.string.video, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentShareType = Share.VIDEO;
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("video/*");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                    }
+                })
+                .setPositiveButton(R.string.image, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentShareType = Share.IMAGE;
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private boolean share(int shareType) {
-//        Share.Request request = new Share.Request();
-//        switch (shareType) {
-//            case Share.IMAGE:
-//                DYImageObject imageObject = new DYImageObject();
-//                imageObject.mImagePaths = mUri;
-//                DYMediaContent mediaContent = new DYMediaContent();
-//                mediaContent.mMediaObject = imageObject;
-//                request.mMediaContent = mediaContent;
-//                request.mState = "ww";
-//                break;
-//            case Share.VIDEO:
-//                DYVideoObject videoObject = new DYVideoObject();
-//                videoObject.mVideoPaths = mUri;
-//                DYMediaContent content = new DYMediaContent();
-//                content.mMediaObject = videoObject;
-//                request.mMediaContent = content;
-//                request.mState = "ss";
-//                break;
-//        }
-//
-//        return bdOpenApi.share(request);
-        return false;
+        Share.Request request = new Share.Request();
+        switch (shareType) {
+            case Share.IMAGE:
+                DYImageObject imageObject = new DYImageObject();
+                imageObject.mImagePaths = mUri;
+                DYMediaContent mediaContent = new DYMediaContent();
+                mediaContent.mMediaObject = imageObject;
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                }
+                request.mMediaContent = mediaContent;
+                request.mState = "ww";
+                break;
+            case Share.VIDEO:
+                DYVideoObject videoObject = new DYVideoObject();
+                videoObject.mVideoPaths = mUri;
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                }
+                DYMediaContent content = new DYMediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
+                break;
+        }
+
+        return bdOpenApi.share(request);
     }
 }

@@ -2,6 +2,7 @@
     <string name="authorize_web">通过web页授权</string>
     <string name="open_system_photo">打开系统相册</string>
     <string name="share_to_aweme">分享到抖音</string>
+    <string name="set_default_title">设置默认话题</string>
     <string name="media_path">路径</string>
 
     <string name="add_photo_video">添加相片或视频</string>

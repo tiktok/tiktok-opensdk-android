@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 //apply from: 'fat-aar.gradle'
-
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
@@ -79,4 +78,5 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
+apply plugin: 'com.jfrog.bintray'
 apply from:'./mvn_publish.gradle'

@@ -14,10 +14,10 @@ import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.account.open.aweme.DYOpenConstants;
-import com.bytedance.sdk.account.open.aweme.api.TTOpenApi;
-import com.bytedance.sdk.account.open.aweme.impl.TTOpenApiFactory;
-import com.bytedance.sdk.account.open.aweme.share.Share;
+import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.impl.DYOpenApiFactory;
+import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -27,12 +27,12 @@ import com.bytedance.sdk.account.open.aweme.share.Share;
  */
 public class BdEntryActivity extends Activity implements BDApiEventHandler {
 
-    TTOpenApi ttOpenApi;
+    DYOpenApi ttOpenApi;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ttOpenApi= TTOpenApiFactory.create(this);
+        ttOpenApi= DYOpenApiFactory.create(this);
         ttOpenApi.handleIntent(getIntent(),this);
     }
 
