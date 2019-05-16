@@ -23,7 +23,7 @@ public interface BaseOpenApi {
 
     boolean isAppSupportAuthorization();
 
-    boolean isAppSupportShare();
+    boolean isAppSupportShare(int targetApp);
 
     boolean sendInnerResponse(SendAuth.Request req, BaseResp resp);
 

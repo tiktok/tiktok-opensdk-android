@@ -11,7 +11,7 @@ import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.ITiktokCheckHelper;
+import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
@@ -26,8 +26,8 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
 
     private BDOpenApi bdOpenApi;
 
-    private final ITiktokCheckHelper[] mAuthcheckApis;
-    private final ITiktokCheckHelper[] mSharecheckApis;
+    private final IAPPCheckHelper[] mAuthcheckApis;
+    private final IAPPCheckHelper[] mSharecheckApis;
 
     private ShareImpl shareImpl;
 
@@ -40,12 +40,12 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     TikTokOpenApiImpl(Context context, BDOpenApi bdOpenApi, ShareImpl shareImpl) {
         this.bdOpenApi = bdOpenApi;
         this.shareImpl = shareImpl;
-        mAuthcheckApis = new ITiktokCheckHelper[] {
+        mAuthcheckApis = new IAPPCheckHelper[] {
                 new MusicallyCheckHelperImpl(this.bdOpenApi),
                 new TiktokCheckHelperImpl(this.bdOpenApi)
         };
 
-        mSharecheckApis = new ITiktokCheckHelper[] {
+        mSharecheckApis = new IAPPCheckHelper[] {
                 new MusicallyCheckHelperImpl(this.bdOpenApi),
                 new TiktokCheckHelperImpl(this.bdOpenApi)
         };
@@ -74,8 +74,17 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
     }
 
-    @Override public boolean isAppSupportShare() {
-        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
+//    // 默认判断tiktok是否支持 适配老接口
+//    @Override public boolean isAppSupportShare() {
+//        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
+//    }
+
+    public boolean isAppSupportShare(int targetApp) {
+        if (targetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            return new AwemeCheckHelperImpl(bdOpenApi).isAppSupportShare();
+        } else {
+            return getSupportApiAppInfo(API_TYPE_SHARE) != null;
+        }
     }
 
     private boolean distributionIntent(int type, Intent intent, BDApiEventHandler eventHandler) {
@@ -93,7 +102,7 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
 
     @Override
     public boolean sendAuthLogin(SendAuth.Request request) {
-        ITiktokCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+        IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         if (appHasInstalled != null && appHasInstalled.sendRemoteRequest(LOCAL_ENTRY_ACTIVITY, request)) {
             return true;
         } else {
@@ -103,12 +112,24 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
 
     @Override
     public boolean share(Share.Request request) {
-        if (isAppSupportShare()) {
-            String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
-            return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request);
-        } else {
+        if (request == null) {
             return false;
         }
+
+        // 适配抖音
+        if (request.mTargetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(bdOpenApi);
+            if (bdOpenApi != null && checkHelper.isAppSupportShare()) {
+                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request);
+            }
+        } else {
+            if (isAppSupportShare(request.mTargetApp)) {
+                String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
+                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request);
+            }
+        }
+
+        return false;
     }
 
     @Override public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
@@ -132,18 +153,18 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Nullable
-    private ITiktokCheckHelper getSupportApiAppInfo(int type) {
+    private IAPPCheckHelper getSupportApiAppInfo(int type) {
 
         switch (type) {
             case API_TYPE_LOGIN:
-                for (ITiktokCheckHelper checkapi : mAuthcheckApis) {
+                for (IAPPCheckHelper checkapi : mAuthcheckApis) {
                     if (checkapi.isAppSupportAuthorization()) {
                         return checkapi;
                     }
                 }
                 break;
             case API_TYPE_SHARE:
-                for (ITiktokCheckHelper checkapi : mSharecheckApis) {
+                for (IAPPCheckHelper checkapi : mSharecheckApis) {
                     if (checkapi.isAppSupportShare()) {
                         return checkapi;
                     }

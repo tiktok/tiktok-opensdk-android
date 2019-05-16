@@ -112,4 +112,10 @@ public interface DYOpenApi extends BaseOpenApi {
     @Nullable
     String getWapUrlIfAuthByWap(SendAuth.Response response);
 
+    /**
+     * 接口将废弃，尽快切换到isAppSupportShare(int targetApp)
+     * @return
+     */
+    @Deprecated
+    boolean isAppSupportShare();
 }

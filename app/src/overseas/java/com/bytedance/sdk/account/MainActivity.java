@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
@@ -259,6 +260,11 @@ public class MainActivity extends AppCompatActivity {
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
+//                request.callerLocalEntry = "com.xxx.xxx...activity";
+                request.mHashTag = "设置我的默认话题";
+
+                // 指定掉起抖音或者tiktok
+                request.mTargetApp = DYOpenConstants.TARGET_APP.AWEME;
                 break;
         }
 

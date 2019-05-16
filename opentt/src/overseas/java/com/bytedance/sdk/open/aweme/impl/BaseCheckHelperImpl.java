@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.ITiktokCheckHelper;
+import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
 
 /**
  * 主要功能：不同app检查基类
  * author: ChangLei
  * since: 2019/4/1
  */
-abstract public class BaseCheckHelperImpl implements ITiktokCheckHelper {
+abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     private final BDOpenApi mBdOpenApi;
 

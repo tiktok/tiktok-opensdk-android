@@ -8,6 +8,20 @@ public class DYOpenConstants {
     public static final String AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH = "AWEME_EXTRA_IMAGE_MESSAGE_PATH";
     public static final String AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH = "AWEME_EXTRA_VIDEO_MESSAGE_PATH";
 
+    // 定义一些抖音内的事件，广播的形式通知给第三方app
+    public static final String ACTION_STAY_IN_DY = "com.aweme.opensdk.action.stay.in.dy";
+
+
+    /**
+     * 目标app，区分国内国外
+     */
+    public interface TARGET_APP {
+
+        int AWEME = 1; // 抖音
+
+        int TIKTOK = 2; // TikTok
+    }
+
     /**
      * 各功能要求的最低版本（抖音侧定义）
      */

@@ -67,6 +67,10 @@ class DYOpenApiImpl implements DYOpenApi {
         return isAppSupportAPI(DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API) && validateSign();
     }
 
+    @Override public boolean isAppSupportShare(int targetApp) {
+        return isAppSupportAPI(DYOpenConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
+    }
+
     private boolean distributionIntent(int type, Intent intent, BDApiEventHandler eventHandler) {
         switch (type) {
             case BDOpenConstants.ModeType.SEND_AUTH_REQUEST:
@@ -80,7 +84,7 @@ class DYOpenApiImpl implements DYOpenApi {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public boolean isAppInstalled() {
         return bdOpenApi.isAppInstalled(REMOTE_ENTRY_PACKAGE);
     }
