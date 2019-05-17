@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static boolean IS_AUTH_BY_M = true;
+    public static int targetAppId = DYOpenConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi bdOpenApi;
@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mSetDefaultHashTag;
 
+    RadioGroup mTargetApp;
+
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
 
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private String mScope = "user_info";
     private String mOptionalScope1 = "friend_relation";
     private String mOptionalScope2 = "message";
+
+    public static boolean IS_AUTH_BY_M = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,14 +122,24 @@ public class MainActivity extends AppCompatActivity {
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
         mClearMedia = findViewById(R.id.clear_media);
+        mTargetApp = findViewById(R.id.target_app);
 
-        RadioButton authByM = findViewById(R.id.auth_by_m);
-        authByM.setChecked(IS_AUTH_BY_M);
-        authByM.setOnClickListener(v -> {
-            IS_AUTH_BY_M = true;
-        });
-        findViewById(R.id.auth_by_t).setOnClickListener(v -> {
-            IS_AUTH_BY_M = false;
+        mTargetApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int id = group.getCheckedRadioButtonId();
+                switch (id) {
+                    case R.id.app_aweme:
+                        targetAppId = DYOpenConstants.TARGET_APP.AWEME;
+                        break;
+                    case R.id.app_tiktok:
+                        targetAppId = DYOpenConstants.TARGET_APP.TIKTOK;
+                        break;
+                    case R.id.app_tiktok_m:
+                        IS_AUTH_BY_M = true;
+                        targetAppId = DYOpenConstants.TARGET_APP.TIKTOK;
+                        break;
+                }
+            }
         });
 
         mAddMedia.setOnClickListener(new View.OnClickListener() {
@@ -249,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
+                request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
                 DYVideoObject videoObject = new DYVideoObject();
@@ -263,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
                 request.mHashTag = "设置我的默认话题";
 
-                // 指定掉起抖音或者tiktok
-                request.mTargetApp = DYOpenConstants.TARGET_APP.AWEME;
+                // 指定掉起抖音或者tiktok，不填默认tiktok
+                request.mTargetApp = targetAppId;
                 break;
         }
 
