@@ -13,6 +13,7 @@ import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.DYOpenApi;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
@@ -63,7 +64,7 @@ class DYOpenApiImpl implements DYOpenApi {
         return distributionIntent(type, intent, eventHandler);
     }
 
-    @Override public boolean isAppSupportAuthorization() {
+    @Override public boolean isAppSupportAuthorization(int targetApp) {
         return isAppSupportAPI(DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API) && validateSign();
     }
 
@@ -120,7 +121,7 @@ class DYOpenApiImpl implements DYOpenApi {
     }
 
     @Override
-    public boolean sendAuthLogin(SendAuth.Request request) {
+    public boolean sendAuthLogin(Authorization.Request request) {
         if (isAppSupportAPI(DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API) && validateSign() &&
                 sendRemoteRequest(request)) {
             return true;
@@ -159,12 +160,12 @@ class DYOpenApiImpl implements DYOpenApi {
     }
 
     @Override
-    public boolean sendInnerWebAuthRequest(SendAuth.Request request) {
+    public boolean sendInnerWebAuthRequest(Authorization.Request request) {
         return bdOpenApi.sendInnerWebAuthRequest(TTWebAuthorizeActivity.class, request);
     }
 
     @Override
-    public boolean preloadWebAuth(SendAuth.Request request) {
+    public boolean preloadWebAuth(Authorization.Request request) {
         return bdOpenApi.preloadWebAuth(request, TTWebAuthorizeActivity.AUTH_HOST, TTWebAuthorizeActivity.AUTH_PATH,
                 TTWebAuthorizeActivity.DOMAIN);
     }

@@ -5,5 +5,8 @@
         <activity android:name="com.bytedance.sdk.open.aweme.impl.TikTokWebAuthorizeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
+        <activity android:name="com.bytedance.sdk.open.aweme.impl.AwemeWebAuthorizeActivity"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:screenOrientation="behind"/>
     </application>
 </manifest>

@@ -13,6 +13,7 @@ import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
@@ -70,8 +71,12 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         return distributionIntent(type, intent, eventHandler);
     }
 
-    @Override public boolean isAppSupportAuthorization() {
-        return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
+    @Override public boolean isAppSupportAuthorization(int targetApp) {
+        if (targetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            return new AwemeCheckHelperImpl(bdOpenApi).isAppSupportAuthorization();
+        } else {
+            return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
+        }
     }
 
 //    // 默认判断tiktok是否支持 适配老接口
@@ -101,8 +106,15 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override
-    public boolean sendAuthLogin(SendAuth.Request request) {
-        IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+    public boolean sendAuthLogin(Authorization.Request request) {
+        IAPPCheckHelper appHasInstalled;
+        if (request.targetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            appHasInstalled = new AwemeCheckHelperImpl(bdOpenApi);
+        } else if (request.targetApp == DYOpenConstants.TARGET_APP.TIKTOK) {
+            appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+        } else {
+            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+        }
         if (appHasInstalled != null && appHasInstalled.sendRemoteRequest(LOCAL_ENTRY_ACTIVITY, request)) {
             return true;
         } else {
@@ -137,14 +149,25 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override
-    public boolean sendInnerWebAuthRequest(SendAuth.Request request) {
-        return bdOpenApi.sendInnerWebAuthRequest(TikTokWebAuthorizeActivity.class, request);
+    public boolean sendInnerWebAuthRequest(Authorization.Request request) {
+        if (request.targetApp == DYOpenConstants.TARGET_APP.TIKTOK) {
+            return bdOpenApi.sendInnerWebAuthRequest(TikTokWebAuthorizeActivity.class, request);
+        } else if (request.targetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            return bdOpenApi.sendInnerWebAuthRequest(AwemeWebAuthorizeActivity.class, request);
+        } else {
+            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+        }
     }
 
     @Override
-    public boolean preloadWebAuth(SendAuth.Request request) {
-        return bdOpenApi.preloadWebAuth(request, TikTokWebAuthorizeActivity.AUTH_HOST, TikTokWebAuthorizeActivity.AUTH_PATH,
-                TikTokWebAuthorizeActivity.DOMAIN);
+    public boolean preloadWebAuth(Authorization.Request request) {
+        if (request.targetApp == DYOpenConstants.TARGET_APP.TIKTOK) {
+            return bdOpenApi.preloadWebAuth(request, TikTokWebAuthorizeActivity.AUTH_HOST, TikTokWebAuthorizeActivity.AUTH_PATH,
+                    TikTokWebAuthorizeActivity.DOMAIN);
+        } else {
+            return bdOpenApi.preloadWebAuth(request, AwemeWebAuthorizeActivity.AUTH_HOST, AwemeWebAuthorizeActivity.AUTH_PATH,
+                    AwemeWebAuthorizeActivity.DOMAIN);
+        }
     }
 
     @Override

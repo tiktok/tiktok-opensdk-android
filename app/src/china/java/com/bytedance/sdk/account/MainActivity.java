@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
 import com.bytedance.sdk.open.aweme.base.DYVideoObject;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // 调用wap授权预加载
-        SendAuth.Request request = new SendAuth.Request();
+        Authorization.Request request = new Authorization.Request();
         request.scope = mScope;
         request.optionalScope1 = mOptionalScope2;
         request.optionalScope0 = mOptionalScope1;
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean sendAuth(boolean isWebAuth) {
-        SendAuth.Request request = new SendAuth.Request();
+        Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）

@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
@@ -21,7 +22,7 @@ public interface BaseOpenApi {
      */
     boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
 
-    boolean isAppSupportAuthorization();
+    boolean isAppSupportAuthorization(int targetApp);
 
     boolean isAppSupportShare(int targetApp);
 
@@ -33,7 +34,7 @@ public interface BaseOpenApi {
      * @param request
      * @return
      */
-    boolean sendInnerWebAuthRequest(SendAuth.Request request);
+    boolean sendInnerWebAuthRequest(Authorization.Request request);
 
     /**
      * preload the wap, to speed up the authroization wap's first open
@@ -41,7 +42,7 @@ public interface BaseOpenApi {
      * @param request
      * @return
      */
-    boolean preloadWebAuth(SendAuth.Request request);
+    boolean preloadWebAuth(Authorization.Request request);
 
     /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
@@ -49,7 +50,7 @@ public interface BaseOpenApi {
      * @param request
      * @return
      */
-    boolean sendAuthLogin(SendAuth.Request request);
+    boolean sendAuthLogin(Authorization.Request request);
 
     /**
      * 分享视频、图片
