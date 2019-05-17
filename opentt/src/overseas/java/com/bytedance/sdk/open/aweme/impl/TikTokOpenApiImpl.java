@@ -79,11 +79,7 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
-//    // 默认判断tiktok是否支持 适配老接口
-//    @Override public boolean isAppSupportShare() {
-//        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
-//    }
-
+    @Override
     public boolean isAppSupportShare(int targetApp) {
         if (targetApp == DYOpenConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(bdOpenApi).isAppSupportShare();
@@ -135,6 +131,7 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request);
             }
         } else {
+            // MT需要判断用户安装了哪个，并且哪个支持分享功能
             if (isAppSupportShare(request.mTargetApp)) {
                 String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request);
@@ -144,7 +141,8 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         return false;
     }
 
-    @Override public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
+    @Override
+    public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
         return shareImpl.handleShareIntent(intent, eventHandler);
     }
 

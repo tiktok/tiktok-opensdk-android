@@ -14,7 +14,7 @@ import com.bytedance.sdk.open.aweme.share.Share;
 public interface BaseOpenApi {
 
     /**
-     * parse Intent request for authorization from tiktok
+     * parse Intent request
      *
      * @param intent
      * @param eventHandler
@@ -24,6 +24,11 @@ public interface BaseOpenApi {
 
     boolean isAppSupportAuthorization(int targetApp);
 
+    /**
+     *
+     * @param targetApp tiktok、tiktok-m、抖音
+     * @return
+     */
     boolean isAppSupportShare(int targetApp);
 
     boolean sendInnerResponse(SendAuth.Request req, BaseResp resp);
@@ -55,12 +60,15 @@ public interface BaseOpenApi {
     /**
      * 分享视频、图片
      *
+     * share image/video
+     *
      * @return
      */
     boolean share(Share.Request request);
 
     /**
      * 解析 share Intent 请求
+     * parse share intent
      *
      * @param intent
      * @param eventHandler

@@ -61,7 +61,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/share_to_aweme"
-        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
@@ -72,10 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_default_title"
-        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/share_to_douyin"
+        app:layout_constraintTop_toBottomOf="@id/target_app"
         android:visibility="gone"/>
 
     <EditText
@@ -83,7 +81,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/media_path"
-        android:layout_marginTop="20dp"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -95,7 +92,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_photo_video"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/media_text"
@@ -106,30 +102,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/clear"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/media_text"
         android:visibility="gone"/>
 
     <RadioGroup
-        app:layout_constraintTop_toBottomOf="@id/set_default_hashtag"
+        app:layout_constraintTop_toBottomOf="@id/share_to_douyin"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/target_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/auth_by_m"
+            android:id="@+id/app_tiktok-m"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Musically"/>
+            android:text="TikTok-M"/>
 
         <RadioButton
-            android:id="@+id/auth_by_t"
+            android:id="@+id/app_tiktok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tiktok"/>
+
+        <RadioButton
+            android:id="@+id/app_aweme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="抖音"/>
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>
