@@ -46,7 +46,7 @@ class NetworkManager {
 
                     override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
                         if (response.isSuccessful) {
-                            response?.body()?.data?.let {
+                            response.body()?.data?.let {
                                 userInfoApi.getUserInfo(it.accessToken, it.openid)
                                         .enqueue(object : Callback<UserInfoResponse> {
                                             override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
