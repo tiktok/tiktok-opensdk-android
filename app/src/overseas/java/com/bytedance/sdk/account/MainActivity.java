@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;
         request.optionalScope0 = mOptionalScope1;
         request.state = "ww";
+        request.targetApp = targetAppId;
         request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
         bdOpenApi.preloadWebAuth(request);
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.app_tiktok:
                         targetAppId = DYOpenConstants.TARGET_APP.TIKTOK;
+                        IS_AUTH_BY_M = false;
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.targetApp = DYOpenConstants.TARGET_APP.AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+        request.targetApp = targetAppId;
 //        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
         if (isWebAuth) {
             return bdOpenApi.sendInnerWebAuthRequest(request);     // 打开wap授权页进行授权
