@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme;
+package com.bytedance.sdk.open.aweme.api;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -8,7 +8,6 @@ import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.authorize.Authorization;
-import com.bytedance.sdk.open.aweme.base.BaseOpenApi;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
@@ -17,7 +16,7 @@ import com.bytedance.sdk.open.aweme.share.Share;
  *
  * @author yangzhirong@bytedance.com
  */
-public interface DYOpenApi extends BaseOpenApi {
+public interface DYOpenApi {
 
     /**
      * 解析 Intent 请求(针对auth)
@@ -96,6 +95,15 @@ public interface DYOpenApi extends BaseOpenApi {
      */
     boolean preloadWebAuth(Authorization.Request request);
 
+    boolean isAppSupportAuthorization(int targetApp);
+
+    /**
+     *
+     * @param targetApp tiktok、tiktok-m、抖音
+     * @return
+     */
+    boolean isAppSupportShare(int targetApp);
+
     /**
      * 请求授权。如果没有安装应用。使用h5页面授权
      *
@@ -119,4 +127,24 @@ public interface DYOpenApi extends BaseOpenApi {
      */
     @Deprecated
     boolean isAppSupportShare();
+
+    /**
+     * 分享视频、图片
+     *
+     * share image/video
+     *
+     * @return
+     */
+    boolean share(Share.Request request);
+
+    /**
+     * 解析 share Intent 请求
+     * parse share intent
+     *
+     * @param intent
+     * @param eventHandler
+     * @return
+     */
+    @Deprecated
+    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
 }

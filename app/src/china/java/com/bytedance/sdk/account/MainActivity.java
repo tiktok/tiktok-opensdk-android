@@ -20,8 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.api.DYOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
@@ -31,10 +31,13 @@ import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;
 
+import static com.bytedance.sdk.open.aweme.DYOpenConstants.TARGET_APP.AWEME;
+
 public class MainActivity extends AppCompatActivity {
 
     public static boolean IS_AUTH_BY_M = false;
     public static final String CODE_KEY = "code";
+    public static int targetAppId = DYOpenConstants.TARGET_APP.AWEME;
 
     DYOpenApi bdOpenApi;
 
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;
         request.optionalScope0 = mOptionalScope1;
         request.state = "ww";
+        request.targetApp = AWEME;
         request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
         bdOpenApi.preloadWebAuth(request);
@@ -148,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
+        request.targetApp = AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
 //        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
         if (isWebAuth) {

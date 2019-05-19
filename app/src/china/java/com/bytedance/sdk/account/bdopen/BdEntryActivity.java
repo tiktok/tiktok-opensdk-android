@@ -14,8 +14,8 @@ import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.open.aweme.DYOpenApi;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.api.DYOpenApi;
 import com.bytedance.sdk.open.aweme.impl.DYOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
