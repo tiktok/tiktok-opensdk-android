@@ -7,6 +7,7 @@ import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseReq;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.Authorization;
 import com.bytedance.sdk.open.aweme.base.BaseOpenApi;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -85,7 +86,7 @@ public interface DYOpenApi extends BaseOpenApi {
      * @param request
      * @return
      */
-    boolean sendInnerWebAuthRequest(SendAuth.Request request);
+    boolean sendInnerWebAuthRequest(Authorization.Request request);
 
     /**
      * h5页授权 预加载
@@ -93,7 +94,7 @@ public interface DYOpenApi extends BaseOpenApi {
      * @param request
      * @return
      */
-    boolean preloadWebAuth(SendAuth.Request request);
+    boolean preloadWebAuth(Authorization.Request request);
 
     /**
      * 请求授权。如果没有安装应用。使用h5页面授权
@@ -101,7 +102,7 @@ public interface DYOpenApi extends BaseOpenApi {
      * @param request
      * @return
      */
-    boolean sendAuthLogin(SendAuth.Request request);
+    boolean sendAuthLogin(Authorization.Request request);
 
     /*
      * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
