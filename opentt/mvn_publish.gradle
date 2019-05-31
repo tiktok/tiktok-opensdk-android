@@ -102,8 +102,8 @@ bintray {
         name = 'AwemeOpenSDK'
         description = "AwemeOpenSDK"
         // license和下面的vcsUrl一定要配置，否则会失败
-        licenses = ['Unlicense']
-        vcsUrl = 'none'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://bintray.com/beta/#/aweme-open-sdk-team/public/AwemeOpenSDK'
         // 这个需要为true
         publish = true
         publicDownloadNumbers = true

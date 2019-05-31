@@ -40,7 +40,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
         return mBdOpenApi.isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(), DYOpenConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
     }
 
-    private boolean isAppInstalled() {
+    public boolean isAppInstalled() {
         return mBdOpenApi.isAppInstalled(getPackageName());
     }
 

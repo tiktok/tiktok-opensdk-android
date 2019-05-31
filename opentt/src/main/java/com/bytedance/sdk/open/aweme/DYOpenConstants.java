@@ -72,6 +72,7 @@ public class DYOpenConstants {
         // 因为工具线整体组件化下沉，引用不到DYOpenConstants，所以这里暂时也要写一下~ 555~ 要改！
         String SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene";
 
+        String SHARE_MICROAPP_INFO = "_aweme_open_sdk_params_micro_app_info";
         /**
          * extra 内容
          */

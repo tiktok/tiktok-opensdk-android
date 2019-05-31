@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.Authorization;
@@ -282,6 +281,14 @@ public class MainActivity extends AppCompatActivity {
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
                 request.mHashTag = "设置我的默认话题";
+
+                // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
+//                DYMicroAppInfo mMicroInfo = new DYMicroAppInfo();
+//                mMicroInfo.setAppTitle("小程序title");
+//                mMicroInfo.setDescription("小程序描述");
+//                mMicroInfo.setAppId("ttef9b992670b151ec");
+//                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
+//                request.mMicroAppInfo = mMicroInfo;
 
                 // 指定掉起抖音或者tiktok，不填默认tiktok
                 request.mTargetApp = targetAppId;
