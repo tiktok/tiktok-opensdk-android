@@ -106,6 +106,10 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         IAPPCheckHelper appHasInstalled;
         if (request.targetApp == DYOpenConstants.TARGET_APP.AWEME) {
             appHasInstalled = new AwemeCheckHelperImpl(bdOpenApi);
+            if (!appHasInstalled.isAppSupportAuthorization()) {
+                // 这个时候抖音没安装所以要走web授权
+                appHasInstalled = null;
+            }
         } else if (request.targetApp == DYOpenConstants.TARGET_APP.TIKTOK) {
             appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         } else {
