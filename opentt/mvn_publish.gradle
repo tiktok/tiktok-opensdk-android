@@ -46,11 +46,11 @@ publishing {
                         artifact javadocJar
                         artifact sourcesJar
                         groupId GROUP_ID
-                        if (BuildContext.isChina()) {
-                            artifactId ARTIFACT_ID
-                        } else {
-                            artifactId "${ARTIFACT_ID}-overseas"
-                        }
+//                        if (BuildContext.isChina()) {
+                        artifactId ARTIFACT_ID
+//                        } else {
+//                            artifactId "${ARTIFACT_ID}-overseas"
+//                        }
                         if (!BuildContext.isSnapshot()) {
                             if (BuildContext.isChina()) {
                                 version ARTIFACT_CHINAL_VERSION
@@ -91,7 +91,7 @@ bintray {
     user = 'adminByteDance'
     key = '28d174551141db323784d7237f2922ce3e308350'
     // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
-    publications = ['ChinaInternalAAR', 'ChinaExternalAAR', 'OverseasInternalAAR', 'OverseasExternalAAR']
+    publications = ['OverseasExternalAAR']
     override = false
     pkg {
         // organization,各自申请的地址
@@ -109,13 +109,7 @@ bintray {
         publicDownloadNumbers = true
         dryRun = false
         version {
-            if (!BuildContext.isSnapshot()) {
-                if (BuildContext.isChina()) {
-                    name = ARTIFACT_CHINAL_VERSION
-                } else {
-                    name = ARTIFACT_OVERSEAS_VERSION
-                }
-            }
+            name = ARTIFACT_OVERSEAS_VERSION
         }
     }
 }

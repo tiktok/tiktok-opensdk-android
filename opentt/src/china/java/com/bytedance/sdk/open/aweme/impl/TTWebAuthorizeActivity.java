@@ -13,7 +13,7 @@ import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.constants.BDOpenConstants;
 import com.bytedance.sdk.account.common.model.BaseResp;
 import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.api.DYOpenApi;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
 import static com.bytedance.sdk.open.aweme.impl.DYOpenApiImpl.WAP_AUTHORIZE_URL;

@@ -4,6 +4,7 @@ import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfo
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
+import com.bytedance.sdk.open.aweme.DYOpenConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,11 +20,15 @@ class NetworkManager {
 
     private fun <T> createApi(apiClass: Class<T>): T {
         var retrofitBuilder = Retrofit.Builder()
-        if (MainActivity.IS_AUTH_BY_M) {
-            retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
+        if (MainActivity.targetAppId == DYOpenConstants.TARGET_APP.TIKTOK) {
+            if (MainActivity.IS_AUTH_BY_M) {
+                retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
+            } else {
+                retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
+            }
         }
         else {
-            retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
+            retrofitBuilder.baseUrl("https:\\open.douyin.com")
         }
         var retrofit = retrofitBuilder
                 .addConverterFactory(GsonConverterFactory.create())
@@ -41,7 +46,7 @@ class NetworkManager {
 
                     override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
                         if (response.isSuccessful) {
-                            response?.body()?.data?.let {
+                            response.body()?.data?.let {
                                 userInfoApi.getUserInfo(it.accessToken, it.openid)
                                         .enqueue(object : Callback<UserInfoResponse> {
                                             override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {

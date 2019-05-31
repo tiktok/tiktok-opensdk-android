@@ -1,9 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.open.aweme" >
+    package="com.bytedance.sdk.account.open.aweme" >
 
     <application>
         <activity android:name="com.bytedance.sdk.open.aweme.impl.TikTokWebAuthorizeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
+        <activity android:name="com.bytedance.sdk.open.aweme.impl.AwemeWebAuthorizeActivity"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:screenOrientation="behind"/>
     </application>
 </manifest>

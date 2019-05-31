@@ -12,7 +12,7 @@ import com.bytedance.sdk.account.common.model.BaseReq;
  * author: changlei@bytedance.com
  * since: 2019/3/31
  */
-public interface ITiktokCheckHelper {
+public interface IAPPCheckHelper {
 
     boolean isAppSupportAuthorization();
 

@@ -19,15 +19,14 @@ import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
-
 /**
- * tiktok authroize wap
- *
- * @author changlei@bytedance.com
+ * 主要功能：该类是为了在Tiktok SDK中兼容抖音的授权逻辑
+ * author: ChangLei
+ * since: 2019/5/17
  */
-public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
+public class AwemeWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
-    public static final String AUTH_HOST = "open-api.musical.ly";
+    public static final String AUTH_HOST = "open.douyin.com";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 
@@ -37,28 +36,20 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TikTokOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
-
-        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
+        mContainer.setBackgroundColor(Color.parseColor("#161823"));
+        ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
     }
 
     @Override
     protected View getLoadingView(ViewGroup root) {
-        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view", "layout", getPackageName()), root, false);
+        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view_for_aweme", "layout", getPackageName()), root, false);
         return loadingView;
     }
 
     @Override
     protected View getHeaderView(ViewGroup root) {
-        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view", "layout", getPackageName()), root, false);
-        ImageView cancelView = headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName()));
-        Drawable arrowPic = ContextCompat.getDrawable(this, getResources().getIdentifier("tiktok_selector_web_authorize_titlebar_back", "drawable", getPackageName()));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (arrowPic != null) {
-                arrowPic.setAutoMirrored(true);
-            }
-        }
-        cancelView.setImageDrawable(arrowPic);
-        cancelView.setOnClickListener(new View.OnClickListener() {
+        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view_for_aweme", "layout", getPackageName()), root, false);
+        headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);

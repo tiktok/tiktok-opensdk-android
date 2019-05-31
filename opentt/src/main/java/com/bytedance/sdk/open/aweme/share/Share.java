@@ -24,6 +24,8 @@ public class Share {
 
         public String mHashTag;
 
+        public int mTargetApp = DYOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
+
         public DYMediaContent mMediaContent;
 
         public Request() {

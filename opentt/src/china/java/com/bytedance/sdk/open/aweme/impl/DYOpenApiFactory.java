@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenAPiFactory;
 import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
-import com.bytedance.sdk.open.aweme.DYOpenApi;
+import com.bytedance.sdk.open.aweme.api.DYOpenApi;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
 /**
