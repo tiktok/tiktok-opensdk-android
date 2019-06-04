@@ -19,7 +19,8 @@ TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     protected int getAuthRequestApi() {
-        return DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
+        // 因服务端未ready，Tiktok的授权禁用，只能M授权成功，T的话走wap授权
+        return 999;
     }
 
     @NonNull
