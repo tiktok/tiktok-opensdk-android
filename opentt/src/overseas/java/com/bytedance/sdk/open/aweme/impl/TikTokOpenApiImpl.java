@@ -88,6 +88,26 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
+    /**
+     * 应部分厂商需求打开此api. 不太建议使用
+     *
+     * 就算安装了，版本不支持，功能一样不可以使用，可以直接用功能判断接口;
+     * @param targetApp
+     * @return
+     */
+    @Override public boolean isAppInstalled(int targetApp) {
+        if (targetApp == DYOpenConstants.TARGET_APP.AWEME) {
+            return new AwemeCheckHelperImpl(bdOpenApi).isAppInstalled();
+        } else {
+            for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+                if (checkapi.isAppInstalled()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     private boolean distributionIntent(int type, Intent intent, BDApiEventHandler eventHandler) {
         switch (type) {
             case BDOpenConstants.ModeType.SEND_AUTH_REQUEST:

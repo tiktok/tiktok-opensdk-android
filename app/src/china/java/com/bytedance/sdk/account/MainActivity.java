@@ -4,9 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -242,6 +242,13 @@ public class MainActivity extends AppCompatActivity {
                 mediaContent.mMediaObject = imageObject;
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
+
+                // 小程序
+//                DYMicroAppInfo mMicroInfo = new DYMicroAppInfo();
+//                mMicroInfo.setDescription("描述");
+//                mMicroInfo.setAppId("小程序id");
+//                mMicroInfo.setAppUrl("www.baidu.com");
+//                request.mMediaContent.mMicroAppInfo = mMicroInfo;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
@@ -252,6 +259,13 @@ public class MainActivity extends AppCompatActivity {
                 DYMediaContent content = new DYMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
+
+                // 小程序
+//                DYMicroAppInfo mMicroInfo = new DYMicroAppInfo();
+//                mMicroInfo.setDescription("描述");
+//                mMicroInfo.setAppId("小程序id");
+//                mMicroInfo.setAppUrl("www.baidu.com");
+//                request.mMicroAppInfo = mMicroInfo;
 
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();

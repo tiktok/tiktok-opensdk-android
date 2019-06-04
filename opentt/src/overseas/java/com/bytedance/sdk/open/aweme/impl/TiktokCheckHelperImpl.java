@@ -10,7 +10,8 @@ import com.bytedance.sdk.open.aweme.DYOpenConstants;
  * author: ChangLei
  * since: 2019/4/1
  */
-public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
+public class
+TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
     TiktokCheckHelperImpl(BDOpenApi bdOpenApi) {
         super(bdOpenApi);

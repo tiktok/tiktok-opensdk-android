@@ -40,7 +40,7 @@ public class DYMediaContent {
                 if (className.contains("sdk")) {
                     className = className.replace("sdk", "sdk.account");
                 }
-                bundle.putString("_dyobject_identifier_", className);
+                bundle.putString(KEY_IDENTIFIER, className);
                 mediaContent.mMediaObject.serialize(bundle);
             }
             return bundle;
@@ -51,7 +51,7 @@ public class DYMediaContent {
             DYMediaContent mediaContent;
             mediaContent = new DYMediaContent();
             String mediaClassName;
-            if (((mediaClassName = bundle.getString("_dyobject_identifier_"))) != null && mediaClassName.length() > 0) {
+            if (((mediaClassName = bundle.getString(KEY_IDENTIFIER))) != null && mediaClassName.length() > 0) {
                 try {
                     // 适配老版本抖音..
                     if (mediaClassName.contains("sdk")) {

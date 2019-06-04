@@ -18,6 +18,8 @@ public interface IAPPCheckHelper {
 
     boolean isAppSupportShare();
 
+    boolean isAppInstalled();
+
     @NonNull
     String getPackageName();
 

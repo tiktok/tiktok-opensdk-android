@@ -8,6 +8,7 @@ import com.bytedance.sdk.open.aweme.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.base.DYBaseRequest;
 import com.bytedance.sdk.open.aweme.base.DYBaseResp;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.open.aweme.base.DYMicroAppInfo;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.
@@ -26,7 +27,8 @@ public class Share {
 
         public int mTargetApp = DYOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
 
-        public DYMediaContent mMediaContent;
+        public DYMediaContent mMediaContent;  // 基础媒体数据
+        public DYMicroAppInfo mMicroAppInfo;  // 小程序
 
         public Request() {
             super();
@@ -44,9 +46,11 @@ public class Share {
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.mTargetSceneType = bundle.getInt(DYOpenConstants.Params.SHARE_TARGET_SCENE, DYOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
-            this.mHashTag = bundle.getString(DYOpenConstants.Params.SHARE_DEFAULT_HASHTAG,"");
+            this.mTargetSceneType =
+                    bundle.getInt(DYOpenConstants.Params.SHARE_TARGET_SCENE, DYOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
+            this.mHashTag = bundle.getString(DYOpenConstants.Params.SHARE_DEFAULT_HASHTAG, "");
             this.mMediaContent = DYMediaContent.Builder.fromBundle(bundle);
+            this.mMicroAppInfo = DYMicroAppInfo.unserialize(bundle);
         }
 
         @Override
@@ -55,6 +59,11 @@ public class Share {
             bundle.putAll(DYMediaContent.Builder.toBundle(this.mMediaContent));
             bundle.putInt(DYOpenConstants.Params.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(DYOpenConstants.Params.SHARE_DEFAULT_HASHTAG, mHashTag);
+
+            // 670添加小程序
+            if (mMicroAppInfo != null) {
+                mMicroAppInfo.serialize(bundle);
+            }
         }
 
         @SuppressLint("MissingSuperCall")
