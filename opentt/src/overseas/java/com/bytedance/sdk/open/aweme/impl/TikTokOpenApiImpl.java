@@ -38,6 +38,8 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
     static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
+    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
+
     TikTokOpenApiImpl(Context context, BDOpenApi bdOpenApi, ShareImpl shareImpl) {
         this.bdOpenApi = bdOpenApi;
         this.shareImpl = shareImpl;
@@ -168,6 +170,14 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     @Override
     public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
         return shareImpl.handleShareIntent(intent, eventHandler);
+    }
+
+    @Nullable @Override public String getWapUrlIfAuthByWap(SendAuth.Response response) {
+        // 该数据是在 wap授权页面sendInnerResponse方法添加的。
+        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+            return response.extras.getString(WAP_AUTHORIZE_URL, "");
+        }
+        return null;
     }
 
     @Override

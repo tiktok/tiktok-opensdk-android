@@ -19,6 +19,8 @@ import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
+import static com.bytedance.sdk.open.aweme.impl.TikTokOpenApiImpl.WAP_AUTHORIZE_URL;
+
 
 /**
  * tiktok authroize wap
@@ -79,6 +81,14 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
 
     @Override
     protected void sendInnerResponse(SendAuth.Request req, BaseResp resp) {
+        // 添加wap url数据
+        if (resp != null && mContentWebView != null) {
+            if (resp.extras == null) {
+                resp.extras = new Bundle();
+            }
+            resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
+        }
+
         ttOpenApi.sendInnerResponse(req, resp);
     }
 

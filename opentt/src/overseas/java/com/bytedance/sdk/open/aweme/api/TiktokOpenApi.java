@@ -1,5 +1,6 @@
 package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.account.common.api.BDApiEventHandler;
 import com.bytedance.sdk.account.common.model.BaseResp;
@@ -87,4 +88,14 @@ public interface TiktokOpenApi {
      */
     @Deprecated
     boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
+
+    /**
+     * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
+     *
+     * @param response
+     * @return
+     */
+    @Nullable
+    String getWapUrlIfAuthByWap(SendAuth.Response response);
+
 }
