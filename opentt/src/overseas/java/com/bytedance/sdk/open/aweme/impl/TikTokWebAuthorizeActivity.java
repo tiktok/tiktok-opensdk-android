@@ -11,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bytedance.sdk.account.bdopen.impl.BaseBDWebAuthorizeActivity;
-import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.constants.BDOpenConstants;
-import com.bytedance.sdk.account.common.model.BaseResp;
-import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.model.BaseResp;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.activity.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
 import static com.bytedance.sdk.open.aweme.impl.TikTokOpenApiImpl.WAP_AUTHORIZE_URL;

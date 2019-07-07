@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.aweme.impl;
 
 import android.support.annotation.NonNull;
 
-import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 
 /**
  * 抖音检查类

@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.account.bdopen.api.BDBaseOpenBuildConstants;
-import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
-import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.api.BDDataHandler;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
+import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 
 import java.util.ArrayList;
 import java.util.List;

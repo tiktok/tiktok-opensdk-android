@@ -1,11 +1,11 @@
-package com.bytedance.sdk.open.aweme.base;
+package com.bytedance.sdk.open.aweme.share.model;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
-import com.bytedance.sdk.account.common.model.BaseReq;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 
 public abstract class DYBaseRequest extends BaseReq {
 

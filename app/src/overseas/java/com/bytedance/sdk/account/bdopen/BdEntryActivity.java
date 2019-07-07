@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
-import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.model.BaseReq;
-import com.bytedance.sdk.account.common.model.BaseResp;
-import com.bytedance.sdk.account.common.model.SendAuth;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.model.BaseReq;
+import com.bytedance.sdk.open.aweme.common.model.BaseResp;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 
 /**

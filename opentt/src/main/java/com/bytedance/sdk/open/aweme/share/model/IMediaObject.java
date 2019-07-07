@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.base;
+package com.bytedance.sdk.open.aweme.share.model;
 
 import android.os.Bundle;
 

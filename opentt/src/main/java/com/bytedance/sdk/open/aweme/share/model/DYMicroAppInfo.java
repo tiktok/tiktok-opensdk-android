@@ -1,9 +1,9 @@
-package com.bytedance.sdk.open.aweme.base;
+package com.bytedance.sdk.open.aweme.share.model;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

@@ -2,7 +2,8 @@ package com.bytedance.sdk.open.aweme;
 
 import android.support.annotation.NonNull;
 
-import com.bytedance.sdk.account.common.model.BaseReq;
+import com.bytedance.sdk.open.aweme.common.model.BaseReq;
+
 
 /**
  * 主要功能：因为海外版的tiktok有两个产品，即Musically和Tiktok，这个用来判断使用哪个

@@ -2,10 +2,10 @@ package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.model.BaseResp;
-import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.open.aweme.authorize.Authorization;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.model.BaseResp;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**

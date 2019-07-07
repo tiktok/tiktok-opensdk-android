@@ -1,8 +1,8 @@
-package com.bytedance.sdk.open.aweme.base;
+package com.bytedance.sdk.open.aweme.share.model;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 
 import java.util.ArrayList;
 

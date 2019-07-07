@@ -2,9 +2,9 @@ package com.bytedance.sdk.open.aweme.share;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.account.common.api.BDApiEventHandler;
-import com.bytedance.sdk.account.common.api.BDDataHandler;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 
 /**
  * share 请求/结果的 数据解析

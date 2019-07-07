@@ -1,7 +1,6 @@
-package com.bytedance.sdk.open.aweme.authorize;
+package com.bytedance.sdk.open.aweme.authorize.model;
 
-import com.bytedance.sdk.account.common.model.SendAuth;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 
 /**
  * 主要功能：授权相关

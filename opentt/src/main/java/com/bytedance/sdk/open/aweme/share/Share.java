@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.base.DYBaseRequest;
-import com.bytedance.sdk.open.aweme.base.DYBaseResp;
-import com.bytedance.sdk.open.aweme.base.DYMediaContent;
-import com.bytedance.sdk.open.aweme.base.DYMicroAppInfo;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.share.model.DYBaseRequest;
+import com.bytedance.sdk.open.aweme.share.model.DYBaseResp;
+import com.bytedance.sdk.open.aweme.share.model.DYMediaContent;
+import com.bytedance.sdk.open.aweme.share.model.DYMicroAppInfo;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.

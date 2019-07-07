@@ -2,10 +2,10 @@ package com.bytedance.sdk.open.aweme.impl;
 
 import android.support.annotation.NonNull;
 
-import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
-import com.bytedance.sdk.account.common.model.BaseReq;
-import com.bytedance.sdk.open.aweme.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
+import com.bytedance.sdk.open.aweme.common.model.BaseReq;
+import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 
 /**
  * 主要功能：不同app检查基类

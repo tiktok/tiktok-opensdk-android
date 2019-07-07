@@ -2,9 +2,8 @@ package com.bytedance.sdk.account.user
 
 import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
-import com.bytedance.sdk.account.user.bean.UserInfo
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
-import com.bytedance.sdk.open.aweme.DYOpenConstants
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

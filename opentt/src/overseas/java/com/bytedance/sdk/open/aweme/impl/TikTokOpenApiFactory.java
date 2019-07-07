@@ -3,10 +3,10 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
-import com.bytedance.sdk.account.bdopen.impl.BDOpenAPiFactory;
-import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenAPiFactory;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
 /**
