@@ -35,6 +35,10 @@ public class AppUtil {
         return installed;
     }
 
+    public static String buildComponentClassName(String packageName, String classPath) {
+        return packageName + "." + classPath;
+    }
+
     /**
      * 打开目标应用
      */

@@ -6,27 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
-import com.bytedance.sdk.open.aweme.impl.AwemeCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AuthImpl {
     private Context mContext;
     private BDOpenConfig openConfig;
-//    private List<BDDataHandler> handlers = new ArrayList<>();
 
     private BDDataHandler mAuthDataHandler;
 
@@ -34,7 +26,6 @@ public class AuthImpl {
         this.mContext = context;
         this.openConfig = sConfig;
         this.mAuthDataHandler = new SendAuthDataHandler();
-//        this.handlers.add(new ShareDataHandler());
     }
 
     public boolean authorizeWeb(Class clazz, SendAuth.Request req) {
@@ -87,10 +78,10 @@ public class AuthImpl {
             bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.Params.FROM_ENTRY, buildComponentClassName(mContext.getPackageName(), localEntry));
+                bundle.putString(BDOpenConstants.Params.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
             }
             Intent intent = new Intent();
-            ComponentName componentName = new ComponentName(packageName, buildComponentClassName(packageName, remoteRequestEntry));
+            ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
 
@@ -109,34 +100,6 @@ public class AuthImpl {
             }
         }
 
-    }
-
-
-    private String buildComponentClassName(String packageName, String classPath) {
-        return packageName + "." + classPath;
-    }
-
-
-    public boolean handleAuthIntent(Intent intent, BDApiEventHandler eventHandler) {
-        if (eventHandler == null) {
-            return false;
-        }
-        if (intent == null) {
-            eventHandler.onErrorIntent(intent);
-            return false;
-        }
-        Bundle bundle = intent.getExtras();
-        if (bundle == null) {
-            eventHandler.onErrorIntent(intent);
-            return false;
-        }
-        int type = bundle.getInt(DYOpenConstants.Params.TYPE);
-
-        if (mAuthDataHandler.handle(type, bundle, eventHandler)) {
-            return true;
-        }
-        eventHandler.onErrorIntent(intent);
-        return false;
     }
 
 }

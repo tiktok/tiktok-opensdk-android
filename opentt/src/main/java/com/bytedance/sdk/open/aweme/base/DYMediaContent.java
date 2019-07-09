@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.share.model;
+package com.bytedance.sdk.open.aweme.base;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

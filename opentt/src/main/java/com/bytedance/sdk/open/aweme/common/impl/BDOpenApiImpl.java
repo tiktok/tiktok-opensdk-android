@@ -8,20 +8,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
+import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
-import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
-import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 
 import java.util.ArrayList;
 import java.util.List;

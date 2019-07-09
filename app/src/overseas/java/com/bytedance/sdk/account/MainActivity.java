@@ -24,9 +24,9 @@ import android.widget.Toast;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.share.model.DYImageObject;
-import com.bytedance.sdk.open.aweme.share.model.DYMediaContent;
-import com.bytedance.sdk.open.aweme.share.model.DYVideoObject;
+import com.bytedance.sdk.open.aweme.base.DYImageObject;
+import com.bytedance.sdk.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.open.aweme.base.DYVideoObject;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 

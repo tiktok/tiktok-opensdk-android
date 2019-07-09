@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -25,16 +26,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.os.Handler;
 
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.BDAuthConstants;
+import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.Constants;
-import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 
 
@@ -237,9 +238,6 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         sendInnerResponse(mAuthRequest, response);
         finish();
     }
-    private String buildComponentClassName(String packageName, String classPath) {
-        return packageName + "." + classPath;
-    }
 
     public boolean sendInnerResponse(String localEntry, SendAuth.Request req, BaseResp resp) {
         if (resp == null || mContext == null) {
@@ -250,7 +248,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             Bundle bundle = new Bundle();
             resp.toBundle(bundle);
             String platformPackageName = mContext.getPackageName();
-            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? buildComponentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
+            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? AppUtil.buildComponentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
             intent.setComponent(componentName);

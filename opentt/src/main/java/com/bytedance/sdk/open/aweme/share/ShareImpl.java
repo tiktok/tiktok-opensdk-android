@@ -11,6 +11,7 @@ import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
 import java.util.ArrayList;
 import java.util.List;

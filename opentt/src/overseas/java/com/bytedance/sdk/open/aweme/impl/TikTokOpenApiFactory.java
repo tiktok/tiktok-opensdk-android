@@ -34,7 +34,7 @@ public class TikTokOpenApiFactory {
      * @return
      */
     public static TiktokOpenApi create(Context context) {
-        BDOpenApi bdOpenApi = BDOpenAPiFactory.create(context, sConfig);
+//        BDOpenApi bdOpenApi = BDOpenAPiFactory.create(context, sConfig);
         AuthImpl auth = new AuthImpl(context, sConfig);
         ShareImpl share = new ShareImpl(context, sConfig);
         return new TikTokOpenApiImpl(context, auth, share);

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 
 /**
  * 主要功能：检查Musically的相关

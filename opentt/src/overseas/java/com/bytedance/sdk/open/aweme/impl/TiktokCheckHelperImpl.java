@@ -3,16 +3,13 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
-
 
 /**
  * 主要功能：检查Tiktok的相关
  * author: ChangLei
  * since: 2019/4/1
  */
-public class
-TiktokCheckHelperImpl extends BaseCheckHelperImpl {
+public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
     TiktokCheckHelperImpl(Context context) {
         super(context);

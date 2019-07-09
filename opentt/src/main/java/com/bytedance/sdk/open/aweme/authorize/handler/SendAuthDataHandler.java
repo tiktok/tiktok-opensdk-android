@@ -1,10 +1,11 @@
 package com.bytedance.sdk.open.aweme.authorize.handler;
+
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 
 /**
  * auth 请求/结果的 数据解析

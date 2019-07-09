@@ -7,7 +7,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
-import com.bytedance.sdk.open.aweme.authorize.BDAuthConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
