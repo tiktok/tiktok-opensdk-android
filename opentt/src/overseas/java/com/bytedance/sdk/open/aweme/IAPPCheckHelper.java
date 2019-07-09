@@ -27,5 +27,5 @@ public interface IAPPCheckHelper {
     @NonNull
     String getRemoteAuthEntryActivity();
 
-    boolean sendRemoteRequest(String localEntryActivity, BaseReq req);
+//    boolean sendRemoteRequest(String localEntryActivity, BaseReq req);
 }

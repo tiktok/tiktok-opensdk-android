@@ -43,7 +43,6 @@ public interface TiktokOpenApi {
      */
     boolean isAppInstalled(int targetApp);
 
-    boolean sendInnerResponse(SendAuth.Request req, BaseResp resp);
 
     /**
      * to authorize from wap
@@ -51,7 +50,7 @@ public interface TiktokOpenApi {
      * @param request
      * @return
      */
-    boolean sendInnerWebAuthRequest(Authorization.Request request);
+//    boolean sendInnerWebAuthRequest(Authorization.Request request);
 
     /**
      * preload the wap, to speed up the authroization wap's first open
@@ -59,7 +58,7 @@ public interface TiktokOpenApi {
      * @param request
      * @return
      */
-    boolean preloadWebAuth(Authorization.Request request);
+//    boolean preloadWebAuth(Authorization.Request request);
 
     /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
@@ -86,8 +85,8 @@ public interface TiktokOpenApi {
      * @param eventHandler
      * @return
      */
-    @Deprecated
-    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
+//    @Deprecated
+//    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
 
     /**
      * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
@@ -95,7 +94,7 @@ public interface TiktokOpenApi {
      * @param response
      * @return
      */
-    @Nullable
-    String getWapUrlIfAuthByWap(SendAuth.Response response);
+//    @Nullable
+//    String getWapUrlIfAuthByWap(SendAuth.Response response);
 
 }

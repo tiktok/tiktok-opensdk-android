@@ -2,6 +2,7 @@ package com.bytedance.sdk.open.aweme.authorize.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
     private static final String RES_STRING = "string";
+    protected static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+
 
     protected WebView mContentWebView;
 
@@ -233,6 +236,40 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         response.grantedPermissions = permissions;
         sendInnerResponse(mAuthRequest, response);
         finish();
+    }
+    private String buildComponentClassName(String packageName, String classPath) {
+        return packageName + "." + classPath;
+    }
+
+    public boolean sendInnerResponse(String localEntry, SendAuth.Request req, BaseResp resp) {
+        if (resp == null || mContext == null) {
+            return false;
+        } else if (!resp.checkArgs()) {
+            return false;
+        } else {
+            Bundle bundle = new Bundle();
+            resp.toBundle(bundle);
+            String platformPackageName = mContext.getPackageName();
+            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? buildComponentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
+            Intent intent = new Intent();
+            ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
+            intent.setComponent(componentName);
+            intent.putExtras(bundle);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
+            try {
+                mContext.startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
     }
 
 

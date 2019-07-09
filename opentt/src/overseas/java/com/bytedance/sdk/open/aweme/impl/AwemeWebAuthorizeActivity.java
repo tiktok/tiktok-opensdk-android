@@ -77,7 +77,7 @@ public class AwemeWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
             resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
         }
 
-        ttOpenApi.sendInnerResponse(req, resp);
+        sendInnerResponse(LOCAL_ENTRY_ACTIVITY, req, resp);
     }
 
     @Override

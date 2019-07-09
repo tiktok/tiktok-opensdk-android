@@ -1,0 +1,142 @@
+package com.bytedance.sdk.open.aweme.authorize;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
+import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.impl.AwemeCheckHelperImpl;
+import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
+import com.bytedance.sdk.open.aweme.utils.OpenUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AuthImpl {
+    private Context mContext;
+    private BDOpenConfig openConfig;
+//    private List<BDDataHandler> handlers = new ArrayList<>();
+
+    private BDDataHandler mAuthDataHandler;
+
+    public AuthImpl(Context context, BDOpenConfig sConfig) {
+        this.mContext = context;
+        this.openConfig = sConfig;
+        this.mAuthDataHandler = new SendAuthDataHandler();
+//        this.handlers.add(new ShareDataHandler());
+    }
+
+    public boolean authorizeWeb(Class clazz, SendAuth.Request req) {
+        if (req == null || mContext == null) {
+            return false;
+        } else if (!req.checkArgs()) {
+            return false;
+        } else {
+            // 兼容以前版本，把可选权限添加到scope字段
+            OpenUtils.handleRequestScope(req);
+            Bundle bundle = new Bundle();
+            req.toBundle(bundle);
+            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
+            Intent intent = new Intent(mContext, clazz);
+            intent.putExtras(bundle);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
+            try {
+                mContext.startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
+
+
+    public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry) {
+        if (TextUtils.isEmpty(packageName) || req == null || mContext == null) {
+            return false;
+        } else if (!req.checkArgs()) {
+            return false;
+        } else {
+            // 兼容以前版本，把可选权限添加到scope字段
+            if (req instanceof SendAuth.Request) {
+                OpenUtils.handleRequestScope((SendAuth.Request)req);
+            }
+            Bundle bundle = new Bundle();
+            req.toBundle(bundle);
+            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
+            // 没有主动设置CallerLocalEntry
+            if (TextUtils.isEmpty(req.callerLocalEntry)) {
+                bundle.putString(BDOpenConstants.Params.FROM_ENTRY, buildComponentClassName(mContext.getPackageName(), localEntry));
+            }
+            Intent intent = new Intent();
+            ComponentName componentName = new ComponentName(packageName, buildComponentClassName(packageName, remoteRequestEntry));
+            intent.setComponent(componentName);
+            intent.putExtras(bundle);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
+            try {
+                mContext.startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+
+    }
+
+
+    private String buildComponentClassName(String packageName, String classPath) {
+        return packageName + "." + classPath;
+    }
+
+
+    public boolean handleAuthIntent(Intent intent, BDApiEventHandler eventHandler) {
+        if (eventHandler == null) {
+            return false;
+        }
+        if (intent == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+        Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            eventHandler.onErrorIntent(intent);
+            return false;
+        }
+        int type = bundle.getInt(DYOpenConstants.Params.TYPE);
+
+        if (mAuthDataHandler.handle(type, bundle, eventHandler)) {
+            return true;
+        }
+        eventHandler.onErrorIntent(intent);
+        return false;
+    }
+
+}

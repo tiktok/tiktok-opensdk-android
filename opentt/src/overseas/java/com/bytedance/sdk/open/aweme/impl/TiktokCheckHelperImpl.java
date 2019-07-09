@@ -1,5 +1,6 @@
 package com.bytedance.sdk.open.aweme.impl;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
@@ -13,8 +14,8 @@ import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 public class
 TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
-    TiktokCheckHelperImpl(BDOpenApi bdOpenApi) {
-        super(bdOpenApi);
+    TiktokCheckHelperImpl(Context context) {
+        super(context);
     }
 
     @Override

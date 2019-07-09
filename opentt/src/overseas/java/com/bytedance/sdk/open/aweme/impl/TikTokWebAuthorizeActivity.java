@@ -33,6 +33,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 
+
     private TiktokOpenApi ttOpenApi;
 
     @Override
@@ -89,7 +90,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
             resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
         }
 
-        ttOpenApi.sendInnerResponse(req, resp);
+       sendInnerResponse(LOCAL_ENTRY_ACTIVITY,req, resp);
     }
 
     @Override

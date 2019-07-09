@@ -25,6 +25,8 @@ import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 public class BdEntryActivity extends Activity implements BDApiEventHandler {
 
     TiktokOpenApi ttOpenApi;
+    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +44,10 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     public void onResp(BaseResp resp) {
         // 授权成功可以获得authCode
         SendAuth.Response response = (SendAuth.Response) resp;
-        String wapUrlIfAuthByWap = ttOpenApi.getWapUrlIfAuthByWap(response);
+        String wapUrlIfAuthByWap = "";
+        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+            wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
+        }
         Intent intent = null;
         if (resp.isSuccess()) {
             if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
