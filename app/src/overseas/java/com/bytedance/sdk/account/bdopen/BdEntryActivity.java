@@ -17,6 +17,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -33,9 +34,6 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Bundle bundle = getIntent().getExtras();
-//        int type = bundle.getInt(BDOpenConstants.Params.TYPE);
-//        Log.i("type---", type+"");
         ttOpenApi= TikTokOpenApiFactory.create(this);
         ttOpenApi.handleIntent(getIntent(),this);
     }
@@ -48,34 +46,42 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         // 授权成功可以获得authCode
-        SendAuth.Response response = (SendAuth.Response) resp;
-        String wapUrlIfAuthByWap = "";
-        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
-            wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
-        }
-        Intent intent = null;
-        if (resp.isSuccess()) {
-            if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
-                Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions + "with url:" + wapUrlIfAuthByWap,
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
-                        Toast.LENGTH_LONG).show();
+        if (resp instanceof SendAuth.Response) {
+            SendAuth.Response response = (SendAuth.Response) resp;
+            String wapUrlIfAuthByWap = "";
+            if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+                wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
             }
-            intent = new Intent(this, UserInfoActivity.class);
-            intent.putExtra(MainActivity.CODE_KEY, response.authCode);
-            startActivity(intent);
-        }
-        else {
-            if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
-                Toast.makeText(this, "授权失败" + "with url:" + wapUrlIfAuthByWap,
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "授权失败" + response.grantedPermissions,
-                        Toast.LENGTH_LONG).show();
+            Intent intent = null;
+            if (resp.isSuccess()) {
+                if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
+                    Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions + "with url:" + wapUrlIfAuthByWap,
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
+                            Toast.LENGTH_LONG).show();
+                }
+                intent = new Intent(this, UserInfoActivity.class);
+                intent.putExtra(MainActivity.CODE_KEY, response.authCode);
+                startActivity(intent);
+            }
+            else {
+                if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
+                    Toast.makeText(this, "授权失败" + "with url:" + wapUrlIfAuthByWap,
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "授权失败" + response.grantedPermissions,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+            finish();
+        } else if (resp instanceof Share.Response) {
+            Share.Response response = (Share.Response) resp;
+            if (response.isSuccess()) {
+                Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
             }
         }
-        finish();
+
     }
 
     @Override
