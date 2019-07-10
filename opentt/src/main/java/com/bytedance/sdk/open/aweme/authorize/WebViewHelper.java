@@ -3,9 +3,6 @@ package com.bytedance.sdk.open.aweme.authorize;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
@@ -17,35 +14,6 @@ import java.util.List;
  * Created by jianghaiyang on 2018/12/24.
  */
 public class WebViewHelper {
-    private static WebView mWebView;
-
-    public static void initWebView(Context context){
-        mWebView = new WebView(context);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mWebView.setLayoutParams(params);
-        WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓存模式
-    }
-
-    public static WebView getWebView(Context context){
-        if (mWebView == null) {
-            initWebView(context);
-        }
-        return mWebView;
-    }
-
-    /**
-     * wap授权页预加载
-     * @param context
-     * @param request
-     */
-    public static void preload(Context context, Authorization.Request request, String host, String path) {
-        getWebView(context);
-        mWebView.loadUrl(getLoadUrl(context, request, host, path));
-    }
-
     /**
      * 根据request和host生成 WAP授权页url
      * @param context

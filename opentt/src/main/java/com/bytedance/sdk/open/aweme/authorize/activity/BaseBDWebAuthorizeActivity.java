@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -307,8 +308,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             mLoadingLayout.removeAllViews();
             mLoadingLayout.addView(loadingView);
         }
+        initWebView(this);
 
-        mContentWebView = WebViewHelper.getWebView(getApplicationContext());
         if (mContentWebView.getParent() != null) {
             ((ViewGroup) mContentWebView.getParent()).removeView(mContentWebView);
         }
@@ -319,6 +320,17 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         mContainer.addView(mContentWebView);
 
     }
+
+    public void initWebView(Context context){
+        mContentWebView = new WebView(context);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentWebView.setLayoutParams(params);
+        WebSettings settings = mContentWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓存模式
+    }
+
 
     @CallSuper
     protected void initActions() {
