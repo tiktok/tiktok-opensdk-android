@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
@@ -19,12 +17,9 @@ public class AuthImpl {
     private Context mContext;
     private BDOpenConfig openConfig;
 
-    private BDDataHandler mAuthDataHandler;
-
     public AuthImpl(Context context, BDOpenConfig sConfig) {
         this.mContext = context;
         this.openConfig = sConfig;
-        this.mAuthDataHandler = new SendAuthDataHandler();
     }
 
     public boolean authorizeWeb(Class clazz, Authorization.Request req) {
