@@ -7,7 +7,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class WebViewHelper {
      * @param context
      * @param request
      */
-    public static void preload(Context context, SendAuth.Request request, String host, String path) {
+    public static void preload(Context context, Authorization.Request request, String host, String path) {
         getWebView(context);
         mWebView.loadUrl(getLoadUrl(context, request, host, path));
     }
@@ -53,7 +53,7 @@ public class WebViewHelper {
      * @param host
      * @return
      */
-    public static String getLoadUrl(Context context, SendAuth.Request request, String host, String path) {
+    public static String getLoadUrl(Context context, Authorization.Request request, String host, String path) {
         // 将optionalScope0和optionalScope1拼接成optionalScope = "messag,1,friend_relation,0 ";格式
         StringBuilder optionalScope = new StringBuilder();
         if (!TextUtils.isEmpty(request.optionalScope1)) {

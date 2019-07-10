@@ -8,7 +8,6 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
@@ -28,7 +27,7 @@ public class AuthImpl {
         this.mAuthDataHandler = new SendAuthDataHandler();
     }
 
-    public boolean authorizeWeb(Class clazz, SendAuth.Request req) {
+    public boolean authorizeWeb(Class clazz, Authorization.Request req) {
         if (req == null || mContext == null) {
             return false;
         } else if (!req.checkArgs()) {
@@ -68,8 +67,8 @@ public class AuthImpl {
             return false;
         } else {
             // 兼容以前版本，把可选权限添加到scope字段
-            if (req instanceof SendAuth.Request) {
-                OpenUtils.handleRequestScope((SendAuth.Request)req);
+            if (req instanceof Authorization.Request) {
+                OpenUtils.handleRequestScope(req);
             }
             Bundle bundle = new Bundle();
             req.toBundle(bundle);

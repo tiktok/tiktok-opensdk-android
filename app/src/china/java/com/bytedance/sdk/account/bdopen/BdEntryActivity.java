@@ -12,7 +12,7 @@ import com.bytedance.sdk.account.MainActivity;
 
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.aweme.api.DYOpenApi;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -45,7 +45,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         // 授权成功可以获得authCode
-        SendAuth.Response response = (SendAuth.Response) resp;
+        Authorization.Response response = (Authorization.Response) resp;
         String wapUrlIfAuthByWap = "";
         if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
             wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");

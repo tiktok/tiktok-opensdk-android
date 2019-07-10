@@ -29,7 +29,7 @@ import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.authorize.BDAuthConstants;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.Constants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
@@ -53,7 +53,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     protected WebView mContentWebView;
 
-    protected SendAuth.Request mAuthRequest;
+    protected Authorization.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
 
     /**
@@ -73,7 +73,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      *
      * @param resp
      */
-    protected abstract void sendInnerResponse(SendAuth.Request req, BaseResp resp);
+    protected abstract void sendInnerResponse(Authorization.Request req, BaseResp resp);
 
     /**
      * wap登录页域名
@@ -149,8 +149,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     @Override
     public void onReq(BaseReq req) {
-        if (req instanceof SendAuth.Request) {
-            mAuthRequest = (SendAuth.Request) req;
+        if (req instanceof Authorization.Request) {
+            mAuthRequest = (Authorization.Request) req;
             mAuthRequest.redirectUri = "https://" + getDomain() + BDOpenConstants.REDIRECT_URL_PATH;
             // 设置wap授权页横竖屏模式
             setRequestedOrientation(mAuthRequest.wapRequestedOrientation);
@@ -183,7 +183,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      */
     public final void handleRequestIntent() {
 
-        SendAuth.Request argument = mAuthRequest;
+        Authorization.Request argument = mAuthRequest;
 
         if (argument == null) {
             finish();
@@ -214,7 +214,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, int errorCode) {
-        SendAuth.Response response = new SendAuth.Response();
+        Authorization.Response response = new Authorization.Response();
         response.authCode = code;
         response.errorCode = errorCode;
         response.state = state;
@@ -230,7 +230,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, String permissions, int errorCode) {
-        SendAuth.Response response = new SendAuth.Response();
+        Authorization.Response response = new Authorization.Response();
         response.authCode = code;
         response.errorCode = errorCode;
         response.state = state;
@@ -239,7 +239,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         finish();
     }
 
-    public boolean sendInnerResponse(String localEntry, SendAuth.Request req, BaseResp resp) {
+    public boolean sendInnerResponse(String localEntry, Authorization.Request req, BaseResp resp) {
         if (resp == null || mContext == null) {
             return false;
         } else if (!resp.checkArgs()) {
@@ -372,7 +372,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         if (TextUtils.isEmpty(url)) {
             return false;
         }
-        SendAuth.Request argument = mAuthRequest;
+        Authorization.Request argument = mAuthRequest;
         if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
             return false;
         }

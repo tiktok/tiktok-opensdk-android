@@ -21,9 +21,9 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
 import com.bytedance.sdk.open.aweme.base.DYVideoObject;
@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 如果本地未安装抖音或者抖音的版本过低，会直接自动调用 web页面 进行授权
-                sendAuth(false);
+                sendAuth();
             }
         });
 
         findViewById(R.id.go_to_auth_just_through_web).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendAuth(true);
+                sendAuth();
             }
         });
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean sendAuth(boolean isWebAuth) {
+    private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）

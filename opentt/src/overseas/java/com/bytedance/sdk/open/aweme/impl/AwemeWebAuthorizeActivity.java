@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.authorize.activity.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
@@ -68,7 +68,7 @@ public class AwemeWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
-    protected void sendInnerResponse(SendAuth.Request req, BaseResp resp) {
+    protected void sendInnerResponse(Authorization.Request req, BaseResp resp) {
         // 添加wap url数据
         if (resp != null && mContentWebView != null) {
             if (resp.extras == null) {

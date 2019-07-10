@@ -5,17 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -46,8 +44,8 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         // 授权成功可以获得authCode
-        if (resp instanceof SendAuth.Response) {
-            SendAuth.Response response = (SendAuth.Response) resp;
+        if (resp instanceof Authorization.Response) {
+            Authorization.Response response = (Authorization.Response) resp;
             String wapUrlIfAuthByWap = "";
             if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
                 wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
