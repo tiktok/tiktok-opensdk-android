@@ -23,19 +23,9 @@ android {
 
 
     // open sdk分为国内和海外版本
-    flavorDimensions "area", "mode"
+    flavorDimensions "area"
 
     productFlavors {
-        // 内部版本，多一些额外的功能支持，上公司内部公仓
-        internal {
-            dimension "mode"
-        }
-
-        // 外部版本，上外部公仓和开发者平台
-        external {
-            dimension "mode"
-        }
-
         // 国内版
         china {
             dimension "area"
@@ -45,19 +35,24 @@ android {
         overseas {
             dimension "area"
         }
+
+        // 内部版本，多一些额外的功能支持，上公司内部公仓
+        internal {
+            dimension "area"
+        }
     }
 
     sourceSets {
         china {
-            manifest.srcFile "src/china/AndroidManifest.xml"
             java.srcDirs += 'src/china/java'
-            res.srcDirs += "src/china/res"
         }
 
         overseas {
-            manifest.srcFile "src/overseas/AndroidManifest.xml"
             java.srcDirs += 'src/overseas/java'
-            res.srcDirs += "src/overseas/res"
+        }
+
+        internal {
+            java.srcDirs += 'src/internal/java'
         }
     }
 
@@ -71,6 +66,7 @@ dependencies {
 
 //    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
 //    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
+
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     testCompile 'junit:junit:4.12'
