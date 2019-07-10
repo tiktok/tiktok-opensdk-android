@@ -1,26 +1,23 @@
-package com.bytedance.sdk.open.aweme.impl;
+package com.bytedance.sdk.open.aweme;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
-
+import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 
 /**
- * 主要功能：检查Tiktok的相关
- * author: ChangLei
- * since: 2019/4/1
+ * 抖音检查类
  */
-public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
+public class AwemeCheckHelperImpl extends BaseCheckHelperImpl {
 
-    TiktokCheckHelperImpl(Context context) {
+    public AwemeCheckHelperImpl(Context context) {
         super(context);
     }
 
     @Override
     protected int getAuthRequestApi() {
-        // 因服务端未ready，Tiktok的授权禁用，只能M授权成功，T的话走wap授权
-        return 999;
+        return DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
     }
 
     @NonNull
@@ -32,6 +29,6 @@ public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
     @NonNull
     @Override
     public String getPackageName() {
-        return "com.ss.android.ugc.trill";
+        return "com.ss.android.ugc.aweme";
     }
 }

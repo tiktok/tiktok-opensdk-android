@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.impl;
+package com.bytedance.sdk.open.aweme.base;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
@@ -23,7 +22,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     private Context mContext;
 
-    BaseCheckHelperImpl(Context context) {
+    public BaseCheckHelperImpl(Context context) {
         this.mContext = context;
     }
 

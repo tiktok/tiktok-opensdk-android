@@ -2,7 +2,7 @@ package com.bytedance.sdk.account;
 
 import android.app.Application;
 
-import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.impl.DYOpenApiFactory;
 
 /**

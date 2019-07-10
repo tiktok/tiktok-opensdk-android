@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme;
+package com.bytedance.sdk.open.aweme.base;
 
 import android.support.annotation.NonNull;
 

@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 
 /**
