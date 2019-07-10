@@ -137,7 +137,7 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override
-    public boolean sendAuthLogin(Authorization.Request request) {
+    public boolean authorize(Authorization.Request request) {
         IAPPCheckHelper appHasInstalled;
         if (request.targetApp == DYOpenConstants.TARGET_APP.AWEME) {
             appHasInstalled = new AwemeCheckHelperImpl(mContext);
@@ -190,16 +190,6 @@ class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
-//    @Override
-//    public boolean preloadWebAuth(Authorization.Request request) {
-//        if (request.targetApp == DYOpenConstants.TARGET_APP.TIKTOK) {
-//            return bdOpenApi.preloadWebAuth(request, TikTokWebAuthorizeActivity.AUTH_HOST, TikTokWebAuthorizeActivity.AUTH_PATH,
-//                    TikTokWebAuthorizeActivity.DOMAIN);
-//        } else {
-//            return bdOpenApi.preloadWebAuth(request, AwemeWebAuthorizeActivity.AUTH_HOST, AwemeWebAuthorizeActivity.AUTH_PATH,
-//                    AwemeWebAuthorizeActivity.DOMAIN);
-//        }
-//    }
 
     @Nullable
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
