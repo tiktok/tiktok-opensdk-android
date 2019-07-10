@@ -19,20 +19,10 @@ android {
         }
     }
 
-    // open sdk分为国内和海外版本
-    flavorDimensions "area", "mode"
+    // open sdk分为国内、海外、内部版本
+    flavorDimensions "area"
 
     productFlavors {
-        // 内部版本，多一些额外的功能支持，上公司内部公仓
-        internal {
-            dimension "mode"
-        }
-
-        // 外部版本，上外部公仓和开发者平台
-        external {
-            dimension "mode"
-        }
-
         // 国内版
         china {
             dimension "area"
@@ -45,6 +35,13 @@ android {
         overseas {
             dimension "area"
 
+            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
+            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+        }
+
+        // 内部版本，多一些额外的功能支持，上公司内部公仓
+        internal {
+            dimension "area"
             buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
             buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
         }
@@ -61,6 +58,12 @@ android {
             manifest.srcFile "src/overseas/AndroidManifest.xml"
             java.srcDirs += 'src/overseas/java'
             res.srcDirs += "src/overseas/res"
+        }
+
+        internal {
+            manifest.srcFile "src/internal/AndroidManifest.xml"
+            java.srcDirs += 'src/internal/java'
+            res.srcDirs += "src/internal/res"
         }
     }
 

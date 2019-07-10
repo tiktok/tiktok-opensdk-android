@@ -8,4 +8,6 @@
 .DS_Store
 /build
 /captures
+/.idea/dictionaries/
+.idea/misc.xml
 .externalNativeBuild

@@ -58,4 +58,5 @@ public interface TiktokOpenApi {
      */
     boolean share(Share.Request request);
 
+
 }

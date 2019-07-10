@@ -6,10 +6,10 @@ publishing {
     repositories {
         maven {
             url = BuildContext.isSnapshot() ? SNAPSHOT_REPOSITORY_URL :
-                    BuildContext.isChina() ? INTERNAL_RELEASE_REPOSITORY_URL : EXTERNAL_RELEASE_REPOSITORY_URL
+                    BuildContext.isInternal() ? INTERNAL_RELEASE_REPOSITORY_URL : ""
             credentials {
-                username = BuildContext.isChina() ? INTERNAL_USERNAME : EXTERNAL_USERNAME
-                password = BuildContext.isChina() ? INTERNAL_PASSWORD : EXTERNAL_PASSWORD
+                username = BuildContext.isChina() ? INTERNAL_USERNAME : ""
+                password = BuildContext.isChina() ? INTERNAL_PASSWORD : ""
             }
         }
     }
