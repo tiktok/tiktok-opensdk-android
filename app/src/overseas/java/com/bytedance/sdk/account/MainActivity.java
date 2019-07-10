@@ -21,12 +21,12 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.share.model.DYImageObject;
-import com.bytedance.sdk.open.aweme.share.model.DYMediaContent;
-import com.bytedance.sdk.open.aweme.share.model.DYVideoObject;
+import com.bytedance.sdk.open.aweme.base.DYImageObject;
+import com.bytedance.sdk.open.aweme.base.DYMediaContent;
+import com.bytedance.sdk.open.aweme.base.DYVideoObject;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -88,19 +88,19 @@ public class MainActivity extends AppCompatActivity {
         request.targetApp = targetAppId;
         request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
-        bdOpenApi.preloadWebAuth(request);
+//        bdOpenApi.preloadWebAuth(request);
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 如果本地未安装抖音或者抖音的版本过低，会直接自动调用 web页面 进行授权
-                sendAuth(false);
+                sendAuth();
             }
         });
 
         findViewById(R.id.go_to_auth_just_through_web).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendAuth(true);
+                sendAuth();
             }
         });
 
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean sendAuth(boolean isWebAuth) {
+    private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
@@ -176,12 +176,9 @@ public class MainActivity extends AppCompatActivity {
         request.targetApp = DYOpenConstants.TARGET_APP.AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
         request.targetApp = targetAppId;
-//        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
-        if (isWebAuth) {
-            return bdOpenApi.sendInnerWebAuthRequest(request);     // 打开wap授权页进行授权
-        } else {
-            return bdOpenApi.sendAuthLogin(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
-        }
+//       request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
+        return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
+
     }
 
     @Override

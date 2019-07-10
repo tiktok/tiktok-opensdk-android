@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class OpenUtils {
     /**
      *  针对可选权限，向下兼容版本，把可选权限添加到scope字段
      */
-    public static void handleRequestScope(SendAuth.Request request) {
+    public static void handleRequestScope(Authorization.Request request) {
         if (request == null) {
             return;
         }

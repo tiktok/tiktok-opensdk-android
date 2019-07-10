@@ -3,10 +3,9 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.account.bdopen.api.BDOpenApi;
-import com.bytedance.sdk.account.bdopen.impl.BDOpenAPiFactory;
-import com.bytedance.sdk.account.bdopen.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.api.DYOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
+import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
 /**
@@ -32,8 +31,8 @@ public class DYOpenApiFactory {
      * @return
      */
     public static DYOpenApi create(Context context) {
-        BDOpenApi bdOpenApi = BDOpenAPiFactory.create(context, sConfig);
+        AuthImpl auth = new AuthImpl(context, sConfig);
         ShareImpl share = new ShareImpl(context, sConfig);
-        return new DYOpenApiImpl(context, bdOpenApi, share);
+        return new DYOpenApiImpl(context, auth, share);
     }
 }

@@ -2,6 +2,7 @@ package com.bytedance.sdk.open.aweme.authorize.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
@@ -20,21 +22,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.os.Handler;
 
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.BDAuthConstants;
+import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.Constants;
-import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
+import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
+
+import java.lang.ref.WeakReference;
 
 
 /**
@@ -46,11 +51,14 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
     private static final String RES_STRING = "string";
+    protected static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+
 
     protected WebView mContentWebView;
 
-    protected SendAuth.Request mAuthRequest;
+    protected Authorization.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
+    MyHandler mHandler;
 
     /**
      * 网络是否通畅
@@ -69,7 +77,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      *
      * @param resp
      */
-    protected abstract void sendInnerResponse(SendAuth.Request req, BaseResp resp);
+    protected abstract void sendInnerResponse(Authorization.Request req, BaseResp resp);
 
     /**
      * wap登录页域名
@@ -119,22 +127,33 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     private Context mContext;
 
-    private Handler mHandler = new Handler() {
+
+    private static class MyHandler extends Handler {
+        private final WeakReference<BaseBDWebAuthorizeActivity> mActivty;
+        public MyHandler(BaseBDWebAuthorizeActivity activity){
+            mActivty =new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_LOADING_TIME_OUT:
-                    handleLoadingTimeout();
+                    BaseBDWebAuthorizeActivity authorizeActivity = mActivty.get();
+                    if (authorizeActivity != null) {
+                        authorizeActivity.handleLoadingTimeout();
+                    }
                     break;
                 default:
             }
         }
-    };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        mHandler = new MyHandler(this);
         handleIntent(getIntent(), this);
         int layoutId = getResources().getIdentifier("bd_open_base_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
@@ -145,8 +164,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     @Override
     public void onReq(BaseReq req) {
-        if (req instanceof SendAuth.Request) {
-            mAuthRequest = (SendAuth.Request) req;
+        if (req instanceof Authorization.Request) {
+            mAuthRequest = (Authorization.Request) req;
             mAuthRequest.redirectUri = "https://" + getDomain() + BDOpenConstants.REDIRECT_URL_PATH;
             // 设置wap授权页横竖屏模式
             setRequestedOrientation(mAuthRequest.wapRequestedOrientation);
@@ -179,7 +198,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      */
     public final void handleRequestIntent() {
 
-        SendAuth.Request argument = mAuthRequest;
+        Authorization.Request argument = mAuthRequest;
 
         if (argument == null) {
             finish();
@@ -210,7 +229,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, int errorCode) {
-        SendAuth.Response response = new SendAuth.Response();
+        Authorization.Response response = new Authorization.Response();
         response.authCode = code;
         response.errorCode = errorCode;
         response.state = state;
@@ -226,13 +245,44 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, String permissions, int errorCode) {
-        SendAuth.Response response = new SendAuth.Response();
+        Authorization.Response response = new Authorization.Response();
         response.authCode = code;
         response.errorCode = errorCode;
         response.state = state;
         response.grantedPermissions = permissions;
         sendInnerResponse(mAuthRequest, response);
         finish();
+    }
+
+    public boolean sendInnerResponse(String localEntry, Authorization.Request req, BaseResp resp) {
+        if (resp == null || mContext == null) {
+            return false;
+        } else if (!resp.checkArgs()) {
+            return false;
+        } else {
+            Bundle bundle = new Bundle();
+            resp.toBundle(bundle);
+            String platformPackageName = mContext.getPackageName();
+            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? AppUtil.buildComponentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
+            Intent intent = new Intent();
+            ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
+            intent.setComponent(componentName);
+            intent.putExtras(bundle);
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
+            try {
+                mContext.startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
     }
 
 
@@ -258,8 +308,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             mLoadingLayout.removeAllViews();
             mLoadingLayout.addView(loadingView);
         }
+        initWebView(this);
 
-        mContentWebView = WebViewHelper.getWebView(getApplicationContext());
         if (mContentWebView.getParent() != null) {
             ((ViewGroup) mContentWebView.getParent()).removeView(mContentWebView);
         }
@@ -270,6 +320,17 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         mContainer.addView(mContentWebView);
 
     }
+
+    public void initWebView(Context context){
+        mContentWebView = new WebView(context);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentWebView.setLayoutParams(params);
+        WebSettings settings = mContentWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓存模式
+    }
+
 
     @CallSuper
     protected void initActions() {
@@ -337,7 +398,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         if (TextUtils.isEmpty(url)) {
             return false;
         }
-        SendAuth.Request argument = mAuthRequest;
+        Authorization.Request argument = mAuthRequest;
         if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
             return false;
         }

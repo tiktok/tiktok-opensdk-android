@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme;
+package com.bytedance.sdk.open.aweme.base;
 
 import android.support.annotation.NonNull;
 
@@ -27,5 +27,5 @@ public interface IAPPCheckHelper {
     @NonNull
     String getRemoteAuthEntryActivity();
 
-    boolean sendRemoteRequest(String localEntryActivity, BaseReq req);
+//    boolean sendRemoteRequest(String localEntryActivity, BaseReq req);
 }

@@ -4,8 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
-import com.bytedance.sdk.open.aweme.common.impl.BDOpenAPiFactory;
+import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
@@ -33,8 +32,8 @@ public class TikTokOpenApiFactory {
      * @return
      */
     public static TiktokOpenApi create(Context context) {
-        BDOpenApi bdOpenApi = BDOpenAPiFactory.create(context, sConfig);
+        AuthImpl auth = new AuthImpl(context, sConfig);
         ShareImpl share = new ShareImpl(context, sConfig);
-        return new TikTokOpenApiImpl(context, bdOpenApi, share);
+        return new TikTokOpenApiImpl(context, auth, share);
     }
 }

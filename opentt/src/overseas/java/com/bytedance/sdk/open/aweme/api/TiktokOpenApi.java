@@ -1,11 +1,9 @@
 package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
+
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
@@ -43,31 +41,13 @@ public interface TiktokOpenApi {
      */
     boolean isAppInstalled(int targetApp);
 
-    boolean sendInnerResponse(SendAuth.Request req, BaseResp resp);
-
-    /**
-     * to authorize from wap
-     *
-     * @param request
-     * @return
-     */
-    boolean sendInnerWebAuthRequest(Authorization.Request request);
-
-    /**
-     * preload the wap, to speed up the authroization wap's first open
-     *
-     * @param request
-     * @return
-     */
-    boolean preloadWebAuth(Authorization.Request request);
-
     /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
      *
      * @param request
      * @return
      */
-    boolean sendAuthLogin(Authorization.Request request);
+    boolean authorize(Authorization.Request request);
 
     /**
      * 分享视频、图片
@@ -78,24 +58,5 @@ public interface TiktokOpenApi {
      */
     boolean share(Share.Request request);
 
-    /**
-     * 解析 share Intent 请求
-     * parse share intent
-     *
-     * @param intent
-     * @param eventHandler
-     * @return
-     */
-    @Deprecated
-    boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler);
-
-    /**
-     * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
-     *
-     * @param response
-     * @return
-     */
-    @Nullable
-    String getWapUrlIfAuthByWap(SendAuth.Response response);
 
 }

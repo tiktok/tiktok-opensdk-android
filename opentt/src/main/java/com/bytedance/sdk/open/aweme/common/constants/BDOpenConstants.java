@@ -49,7 +49,7 @@ public interface BDOpenConstants {
         String STATE = "_bytedance_params_state";
 
         /**
-         *  授权的权限信息，包含必选和用户选择
+         * 授权的权限信息，包含必选和用户选择
          */
         String GRANTED_PERMISSION = "_bytedance_params_granted_permission";
 

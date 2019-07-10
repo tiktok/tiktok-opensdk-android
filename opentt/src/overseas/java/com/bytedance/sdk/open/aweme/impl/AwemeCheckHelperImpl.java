@@ -1,17 +1,18 @@
 package com.bytedance.sdk.open.aweme.impl;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
-import com.bytedance.sdk.open.aweme.common.api.BDOpenApi;
 
 /**
  * 抖音检查类
  */
 public class AwemeCheckHelperImpl extends BaseCheckHelperImpl {
 
-    AwemeCheckHelperImpl(BDOpenApi bdOpenApi) {
-        super(bdOpenApi);
+    AwemeCheckHelperImpl(Context context) {
+        super(context);
     }
 
     @Override

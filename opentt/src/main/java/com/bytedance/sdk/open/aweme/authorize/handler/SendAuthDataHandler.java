@@ -1,10 +1,11 @@
 package com.bytedance.sdk.open.aweme.authorize.handler;
+
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 
 /**
  * auth 请求/结果的 数据解析
@@ -17,7 +18,7 @@ public class SendAuthDataHandler implements BDDataHandler {
             return false;
         }
         if (type == BDOpenConstants.ModeType.SEND_AUTH_REQUEST) {
-            SendAuth.Request request = new SendAuth.Request(bundle);
+            Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
                 // 处理调空格，否则服务端不认
                 if (request.scope != null) {
@@ -35,7 +36,7 @@ public class SendAuthDataHandler implements BDDataHandler {
                 return false;
             }
         } else if (type == BDOpenConstants.ModeType.SEND_AUTH_RESPONSE) {
-            SendAuth.Response response = new SendAuth.Response(bundle);
+            Authorization.Response response = new Authorization.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);
                 return true;

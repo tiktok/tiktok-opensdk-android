@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.authorize.model.SendAuth;
 import com.bytedance.sdk.open.aweme.authorize.activity.BaseBDWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
@@ -32,6 +32,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     public static final String AUTH_HOST = "open-api.musical.ly";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
+
 
     private TiktokOpenApi ttOpenApi;
 
@@ -80,7 +81,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
-    protected void sendInnerResponse(SendAuth.Request req, BaseResp resp) {
+    protected void sendInnerResponse(Authorization.Request req, BaseResp resp) {
         // 添加wap url数据
         if (resp != null && mContentWebView != null) {
             if (resp.extras == null) {
@@ -89,7 +90,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
             resp.extras.putString(WAP_AUTHORIZE_URL, mContentWebView.getUrl());
         }
 
-        ttOpenApi.sendInnerResponse(req, resp);
+       sendInnerResponse(LOCAL_ENTRY_ACTIVITY,req, resp);
     }
 
     @Override
