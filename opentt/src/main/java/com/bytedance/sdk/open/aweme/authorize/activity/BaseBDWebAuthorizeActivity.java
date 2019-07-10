@@ -38,6 +38,8 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 
+import java.lang.ref.WeakReference;
+
 
 /**
  * 基础的 AuthorizeActivity
@@ -55,6 +57,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     protected Authorization.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
+    MyHandler mHandler;
 
     /**
      * 网络是否通畅
@@ -123,22 +126,33 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     private Context mContext;
 
-    private Handler mHandler = new Handler() {
+
+    private static class MyHandler extends Handler {
+        private final WeakReference<BaseBDWebAuthorizeActivity> mActivty;
+        public MyHandler(BaseBDWebAuthorizeActivity activity){
+            mActivty =new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_LOADING_TIME_OUT:
-                    handleLoadingTimeout();
+                    BaseBDWebAuthorizeActivity authorizeActivity = mActivty.get();
+                    if (authorizeActivity != null) {
+                        authorizeActivity.handleLoadingTimeout();
+                    }
                     break;
                 default:
             }
         }
-    };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        mHandler = new MyHandler(this);
         handleIntent(getIntent(), this);
         int layoutId = getResources().getIdentifier("bd_open_base_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
