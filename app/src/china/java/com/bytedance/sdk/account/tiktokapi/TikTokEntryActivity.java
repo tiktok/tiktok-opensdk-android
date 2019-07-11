@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.bdopen;
+package com.bytedance.sdk.account.tiktokapi;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import com.bytedance.sdk.open.aweme.share.Share;
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class BdEntryActivity extends Activity implements BDApiEventHandler {
+public class TikTokEntryActivity extends Activity implements BDApiEventHandler {
 
     TiktokOpenApi ttOpenApi;
 
@@ -50,6 +50,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
 
                 Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
                         Toast.LENGTH_LONG).show();
+
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
                 startActivity(intent);

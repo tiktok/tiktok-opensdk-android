@@ -47,7 +47,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     static final int API_TYPE_LOGIN = 0;
     static final int API_TYPE_SHARE = 1;
 
-    static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+    static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
     static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
     public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
