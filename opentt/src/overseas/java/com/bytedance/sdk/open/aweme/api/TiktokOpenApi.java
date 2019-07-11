@@ -32,16 +32,6 @@ public interface TiktokOpenApi {
     boolean isAppSupportShare(int targetApp);
 
     /**
-     * 目标应用是否已经安装
-     *
-     * 应部分厂商需求打开此api. 不太建议使用;
-     * 因为对应的isAppSupportShare及isAppSupportAuthorization
-     * 包含了此功能且带有版本判断. 建议用另外两个接口.
-     * @return
-     */
-    boolean isAppInstalled(int targetApp);
-
-    /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
      *
      * @param request

@@ -28,11 +28,9 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.bytedance.sdk.open.aweme.authorize.BDAuthConstants;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.constants.Constants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -51,8 +49,13 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
     private static final String RES_STRING = "string";
-    protected static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+    protected static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
+    protected static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
+
+    int OP_ERROR_NO_CONNECTION = -12;
+    int OP_ERROR_CONNECT_TIMEOUT = -13;
+    int OP_ERROR_NETWORK_ERROR = -15;
 
     protected WebView mContentWebView;
 
@@ -207,7 +210,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
         if (!isNetworkAvailable()) {
             isShowNetworkError = true;
-            showNetworkErrorDialog(Constants.ErrorCode.OP_ERROR_NO_CONNECTION);
+            showNetworkErrorDialog(OP_ERROR_NO_CONNECTION);
         } else {
             // 开始加载, 等待8s
             mHandler.sendEmptyMessageDelayed(MSG_LOADING_TIME_OUT, 8000);
@@ -346,7 +349,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
                 }
                 mContentWebView.loadUrl(url);
             } else {
-                showNetworkErrorDialog(Constants.ErrorCode.OP_ERROR_NO_CONNECTION);
+                showNetworkErrorDialog(OP_ERROR_NO_CONNECTION);
             }
             return true;
         }
@@ -381,7 +384,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             mLastErrorCode = errorCode;
             // 加载出错
-            showNetworkErrorDialog(Constants.ErrorCode.OP_ERROR_NETWORK_ERROR);
+            showNetworkErrorDialog(OP_ERROR_NETWORK_ERROR);
             isShowNetworkError = true;
         }
 
@@ -403,11 +406,11 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             return false;
         }
         Uri uri = Uri.parse(url);
-        String code = uri.getQueryParameter(BDAuthConstants.REDIRECT_QUERY_CODE);
-        String state = uri.getQueryParameter(BDAuthConstants.REDIRECT_QUERY_STATE);
-        String grantedPermissions = uri.getQueryParameter(BDAuthConstants.REDIRECT_QUERY_SCOPE);
+        String code = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_CODE);
+        String state = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_STATE);
+        String grantedPermissions = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
-            String errorCodeStr = uri.getQueryParameter(BDAuthConstants.REDIRECT_QUERY_ERROR_CODE);
+            String errorCodeStr = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
             int errorCode = BDOpenConstants.ErrorCode.ERROR_CODE_UNKNOW;
             if (!TextUtils.isEmpty(errorCodeStr)) {
                 try {
@@ -475,7 +478,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             return;
         }
         isShowNetworkError = true;
-        showNetworkErrorDialog(Constants.ErrorCode.OP_ERROR_CONNECT_TIMEOUT);
+        showNetworkErrorDialog(OP_ERROR_CONNECT_TIMEOUT);
     }
 
 
@@ -581,14 +584,14 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             handler.cancel();
         }
         // 加载出错
-        showNetworkErrorDialog(Constants.ErrorCode.OP_ERROR_NETWORK_ERROR);
+        showNetworkErrorDialog(OP_ERROR_NETWORK_ERROR);
         isShowNetworkError = true;
     }
 
     /**
      * 显示网络错误对话框, 封装类可实现自定义样式
      * @param errCode 网络错误码
-     * @see Constants.ErrorCode
+     *
      */
     protected void showNetworkErrorDialog(final int errCode) {
         if (mBaseErrorDialog != null && mBaseErrorDialog.isShowing()) {

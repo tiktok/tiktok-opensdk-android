@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
@@ -34,7 +33,7 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
+            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
@@ -69,7 +68,7 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDBaseOpenBuildConstants.VERSION);
+            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
                 bundle.putString(BDOpenConstants.Params.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));

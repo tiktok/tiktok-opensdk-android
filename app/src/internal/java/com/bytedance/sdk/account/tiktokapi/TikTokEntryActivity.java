@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.bdopen;
+package com.bytedance.sdk.account.tiktokapi;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,21 +19,20 @@ import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
  * 主要功能：接受授权返回结果的activity
- *
+ * <p>
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class BdEntryActivity extends Activity implements BDApiEventHandler {
+public class TikTokEntryActivity extends Activity implements BDApiEventHandler {
 
     TiktokOpenApi ttOpenApi;
-    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ttOpenApi= TikTokOpenApiFactory.create(this);
-        ttOpenApi.handleIntent(getIntent(),this);
+        ttOpenApi = TikTokOpenApiFactory.create(this);
+        ttOpenApi.handleIntent(getIntent(), this);
     }
 
     @Override
@@ -46,10 +45,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
         // 授权成功可以获得authCode
         if (resp instanceof Authorization.Response) {
             Authorization.Response response = (Authorization.Response) resp;
-            String wapUrlIfAuthByWap = "";
-            if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
-                wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
-            }
+            String wapUrlIfAuthByWap = ttOpenApi.getWapUrlIfAuthByWap(response);
             Intent intent = null;
             if (resp.isSuccess()) {
                 if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {

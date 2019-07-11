@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".bdopen.BdEntryActivity"
+            android:name=".tiktokapi.TikTokEntryActivity"
             android:launchMode="singleInstance"
             android:taskAffinity="com.bytedance.sdk.account"
             android:exported="true">

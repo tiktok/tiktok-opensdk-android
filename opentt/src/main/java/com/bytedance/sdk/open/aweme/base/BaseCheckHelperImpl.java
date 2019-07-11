@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
@@ -35,7 +34,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     @Override
     public boolean isAppSupportShare() {
-        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), DYOpenConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
+        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), BDOpenConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
     }
 
 

@@ -22,11 +22,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
 import com.bytedance.sdk.open.aweme.base.DYVideoObject;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int targetAppId = DYOpenConstants.TARGET_APP.AWEME; // 默认抖音
+    public static int targetAppId = BDOpenConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi bdOpenApi;
@@ -130,15 +130,15 @@ public class MainActivity extends AppCompatActivity {
                 int id = group.getCheckedRadioButtonId();
                 switch (id) {
                     case R.id.app_aweme:
-                        targetAppId = DYOpenConstants.TARGET_APP.AWEME;
+                        targetAppId = BDOpenConstants.TARGET_APP.AWEME;
                         break;
                     case R.id.app_tiktok:
-                        targetAppId = DYOpenConstants.TARGET_APP.TIKTOK;
+                        targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
                         IS_AUTH_BY_M = false;
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
-                        targetAppId = DYOpenConstants.TARGET_APP.TIKTOK;
+                        targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
                         break;
                 }
             }
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
-        request.targetApp = DYOpenConstants.TARGET_APP.AWEME;
+        request.targetApp = BDOpenConstants.TARGET_APP.AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
         request.targetApp = targetAppId;
 //       request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制

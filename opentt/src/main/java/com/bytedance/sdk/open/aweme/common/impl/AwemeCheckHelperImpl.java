@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 
 /**
  * 抖音检查类
@@ -17,7 +17,7 @@ public class AwemeCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     protected int getAuthRequestApi() {
-        return DYOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
+        return BDOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
     }
 
     @NonNull
