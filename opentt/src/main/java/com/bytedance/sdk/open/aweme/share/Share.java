@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.base.DYBaseRequest;
 import com.bytedance.sdk.open.aweme.base.DYBaseResp;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
@@ -25,7 +25,7 @@ public class Share {
 
         public String mHashTag;
 
-        public int mTargetApp = DYOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
+        public int mTargetApp = BDOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         public DYMediaContent mMediaContent;  // 基础媒体数据
         public DYMicroAppInfo mMicroAppInfo;  // 小程序
@@ -40,15 +40,15 @@ public class Share {
 
         @Override
         public int getType() {
-            return DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY;
+            return BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY;
         }
 
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
             this.mTargetSceneType =
-                    bundle.getInt(DYOpenConstants.Params.SHARE_TARGET_SCENE, DYOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
-            this.mHashTag = bundle.getString(DYOpenConstants.Params.SHARE_DEFAULT_HASHTAG, "");
+                    bundle.getInt(BDOpenConstants.NewVersionParams.SHARE_TARGET_SCENE, BDOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
+            this.mHashTag = bundle.getString(BDOpenConstants.NewVersionParams.SHARE_DEFAULT_HASHTAG, "");
             this.mMediaContent = DYMediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = DYMicroAppInfo.unserialize(bundle);
         }
@@ -57,8 +57,8 @@ public class Share {
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
             bundle.putAll(DYMediaContent.Builder.toBundle(this.mMediaContent));
-            bundle.putInt(DYOpenConstants.Params.SHARE_TARGET_SCENE, mTargetSceneType);
-            bundle.putString(DYOpenConstants.Params.SHARE_DEFAULT_HASHTAG, mHashTag);
+            bundle.putInt(BDOpenConstants.NewVersionParams.SHARE_TARGET_SCENE, mTargetSceneType);
+            bundle.putString(BDOpenConstants.NewVersionParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
             // 670添加小程序
             if (mMicroAppInfo != null) {
@@ -89,20 +89,20 @@ public class Share {
 
         @Override
         public int getType() {
-            return DYOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP;
+            return BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP;
         }
 
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.state = bundle.getString(DYOpenConstants.Params.STATE);
+            this.state = bundle.getString(BDOpenConstants.NewVersionParams.STATE);
 
         }
 
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(DYOpenConstants.Params.STATE, state);
+            bundle.putString(BDOpenConstants.NewVersionParams.STATE, state);
         }
     }
 }

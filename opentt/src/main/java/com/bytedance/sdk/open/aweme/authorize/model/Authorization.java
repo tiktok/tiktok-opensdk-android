@@ -3,7 +3,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
@@ -19,7 +18,7 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
-        public int targetApp = DYOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
+        public int targetApp = BDOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         /**
          * 可选项，支持wap授权页面横竖屏方式，取值ActivityInfo.ScreenOrientation

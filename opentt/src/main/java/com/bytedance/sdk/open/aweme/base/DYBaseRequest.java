@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 
 public abstract class DYBaseRequest extends BaseReq {
@@ -31,24 +31,24 @@ public abstract class DYBaseRequest extends BaseReq {
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(DYOpenConstants.Params.TYPE, getType());
-        bundle.putBundle(DYOpenConstants.Params.EXTRA, extras);
-        bundle.putString(DYOpenConstants.Params.CALLER_LOCAL_ENTRY, callerLocalEntry);
-        bundle.putString(DYOpenConstants.Params.CLIENT_KEY, mClientKey);
-        bundle.putString(DYOpenConstants.Params.CALLER_SDK_VERSION, mCallerSDKVersion);
-        bundle.putString(DYOpenConstants.Params.CALLER_PKG, mCallerPackage);
-        bundle.putString(DYOpenConstants.Params.STATE, mState);
+        bundle.putInt(BDOpenConstants.NewVersionParams.TYPE, getType());
+        bundle.putBundle(BDOpenConstants.NewVersionParams.EXTRA, extras);
+        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
+        bundle.putString(BDOpenConstants.NewVersionParams.CLIENT_KEY, mClientKey);
+        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION, mCallerSDKVersion);
+        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_PKG, mCallerPackage);
+        bundle.putString(BDOpenConstants.NewVersionParams.STATE, mState);
     }
 
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.mCallerPackage = bundle.getString(DYOpenConstants.Params.CALLER_PKG);
-        this.mCallerSDKVersion = bundle.getString(DYOpenConstants.Params.CALLER_SDK_VERSION);
-        this.extras = bundle.getBundle(DYOpenConstants.Params.EXTRA);
-        this.callerLocalEntry = bundle.getString(DYOpenConstants.Params.CALLER_LOCAL_ENTRY);
-        this.mState = bundle.getString(DYOpenConstants.Params.STATE);
-        this.mClientKey = bundle.getString(DYOpenConstants.Params.CLIENT_KEY);
+        this.mCallerPackage = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_PKG);
+        this.mCallerSDKVersion = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION);
+        this.extras = bundle.getBundle(BDOpenConstants.NewVersionParams.EXTRA);
+        this.callerLocalEntry = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY);
+        this.mState = bundle.getString(BDOpenConstants.NewVersionParams.STATE);
+        this.mClientKey = bundle.getString(BDOpenConstants.NewVersionParams.CLIENT_KEY);
     }
 
     @Override

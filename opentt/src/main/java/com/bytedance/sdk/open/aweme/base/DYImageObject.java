@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.aweme.base;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 
 import java.util.ArrayList;
 
@@ -22,12 +22,12 @@ public class DYImageObject implements IMediaObject {
 
     @Override
     public void serialize(Bundle bundle) {
-        bundle.putStringArrayList(DYOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH, this.mImagePaths);
+        bundle.putStringArrayList(BDOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH, this.mImagePaths);
     }
 
     @Override
     public void unserialize(Bundle bundle) {
-        this.mImagePaths = bundle.getStringArrayList(DYOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
+        this.mImagePaths = bundle.getStringArrayList(BDOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
     }
 
     @Override

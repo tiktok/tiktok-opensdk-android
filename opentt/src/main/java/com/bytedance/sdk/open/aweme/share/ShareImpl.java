@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDBaseOpenBuildConstants;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
 
 import java.util.ArrayList;
@@ -48,12 +47,12 @@ public class ShareImpl {
             // packages
             Bundle bundle = new Bundle();
             request.toBundle(bundle);
-            bundle.putString(DYOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(DYOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(DYOpenConstants.Params.CALLER_SDK_VERSION, BDBaseOpenBuildConstants.VERSION);
+            bundle.putString(BDOpenConstants.NewVersionParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.NewVersionParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION, BDOpenConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(DYOpenConstants.Params.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
+                bundle.putString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
@@ -94,7 +93,7 @@ public class ShareImpl {
             eventHandler.onErrorIntent(intent);
             return false;
         }
-        int type = bundle.getInt(DYOpenConstants.Params.TYPE);
+        int type = bundle.getInt(BDOpenConstants.NewVersionParams.TYPE);
         for (BDDataHandler handler : handlers) {
             if (handler.handle(type, bundle, eventHandler)) {
                 return true;

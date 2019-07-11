@@ -6,6 +6,14 @@ package com.bytedance.sdk.open.aweme.common.constants;
  */
 public interface BDOpenConstants {
 
+    String AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH = "AWEME_EXTRA_IMAGE_MESSAGE_PATH";
+    String AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH = "AWEME_EXTRA_VIDEO_MESSAGE_PATH";
+
+    // 定义一些抖音内的事件，广播的形式通知给第三方app
+    String ACTION_STAY_IN_DY = "com.aweme.opensdk.action.stay.in.dy";
+
+
+
     /**
      * oauth path
      */
@@ -28,6 +36,34 @@ public interface BDOpenConstants {
 
     /**
      * 请求参数 key
+     * 由于最初BDOpenConstants里面定义的不全，所以新加了这些参数
+     */
+    interface NewVersionParams {
+        String STATE = "_aweme_open_sdk_params_state";
+        String CLIENT_KEY = "_aweme_open_sdk_params_client_key";
+        String CALLER_PKG = "_aweme_open_sdk_params_caller_package";
+        String CALLER_SDK_VERSION = "_aweme_open_sdk_params_caller_sdk_version";
+        String CALLER_LOCAL_ENTRY = "_aweme_open_sdk_params_caller_local_entry";
+        String SHARE_TARGET_SCENE = "_aweme_open_sdk_params_target_scene";
+
+        // 因为工具线整体组件化下沉，引用不到DYOpenConstants，所以这里暂时也要写一下~ 555~ 要改！
+        String SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene";
+
+        String SHARE_MICROAPP_INFO = "_aweme_open_sdk_params_micro_app_info";
+        /**
+         * extra 内容
+         */
+        String EXTRA = "_aweme_open_sdk_params_extra";
+        String TYPE = "_aweme_open_sdk_params_type";
+
+        String ERROR_CODE = "_aweme_open_sdk_params_error_code";
+        String ERROR_MSG = "_aweme_open_sdk_params_error_msg";
+    }
+
+
+    /**
+     * 请求参数 key
+     * 旧的参数,后面会逐渐废弃掉
      */
     interface Params {
         /**
@@ -97,7 +133,69 @@ public interface BDOpenConstants {
     }
 
     /**
-     * Bundle 数据类型
+     * 目标app，区分国内国外
+     */
+    interface TARGET_APP {
+
+        int AWEME = 1; // 抖音
+
+        int TIKTOK = 2; // TikTok
+    }
+
+
+    /**
+     * 各功能要求的最低版本（抖音侧定义）
+     */
+    interface REQUIRED_API_VERSION {
+
+        // 授权
+        int AUTH_REQUIRE_API = 1; // 用于验证api版本是否支持
+
+        // 抖音分享
+        int SHARE_REQUIRED_MIN_VERSION = 2; //对应抖音5.2.0及以上 对应dt630及以上,m,11.3
+    }
+
+    interface TargetSceneType {
+        int SHARE_DEFAULT_TYPE = 0;
+    }
+
+
+
+    /**
+     * 关于webview的key
+     */
+    interface WebViewConstants {
+        String QUERY_RESPONSE_TYPE = "response_type";
+        String QUERY_REDIRECT_URI = "redirect_uri";
+        String QUERY_CLIENT_KEY = "client_key";
+        String QUERY_STATE = "state";
+        String QUERY_FROM = "from";
+        String QUERY_SCOPE = "scope";
+        String QUERY_OPTIONAL_SCOPE = "optionalScope";
+        String QUERY_SIGNATURE = "signature";
+        String VALUE_FROM_OPENSDK = "opensdk";
+        String VALUE_RESPONSE_TYPE_CODE = "code";
+        String SCHEMA_HTTPS = "https";
+        String REDIRECT_QUERY_CODE = "code";
+        String REDIRECT_QUERY_STATE = "state";
+        String REDIRECT_QUERY_ERROR_CODE = "errCode";
+        String REDIRECT_QUERY_SCOPE = "scopes";
+    }
+
+
+    /**
+     * sdk 版本
+     */
+
+    interface SdkVersion {
+        /**
+         * base open sdk 版本号
+         */
+        String VERSION = "1";
+    }
+
+    /**
+     * Bundle 动作类型
      */
     interface ModeType {
         /**
@@ -108,6 +206,16 @@ public interface BDOpenConstants {
          * auth Response
          */
         int SEND_AUTH_RESPONSE = 2;
+
+        /**
+         * share
+         */
+        int SHARE_CONTENT_TO_DY = 3;
+
+        /**
+         * share response
+         */
+        int SHARE_CONTENT_TO_DY_RESP = 4;
     }
 
     /**

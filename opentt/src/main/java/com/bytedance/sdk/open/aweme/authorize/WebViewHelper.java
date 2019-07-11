@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
 import java.util.List;
@@ -44,17 +45,17 @@ public class WebViewHelper {
         }
         List<String> signs = SignatureUtils.getMd5Signs(context, request.getCallerPackage());
         Uri.Builder builder = new Uri.Builder()
-                .scheme(BDAuthConstants.SCHEMA_HTTPS)
+                .scheme(BDOpenConstants.WebViewConstants.SCHEMA_HTTPS)
                 .authority(host)
                 .path(path)
-                .appendQueryParameter(BDAuthConstants.QUERY_RESPONSE_TYPE, BDAuthConstants.VALUE_RESPONSE_TYPE_CODE)
-                .appendQueryParameter(BDAuthConstants.QUERY_REDIRECT_URI, request.redirectUri)
-                .appendQueryParameter(BDAuthConstants.QUERY_CLIENT_KEY, request.getClientKey())
-                .appendQueryParameter(BDAuthConstants.QUERY_STATE, request.state)
-                .appendQueryParameter(BDAuthConstants.QUERY_FROM, BDAuthConstants.VALUE_FROM_OPENSDK)
-                .appendQueryParameter(BDAuthConstants.QUERY_SCOPE, request.scope)
-                .appendQueryParameter(BDAuthConstants.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-                .appendQueryParameter(BDAuthConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs));
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_RESPONSE_TYPE, BDOpenConstants.WebViewConstants.VALUE_RESPONSE_TYPE_CODE)
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_REDIRECT_URI, request.redirectUri)
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_CLIENT_KEY, request.getClientKey())
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_STATE, request.state)
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_FROM, BDOpenConstants.WebViewConstants.VALUE_FROM_OPENSDK)
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_SCOPE, request.scope)
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
+                .appendQueryParameter(BDOpenConstants.WebViewConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs));
         return builder.build().toString();
     }
 }

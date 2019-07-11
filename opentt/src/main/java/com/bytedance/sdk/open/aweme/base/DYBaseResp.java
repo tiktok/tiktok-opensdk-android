@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
 /**
@@ -37,7 +37,7 @@ public abstract class DYBaseResp extends BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == DYOpenConstants.ErrorCode.ERR_OK;
+        return errorCode == BDOpenConstants.ErrorCode.ERROR_CODE_OK;
     }
 
     /**
@@ -61,17 +61,17 @@ public abstract class DYBaseResp extends BaseResp {
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(DYOpenConstants.Params.ERROR_CODE, errorCode);
-        bundle.putString(DYOpenConstants.Params.ERROR_MSG, errorMsg);
-        bundle.putInt(DYOpenConstants.Params.TYPE, getType());
-        bundle.putBundle(DYOpenConstants.Params.EXTRA, extras);
+        bundle.putInt(BDOpenConstants.NewVersionParams.ERROR_CODE, errorCode);
+        bundle.putString(BDOpenConstants.NewVersionParams.ERROR_MSG, errorMsg);
+        bundle.putInt(BDOpenConstants.NewVersionParams.TYPE, getType());
+        bundle.putBundle(BDOpenConstants.NewVersionParams.EXTRA, extras);
     }
 
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.errorCode = bundle.getInt(DYOpenConstants.Params.ERROR_CODE);
-        this.errorMsg = bundle.getString(DYOpenConstants.Params.ERROR_MSG);
-        this.extras = bundle.getBundle(DYOpenConstants.Params.EXTRA);
+        this.errorCode = bundle.getInt(BDOpenConstants.NewVersionParams.ERROR_CODE);
+        this.errorMsg = bundle.getString(BDOpenConstants.NewVersionParams.ERROR_MSG);
+        this.extras = bundle.getBundle(BDOpenConstants.NewVersionParams.EXTRA);
     }
 }

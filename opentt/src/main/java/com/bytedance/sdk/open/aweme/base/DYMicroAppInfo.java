@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.base;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.common.constants.DYOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -33,7 +33,7 @@ public class DYMicroAppInfo {
 
         Gson gson = new Gson();
         String result = gson.toJson(this);
-        sendBundle.putString(DYOpenConstants.Params.SHARE_MICROAPP_INFO, result);
+        sendBundle.putString(BDOpenConstants.NewVersionParams.SHARE_MICROAPP_INFO, result);
     }
 
     public static DYMicroAppInfo unserialize(Bundle clientBundle) {
@@ -41,7 +41,7 @@ public class DYMicroAppInfo {
             return null;
         }
 
-        String info = clientBundle.getString(DYOpenConstants.Params.SHARE_MICROAPP_INFO);
+        String info = clientBundle.getString(BDOpenConstants.NewVersionParams.SHARE_MICROAPP_INFO);
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson microGson = new Gson();
