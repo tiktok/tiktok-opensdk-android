@@ -22,14 +22,14 @@ public interface TiktokOpenApi {
      */
     boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
 
-    boolean isAppSupportAuthorization(int targetApp);
+    boolean isAppSupportAuthorization();
 
     /**
+     * tiktok、tiktok-m、抖音
      *
-     * @param targetApp tiktok、tiktok-m、抖音
      * @return
      */
-    boolean isAppSupportShare(int targetApp);
+    boolean isAppSupportShare();
 
     /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
@@ -41,7 +41,7 @@ public interface TiktokOpenApi {
 
     /**
      * 分享视频、图片
-     *
+     * <p>
      * share image/video
      *
      * @return
