@@ -157,7 +157,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
             return true;
         } else {
-            return sendInnerWebAuthRequest(request);
+            return sendWebAuthRequest(request);
         }
     }
 
@@ -184,7 +184,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         return false;
     }
 
-    public boolean sendInnerWebAuthRequest(Authorization.Request request) {
+    private boolean sendWebAuthRequest(Authorization.Request request) {
         if (request.targetApp == BDOpenConstants.TARGET_APP.TIKTOK) {
             return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
         } else if (request.targetApp == BDOpenConstants.TARGET_APP.AWEME) {
