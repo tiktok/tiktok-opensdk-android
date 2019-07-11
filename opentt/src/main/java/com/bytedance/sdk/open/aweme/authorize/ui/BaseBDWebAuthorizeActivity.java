@@ -50,6 +50,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     private static final String RES_LAYOUT = "layout";
     private static final String RES_STRING = "string";
     protected static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
+    protected static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
+
 
     int OP_ERROR_NO_CONNECTION = -12;
     int OP_ERROR_CONNECT_TIMEOUT = -13;

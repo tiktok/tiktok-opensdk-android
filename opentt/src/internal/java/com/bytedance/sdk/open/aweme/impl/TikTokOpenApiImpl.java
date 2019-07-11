@@ -184,6 +184,16 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         return false;
     }
 
+    @Nullable
+    @Override
+    public String getWapUrlIfAuthByWap(Authorization.Response response) {
+        // 该数据是在 wap授权页面sendInnerResponse方法添加的。
+        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+            return response.extras.getString(WAP_AUTHORIZE_URL, "");
+        }
+        return null;
+    }
+
     private boolean sendWebAuthRequest(Authorization.Request request) {
         if (request.targetApp == BDOpenConstants.TARGET_APP.TIKTOK) {
             return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);

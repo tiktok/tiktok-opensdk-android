@@ -50,7 +50,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     static final String LOCAL_ENTRY_ACTIVITY = "bdopen.BdEntryActivity"; // 请求授权的结果回调Activity入口
     static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
-    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
@@ -117,26 +116,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             return new AwemeCheckHelperImpl(mContext).isAppSupportShare();
         } else {
             return getSupportApiAppInfo(API_TYPE_SHARE) != null;
-        }
-    }
-
-    /**
-     * 应部分厂商需求打开此api. 不太建议使用
-     *
-     * 就算安装了，版本不支持，功能一样不可以使用，可以直接用功能判断接口;
-     * @param targetApp
-     * @return
-     */
-    @Override public boolean isAppInstalled(int targetApp) {
-        if (targetApp == BDOpenConstants.TARGET_APP.AWEME) {
-            return new AwemeCheckHelperImpl(mContext).isAppInstalled();
-        } else {
-            for (IAPPCheckHelper checkapi : mAuthcheckApis) {
-                if (checkapi.isAppInstalled()) {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 

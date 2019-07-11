@@ -46,10 +46,7 @@ public class BdEntryActivity extends Activity implements BDApiEventHandler {
         // 授权成功可以获得authCode
         if (resp instanceof Authorization.Response) {
             Authorization.Response response = (Authorization.Response) resp;
-            String wapUrlIfAuthByWap = "";
-            if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
-                wapUrlIfAuthByWap = response.extras.getString(WAP_AUTHORIZE_URL, "");
-            }
+            String wapUrlIfAuthByWap = ttOpenApi.getWapUrlIfAuthByWap(response);
             Intent intent = null;
             if (resp.isSuccess()) {
                 if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {

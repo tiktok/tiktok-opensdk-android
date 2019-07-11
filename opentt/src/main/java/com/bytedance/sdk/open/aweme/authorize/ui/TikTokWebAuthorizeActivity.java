@@ -19,8 +19,6 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
-import static com.bytedance.sdk.open.aweme.impl.TikTokOpenApiImpl.WAP_AUTHORIZE_URL;
-
 
 /**
  * tiktok authroize wap
