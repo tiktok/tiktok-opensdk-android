@@ -23,14 +23,14 @@ public interface TiktokOpenApi {
      */
     boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
 
-    boolean isAppSupportAuthorization(int targetApp);
+    boolean isAppSupportAuthorization();
 
     /**
+     * tiktok、tiktok-m、抖音
      *
-     * @param targetApp tiktok、tiktok-m、抖音
      * @return
      */
-    boolean isAppSupportShare(int targetApp);
+    boolean isAppSupportShare();
 
     /**
      * 目标应用是否已经安装
@@ -40,7 +40,7 @@ public interface TiktokOpenApi {
      * 包含了此功能且带有版本判断. 建议用另外两个接口.
      * @return
      */
-    boolean isAppInstalled(int targetApp);
+    boolean isAppInstalled();
 
     /**
      * send request to authorize if tiktok hasnot been installed, it will get authorization through wap

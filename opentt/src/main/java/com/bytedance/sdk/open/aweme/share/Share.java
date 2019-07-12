@@ -25,7 +25,7 @@ public class Share {
         public int mTargetSceneType = 0;
 
         public String mHashTag;
-
+        @Deprecated
         public int mTargetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         public DYMediaContent mMediaContent;  // 基础媒体数据

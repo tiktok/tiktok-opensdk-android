@@ -72,12 +72,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TikTokOpenApiFactory.create(this);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        bdOpenApi = TikTokOpenApiFactory.create(this);
 
         // 调用wap授权预加载
         Authorization.Request request = new Authorization.Request();
@@ -85,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;
         request.optionalScope0 = mOptionalScope1;
         request.state = "ww";
-        request.targetApp = targetAppId;
         request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
 //        bdOpenApi.preloadWebAuth(request);
@@ -131,14 +131,17 @@ public class MainActivity extends AppCompatActivity {
                 switch (id) {
                     case R.id.app_aweme:
                         targetAppId = TikTokConstants.TARGET_APP.AWEME;
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.AWEME);
                         break;
                     case R.id.app_tiktok:
                         targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
                         IS_AUTH_BY_M = false;
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
                         targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
                         break;
                 }
             }
@@ -168,14 +171,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private  void createTikTokImplApi(int targetApp) {
+        bdOpenApi = TikTokOpenApiFactory.create(this,targetApp);
+    }
+
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
-        request.targetApp = TikTokConstants.TARGET_APP.AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-        request.targetApp = targetAppId;
 //       request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
         return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 

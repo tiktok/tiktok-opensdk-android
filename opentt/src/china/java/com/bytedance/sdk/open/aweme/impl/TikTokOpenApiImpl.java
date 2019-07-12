@@ -44,6 +44,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     private ShareImpl shareImpl;
     private AuthImpl authImpl;
+    private int mTargetApp;
 
     static final int API_TYPE_LOGIN = 0;
     static final int API_TYPE_SHARE = 1;
@@ -54,7 +55,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
+    TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl,int targetApp) {
         this.mContext = context;
         this.shareImpl = shareImpl;
         this.authImpl = authImpl;
@@ -69,6 +70,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
                 new MusicallyCheckHelperImpl(context),
                 new TiktokCheckHelperImpl(context)
         };
+        mTargetApp = targetApp;
     }
 
     @Override
@@ -102,8 +104,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
-    @Override public boolean isAppSupportAuthorization(int targetApp) {
-        if (targetApp == TikTokConstants.TARGET_APP.AWEME) {
+    @Override public boolean isAppSupportAuthorization() {
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportAuthorization();
         } else {
             return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
@@ -111,8 +113,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override
-    public boolean isAppSupportShare(int targetApp) {
-        if (targetApp == TikTokConstants.TARGET_APP.AWEME) {
+    public boolean isAppSupportShare() {
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportShare();
         } else {
             return getSupportApiAppInfo(API_TYPE_SHARE) != null;
@@ -122,13 +124,13 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     @Override
     public boolean authorize(Authorization.Request request) {
         IAPPCheckHelper appHasInstalled;
-        if (request.targetApp == TikTokConstants.TARGET_APP.AWEME) {
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             appHasInstalled = new AwemeCheckHelperImpl(mContext);
             if (!appHasInstalled.isAppSupportAuthorization()) {
                 // 这个时候抖音没安装所以要走web授权
                 appHasInstalled = null;
             }
-        } else if (request.targetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+        } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         } else {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
@@ -147,14 +149,15 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
 
         // 适配抖音
-        if (request.mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
+        // TODO: 2019-07-11 request中的targetApp 打上decrepted，这里是否需要传值进来？
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(mContext);
             if (mContext != null && checkHelper.isAppSupportShare()) {
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request);
             }
         } else {
             // MT需要判断用户安装了哪个，并且哪个支持分享功能
-            if (isAppSupportShare(request.mTargetApp)) {
+            if (isAppSupportShare()) {
                 String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request);
             }
@@ -164,9 +167,9 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-        if (request.targetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+        if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
-        } else if (request.targetApp == TikTokConstants.TARGET_APP.AWEME) {
+        } else if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             return authImpl.authorizeWeb(AwemeWebAuthorizeActivity.class, request);
         } else {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");

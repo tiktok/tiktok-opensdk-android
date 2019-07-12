@@ -19,6 +19,7 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
+        @Deprecated
         public int targetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         /**
