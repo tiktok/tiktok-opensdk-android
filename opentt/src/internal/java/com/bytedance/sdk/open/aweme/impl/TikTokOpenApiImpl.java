@@ -13,6 +13,7 @@ import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.AwemeCheckHelperImpl;
@@ -87,16 +88,16 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             return false;
         }
 
-        int type = bundle.getInt(BDOpenConstants.Params.TYPE);//授权使用的
+        int type = bundle.getInt(BDOpenConstants.BaseParams.TYPE);//授权使用的
         if (type == 0) {
-            type = bundle.getInt(BDOpenConstants.NewVersionParams.TYPE);//分享使用的
+            type = bundle.getInt(BDOpenConstants.ShareParams.TYPE);//分享使用的
         }
         switch (type) {
-            case BDOpenConstants.ModeType.SEND_AUTH_REQUEST:
-            case BDOpenConstants.ModeType.SEND_AUTH_RESPONSE:
+            case TikTokConstants.ModeType.SEND_AUTH_REQUEST:
+            case TikTokConstants.ModeType.SEND_AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY:
-            case BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP:
+            case TikTokConstants.ModeType.SHARE_CONTENT_TO_DY:
+            case TikTokConstants.ModeType.SHARE_CONTENT_TO_DY_RESP:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
@@ -104,7 +105,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override public boolean isAppSupportAuthorization(int targetApp) {
-        if (targetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        if (targetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportAuthorization();
         } else {
             return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
@@ -113,7 +114,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     @Override
     public boolean isAppSupportShare(int targetApp) {
-        if (targetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        if (targetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportShare();
         } else {
             return getSupportApiAppInfo(API_TYPE_SHARE) != null;
@@ -128,7 +129,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
      * @return
      */
     @Override public boolean isAppInstalled(int targetApp) {
-        if (targetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        if (targetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppInstalled();
         } else {
             for (IAPPCheckHelper checkapi : mAuthcheckApis) {
@@ -143,13 +144,13 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     @Override
     public boolean authorize(Authorization.Request request) {
         IAPPCheckHelper appHasInstalled;
-        if (request.targetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        if (request.targetApp == TikTokConstants.TARGET_APP.AWEME) {
             appHasInstalled = new AwemeCheckHelperImpl(mContext);
             if (!appHasInstalled.isAppSupportAuthorization()) {
                 // 这个时候抖音没安装所以要走web授权
                 appHasInstalled = null;
             }
-        } else if (request.targetApp == BDOpenConstants.TARGET_APP.TIKTOK) {
+        } else if (request.targetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         } else {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
@@ -168,7 +169,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
 
         // 适配抖音
-        if (request.mTargetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        if (request.mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(mContext);
             if (mContext != null && checkHelper.isAppSupportShare()) {
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request);
@@ -195,9 +196,9 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-        if (request.targetApp == BDOpenConstants.TARGET_APP.TIKTOK) {
+        if (request.targetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
-        } else if (request.targetApp == BDOpenConstants.TARGET_APP.AWEME) {
+        } else if (request.targetApp == TikTokConstants.TARGET_APP.AWEME) {
             return authImpl.authorizeWeb(AwemeWebAuthorizeActivity.class, request);
         } else {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 
 
 /**
@@ -38,7 +39,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL;
+        return errorCode == TikTokConstants.ErrorCode.ERROR_CODE_CANCEL;
     }
 
     /**
@@ -47,7 +48,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == BDOpenConstants.ErrorCode.ERROR_CODE_OK;
+        return errorCode == TikTokConstants.ErrorCode.ERROR_CODE_OK;
     }
 
     /**
@@ -69,16 +70,16 @@ public abstract class BaseResp {
 
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(BDOpenConstants.Params.ERROR_CODE, errorCode);
-        bundle.putString(BDOpenConstants.Params.ERROR_MSG, errorMsg);
-        bundle.putInt(BDOpenConstants.Params.TYPE, getType());
-        bundle.putBundle(BDOpenConstants.Params.EXTRA, extras);
+        bundle.putInt(BDOpenConstants.BaseParams.ERROR_CODE, errorCode);
+        bundle.putString(BDOpenConstants.BaseParams.ERROR_MSG, errorMsg);
+        bundle.putInt(BDOpenConstants.BaseParams.TYPE, getType());
+        bundle.putBundle(BDOpenConstants.BaseParams.EXTRA, extras);
     }
 
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.errorCode = bundle.getInt(BDOpenConstants.Params.ERROR_CODE);
-        this.errorMsg = bundle.getString(BDOpenConstants.Params.ERROR_MSG);
-        this.extras = bundle.getBundle(BDOpenConstants.Params.EXTRA);
+        this.errorCode = bundle.getInt(BDOpenConstants.BaseParams.ERROR_CODE);
+        this.errorMsg = bundle.getString(BDOpenConstants.BaseParams.ERROR_MSG);
+        this.extras = bundle.getBundle(BDOpenConstants.BaseParams.EXTRA);
     }
 }

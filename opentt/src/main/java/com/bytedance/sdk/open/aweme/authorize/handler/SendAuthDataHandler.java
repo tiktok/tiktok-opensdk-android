@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.authorize.handler;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 
@@ -17,7 +17,7 @@ public class SendAuthDataHandler implements BDDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == BDOpenConstants.ModeType.SEND_AUTH_REQUEST) {
+        if (type == TikTokConstants.ModeType.SEND_AUTH_REQUEST) {
             Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
                 // 处理调空格，否则服务端不认
@@ -35,7 +35,7 @@ public class SendAuthDataHandler implements BDDataHandler {
             } else {
                 return false;
             }
-        } else if (type == BDOpenConstants.ModeType.SEND_AUTH_RESPONSE) {
+        } else if (type == TikTokConstants.ModeType.SEND_AUTH_RESPONSE) {
             Authorization.Response response = new Authorization.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

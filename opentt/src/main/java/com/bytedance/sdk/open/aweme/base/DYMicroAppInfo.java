@@ -33,7 +33,7 @@ public class DYMicroAppInfo {
 
         Gson gson = new Gson();
         String result = gson.toJson(this);
-        sendBundle.putString(BDOpenConstants.NewVersionParams.SHARE_MICROAPP_INFO, result);
+        sendBundle.putString(BDOpenConstants.ShareParams.SHARE_MICROAPP_INFO, result);
     }
 
     public static DYMicroAppInfo unserialize(Bundle clientBundle) {
@@ -41,7 +41,7 @@ public class DYMicroAppInfo {
             return null;
         }
 
-        String info = clientBundle.getString(BDOpenConstants.NewVersionParams.SHARE_MICROAPP_INFO);
+        String info = clientBundle.getString(BDOpenConstants.ShareParams.SHARE_MICROAPP_INFO);
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson microGson = new Gson();

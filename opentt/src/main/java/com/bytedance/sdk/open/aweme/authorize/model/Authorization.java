@@ -3,6 +3,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
@@ -18,7 +19,7 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
-        public int targetApp = BDOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
+        public int targetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         /**
          * 可选项，支持wap授权页面横竖屏方式，取值ActivityInfo.ScreenOrientation
@@ -54,31 +55,31 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return BDOpenConstants.ModeType.SEND_AUTH_REQUEST;
+            return TikTokConstants.ModeType.SEND_AUTH_REQUEST;
         }
 
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.state = bundle.getString(BDOpenConstants.Params.STATE);
-            this.clientKey = bundle.getString(BDOpenConstants.Params.CLIENT_KEY);
-            this.redirectUri = bundle.getString(BDOpenConstants.Params.REDIRECT_URI);
-            this.scope = bundle.getString(BDOpenConstants.Params.SCOPE);
-            this.optionalScope0 = bundle.getString(BDOpenConstants.Params.OPTIONAL_SCOPE0);
-            this.optionalScope1 = bundle.getString(BDOpenConstants.Params.OPTIONAL_SCOPE1);
-            this.wapRequestedOrientation = bundle.getInt(BDOpenConstants.Params.WAP_REQUESETED_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            this.state = bundle.getString(BDOpenConstants.AuthParams.STATE);
+            this.clientKey = bundle.getString(BDOpenConstants.AuthParams.CLIENT_KEY);
+            this.redirectUri = bundle.getString(BDOpenConstants.AuthParams.REDIRECT_URI);
+            this.scope = bundle.getString(BDOpenConstants.AuthParams.SCOPE);
+            this.optionalScope0 = bundle.getString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE0);
+            this.optionalScope1 = bundle.getString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE1);
+            this.wapRequestedOrientation = bundle.getInt(BDOpenConstants.AuthParams.WAP_REQUESETED_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
 
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(BDOpenConstants.Params.STATE, state);
-            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, clientKey);
-            bundle.putString(BDOpenConstants.Params.REDIRECT_URI, redirectUri);
-            bundle.putString(BDOpenConstants.Params.SCOPE, scope);
-            bundle.putString(BDOpenConstants.Params.OPTIONAL_SCOPE0, optionalScope0);
-            bundle.putString(BDOpenConstants.Params.OPTIONAL_SCOPE1, optionalScope1);
-            bundle.putInt(BDOpenConstants.Params.WAP_REQUESETED_ORIENTATION, wapRequestedOrientation);
+            bundle.putString(BDOpenConstants.AuthParams.STATE, state);
+            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, clientKey);
+            bundle.putString(BDOpenConstants.AuthParams.REDIRECT_URI, redirectUri);
+            bundle.putString(BDOpenConstants.AuthParams.SCOPE, scope);
+            bundle.putString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE0, optionalScope0);
+            bundle.putString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE1, optionalScope1);
+            bundle.putInt(BDOpenConstants.AuthParams.WAP_REQUESETED_ORIENTATION, wapRequestedOrientation);
         }
     }
 
@@ -97,24 +98,24 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return BDOpenConstants.ModeType.SEND_AUTH_RESPONSE;
+            return TikTokConstants.ModeType.SEND_AUTH_RESPONSE;
         }
 
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.authCode = bundle.getString(BDOpenConstants.Params.AUTH_CODE);
-            this.state = bundle.getString(BDOpenConstants.Params.STATE);
-            this.grantedPermissions = bundle.getString(BDOpenConstants.Params.GRANTED_PERMISSION);
+            this.authCode = bundle.getString(BDOpenConstants.AuthParams.AUTH_CODE);
+            this.state = bundle.getString(BDOpenConstants.AuthParams.STATE);
+            this.grantedPermissions = bundle.getString(BDOpenConstants.AuthParams.GRANTED_PERMISSION);
 
         }
 
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(BDOpenConstants.Params.AUTH_CODE, authCode);
-            bundle.putString(BDOpenConstants.Params.STATE, state);
-            bundle.putString(BDOpenConstants.Params.GRANTED_PERMISSION, grantedPermissions);
+            bundle.putString(BDOpenConstants.AuthParams.AUTH_CODE, authCode);
+            bundle.putString(BDOpenConstants.AuthParams.STATE, state);
+            bundle.putString(BDOpenConstants.AuthParams.GRANTED_PERMISSION, grantedPermissions);
         }
     }
 }

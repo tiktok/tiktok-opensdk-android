@@ -31,24 +31,24 @@ public abstract class DYBaseRequest extends BaseReq {
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(BDOpenConstants.NewVersionParams.TYPE, getType());
-        bundle.putBundle(BDOpenConstants.NewVersionParams.EXTRA, extras);
-        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
-        bundle.putString(BDOpenConstants.NewVersionParams.CLIENT_KEY, mClientKey);
-        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION, mCallerSDKVersion);
-        bundle.putString(BDOpenConstants.NewVersionParams.CALLER_PKG, mCallerPackage);
-        bundle.putString(BDOpenConstants.NewVersionParams.STATE, mState);
+        bundle.putInt(BDOpenConstants.ShareParams.TYPE, getType());
+        bundle.putBundle(BDOpenConstants.ShareParams.EXTRA, extras);
+        bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
+        bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, mClientKey);
+        bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
+        bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mCallerPackage);
+        bundle.putString(BDOpenConstants.ShareParams.STATE, mState);
     }
 
     @SuppressLint("MissingSuperCall")
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.mCallerPackage = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_PKG);
-        this.mCallerSDKVersion = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION);
-        this.extras = bundle.getBundle(BDOpenConstants.NewVersionParams.EXTRA);
-        this.callerLocalEntry = bundle.getString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY);
-        this.mState = bundle.getString(BDOpenConstants.NewVersionParams.STATE);
-        this.mClientKey = bundle.getString(BDOpenConstants.NewVersionParams.CLIENT_KEY);
+        this.mCallerPackage = bundle.getString(BDOpenConstants.ShareParams.CALLER_PKG);
+        this.mCallerSDKVersion = bundle.getString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION);
+        this.extras = bundle.getBundle(BDOpenConstants.ShareParams.EXTRA);
+        this.callerLocalEntry = bundle.getString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY);
+        this.mState = bundle.getString(BDOpenConstants.ShareParams.STATE);
+        this.mClientKey = bundle.getString(BDOpenConstants.ShareParams.CLIENT_KEY);
     }
 
     @Override

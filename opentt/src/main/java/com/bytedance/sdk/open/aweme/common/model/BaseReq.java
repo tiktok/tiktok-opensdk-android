@@ -63,16 +63,16 @@ public abstract class BaseReq {
 
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(BDOpenConstants.Params.TYPE, getType());
-        bundle.putBundle(BDOpenConstants.Params.EXTRA, extras);
-        bundle.putString(BDOpenConstants.Params.FROM_ENTRY, callerLocalEntry);
+        bundle.putInt(BDOpenConstants.BaseParams.TYPE, getType());
+        bundle.putBundle(BDOpenConstants.BaseParams.EXTRA, extras);
+        bundle.putString(BDOpenConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
     }
 
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.callerPackage = bundle.getString(BDOpenConstants.Params.CALLER_PKG);
-        this.callerVersion = bundle.getString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION);
-        this.extras = bundle.getBundle(BDOpenConstants.Params.EXTRA);
-        this.callerLocalEntry = bundle.getString(BDOpenConstants.Params.FROM_ENTRY);
+        this.callerPackage = bundle.getString(BDOpenConstants.BaseParams.CALLER_PKG);
+        this.callerVersion = bundle.getString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION);
+        this.extras = bundle.getBundle(BDOpenConstants.BaseParams.EXTRA);
+        this.callerLocalEntry = bundle.getString(BDOpenConstants.BaseParams.FROM_ENTRY);
     }
 }
