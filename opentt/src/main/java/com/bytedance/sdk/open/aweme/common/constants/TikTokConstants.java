@@ -5,22 +5,51 @@ public interface TikTokConstants {
     // 定义一些抖音内的事件，广播的形式通知给第三方app
     String ACTION_STAY_IN_DY = "com.aweme.opensdk.action.stay.in.dy";
 
-    /**
-     * 错误码
-     */
-    interface ErrorCode {
+    interface BaseErrorCode {
         /**
          * 正常
          */
-        int ERROR_CODE_OK = 0;
+        int OK = 0;
         /**
          * 未知错误
          */
-        int ERROR_CODE_UNKNOW = -1;
+        int ERROR_UNKNOW = -1;
         /**
          * 用户手动取消
          */
-        int ERROR_CODE_CANCEL = -2;
+        int ERROR_CANCEL = -2;
+    }
+
+
+
+    interface ShareErrorCode {
+        /**
+         * 发送失败，分享使用
+         */
+        int ERROR_CODE_SEND_FAIL = -3;
+
+        /**
+         * 权限错误, 第三方未获取相关分享权限或获取权限失败
+         */
+        int ERROR_CODE_AUTH_DENIED = -4;
+
+        /**
+         * 文件解析过程出错或命中其它的一些限制，分享使用
+         */
+        int ERROR_CODE_UNSUPPORT = -5;
+
+    }
+
+    interface AuthErrorCode {
+        /**
+         * -12、-13、 -14、 -15、 -16、-21 表示网络请求过程中的一些exception
+         */
+        int ERROR_NETWORK_NO_CONNECTION = -12;
+        int ERROR_NETWORK_CONNECT_TIMEOUT = -13;
+        int ERROR_NETWORK_TIMEOUT = -14;
+        int ERROR_NETWORK_IO = -15;
+        int ERROR_NETWORK_UNKNOWN_HOST_ERROR = -16;
+        int ERROR_NETWORK_SSL = -21;
 
         /**
          * 系统异常
@@ -62,11 +91,16 @@ public interface TikTokConstants {
         int ERROR_TOKEN = 10008;
 
         /**
-         * ticket过期
+         * 非法参数
          */
         int ERROR_TICKET = 10009;
-    }
 
+        /**
+         * refresh token 过期
+         */
+        int ERROR_REFRESH_TOKEN = 10010;
+
+    }
     /**
      * Bundle 动作类型
      */
