@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -193,7 +194,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     @Override
     public void onBackPressed() {
-        redirectToClientApp("", BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
+        redirectToClientApp("", TikTokConstants.ErrorCode.ERROR_CODE_CANCEL);
     }
 
     /**
@@ -411,7 +412,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         String grantedPermissions = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
             String errorCodeStr = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
-            int errorCode = BDOpenConstants.ErrorCode.ERROR_CODE_UNKNOW;
+            int errorCode = TikTokConstants.ErrorCode.ERROR_CODE_UNKNOW;
             if (!TextUtils.isEmpty(errorCodeStr)) {
                 try {
                     errorCode = Integer.parseInt(errorCodeStr);
@@ -422,7 +423,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             redirectToClientApp("", errorCode);
             return false;
         }
-        redirectToClientApp(code, state, grantedPermissions, BDOpenConstants.ErrorCode.ERROR_CODE_OK);
+        redirectToClientApp(code, state, grantedPermissions, TikTokConstants.ErrorCode.ERROR_CODE_OK);
         return true;
     }
 

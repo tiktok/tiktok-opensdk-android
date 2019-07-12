@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.aweme.share;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 
@@ -15,7 +16,7 @@ public class ShareDataHandler implements BDDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY) {
+        if (type == TikTokConstants.ModeType.SHARE_CONTENT_TO_DY) {
             Share.Request request = new Share.Request(bundle);
             if (request.checkArgs()) {
                 eventHandler.onReq(request);
@@ -23,7 +24,7 @@ public class ShareDataHandler implements BDDataHandler {
             } else {
                 return false;
             }
-        } else if (type == BDOpenConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
+        } else if (type == TikTokConstants.ModeType.SHARE_CONTENT_TO_DY_RESP) {
             Share.Response response = new Share.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

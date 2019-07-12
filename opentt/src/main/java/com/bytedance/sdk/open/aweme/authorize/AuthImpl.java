@@ -31,9 +31,9 @@ public class AuthImpl {
             OpenUtils.handleRequestScope(req);
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
@@ -66,12 +66,12 @@ public class AuthImpl {
             }
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(BDOpenConstants.Params.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.Params.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.Params.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.Params.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
+                bundle.putString(BDOpenConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));

@@ -47,12 +47,12 @@ public class ShareImpl {
             // packages
             Bundle bundle = new Bundle();
             request.toBundle(bundle);
-            bundle.putString(BDOpenConstants.NewVersionParams.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.NewVersionParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.NewVersionParams.CALLER_SDK_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, BDOpenConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.NewVersionParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
+                bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
@@ -93,7 +93,7 @@ public class ShareImpl {
             eventHandler.onErrorIntent(intent);
             return false;
         }
-        int type = bundle.getInt(BDOpenConstants.NewVersionParams.TYPE);
+        int type = bundle.getInt(BDOpenConstants.ShareParams.TYPE);
         for (BDDataHandler handler : handlers) {
             if (handler.handle(type, bundle, eventHandler)) {
                 return true;

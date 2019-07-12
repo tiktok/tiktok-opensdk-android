@@ -13,8 +13,8 @@ import android.widget.ImageView;
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
@@ -62,7 +62,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel(BDOpenConstants.ErrorCode.ERROR_CODE_CANCEL);
+                onCancel(TikTokConstants.ErrorCode.ERROR_CODE_CANCEL);
             }
         });
         return headerView;

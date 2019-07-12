@@ -26,7 +26,7 @@ import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.base.DYImageObject;
 import com.bytedance.sdk.open.aweme.base.DYMediaContent;
 import com.bytedance.sdk.open.aweme.base.DYVideoObject;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int targetAppId = BDOpenConstants.TARGET_APP.AWEME; // 默认抖音
+    public static int targetAppId = TikTokConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi bdOpenApi;
@@ -130,18 +130,18 @@ public class MainActivity extends AppCompatActivity {
                 int id = group.getCheckedRadioButtonId();
                 switch (id) {
                     case R.id.app_aweme:
-                        targetAppId = BDOpenConstants.TARGET_APP.AWEME;
-                        createTikTokImplApi(BDOpenConstants.TARGET_APP.AWEME);
+                        targetAppId = TikTokConstants.TARGET_APP.AWEME;
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.AWEME);
                         break;
                     case R.id.app_tiktok:
-                        targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
+                        targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
                         IS_AUTH_BY_M = false;
-                        createTikTokImplApi(BDOpenConstants.TARGET_APP.TIKTOK);
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
-                        targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
-                        createTikTokImplApi(BDOpenConstants.TARGET_APP.TIKTOK);
+                        targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
+                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
                         break;
                 }
             }
