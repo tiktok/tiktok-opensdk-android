@@ -25,6 +25,7 @@ public class Share {
 
         public String mHashTag;
 
+        @Deprecated
         public int mTargetApp = BDOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         public DYMediaContent mMediaContent;  // 基础媒体数据
@@ -56,6 +57,7 @@ public class Share {
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
+            //todo 根据版本号确定拼接对象
             bundle.putAll(DYMediaContent.Builder.toBundle(this.mMediaContent));
             bundle.putInt(BDOpenConstants.NewVersionParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(BDOpenConstants.NewVersionParams.SHARE_DEFAULT_HASHTAG, mHashTag);

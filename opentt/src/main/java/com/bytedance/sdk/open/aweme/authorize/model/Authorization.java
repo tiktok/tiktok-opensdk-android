@@ -18,6 +18,7 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
+        @Deprecated
         public int targetApp = BDOpenConstants.TARGET_APP.TIKTOK; //默认tiktok
 
         /**

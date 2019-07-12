@@ -126,19 +126,23 @@ public class MainActivity extends AppCompatActivity {
         mTargetApp = findViewById(R.id.target_app);
 
         mTargetApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(RadioGroup group, int checkedId) {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int id = group.getCheckedRadioButtonId();
                 switch (id) {
                     case R.id.app_aweme:
                         targetAppId = BDOpenConstants.TARGET_APP.AWEME;
+                        createTiktokApiImpl(BDOpenConstants.TARGET_APP.AWEME);
                         break;
                     case R.id.app_tiktok:
                         targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
                         IS_AUTH_BY_M = false;
+                        createTiktokApiImpl(BDOpenConstants.TARGET_APP.TIKTOK);
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
                         targetAppId = BDOpenConstants.TARGET_APP.TIKTOK;
+                        createTiktokApiImpl(BDOpenConstants.TARGET_APP.TIKTOK);
                         break;
                 }
             }
@@ -166,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void  createTiktokApiImpl(int targetApp) {
+        bdOpenApi = TikTokOpenApiFactory.create(this,targetApp);
     }
 
     private boolean sendAuth() {
