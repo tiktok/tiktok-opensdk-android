@@ -4,16 +4,16 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-public class DYMediaContent {
+public class TikTokMediaContent {
 
-    private static final String TAG = "AWEME.SDK.DYMediaContent";
+    private static final String TAG = "AWEME.SDK.TikTokMediaContent";
     public IMediaObject mMediaObject;
 
-    public DYMediaContent() {
+    public TikTokMediaContent() {
 
     }
 
-    public DYMediaContent(IMediaObject obj) {
+    public TikTokMediaContent(IMediaObject obj) {
         this.mMediaObject = obj;
     }
 
@@ -31,7 +31,7 @@ public class DYMediaContent {
         public Builder() {
         }
 
-        public static Bundle toBundle(DYMediaContent mediaContent) {
+        public static Bundle toBundle(TikTokMediaContent mediaContent, boolean supportOldVersion) {
             Bundle bundle;
             bundle = new Bundle();
             if (mediaContent.mMediaObject != null) {
@@ -40,6 +40,9 @@ public class DYMediaContent {
                 if (className.contains("sdk")) {
                     className = className.replace("sdk", "sdk.account");
                 }
+                if (supportOldVersion) {
+                    className = className.replace("TikTok","DY");
+                }
                 bundle.putString(KEY_IDENTIFIER, className);
                 mediaContent.mMediaObject.serialize(bundle);
             }
@@ -47,9 +50,9 @@ public class DYMediaContent {
         }
 
         @SuppressLint("LongLogTag")
-        public static DYMediaContent fromBundle(Bundle bundle) {
-            DYMediaContent mediaContent;
-            mediaContent = new DYMediaContent();
+        public static TikTokMediaContent fromBundle(Bundle bundle) {
+            TikTokMediaContent mediaContent;
+            mediaContent = new TikTokMediaContent();
             String mediaClassName;
             if (((mediaClassName = bundle.getString(KEY_IDENTIFIER))) != null && mediaClassName.length() > 0) {
                 try {

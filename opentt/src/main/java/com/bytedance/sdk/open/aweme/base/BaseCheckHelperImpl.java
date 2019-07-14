@@ -60,7 +60,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     }
 
 
-
+    // TODO: 2019-07-12 是否需要迁移至apputil中 
     public int getPlatformSDKVersion(String platformPackageName, String remoteRequestEntry) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
             return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
@@ -87,6 +87,12 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     public boolean isAppInstalled() {
         return AppUtil.isAppInstalled(mContext, getPackageName());
     }
+
+    public boolean isSupportNewTiktokApi() {
+        return getPlatformSDKVersion(getPackageName(), getRemoteAuthEntryActivity())
+                >= BDOpenConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API;
+    }
+    
 
     @NonNull
     @Override
