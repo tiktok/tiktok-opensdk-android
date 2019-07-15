@@ -6,16 +6,16 @@ import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 
 import java.util.ArrayList;
 
-public class DYImageObject implements IMediaObject {
+public class TikTokImageObject implements IMediaObject {
 
-    private static final String TAG = "DYImageObject";
+    private static final String TAG = "TikTokImageObject";
     public ArrayList<String> mImagePaths;
 
-    public DYImageObject() {
+    public TikTokImageObject() {
 
     }
 
-    public DYImageObject(ArrayList<String> images) {
+    public TikTokImageObject(ArrayList<String> images) {
         this.mImagePaths = new ArrayList<>();
         this.mImagePaths.addAll(images);
     }

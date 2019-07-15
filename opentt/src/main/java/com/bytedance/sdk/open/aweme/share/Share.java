@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
+import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
 import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.base.DYMediaContent;
-import com.bytedance.sdk.open.aweme.base.DYMicroAppInfo;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -28,8 +28,8 @@ public class Share {
         @Deprecated
         public int mTargetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
 
-        public DYMediaContent mMediaContent;  // 基础媒体数据
-        public DYMicroAppInfo mMicroAppInfo;  // 小程序
+        public TikTokMediaContent mMediaContent;  // 基础媒体数据
+        public TikTokMicroAppInfo mMicroAppInfo;  // 小程序
 
         public String mCallerPackage;
         public String mCallerSDKVersion;
@@ -69,8 +69,8 @@ public class Share {
             this.mTargetSceneType =
                     bundle.getInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, BDOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
             this.mHashTag = bundle.getString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
-            this.mMediaContent = DYMediaContent.Builder.fromBundle(bundle);
-            this.mMicroAppInfo = DYMicroAppInfo.unserialize(bundle);
+            this.mMediaContent = TikTokMediaContent.Builder.fromBundle(bundle);
+            this.mMicroAppInfo = TikTokMicroAppInfo.unserialize(bundle);
         }
 
         @SuppressLint("MissingSuperCall")
@@ -83,7 +83,7 @@ public class Share {
             bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
             bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(BDOpenConstants.ShareParams.STATE, mState);
-            bundle.putAll(DYMediaContent.Builder.toBundle(this.mMediaContent));
+            bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,false));
             bundle.putInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
@@ -91,6 +91,25 @@ public class Share {
             if (mMicroAppInfo != null) {
                 mMicroAppInfo.serialize(bundle);
             }
+        }
+
+        public void toBundleForOldVersion(Bundle bundle) {
+            bundle.putInt(BDOpenConstants.ShareParams.TYPE, getType());
+            bundle.putBundle(BDOpenConstants.ShareParams.EXTRA, extras);
+            bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
+            bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, mClientKey);
+            bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
+            bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mCallerPackage);
+            bundle.putString(BDOpenConstants.ShareParams.STATE, mState);
+            bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,true));
+            bundle.putInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
+            bundle.putString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
+
+            // 670添加小程序
+            if (mMicroAppInfo != null) {
+                mMicroAppInfo.serialize(bundle);
+            }
+
         }
 
         @SuppressLint("MissingSuperCall")
@@ -103,6 +122,7 @@ public class Share {
             }
         }
     }
+
 
     public static class Response extends BaseResp {
         public String state;

@@ -12,7 +12,7 @@ import com.google.gson.JsonSyntaxException;
  *
  * @author colin.yu@bytedance.com
  */
-public class DYMicroAppInfo {
+public class TikTokMicroAppInfo {
 
     //小程序id
     private String appId;
@@ -36,7 +36,7 @@ public class DYMicroAppInfo {
         sendBundle.putString(BDOpenConstants.ShareParams.SHARE_MICROAPP_INFO, result);
     }
 
-    public static DYMicroAppInfo unserialize(Bundle clientBundle) {
+    public static TikTokMicroAppInfo unserialize(Bundle clientBundle) {
         if (clientBundle == null) {
             return null;
         }
@@ -45,7 +45,7 @@ public class DYMicroAppInfo {
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson microGson = new Gson();
-                DYMicroAppInfo microAppInfo = microGson.fromJson(info, DYMicroAppInfo.class);
+                TikTokMicroAppInfo microAppInfo = microGson.fromJson(info, TikTokMicroAppInfo.class);
                 return microAppInfo;
             }
         } catch (JsonSyntaxException e) {

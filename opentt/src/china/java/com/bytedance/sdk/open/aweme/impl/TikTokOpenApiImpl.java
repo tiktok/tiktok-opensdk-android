@@ -149,17 +149,18 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
 
         // 适配抖音
-        // TODO: 2019-07-11 request中的targetApp 打上decrepted，这里是否需要传值进来？
         if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(mContext);
             if (mContext != null && checkHelper.isAppSupportShare()) {
-                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request);
+                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
+                        checkHelper.getRemoteAuthEntryActivity());
             }
         } else {
             // MT需要判断用户安装了哪个，并且哪个支持分享功能
             if (isAppSupportShare()) {
                 String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
-                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request);
+                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
+                        getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity());
             }
         }
 
