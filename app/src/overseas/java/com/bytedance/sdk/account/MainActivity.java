@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.base.DYImageObject;
-import com.bytedance.sdk.open.aweme.base.DYMediaContent;
-import com.bytedance.sdk.open.aweme.base.DYVideoObject;
+import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
+import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
+import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     Button mShareToDouyin;
+
+    Button mShareToDouyinWithShareId;
+
+    Button getmShareToDouyinWithShareIdneedCallback;
 
     EditText mMediaPathList;
 
@@ -85,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;
         request.optionalScope0 = mOptionalScope1;
         request.state = "ww";
-        request.targetApp = targetAppId;
         request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
 //        bdOpenApi.preloadWebAuth(request);
@@ -119,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mShareToDouyin = findViewById(R.id.share_to_douyin);
+        mShareToDouyinWithShareId = findViewById(R.id.share_to_douyin_with_shareid_no_callback);
+        getmShareToDouyinWithShareIdneedCallback = findViewById(R.id.share_to_douyin_with_shareid_callback);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
@@ -170,6 +175,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mShareToDouyinWithShareId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        getmShareToDouyinWithShareIdneedCallback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     private void createTiktokApiImpl(int targetApp) {
@@ -181,9 +200,7 @@ public class MainActivity extends AppCompatActivity {
         request.scope = mScope;                          // 用户授权时必选权限
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
-        request.targetApp = TikTokConstants.TARGET_APP.AWEME;
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-        request.targetApp = targetAppId;
 //       request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
         return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 
@@ -218,6 +235,8 @@ public class MainActivity extends AppCompatActivity {
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
+                    mShareToDouyinWithShareId.setVisibility(View.VISIBLE);
+                    getmShareToDouyinWithShareIdneedCallback.setVisibility(View.VISIBLE);
                     mAddMedia.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
@@ -263,9 +282,9 @@ public class MainActivity extends AppCompatActivity {
         Share.Request request = new Share.Request();
         switch (shareType) {
             case Share.IMAGE:
-                DYImageObject imageObject = new DYImageObject();
+                TikTokImageObject imageObject = new TikTokImageObject();
                 imageObject.mImagePaths = mUri;
-                DYMediaContent mediaContent = new DYMediaContent();
+                TikTokMediaContent mediaContent = new TikTokMediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
@@ -275,17 +294,16 @@ public class MainActivity extends AppCompatActivity {
                 request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
-                DYVideoObject videoObject = new DYVideoObject();
+                TikTokVideoObject videoObject = new TikTokVideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
-                DYMediaContent content = new DYMediaContent();
+                TikTokMediaContent content = new TikTokMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
-                request.mHashTag = "设置我的默认话题";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
 //                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
@@ -294,9 +312,6 @@ public class MainActivity extends AppCompatActivity {
 //                mMicroInfo.setAppId("ttef9b992670b151ec");
 //                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
 //                request.mMicroAppInfo = mMicroInfo;
-
-                // 指定掉起抖音或者tiktok，不填默认tiktok
-                request.mTargetApp = targetAppId;
                 break;
         }
 
