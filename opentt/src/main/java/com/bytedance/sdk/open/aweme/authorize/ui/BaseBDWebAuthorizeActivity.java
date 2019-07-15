@@ -159,7 +159,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         mContext = this;
         mHandler = new MyHandler(this);
         handleIntent(getIntent(), this);
-        int layoutId = getResources().getIdentifier("bd_open_base_web_authorize", RES_LAYOUT, getPackageName());
+        int layoutId = getResources().getIdentifier("tiktok_layout_open_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
         initView();
         initActions();
@@ -194,7 +194,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
     @Override
     public void onBackPressed() {
-        redirectToClientApp("", TikTokConstants.ErrorCode.ERROR_CODE_CANCEL);
+        redirectToClientApp("", TikTokConstants.BaseErrorCode.ERROR_CANCEL);
     }
 
     /**
@@ -291,10 +291,10 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
 
     private void initView() {
-        int containerId = getResources().getIdentifier("bd_open_rl_container", RES_ID, getPackageName());
+        int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
         mContainer = (RelativeLayout) findViewById(containerId);
         // 添加取消按钮
-        int headerId = getResources().getIdentifier("bd_open_header_view", RES_ID, getPackageName());
+        int headerId = getResources().getIdentifier("tiktok_open_header_view", RES_ID, getPackageName());
         mHeaderView = (RelativeLayout) findViewById(headerId);
         setContainerViewBgColor();
 
@@ -304,7 +304,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             mHeaderView.addView(headerView);
         }
 
-        int loadingId = getResources().getIdentifier("bd_open_loading_group", RES_ID, getPackageName());
+        int loadingId = getResources().getIdentifier("tiktok_open_loading_group", RES_ID, getPackageName());
         mLoadingLayout = (FrameLayout) findViewById(loadingId);
 
         View loadingView = getLoadingView(mLoadingLayout);
@@ -412,7 +412,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         String grantedPermissions = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
             String errorCodeStr = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
-            int errorCode = TikTokConstants.ErrorCode.ERROR_CODE_UNKNOW;
+            int errorCode = TikTokConstants.BaseErrorCode.ERROR_UNKNOW;
             if (!TextUtils.isEmpty(errorCodeStr)) {
                 try {
                     errorCode = Integer.parseInt(errorCodeStr);
@@ -423,7 +423,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             redirectToClientApp("", errorCode);
             return false;
         }
-        redirectToClientApp(code, state, grantedPermissions, TikTokConstants.ErrorCode.ERROR_CODE_OK);
+        redirectToClientApp(code, state, grantedPermissions, TikTokConstants.BaseErrorCode.OK);
         return true;
     }
 
@@ -518,34 +518,34 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             AlertDialog ad = builder.create();
-            int sslError = getResources().getIdentifier("bd_open_ssl_error", RES_STRING, getPackageName());
+            int sslError = getResources().getIdentifier("tiktok_open_ssl_error", RES_STRING, getPackageName());
             String message = mContext.getString(sslError);
             final int errorCode = error.getPrimaryError();
             switch (errorCode) {
                 case SslError.SSL_UNTRUSTED:
-                    int sslUntrusted = getResources().getIdentifier("bd_open_ssl_untrusted", RES_STRING, getPackageName());
+                    int sslUntrusted = getResources().getIdentifier("tiktok_open_ssl_untrusted", RES_STRING, getPackageName());
                     message = mContext.getString(sslUntrusted);
                     break;
                 case SslError.SSL_EXPIRED:
-                    int sslExpired = getResources().getIdentifier("bd_open_ssl_expired", RES_STRING, getPackageName());
+                    int sslExpired = getResources().getIdentifier("tiktok_open_ssl_expired", RES_STRING, getPackageName());
                     message = mContext.getString(sslExpired);
                     break;
                 case SslError.SSL_IDMISMATCH:
-                    int sslMismatched = getResources().getIdentifier("bd_open_ssl_mismatched", RES_STRING, getPackageName());
+                    int sslMismatched = getResources().getIdentifier("tiktok_open_ssl_mismatched", RES_STRING, getPackageName());
                     message = mContext.getString(sslMismatched);
                     break;
                 case SslError.SSL_NOTYETVALID:
-                    int sslNotyetvalid= getResources().getIdentifier("bd_open_ssl_notyetvalid", RES_STRING, getPackageName());
+                    int sslNotyetvalid= getResources().getIdentifier("tiktok_open_ssl_notyetvalid", RES_STRING, getPackageName());
                     message = mContext.getString(sslNotyetvalid);
                     break;
             }
-            int sslContinue = getResources().getIdentifier("bd_open_ssl_continue", RES_STRING, getPackageName());
+            int sslContinue = getResources().getIdentifier("tiktok_open_ssl_continue", RES_STRING, getPackageName());
             message += mContext.getString(sslContinue);
-            int sslWarning = getResources().getIdentifier("bd_open_ssl_warning", RES_STRING, getPackageName());
+            int sslWarning = getResources().getIdentifier("tiktok_open_ssl_warning", RES_STRING, getPackageName());
             ad.setTitle(sslWarning);
             ad.setTitle(message);
-            int sslOk = getResources().getIdentifier("bd_open_ssl_ok", RES_STRING, getPackageName());
-            int sslCancel = getResources().getIdentifier("bd_open_ssl_cancel", RES_STRING, getPackageName());
+            int sslOk = getResources().getIdentifier("tiktok_open_ssl_ok", RES_STRING, getPackageName());
+            int sslCancel = getResources().getIdentifier("tiktok_open_ssl_cancel", RES_STRING, getPackageName());
             ad.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(sslOk), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -599,10 +599,10 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             return;
         }
         if (mBaseErrorDialog == null) {
-            int layoutId = getResources().getIdentifier("bd_open_network_error_dialog", RES_LAYOUT, getPackageName());
+            int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
             View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
             // 添加取消按钮
-            int confirmId = getResources().getIdentifier("bd_open_tv_confirm", RES_ID, getPackageName());
+            int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
             mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

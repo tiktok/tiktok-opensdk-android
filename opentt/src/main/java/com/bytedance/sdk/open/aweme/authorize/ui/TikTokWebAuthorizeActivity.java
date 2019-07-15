@@ -62,7 +62,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel(TikTokConstants.ErrorCode.ERROR_CODE_CANCEL);
+                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
             }
         });
         return headerView;

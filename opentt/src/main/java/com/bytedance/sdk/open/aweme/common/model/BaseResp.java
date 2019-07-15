@@ -39,7 +39,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == TikTokConstants.ErrorCode.ERROR_CODE_CANCEL;
+        return errorCode == TikTokConstants.BaseErrorCode.ERROR_CANCEL;
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == TikTokConstants.ErrorCode.ERROR_CODE_OK;
+        return errorCode == TikTokConstants.BaseErrorCode.OK;
     }
 
     /**
