@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.base.DYImageObject;
-import com.bytedance.sdk.open.aweme.base.DYMediaContent;
-import com.bytedance.sdk.open.aweme.base.DYVideoObject;
+import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
+import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
+import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
@@ -260,9 +260,9 @@ public class MainActivity extends AppCompatActivity {
         Share.Request request = new Share.Request();
         switch (shareType) {
             case Share.IMAGE:
-                DYImageObject imageObject = new DYImageObject();
+                TikTokImageObject imageObject = new TikTokImageObject();
                 imageObject.mImagePaths = mUri;
-                DYMediaContent mediaContent = new DYMediaContent();
+                TikTokMediaContent mediaContent = new TikTokMediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
@@ -272,12 +272,12 @@ public class MainActivity extends AppCompatActivity {
                 request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
-                DYVideoObject videoObject = new DYVideoObject();
+                TikTokVideoObject videoObject = new TikTokVideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
-                DYMediaContent content = new DYMediaContent();
+                TikTokMediaContent content = new TikTokMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 request.mHashTag = "设置我的默认话题";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                DYMicroAppInfo mMicroInfo = new DYMicroAppInfo();
+//                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
 //                mMicroInfo.setAppTitle("小程序title");
 //                mMicroInfo.setDescription("小程序描述");
 //                mMicroInfo.setAppId("ttef9b992670b151ec");

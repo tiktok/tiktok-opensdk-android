@@ -6,9 +6,9 @@ import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 
 import java.util.ArrayList;
 
-public class DYVideoObject implements IMediaObject{
+public class TikTokVideoObject implements IMediaObject{
 
-    private static final String TAG = "DYVideoObject";
+    private static final String TAG = "TikTokVideoObject";
     public ArrayList<String> mVideoPaths;
 
     @Override

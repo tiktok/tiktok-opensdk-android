@@ -10,6 +10,7 @@ import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ShareImpl {
      * @param localEntry         当前应用的入口 Activity.用于接收 Response
      * @return
      */
-    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request) {
+    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request,String remotePlatformEntryName) {
         if (TextUtils.isEmpty(remotePackageName) || request == null || mContext == null) {
             return false;
         } else if (!request.checkArgs()) {
@@ -46,7 +47,13 @@ public class ShareImpl {
         } else {
             // packages
             Bundle bundle = new Bundle();
-            request.toBundle(bundle);
+
+            if (AppUtil.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
+                    >= BDOpenConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API) {
+                request.toBundle(bundle);
+            } else {
+                request.toBundleForOldVersion(bundle);
+            }
             bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
             bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, BDOpenConstants.SdkVersion.VERSION);

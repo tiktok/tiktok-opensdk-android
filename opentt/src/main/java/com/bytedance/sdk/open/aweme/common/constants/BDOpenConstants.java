@@ -137,6 +137,11 @@ public interface BDOpenConstants {
 
         // 抖音分享
         int SHARE_REQUIRED_MIN_VERSION = 2; //对应抖音5.2.0及以上 对应dt630及以上,m,11.3
+
+        // TODO: 2019-07-12 补充抖音及MT 对应版本，等待端上修改上车
+        //修改API命名兼容老版本
+        int MIN_SDK_NEW_TIKTOK_API = 3;//对应抖音xxx
+
     }
 
     interface TargetSceneType {

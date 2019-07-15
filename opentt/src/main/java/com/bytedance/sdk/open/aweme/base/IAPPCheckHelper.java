@@ -27,5 +27,7 @@ public interface IAPPCheckHelper {
     @NonNull
     String getRemoteAuthEntryActivity();
 
+    boolean isSupportNewTiktokApi();
+
 //    boolean sendRemoteRequest(String localEntryActivity, BaseReq req);
 }

@@ -1,9 +1,14 @@
 package com.bytedance.sdk.open.aweme.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+
+import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+
 /**
  * Created by yangzhirong on 2018/10/8.
  */
@@ -56,5 +61,31 @@ public class AppUtil {
                 return false;
             }
         }
+    }
+
+    /**
+     * 检测抖音版本
+     * @param context
+     * @param platformPackageName
+     * @param remoteRequestEntry
+     * @return
+     */
+    public static int getPlatformSDKVersion(Context context,String platformPackageName, String remoteRequestEntry) {
+        if ( context== null || TextUtils.isEmpty(platformPackageName)) {
+            return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
+        }
+        if (!AppUtil.isAppInstalled(context, platformPackageName)) {
+            return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
+        }
+        try {
+            ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
+            ActivityInfo appInfo = context.getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
+            if (appInfo != null && appInfo.metaData != null) {
+                return appInfo.metaData.getInt(BDOpenConstants.META_PLATFORM_SDK_VERSION, BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
     }
 }
