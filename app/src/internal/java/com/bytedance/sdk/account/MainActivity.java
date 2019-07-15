@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static int targetAppId = TikTokConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
-    TiktokOpenApi bdOpenApi;
+    TiktokOpenApi tiktokOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -72,23 +71,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TikTokOpenApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this, targetAppId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        // 调用wap授权预加载
-        Authorization.Request request = new Authorization.Request();
-        request.scope = mScope;
-        request.optionalScope1 = mOptionalScope2;
-        request.optionalScope0 = mOptionalScope1;
-        request.state = "ww";
-        request.targetApp = targetAppId;
-        request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        // wap预加载接口，需要和sendAuthLogin或者sendInnerWebAuthRequest使用配置相同的SendAuth.Request，但不需要是同一实例
-//        bdOpenApi.preloadWebAuth(request);
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void  createTiktokApiImpl(int targetApp) {
-        bdOpenApi = TikTokOpenApiFactory.create(this,targetApp);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this,targetApp);
     }
 
     private boolean sendAuth() {
@@ -182,8 +171,7 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-//       request.wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;     // 指定wap授权页横竖屏展示，不指定时由系统控制
-        return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
+        return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 
     }
 
@@ -295,6 +283,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        return bdOpenApi.share(request);
+        return tiktokOpenApi.share(request);
     }
 }

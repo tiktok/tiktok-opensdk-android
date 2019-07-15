@@ -12,7 +12,7 @@ import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
@@ -89,9 +89,9 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             return false;
         }
 
-        int type = bundle.getInt(BDOpenConstants.BaseParams.TYPE);//授权使用的
+        int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);//授权使用的
         if (type == 0) {
-            type = bundle.getInt(BDOpenConstants.ShareParams.TYPE);//分享使用的
+            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//分享使用的
         }
         switch (type) {
             case TikTokConstants.ModeType.SEND_AUTH_REQUEST:

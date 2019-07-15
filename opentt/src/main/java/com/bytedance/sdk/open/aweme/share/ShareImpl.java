@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;

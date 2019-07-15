@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -172,7 +173,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             mAuthRequest = (Authorization.Request) req;
             mAuthRequest.redirectUri = "https://" + getDomain() + ParamKeyConstants.REDIRECT_URL_PATH;
             // 设置wap授权页横竖屏模式
-            setRequestedOrientation(mAuthRequest.wapRequestedOrientation);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
 

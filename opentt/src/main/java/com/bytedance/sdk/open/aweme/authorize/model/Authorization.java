@@ -1,5 +1,4 @@
 package com.bytedance.sdk.open.aweme.authorize.model;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
@@ -19,13 +18,6 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
-        @Deprecated
-        public int targetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
-
-        /**
-         * 可选项，支持wap授权页面横竖屏方式，取值ActivityInfo.ScreenOrientation
-         */
-        public int wapRequestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
         /**
          * 必选权限，多个以逗号分割
          * 传入格式：scope = "user_info,friend_relation";
@@ -68,7 +60,6 @@ public class Authorization {
             this.scope = bundle.getString(ParamKeyConstants.AuthParams.SCOPE);
             this.optionalScope0 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0);
             this.optionalScope1 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1);
-            this.wapRequestedOrientation = bundle.getInt(ParamKeyConstants.AuthParams.WAP_REQUESETED_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
 
         @Override
@@ -80,7 +71,6 @@ public class Authorization {
             bundle.putString(ParamKeyConstants.AuthParams.SCOPE, scope);
             bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0, optionalScope0);
             bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1, optionalScope1);
-            bundle.putInt(ParamKeyConstants.AuthParams.WAP_REQUESETED_ORIENTATION, wapRequestedOrientation);
         }
     }
 

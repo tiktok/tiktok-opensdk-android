@@ -30,6 +30,7 @@
             android:exported="true">
         </activity>
         <activity android:name=".UserInfoActivity" />
+        <activity android:name=".SetScopeActivity"/>
 
     </application>
 
