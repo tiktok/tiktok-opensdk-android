@@ -90,13 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.go_to_auth_just_through_web).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendAuth();
-            }
-        });
-
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
