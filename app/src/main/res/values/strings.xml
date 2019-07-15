@@ -15,4 +15,7 @@
     <string name="optional_scope">可选权限，默认不选（以 , 号间隔)</string>
     <string name="optional_1_scope">可选权限，默认选择（以 , 号间隔)</string>
     <string name="set_scope_btn">设置</string>
+
+    <string name="share_to_aweme_with_shareid_no_callbacK">启动带shareId无回调</string>
+    <string name="share_to_aweme_with_shareid_callback">启动带shareId有回调</string>
 </resources>
