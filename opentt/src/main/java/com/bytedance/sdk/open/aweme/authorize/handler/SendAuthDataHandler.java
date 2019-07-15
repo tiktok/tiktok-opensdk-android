@@ -4,16 +4,16 @@ import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 
 /**
  * auth 请求/结果的 数据解析
  * Created by yangzhirong on 2018/10/8.
  */
-public class SendAuthDataHandler implements BDDataHandler {
+public class SendAuthDataHandler implements TikTokDataHandler {
     @Override
-    public boolean handle(int type, Bundle bundle, BDApiEventHandler eventHandler) {
+    public boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }

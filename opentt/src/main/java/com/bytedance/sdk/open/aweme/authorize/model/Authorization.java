@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.aweme.authorize.model;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -62,25 +62,25 @@ public class Authorization {
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.state = bundle.getString(BDOpenConstants.AuthParams.STATE);
-            this.clientKey = bundle.getString(BDOpenConstants.AuthParams.CLIENT_KEY);
-            this.redirectUri = bundle.getString(BDOpenConstants.AuthParams.REDIRECT_URI);
-            this.scope = bundle.getString(BDOpenConstants.AuthParams.SCOPE);
-            this.optionalScope0 = bundle.getString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE0);
-            this.optionalScope1 = bundle.getString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE1);
-            this.wapRequestedOrientation = bundle.getInt(BDOpenConstants.AuthParams.WAP_REQUESETED_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            this.state = bundle.getString(ParamKeyConstants.AuthParams.STATE);
+            this.clientKey = bundle.getString(ParamKeyConstants.AuthParams.CLIENT_KEY);
+            this.redirectUri = bundle.getString(ParamKeyConstants.AuthParams.REDIRECT_URI);
+            this.scope = bundle.getString(ParamKeyConstants.AuthParams.SCOPE);
+            this.optionalScope0 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0);
+            this.optionalScope1 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1);
+            this.wapRequestedOrientation = bundle.getInt(ParamKeyConstants.AuthParams.WAP_REQUESETED_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
 
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(BDOpenConstants.AuthParams.STATE, state);
-            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, clientKey);
-            bundle.putString(BDOpenConstants.AuthParams.REDIRECT_URI, redirectUri);
-            bundle.putString(BDOpenConstants.AuthParams.SCOPE, scope);
-            bundle.putString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE0, optionalScope0);
-            bundle.putString(BDOpenConstants.AuthParams.OPTIONAL_SCOPE1, optionalScope1);
-            bundle.putInt(BDOpenConstants.AuthParams.WAP_REQUESETED_ORIENTATION, wapRequestedOrientation);
+            bundle.putString(ParamKeyConstants.AuthParams.STATE, state);
+            bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, clientKey);
+            bundle.putString(ParamKeyConstants.AuthParams.REDIRECT_URI, redirectUri);
+            bundle.putString(ParamKeyConstants.AuthParams.SCOPE, scope);
+            bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0, optionalScope0);
+            bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1, optionalScope1);
+            bundle.putInt(ParamKeyConstants.AuthParams.WAP_REQUESETED_ORIENTATION, wapRequestedOrientation);
         }
     }
 
@@ -105,18 +105,18 @@ public class Authorization {
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.authCode = bundle.getString(BDOpenConstants.AuthParams.AUTH_CODE);
-            this.state = bundle.getString(BDOpenConstants.AuthParams.STATE);
-            this.grantedPermissions = bundle.getString(BDOpenConstants.AuthParams.GRANTED_PERMISSION);
+            this.authCode = bundle.getString(ParamKeyConstants.AuthParams.AUTH_CODE);
+            this.state = bundle.getString(ParamKeyConstants.AuthParams.STATE);
+            this.grantedPermissions = bundle.getString(ParamKeyConstants.AuthParams.GRANTED_PERMISSION);
 
         }
 
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(BDOpenConstants.AuthParams.AUTH_CODE, authCode);
-            bundle.putString(BDOpenConstants.AuthParams.STATE, state);
-            bundle.putString(BDOpenConstants.AuthParams.GRANTED_PERMISSION, grantedPermissions);
+            bundle.putString(ParamKeyConstants.AuthParams.AUTH_CODE, authCode);
+            bundle.putString(ParamKeyConstants.AuthParams.STATE, state);
+            bundle.putString(ParamKeyConstants.AuthParams.GRANTED_PERMISSION, grantedPermissions);
         }
     }
 }

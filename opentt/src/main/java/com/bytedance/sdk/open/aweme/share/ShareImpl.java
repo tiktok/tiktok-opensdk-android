@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
-import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
+import com.bytedance.sdk.open.aweme.common.impl.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.List;
 public class ShareImpl {
 
     private Context mContext;
-    private BDOpenConfig openConfig;
-    private List<BDDataHandler> handlers = new ArrayList<>();
+    private TikTokOpenConfig openConfig;
+    private List<TikTokDataHandler> handlers = new ArrayList<>();
 
-    public ShareImpl(Context context, BDOpenConfig sConfig) {
+    public ShareImpl(Context context, TikTokOpenConfig sConfig) {
         this.mContext = context;
         this.openConfig = sConfig;
         this.handlers.add(new ShareDataHandler());
@@ -49,17 +49,17 @@ public class ShareImpl {
             Bundle bundle = new Bundle();
 
             if (AppUtil.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
-                    >= BDOpenConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API) {
+                    >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API) {
                 request.toBundle(bundle);
             } else {
                 request.toBundleForOldVersion(bundle);
             }
-            bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
+                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
@@ -85,28 +85,5 @@ public class ShareImpl {
 
     private String buildComponentClassName(String packageName, String classPath) {
         return "com.ss.android.ugc.aweme" + "." + classPath;
-    }
-
-    public boolean handleShareIntent(Intent intent, BDApiEventHandler eventHandler) {
-        if (eventHandler == null) {
-            return false;
-        }
-        if (intent == null) {
-            eventHandler.onErrorIntent(intent);
-            return false;
-        }
-        Bundle bundle = intent.getExtras();
-        if (bundle == null) {
-            eventHandler.onErrorIntent(intent);
-            return false;
-        }
-        int type = bundle.getInt(BDOpenConstants.ShareParams.TYPE);
-        for (BDDataHandler handler : handlers) {
-            if (handler.handle(type, bundle, eventHandler)) {
-                return true;
-            }
-        }
-        eventHandler.onErrorIntent(intent);
-        return false;
     }
 }

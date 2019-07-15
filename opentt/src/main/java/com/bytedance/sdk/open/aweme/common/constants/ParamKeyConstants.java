@@ -4,7 +4,7 @@ package com.bytedance.sdk.open.aweme.common.constants;
  * 常量
  * Created by yangzhirong on 2018/10/8.
  */
-public interface BDOpenConstants {
+public interface ParamKeyConstants {
 
     String AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH = "AWEME_EXTRA_IMAGE_MESSAGE_PATH";
     String AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH = "AWEME_EXTRA_VIDEO_MESSAGE_PATH";

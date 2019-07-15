@@ -11,7 +11,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
  *
  * @author yangzhirong@bytedance.com
  */
-public interface BDApiEventHandler {
+public interface TikTokApiEventHandler {
 
     /**
      * 请求数据

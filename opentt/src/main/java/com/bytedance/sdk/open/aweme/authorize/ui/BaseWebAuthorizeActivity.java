@@ -30,9 +30,9 @@ import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
@@ -45,7 +45,7 @@ import java.lang.ref.WeakReference;
  * 基础的 AuthorizeActivity
  * Created by yangzhirong on 2018/10/10.
  */
-public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDApiEventHandler {
+public abstract class BaseWebAuthorizeActivity extends Activity implements TikTokApiEventHandler {
 
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
@@ -74,7 +74,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     /**
      * 处理API
      */
-    protected abstract boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
+    protected abstract boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
     /**
      * 发送数据回调
@@ -133,8 +133,8 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
 
 
     private static class MyHandler extends Handler {
-        private final WeakReference<BaseBDWebAuthorizeActivity> mActivty;
-        public MyHandler(BaseBDWebAuthorizeActivity activity){
+        private final WeakReference<BaseWebAuthorizeActivity> mActivty;
+        public MyHandler(BaseWebAuthorizeActivity activity){
             mActivty =new WeakReference<>(activity);
         }
 
@@ -143,7 +143,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_LOADING_TIME_OUT:
-                    BaseBDWebAuthorizeActivity authorizeActivity = mActivty.get();
+                    BaseWebAuthorizeActivity authorizeActivity = mActivty.get();
                     if (authorizeActivity != null) {
                         authorizeActivity.handleLoadingTimeout();
                     }
@@ -170,7 +170,7 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
     public void onReq(BaseReq req) {
         if (req instanceof Authorization.Request) {
             mAuthRequest = (Authorization.Request) req;
-            mAuthRequest.redirectUri = "https://" + getDomain() + BDOpenConstants.REDIRECT_URL_PATH;
+            mAuthRequest.redirectUri = "https://" + getDomain() + ParamKeyConstants.REDIRECT_URL_PATH;
             // 设置wap授权页横竖屏模式
             setRequestedOrientation(mAuthRequest.wapRequestedOrientation);
         }
@@ -407,11 +407,11 @@ public abstract class BaseBDWebAuthorizeActivity extends Activity implements BDA
             return false;
         }
         Uri uri = Uri.parse(url);
-        String code = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_CODE);
-        String state = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_STATE);
-        String grantedPermissions = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
+        String code = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_CODE);
+        String state = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_STATE);
+        String grantedPermissions = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
-            String errorCodeStr = uri.getQueryParameter(BDOpenConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
+            String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
             int errorCode = TikTokConstants.BaseErrorCode.ERROR_UNKNOW;
             if (!TextUtils.isEmpty(errorCodeStr)) {
                 try {

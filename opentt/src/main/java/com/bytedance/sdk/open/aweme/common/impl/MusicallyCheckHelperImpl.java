@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
  * 主要功能：检查Musically的相关
@@ -24,7 +24,7 @@ public class MusicallyCheckHelperImpl extends BaseCheckHelperImpl {
     }
 
     @Override protected int getAuthRequestApi() {
-        return BDOpenConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
+        return ParamKeyConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
     }
 
     @NonNull

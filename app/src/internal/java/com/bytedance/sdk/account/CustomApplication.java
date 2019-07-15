@@ -2,7 +2,7 @@ package com.bytedance.sdk.account;
 
 import android.app.Application;
 
-import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.common.impl.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 
 /**
@@ -16,6 +16,6 @@ public class CustomApplication extends Application {
         super.onCreate();
 
         String clientkey = BuildConfig.CLIENT_KEY; // 需要到开发者网站申请
-        TikTokOpenApiFactory.init(new BDOpenConfig(clientkey));
+        TikTokOpenApiFactory.init(new TikTokOpenConfig(clientkey));
     }
 }

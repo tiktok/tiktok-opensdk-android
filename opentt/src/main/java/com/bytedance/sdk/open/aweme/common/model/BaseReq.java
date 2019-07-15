@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.common.model;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
  * 基本请求数据
@@ -63,16 +63,16 @@ public abstract class BaseReq {
 
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(BDOpenConstants.BaseParams.TYPE, getType());
-        bundle.putBundle(BDOpenConstants.BaseParams.EXTRA, extras);
-        bundle.putString(BDOpenConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
+        bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
+        bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
+        bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
     }
 
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.callerPackage = bundle.getString(BDOpenConstants.BaseParams.CALLER_PKG);
-        this.callerVersion = bundle.getString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION);
-        this.extras = bundle.getBundle(BDOpenConstants.BaseParams.EXTRA);
-        this.callerLocalEntry = bundle.getString(BDOpenConstants.BaseParams.FROM_ENTRY);
+        this.callerPackage = bundle.getString(ParamKeyConstants.BaseParams.CALLER_PKG);
+        this.callerVersion = bundle.getString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION);
+        this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA);
+        this.callerLocalEntry = bundle.getString(ParamKeyConstants.BaseParams.FROM_ENTRY);
     }
 }
