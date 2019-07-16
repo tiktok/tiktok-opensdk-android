@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.aweme.base;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 import java.util.ArrayList;
 
@@ -22,12 +22,12 @@ public class TikTokImageObject implements IMediaObject {
 
     @Override
     public void serialize(Bundle bundle) {
-        bundle.putStringArrayList(BDOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH, this.mImagePaths);
+        bundle.putStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH, this.mImagePaths);
     }
 
     @Override
     public void unserialize(Bundle bundle) {
-        this.mImagePaths = bundle.getStringArrayList(BDOpenConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
+        this.mImagePaths = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
     }
 
     @Override

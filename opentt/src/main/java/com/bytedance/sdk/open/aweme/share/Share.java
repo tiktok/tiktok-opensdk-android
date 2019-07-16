@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -60,15 +60,15 @@ public class Share {
         @SuppressLint("MissingSuperCall")
         @Override
         public void fromBundle(Bundle bundle) {
-            this.mCallerPackage = bundle.getString(BDOpenConstants.ShareParams.CALLER_PKG);
-            this.mCallerSDKVersion = bundle.getString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION);
-            this.extras = bundle.getBundle(BDOpenConstants.ShareParams.EXTRA);
-            this.callerLocalEntry = bundle.getString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY);
-            this.mState = bundle.getString(BDOpenConstants.ShareParams.STATE);
-            this.mClientKey = bundle.getString(BDOpenConstants.ShareParams.CLIENT_KEY);
+            this.mCallerPackage = bundle.getString(ParamKeyConstants.ShareParams.CALLER_PKG);
+            this.mCallerSDKVersion = bundle.getString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION);
+            this.extras = bundle.getBundle(ParamKeyConstants.ShareParams.EXTRA);
+            this.callerLocalEntry = bundle.getString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY);
+            this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
+            this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
             this.mTargetSceneType =
-                    bundle.getInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, BDOpenConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
-            this.mHashTag = bundle.getString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
+                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
+            this.mHashTag = bundle.getString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
             this.mMediaContent = TikTokMediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = TikTokMicroAppInfo.unserialize(bundle);
         }
@@ -76,16 +76,16 @@ public class Share {
         @SuppressLint("MissingSuperCall")
         @Override
         public void toBundle(Bundle bundle) {
-            bundle.putInt(BDOpenConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(BDOpenConstants.ShareParams.EXTRA, extras);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
-            bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mCallerPackage);
-            bundle.putString(BDOpenConstants.ShareParams.STATE, mState);
+            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
+            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
+            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
+            bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,false));
-            bundle.putInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
-            bundle.putString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
+            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
+            bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
             // 670添加小程序
             if (mMicroAppInfo != null) {
@@ -94,16 +94,16 @@ public class Share {
         }
 
         public void toBundleForOldVersion(Bundle bundle) {
-            bundle.putInt(BDOpenConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(BDOpenConstants.ShareParams.EXTRA, extras);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
-            bundle.putString(BDOpenConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
-            bundle.putString(BDOpenConstants.ShareParams.CALLER_PKG, mCallerPackage);
-            bundle.putString(BDOpenConstants.ShareParams.STATE, mState);
+            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
+            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
+            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
+            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
+            bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,true));
-            bundle.putInt(BDOpenConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
-            bundle.putString(BDOpenConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
+            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
+            bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
             // 670添加小程序
             if (mMicroAppInfo != null) {
@@ -156,21 +156,21 @@ public class Share {
         @SuppressLint("MissingSuperCall")
         @Override
         public void fromBundle(Bundle bundle) {
-            this.errorCode = bundle.getInt(BDOpenConstants.ShareParams.ERROR_CODE);
-            this.errorMsg = bundle.getString(BDOpenConstants.ShareParams.ERROR_MSG);
-            this.extras = bundle.getBundle(BDOpenConstants.ShareParams.EXTRA);
-            this.state = bundle.getString(BDOpenConstants.ShareParams.STATE);
+            this.errorCode = bundle.getInt(ParamKeyConstants.ShareParams.ERROR_CODE);
+            this.errorMsg = bundle.getString(ParamKeyConstants.ShareParams.ERROR_MSG);
+            this.extras = bundle.getBundle(ParamKeyConstants.ShareParams.EXTRA);
+            this.state = bundle.getString(ParamKeyConstants.ShareParams.STATE);
 
         }
 
         @SuppressLint("MissingSuperCall")
         @Override
         public void toBundle(Bundle bundle) {
-            bundle.putInt(BDOpenConstants.ShareParams.ERROR_CODE, errorCode);
-            bundle.putString(BDOpenConstants.ShareParams.ERROR_MSG, errorMsg);
-            bundle.putInt(BDOpenConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(BDOpenConstants.ShareParams.EXTRA, extras);
-            bundle.putString(BDOpenConstants.ShareParams.STATE, state);
+            bundle.putInt(ParamKeyConstants.ShareParams.ERROR_CODE, errorCode);
+            bundle.putString(ParamKeyConstants.ShareParams.ERROR_MSG, errorMsg);
+            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
+            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
+            bundle.putString(ParamKeyConstants.ShareParams.STATE, state);
         }
     }
 }

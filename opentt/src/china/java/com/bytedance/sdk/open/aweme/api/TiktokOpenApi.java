@@ -2,8 +2,7 @@ package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
@@ -14,25 +13,30 @@ import com.bytedance.sdk.open.aweme.share.Share;
 public interface TiktokOpenApi {
 
     /**
-     * parse Intent request
+     * parse response or request data in intent
      *
      * @param intent
      * @param eventHandler
      * @return
      */
-    boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
+    boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
+
+    /**
+     * check if the application supports authorization
+     * @return
+     */
     boolean isAppSupportAuthorization();
 
     /**
-     * tiktok、tiktok-m、抖音
      *
+     * check if the application supports sharing
      * @return
      */
     boolean isAppSupportShare();
 
     /**
-     * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
+     * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
      *
      * @param request
      * @return
@@ -40,8 +44,6 @@ public interface TiktokOpenApi {
     boolean authorize(Authorization.Request request);
 
     /**
-     * 分享视频、图片
-     * <p>
      * share image/video
      *
      * @return

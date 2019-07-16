@@ -3,8 +3,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
 
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**
@@ -15,19 +15,22 @@ import com.bytedance.sdk.open.aweme.share.Share;
 public interface TiktokOpenApi {
 
     /**
-     * parse Intent request
+     * parse response or request data in intent
      *
      * @param intent
      * @param eventHandler
      * @return
      */
-    boolean handleIntent(Intent intent, BDApiEventHandler eventHandler);
+    boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
+    /**
+     * check if the application supports authorization
+     * @return
+     */
     boolean isAppSupportAuthorization();
 
     /**
-     * tiktok、tiktok-m、抖音
-     *
+     * check if the application supports sharing
      * @return
      */
     boolean isAppSupportShare();
@@ -43,7 +46,7 @@ public interface TiktokOpenApi {
     boolean isAppInstalled();
 
     /**
-     * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
+     * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
      *
      * @param request
      * @return
@@ -51,8 +54,6 @@ public interface TiktokOpenApi {
     boolean authorize(Authorization.Request request);
 
     /**
-     * 分享视频、图片
-     *
      * share image/video
      *
      * @return
@@ -62,7 +63,7 @@ public interface TiktokOpenApi {
 
     /**
      * 如果通过wap进行请求授权，通过该函数可以获取rul，如果不是，返回null。
-     *
+     * If authorization is requested through wap, rul can be obtained through this function, and if not, null can be returned.
      * @param response
      * @return
      */

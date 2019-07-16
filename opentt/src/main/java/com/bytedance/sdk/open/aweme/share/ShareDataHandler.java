@@ -2,17 +2,16 @@ package com.bytedance.sdk.open.aweme.share;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.handler.BDDataHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 
 /**
  * share 请求/结果的 数据解析
  */
-public class ShareDataHandler implements BDDataHandler {
+public class ShareDataHandler implements TikTokDataHandler {
     @Override
-    public boolean handle(int type, Bundle bundle, BDApiEventHandler eventHandler) {
+    public boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }

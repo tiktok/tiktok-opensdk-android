@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
@@ -34,7 +34,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     @Override
     public boolean isAppSupportShare() {
-        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), BDOpenConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
+        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
     }
 
 
@@ -63,21 +63,21 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     // TODO: 2019-07-12 是否需要迁移至apputil中 
     public int getPlatformSDKVersion(String platformPackageName, String remoteRequestEntry) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
-            return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
+            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
         }
         if (!AppUtil.isAppInstalled(mContext, getPackageName())) {
-            return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
+            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
         }
         try {
             ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
             ActivityInfo appInfo = mContext.getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
             if (appInfo != null && appInfo.metaData != null) {
-                return appInfo.metaData.getInt(BDOpenConstants.META_PLATFORM_SDK_VERSION, BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR);
+                return appInfo.metaData.getInt(ParamKeyConstants.META_PLATFORM_SDK_VERSION, ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR);
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return BDOpenConstants.META_PLATFORM_SDK_VERSION_ERROR;
+        return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
     }
 
     private boolean isAppSupportShareApi(String platformPackageName, String remoteRequestEntry, int requiredApi) {
@@ -90,7 +90,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     public boolean isSupportNewTiktokApi() {
         return getPlatformSDKVersion(getPackageName(), getRemoteAuthEntryActivity())
-                >= BDOpenConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API;
+                >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API;
     }
     
 

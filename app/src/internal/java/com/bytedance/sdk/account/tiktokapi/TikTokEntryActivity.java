@@ -11,7 +11,7 @@ import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
@@ -23,7 +23,7 @@ import com.bytedance.sdk.open.aweme.share.Share;
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class TikTokEntryActivity extends Activity implements BDApiEventHandler {
+public class TikTokEntryActivity extends Activity implements TikTokApiEventHandler {
 
     TiktokOpenApi ttOpenApi;
 

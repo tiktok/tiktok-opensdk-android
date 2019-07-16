@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
@@ -20,7 +20,7 @@ import com.bytedance.sdk.open.aweme.utils.ViewUtils;
  * author: ChangLei
  * since: 2019/5/17
  */
-public class AwemeWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
+public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     public static final String AUTH_HOST = "open.douyin.com";
     public static final String DOMAIN = "api.snssdk.com";
@@ -60,7 +60,7 @@ public class AwemeWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
-    protected boolean handleIntent(Intent intent, BDApiEventHandler eventHandler) {
+    protected boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler) {
         return ttOpenApi.handleIntent(intent, eventHandler);
     }
 

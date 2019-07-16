@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.BDApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
@@ -25,7 +25,7 @@ import com.bytedance.sdk.open.aweme.utils.ViewUtils;
  *
  * @author changlei@bytedance.com
  */
-public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
+public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     public static final String AUTH_HOST = "open-api.musical.ly";
     public static final String DOMAIN = "api.snssdk.com";
@@ -74,7 +74,7 @@ public class TikTokWebAuthorizeActivity extends BaseBDWebAuthorizeActivity {
     }
 
     @Override
-    protected boolean handleIntent(Intent intent, BDApiEventHandler eventHandler) {
+    protected boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler) {
         return ttOpenApi.handleIntent(intent, eventHandler);
     }
 

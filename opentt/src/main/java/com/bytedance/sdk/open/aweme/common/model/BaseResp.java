@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.common.model;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
 
 
@@ -70,16 +70,16 @@ public abstract class BaseResp {
 
     @CallSuper
     public void toBundle(Bundle bundle) {
-        bundle.putInt(BDOpenConstants.BaseParams.ERROR_CODE, errorCode);
-        bundle.putString(BDOpenConstants.BaseParams.ERROR_MSG, errorMsg);
-        bundle.putInt(BDOpenConstants.BaseParams.TYPE, getType());
-        bundle.putBundle(BDOpenConstants.BaseParams.EXTRA, extras);
+        bundle.putInt(ParamKeyConstants.BaseParams.ERROR_CODE, errorCode);
+        bundle.putString(ParamKeyConstants.BaseParams.ERROR_MSG, errorMsg);
+        bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
+        bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
     }
 
     @CallSuper
     public void fromBundle(Bundle bundle) {
-        this.errorCode = bundle.getInt(BDOpenConstants.BaseParams.ERROR_CODE);
-        this.errorMsg = bundle.getString(BDOpenConstants.BaseParams.ERROR_MSG);
-        this.extras = bundle.getBundle(BDOpenConstants.BaseParams.EXTRA);
+        this.errorCode = bundle.getInt(ParamKeyConstants.BaseParams.ERROR_CODE);
+        this.errorMsg = bundle.getString(ParamKeyConstants.BaseParams.ERROR_MSG);
+        this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA);
     }
 }

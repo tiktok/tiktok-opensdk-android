@@ -3,7 +3,6 @@ package com.bytedance.sdk.account.user
 import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,17 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class NetworkManager {
 
-    private val isAuthByM = true //现在只有M域名可以用
     private fun <T> createApi(apiClass: Class<T>): T {
         var retrofitBuilder = Retrofit.Builder()
         if (MainActivity.targetAppId == TikTokConstants.TARGET_APP.TIKTOK) {
-            if (isAuthByM) {
-                retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
-            } else {
-                retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
-            }
-        }
-        else {
+            retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
+        }else {
             retrofitBuilder.baseUrl("https:\\open.douyin.com")
         }
         var retrofit = retrofitBuilder

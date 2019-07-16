@@ -5,9 +5,8 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.common.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
 /**
@@ -17,9 +16,9 @@ import com.bytedance.sdk.open.aweme.share.ShareImpl;
  */
 public class TikTokOpenApiFactory {
 
-    private static BDOpenConfig sConfig;
+    private static TikTokOpenConfig sConfig;
 
-    public static boolean init(BDOpenConfig config) {
+    public static boolean init(TikTokOpenConfig config) {
         if (config != null && !TextUtils.isEmpty(config.clientKey)) {
             sConfig = config;
             return true;

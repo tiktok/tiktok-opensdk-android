@@ -7,16 +7,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.constants.BDOpenConstants;
-import com.bytedance.sdk.open.aweme.common.impl.BDOpenConfig;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.aweme.common.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 
+/**
+ *
+ * @author cassie.wang@bytedance.com
+ */
+
 public class AuthImpl {
     private Context mContext;
-    private BDOpenConfig openConfig;
+    private TikTokOpenConfig openConfig;
 
-    public AuthImpl(Context context, BDOpenConfig sConfig) {
+    public AuthImpl(Context context, TikTokOpenConfig sConfig) {
         this.mContext = context;
         this.openConfig = sConfig;
     }
@@ -31,9 +36,9 @@ public class AuthImpl {
             OpenUtils.handleRequestScope(req);
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
@@ -66,12 +71,12 @@ public class AuthImpl {
             }
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(BDOpenConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
-            bundle.putString(BDOpenConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(BDOpenConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BDOpenConstants.SdkVersion.VERSION);
+            bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(BDOpenConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
+                bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
             }
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
