@@ -92,7 +92,7 @@ bintray {
     key = '28d174551141db323784d7237f2922ce3e308350'
     // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
     publications = ['OverseasAAR']
-    override = true
+    override = false
     pkg {
         // organization,各自申请的地址
         userOrg = 'aweme-open-sdk-team'
