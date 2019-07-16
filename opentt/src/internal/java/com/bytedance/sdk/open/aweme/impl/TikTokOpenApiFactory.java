@@ -5,8 +5,8 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
+import com.bytedance.sdk.open.aweme.common.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.impl.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 
 /**

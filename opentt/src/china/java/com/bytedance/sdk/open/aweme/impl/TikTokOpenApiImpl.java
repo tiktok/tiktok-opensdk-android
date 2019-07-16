@@ -104,7 +104,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
-    @Override public boolean isAppSupportAuthorization() {
+    @Override
+    public boolean isAppSupportAuthorization() {
         if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportAuthorization();
         } else {

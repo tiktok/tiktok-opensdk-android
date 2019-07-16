@@ -2,7 +2,7 @@ package com.bytedance.sdk.account;
 
 import android.app.Application;
 
-import com.bytedance.sdk.open.aweme.common.impl.TikTokOpenConfig;
+import com.bytedance.sdk.open.aweme.common.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
 
 /**

@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.common.impl;
+package com.bytedance.sdk.open.aweme.common;
 
 /**
  * open 配置

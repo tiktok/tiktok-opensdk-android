@@ -14,7 +14,7 @@ import com.bytedance.sdk.open.aweme.share.Share;
 public interface TiktokOpenApi {
 
     /**
-     * parse Intent request
+     * parse response or request data in intent
      *
      * @param intent
      * @param eventHandler
@@ -22,17 +22,21 @@ public interface TiktokOpenApi {
      */
     boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
+    /**
+     * check if the application supports authorization
+     * @return
+     */
     boolean isAppSupportAuthorization();
 
     /**
-     * tiktok、tiktok-m、抖音
      *
+     * check if the application supports sharing
      * @return
      */
     boolean isAppSupportShare();
 
     /**
-     * send request to authorize if tiktok hasnot been installed, it will get authorization through wap
+     * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
      *
      * @param request
      * @return
@@ -40,8 +44,6 @@ public interface TiktokOpenApi {
     boolean authorize(Authorization.Request request);
 
     /**
-     * 分享视频、图片
-     *
      * share image/video
      *
      * @return
