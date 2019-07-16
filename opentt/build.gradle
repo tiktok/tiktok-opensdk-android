@@ -61,12 +61,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    chinaApi "com.bytedance.sdk.account:bd-opensdk:0.0.2.7"
-//    overseasApi "com.bytedance.sdk.account:bd-opensdk-oversea:0.0.2.7"
-
-//    embedded "com.bytedance.sdk.account:bd-opensdk:0.0.2.5"
-//    embedded "com.bytedance.sdk.account:bd-account-common:0.0.2.3"
-
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     testCompile 'junit:junit:4.12'
