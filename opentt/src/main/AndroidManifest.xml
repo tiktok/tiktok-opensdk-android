@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.open.aweme" >
+    package="com.bytedance.sdk.account.open.aweme" >
 
     <application>
         <activity android:name="com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity"
