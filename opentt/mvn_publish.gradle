@@ -20,8 +20,8 @@ publishing {
 
                     def javadoc = task("${variant.flavorName}Javadoc", type: Javadoc) {
                         source = variant.javaCompile.source
-                        exclude '**/BuildConfig.java'
-                        exclude '**/R.java'
+                        exclude '**/BuildConfig.class'
+                        exclude '**/R.class'
                         classpath += files(variant.javaCompile.classpath.files) + files(android.bootClasspath)
                     }
 
@@ -91,8 +91,8 @@ bintray {
     user = 'adminByteDance'
     key = '28d174551141db323784d7237f2922ce3e308350'
     // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
-    publications = ['OverseasExternalAAR']
-    override = false
+    publications = ['OverseasAAR']
+    override = true
     pkg {
         // organization,各自申请的地址
         userOrg = 'aweme-open-sdk-team'

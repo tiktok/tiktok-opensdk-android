@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.bytedance.sdk.open.aweme.TikTokConstants;
+import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.ui.AwemeWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
@@ -13,8 +15,6 @@ import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 import com.bytedance.sdk.open.aweme.common.impl.AwemeCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.impl.MusicallyCheckHelperImpl;
@@ -55,7 +55,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl,int targetApp) {
+    public TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl,int targetApp) {
         this.mContext = context;
         this.shareImpl = shareImpl;
         this.authImpl = authImpl;

@@ -2,6 +2,7 @@ package com.bytedance.sdk.open.aweme.common.handler;
 
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 
 
 /**

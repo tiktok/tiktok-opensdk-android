@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.common.constants;
+package com.bytedance.sdk.open.aweme;
 
 public interface TikTokConstants {
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
 
 
 /**

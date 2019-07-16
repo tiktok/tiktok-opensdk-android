@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.TikTokOpenConfig;
+import com.bytedance.sdk.open.aweme.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 

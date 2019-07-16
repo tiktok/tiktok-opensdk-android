@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.common.handler;
+package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
