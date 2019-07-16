@@ -3,7 +3,7 @@ package com.bytedance.sdk.account.user
 import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants
+import com.bytedance.sdk.open.aweme.TikTokConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

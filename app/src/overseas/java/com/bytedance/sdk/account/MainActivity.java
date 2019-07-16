@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -26,8 +25,8 @@ import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.impl.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
+import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;

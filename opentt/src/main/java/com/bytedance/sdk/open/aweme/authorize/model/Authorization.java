@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.aweme.authorize.model;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 

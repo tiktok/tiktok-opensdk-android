@@ -7,7 +7,7 @@ import android.util.Log;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 

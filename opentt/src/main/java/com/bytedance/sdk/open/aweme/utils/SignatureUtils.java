@@ -5,9 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.text.TextUtils;
-
-import com.bytedance.sdk.account.open.aweme.BuildConfig;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,10 +78,6 @@ public class SignatureUtils {
      * @return
      */
     public static String packageSignature(List<String> signs) {
-        // TODO: 2018/10/22 DEBUG 用
-        if (BuildConfig.DEBUG && 1 == 1) {
-            return "s";
-        }
         if (signs != null && !signs.isEmpty()) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < signs.size(); i++) {

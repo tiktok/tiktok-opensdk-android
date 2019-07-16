@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.aweme.share;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.common.constants.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 
 /**
