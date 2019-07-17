@@ -30,7 +30,7 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = TikTokOpenApiFactory.create(this);
+        ttOpenApi = TikTokOpenApiFactory.create(this, TikTokConstants.TARGET_APP.AWEME);
         super.onCreate(savedInstanceState);
         mContainer.setBackgroundColor(Color.parseColor("#161823"));
         ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
