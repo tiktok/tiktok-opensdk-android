@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
-    Button mShareToDouyin;
+    Button mShareToTikTok;
 
     EditText mMediaPathList;
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mShareToDouyin = findViewById(R.id.share_to_douyin);
+        mShareToTikTok = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
         mAddMedia = findViewById(R.id.add_photo_video);
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mShareToDouyin.setOnClickListener(new View.OnClickListener() {
+        mShareToTikTok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 share(currentShareType);
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
-                    mShareToDouyin.setVisibility(View.VISIBLE);
+                    mShareToTikTok.setVisibility(View.VISIBLE);
                     mAddMedia.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
