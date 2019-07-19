@@ -127,20 +127,6 @@ public class Share {
     public static class Response extends BaseResp {
         public String state;
 
-        /**
-         * 错误码
-         */
-        public int errorCode;
-
-        /**
-         * 错误信息
-         */
-        public String errorMsg;
-
-        /**
-         * 扩展信息
-         */
-        public Bundle extras;
         public Response() {
         }
 
