@@ -1,5 +1,6 @@
 package com.bytedance.sdk.open.aweme.share;
 
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +65,10 @@ public class ShareImpl {
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
+
+            if (mContext instanceof Application) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
 
             // flags
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {

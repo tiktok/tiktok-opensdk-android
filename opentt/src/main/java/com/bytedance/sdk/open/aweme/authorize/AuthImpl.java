@@ -1,5 +1,7 @@
 package com.bytedance.sdk.open.aweme.authorize;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -82,6 +84,10 @@ public class AuthImpl {
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
+
+            if (mContext instanceof Application) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
