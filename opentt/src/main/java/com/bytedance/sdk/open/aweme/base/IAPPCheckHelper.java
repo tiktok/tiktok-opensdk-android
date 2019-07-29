@@ -1,6 +1,5 @@
 package com.bytedance.sdk.open.aweme.base;
 
-import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 
@@ -21,10 +20,8 @@ public interface IAPPCheckHelper {
 
     boolean isAppInstalled();
 
-    @NonNull
     String getPackageName();
 
-    @NonNull
     String getRemoteAuthEntryActivity();
 
     boolean isSupportNewTiktokApi();

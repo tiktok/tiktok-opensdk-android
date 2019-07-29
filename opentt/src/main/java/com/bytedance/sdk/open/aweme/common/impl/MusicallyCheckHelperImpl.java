@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.aweme.common.impl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
@@ -17,7 +16,6 @@ public class MusicallyCheckHelperImpl extends BaseCheckHelperImpl {
         super(context);
     }
 
-    @NonNull
     @Override
     public String getSignature() {
         return "194326e82c84a639a52e5c023116f12a";
@@ -27,7 +25,6 @@ public class MusicallyCheckHelperImpl extends BaseCheckHelperImpl {
         return ParamKeyConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
     }
 
-    @NonNull
     @Override
     public String getPackageName() {
         return "com.zhiliaoapp.musically";

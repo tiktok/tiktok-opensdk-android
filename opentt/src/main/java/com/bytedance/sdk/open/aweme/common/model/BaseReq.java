@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.aweme.common.model;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
@@ -27,7 +26,6 @@ public abstract class BaseReq {
      */
     public abstract int getType();
 
-    @CallSuper
     public boolean checkArgs() {
         return true;
     }
@@ -61,14 +59,12 @@ public abstract class BaseReq {
         return callerVersion;
     }
 
-    @CallSuper
     public void toBundle(Bundle bundle) {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
     }
 
-    @CallSuper
     public void fromBundle(Bundle bundle) {
         this.callerPackage = bundle.getString(ParamKeyConstants.BaseParams.CALLER_PKG);
         this.callerVersion = bundle.getString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION);

@@ -1,6 +1,5 @@
 package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -32,5 +31,5 @@ public interface TikTokApiEventHandler {
      *
      * @param intent
      */
-    void onErrorIntent(@Nullable Intent intent);
+    void onErrorIntent(Intent intent);
 }

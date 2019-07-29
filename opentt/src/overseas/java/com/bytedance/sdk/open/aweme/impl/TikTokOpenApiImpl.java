@@ -3,8 +3,6 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.ui.AwemeWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity;
@@ -180,7 +178,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
 
-    @Nullable
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
 
         switch (type) {

@@ -13,6 +13,7 @@
         android:paddingRight="19dp"
         android:paddingEnd="19dp"
         android:tint="#000000"
+        android:src="@drawable/tiktok_selector_web_authorize_titlebar_back"
         android:scaleType="centerInside"
         android:gravity="center" />
 
