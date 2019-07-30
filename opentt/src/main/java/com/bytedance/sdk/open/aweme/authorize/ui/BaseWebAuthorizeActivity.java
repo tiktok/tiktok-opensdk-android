@@ -15,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -183,7 +181,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     @Override
-    public void onErrorIntent(@Nullable Intent intent) {
+    public void onErrorIntent(Intent intent) {
         //empty
     }
 
@@ -337,7 +335,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
 
-    @CallSuper
     protected void initActions() {
 
     }

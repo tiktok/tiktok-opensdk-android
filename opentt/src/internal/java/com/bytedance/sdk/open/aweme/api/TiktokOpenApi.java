@@ -1,6 +1,5 @@
 package com.bytedance.sdk.open.aweme.api;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.share.Share;
@@ -59,7 +58,6 @@ public interface TiktokOpenApi {
      * @param response
      * @return
      */
-    @Nullable
     String getWapUrlIfAuthByWap(Authorization.Response response);
 
     /**

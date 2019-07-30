@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
@@ -94,7 +93,6 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     }
     
 
-    @NonNull
     @Override
     public String getRemoteAuthEntryActivity() {
         return "openauthorize.AwemeAuthorizedActivity";

@@ -2,10 +2,7 @@ package com.bytedance.sdk.open.aweme.authorize.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +49,6 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     protected View getHeaderView(ViewGroup root) {
         View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view", "layout", getPackageName()), root, false);
         ImageView cancelView = headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName()));
-        Drawable arrowPic = ContextCompat.getDrawable(this, getResources().getIdentifier("tiktok_selector_web_authorize_titlebar_back", "drawable", getPackageName()));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (arrowPic != null) {
-                arrowPic.setAutoMirrored(true);
-            }
-        }
-        cancelView.setImageDrawable(arrowPic);
         cancelView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.aweme.common.model;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
@@ -63,12 +62,10 @@ public abstract class BaseResp {
      *
      * @return
      */
-    @CallSuper
     public boolean checkArgs() {
         return true;
     }
 
-    @CallSuper
     public void toBundle(Bundle bundle) {
         bundle.putInt(ParamKeyConstants.BaseParams.ERROR_CODE, errorCode);
         bundle.putString(ParamKeyConstants.BaseParams.ERROR_MSG, errorMsg);
@@ -76,7 +73,6 @@ public abstract class BaseResp {
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
     }
 
-    @CallSuper
     public void fromBundle(Bundle bundle) {
         this.errorCode = bundle.getInt(ParamKeyConstants.BaseParams.ERROR_CODE);
         this.errorMsg = bundle.getString(ParamKeyConstants.BaseParams.ERROR_MSG);

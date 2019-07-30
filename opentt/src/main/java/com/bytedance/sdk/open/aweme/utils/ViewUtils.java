@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -41,7 +40,7 @@ public final class ViewUtils {
      *
      * @param color 需要设置的色值，不是resId
      */
-    public static void setStatusBarColor(Activity activity, @ColorInt int color) {
+    public static void setStatusBarColor(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //使用标准的模式
             activity.getWindow().setStatusBarColor(color);

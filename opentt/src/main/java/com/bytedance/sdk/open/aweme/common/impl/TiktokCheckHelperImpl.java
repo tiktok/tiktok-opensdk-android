@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.aweme.common.impl;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 
@@ -23,13 +22,11 @@ public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
         return 999;
     }
 
-    @NonNull
     @Override
     public String getSignature() {
         return "aea615ab910015038f73c47e45d21466";
     }
 
-    @NonNull
     @Override
     public String getPackageName() {
         return "com.ss.android.ugc.trill";
