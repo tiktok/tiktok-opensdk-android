@@ -21,8 +21,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
+import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;

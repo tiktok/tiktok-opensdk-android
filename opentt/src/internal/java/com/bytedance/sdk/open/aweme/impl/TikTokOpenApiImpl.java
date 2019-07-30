@@ -3,15 +3,14 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.ui.AwemeWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
-import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
@@ -189,7 +188,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         return false;
     }
 
-    @Nullable
     @Override
     public String getWapUrlIfAuthByWap(Authorization.Response response) {
         // 该数据是在 wap授权页面sendInnerResponse方法添加的。
@@ -210,7 +208,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
 
-    @Nullable
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
 
         switch (type) {

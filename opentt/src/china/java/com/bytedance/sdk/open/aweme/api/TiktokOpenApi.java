@@ -1,16 +1,11 @@
 package com.bytedance.sdk.open.aweme.api;
+
 import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.share.Share;
 
-/**
- * Tiktok open API
- *
- * @author changlei@bytedance.com
- */
 public interface TiktokOpenApi {
-
     /**
      * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
      *
@@ -48,7 +43,6 @@ public interface TiktokOpenApi {
      * @return
      */
     boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
-
 
 
 }
