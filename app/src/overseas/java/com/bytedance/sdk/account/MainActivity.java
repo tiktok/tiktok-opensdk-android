@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.set_scope).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetScopeActivity.show(MainActivity.this, mScope, mOptionalScope1, mOptionalScope2, SET_SCOPE_REQUEST);
+//                SetScopeActivity.show(MainActivity.this, mScope, mOptionalScope1, mOptionalScope2, SET_SCOPE_REQUEST);
             }
         });
 
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+        //request.callerLocalEntry = "com.xxx.xxx...activity";
         return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 
     }
@@ -199,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
 
                 case SET_SCOPE_REQUEST:
                     mScope = data.getStringExtra(SetScopeActivity.SCOPE_KEY);
-                    mOptionalScope1 = data.getStringExtra(SetScopeActivity.OPTIONAL_1_SCOPE_KEY);
-                    mOptionalScope2 = data.getStringExtra(SetScopeActivity.OPTIONAL_2_SCOPE_KEY);
+//                    mOptionalScope1 = data.getStringExtra(SetScopeActivity.OPTIONAL_1_SCOPE_KEY);
+//                    mOptionalScope2 = data.getStringExtra(SetScopeActivity.OPTIONAL_2_SCOPE_KEY);
                     break;
             }
         }

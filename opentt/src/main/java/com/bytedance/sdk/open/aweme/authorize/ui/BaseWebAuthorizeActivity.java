@@ -13,8 +13,6 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +59,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     protected Authorization.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
-    MyHandler mHandler;
 
     /**
      * 网络是否通畅
@@ -131,32 +128,10 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     private Context mContext;
 
 
-    private static class MyHandler extends Handler {
-        private final WeakReference<BaseWebAuthorizeActivity> mActivty;
-        public MyHandler(BaseWebAuthorizeActivity activity){
-            mActivty =new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_LOADING_TIME_OUT:
-                    BaseWebAuthorizeActivity authorizeActivity = mActivty.get();
-                    if (authorizeActivity != null) {
-                        authorizeActivity.handleLoadingTimeout();
-                    }
-                    break;
-                default:
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        mHandler = new MyHandler(this);
         handleIntent(getIntent(), this);
         int layoutId = getResources().getIdentifier("tiktok_layout_open_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
@@ -212,8 +187,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             isShowNetworkError = true;
             showNetworkErrorDialog(OP_ERROR_NO_CONNECTION);
         } else {
-            // 开始加载, 等待8s
-            mHandler.sendEmptyMessageDelayed(MSG_LOADING_TIME_OUT, 8000);
             startLoading();
             mContentWebView.setWebViewClient(new AuthWebViewClient());
             mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
@@ -362,9 +335,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
                 if (mLastErrorCode == 0 && !isShowNetworkError) {
                     OpenUtils.setViewVisibility(mContentWebView, View.VISIBLE);
                 }
-                if (mHandler != null) {
-                    mHandler.removeMessages(MSG_LOADING_TIME_OUT);
-                }
+
 
             }
         }
@@ -389,9 +360,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
         @Override
         public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-            if (mHandler != null) {
-                mHandler.removeMessages(MSG_LOADING_TIME_OUT);
-            }
             showSslErrorDialog(handler, error);
         }
     }
@@ -445,9 +413,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             }
             mContentWebView.stopLoading();
             mContentWebView.setWebViewClient(null);
-        }
-        if (mHandler != null) {
-            mHandler.removeMessages(MSG_LOADING_TIME_OUT);
         }
     }
 
@@ -569,8 +534,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
      */
     protected void proceedLoad(SslErrorHandler handler) {
         if (handler != null) {
-            // 开始加载, 等待8s
-            mHandler.sendEmptyMessageDelayed(MSG_LOADING_TIME_OUT, 8000);
             handler.proceed();
         }
     }
