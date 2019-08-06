@@ -294,7 +294,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         mContentWebView.setLayoutParams(params);
         mContentWebView.setVisibility(View.INVISIBLE);
         mContainer.addView(mContentWebView);
-
     }
 
     public void initWebView(Context context){
@@ -431,18 +430,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
      */
     protected void onCancel(int errCode) {
         redirectToClientApp("", errCode);
-    }
-
-    protected void handleLoadingTimeout() {
-        if (isFinishing() || isDestroyed()) {
-            return;
-        }
-        stopLoading();
-        if (mContentWebView != null && mContentWebView.getVisibility() == View.VISIBLE) {
-            return;
-        }
-        isShowNetworkError = true;
-        showNetworkErrorDialog(OP_ERROR_CONNECT_TIMEOUT);
     }
 
 

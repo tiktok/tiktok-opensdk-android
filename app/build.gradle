@@ -35,8 +35,8 @@ android {
         overseas {
             dimension "area"
 
-            buildConfigField "String", "CLIENT_KEY", '"aw7cbnjlvjs9rrr7"'
-            buildConfigField "String", "CLIENT_SECRET", '"c639837d35bf175b07aebd23011dea2b"'
+            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
+            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
 
         // 内部版本，多一些额外的功能支持，上公司内部公仓
