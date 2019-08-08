@@ -169,6 +169,7 @@ public interface ParamKeyConstants {
         String REDIRECT_QUERY_STATE = "state";
         String REDIRECT_QUERY_ERROR_CODE = "errCode";
         String REDIRECT_QUERY_SCOPE = "scopes";
+        String QUERY_ENCRIPTION_PACKAGE = "app_identity";
     }
 
 
