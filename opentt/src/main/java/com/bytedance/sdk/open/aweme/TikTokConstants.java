@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme;
 public interface TikTokConstants {
 
     // 定义一些抖音内的事件，广播的形式通知给第三方app
-    String ACTION_STAY_IN_DY = "com.aweme.opensdk.action.stay.in.dy";
+    String ACTION_STAY_IN_TT = "com.aweme.opensdk.action.stay.in.dy";
 
     interface BaseErrorCode {
         /**
@@ -117,12 +117,12 @@ public interface TikTokConstants {
         /**
          * share
          */
-        int SHARE_CONTENT_TO_DY = 3;
+        int SHARE_CONTENT_TO_TT = 3;
 
         /**
          * share response
          */
-        int SHARE_CONTENT_TO_DY_RESP = 4;
+        int SHARE_CONTENT_TO_TT_RESP = 4;
     }
 
     /**
