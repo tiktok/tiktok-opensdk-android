@@ -117,12 +117,12 @@ public interface TikTokConstants {
         /**
          * share
          */
-        int SHARE_CONTENT_TO_DY = 3;
+        int SHARE_CONTENT_TO_TT = 3;
 
         /**
          * share response
          */
-        int SHARE_CONTENT_TO_DY_RESP = 4;
+        int SHARE_CONTENT_TO_TT_RESP = 4;
     }
 
     /**

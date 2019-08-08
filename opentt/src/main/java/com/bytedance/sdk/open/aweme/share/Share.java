@@ -54,7 +54,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SHARE_CONTENT_TO_DY;
+            return TikTokConstants.ModeType.SHARE_CONTENT_TO_TT;
         }
 
         @SuppressLint("MissingSuperCall")
@@ -136,7 +136,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SHARE_CONTENT_TO_DY_RESP;
+            return TikTokConstants.ModeType.SHARE_CONTENT_TO_TT_RESP;
         }
 
         @SuppressLint("MissingSuperCall")
