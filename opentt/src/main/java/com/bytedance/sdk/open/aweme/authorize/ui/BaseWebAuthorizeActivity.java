@@ -547,19 +547,21 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             return;
         }
         if (mBaseErrorDialog == null) {
-            int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
-            View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
+            int dialogTitleId = getResources().getIdentifier("tiktok_open_network_error_title", RES_STRING, getPackageName());
+            int dialogMessageId = getResources().getIdentifier("tiktok_open_network_error_tips", RES_STRING, getPackageName());
             // 添加取消按钮
-            int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
-            mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCancel(errCode);
-                }
-            });
+            int confirmId = getResources().getIdentifier("tiktok_open_network_error_confirm", RES_STRING, getPackageName());
+
             mBaseErrorDialog = new AlertDialog.Builder(this)
+                    .setTitle(getString(dialogTitleId))
+                    .setMessage(getString(dialogMessageId))
                     .setCancelable(false)
-                    .setView(mDialogView)
+                    .setPositiveButton(confirmId, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onCancel(errCode);
+                        }
+                    })
                     .create();
         }
         mBaseErrorDialog.show();
