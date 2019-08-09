@@ -32,27 +32,15 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TikTokOpenApiFactory.create(this, TikTokConstants.TARGET_APP.AWEME);
         super.onCreate(savedInstanceState);
-        mContainer.setBackgroundColor(Color.parseColor("#161823"));
-        ViewUtils.setStatusBarColor(this, Color.parseColor("#161823"));
+        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
 
     @Override
     protected View getLoadingView(ViewGroup root) {
-        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view_for_aweme", "layout", getPackageName()), root, false);
+        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view", "layout", getPackageName()), root, false);
         return loadingView;
     }
 
-    @Override
-    protected View getHeaderView(ViewGroup root) {
-        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view_for_aweme", "layout", getPackageName()), root, false);
-        headerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
-            }
-        });
-        return headerView;
-    }
 
     @Override
     protected boolean isNetworkAvailable() {
@@ -95,7 +83,7 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     @Override
     protected void setContainerViewBgColor() {
         if (mContainer != null) {
-            mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            mContainer.setBackgroundColor(Color.parseColor("#161823"));
         }
     }
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
@@ -35,7 +34,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TikTokOpenApiFactory.create(this, TikTokConstants.TARGET_APP.TIKTOK);
         super.onCreate(savedInstanceState);
-
+        mCancelImg.setColorFilter(Color.BLACK);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
 
@@ -45,18 +44,6 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
         return loadingView;
     }
 
-    @Override
-    protected View getHeaderView(ViewGroup root) {
-        View headerView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_web_header_view", "layout", getPackageName()), root, false);
-        ImageView cancelView = headerView.findViewById(getResources().getIdentifier("tiktok_cancel", "id", getPackageName()));
-        cancelView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
-            }
-        });
-        return headerView;
-    }
 
     @Override
     protected boolean isNetworkAvailable() {

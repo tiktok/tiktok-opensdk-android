@@ -14,6 +14,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
@@ -34,8 +36,6 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
-
-import java.lang.ref.WeakReference;
 
 
 /**
@@ -126,6 +126,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     private static final int MSG_LOADING_TIME_OUT = 100;
 
     private Context mContext;
+    protected ImageView mCancelImg;
 
 
     @Override
@@ -264,17 +265,20 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     private void initView() {
         int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
-        mContainer = (RelativeLayout) findViewById(containerId);
+        mContainer = findViewById(containerId);
         // 添加取消按钮
         int headerId = getResources().getIdentifier("tiktok_open_header_view", RES_ID, getPackageName());
-        mHeaderView = (RelativeLayout) findViewById(headerId);
-        setContainerViewBgColor();
+        mHeaderView = findViewById(headerId);
 
-        View headerView = getHeaderView(mHeaderView);
-        if (headerView != null) {
-            mHeaderView.removeAllViews();
-            mHeaderView.addView(headerView);
-        }
+        int cancleImgId = getResources().getIdentifier("tiktok_cancel", RES_ID, getPackageName());
+        mCancelImg = findViewById(cancleImgId);
+        mCancelImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
+            }
+        });
+        setContainerViewBgColor();
 
         int loadingId = getResources().getIdentifier("tiktok_open_loading_group", RES_ID, getPackageName());
         mLoadingLayout = (FrameLayout) findViewById(loadingId);
@@ -455,13 +459,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
 
     /**
-     * 添加header页面，封装类不需要返回null
-     */
-    protected View getHeaderView(ViewGroup root) {
-        return null;
-    }
-
-    /**
      * 处理webview ssl错误
      */
     protected void showSslErrorDialog(final SslErrorHandler handler, SslError error) {
@@ -547,22 +544,23 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             return;
         }
         if (mBaseErrorDialog == null) {
-            int dialogTitleId = getResources().getIdentifier("tiktok_open_network_error_title", RES_STRING, getPackageName());
-            int dialogMessageId = getResources().getIdentifier("tiktok_open_network_error_tips", RES_STRING, getPackageName());
-            // 添加取消按钮
-            int confirmId = getResources().getIdentifier("tiktok_open_network_error_confirm", RES_STRING, getPackageName());
+            int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
+            View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
 
-            mBaseErrorDialog = new AlertDialog.Builder(this)
-                    .setTitle(getString(dialogTitleId))
-                    .setMessage(getString(dialogMessageId))
+            // 添加取消按钮
+            int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
+            mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCancel(errCode);
+                }
+            });
+
+            mBaseErrorDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo))
+                    .setView(mDialogView)
                     .setCancelable(false)
-                    .setPositiveButton(confirmId, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            onCancel(errCode);
-                        }
-                    })
                     .create();
+
         }
         mBaseErrorDialog.show();
     }
