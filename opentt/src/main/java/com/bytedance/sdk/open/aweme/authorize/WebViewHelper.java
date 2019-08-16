@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.aweme.utils.Md5Utils;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
 import java.util.List;
@@ -55,7 +56,10 @@ public class WebViewHelper {
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_FROM, ParamKeyConstants.WebViewConstants.VALUE_FROM_OPENSDK)
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SCOPE, request.scope)
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs));
+                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs))
+                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_ENCRIPTION_PACKAGE, Md5Utils.hexDigest(request.getCallerPackage()))
+                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_PLATFORM, "android");
+
         return builder.build().toString();
     }
 }

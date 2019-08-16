@@ -13,9 +13,8 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
@@ -36,8 +36,6 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.OpenUtils;
-
-import java.lang.ref.WeakReference;
 
 
 /**
@@ -61,7 +59,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     protected Authorization.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
-    MyHandler mHandler;
 
     /**
      * 网络是否通畅
@@ -129,34 +126,13 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     private static final int MSG_LOADING_TIME_OUT = 100;
 
     private Context mContext;
+    protected ImageView mCancelImg;
 
-
-    private static class MyHandler extends Handler {
-        private final WeakReference<BaseWebAuthorizeActivity> mActivty;
-        public MyHandler(BaseWebAuthorizeActivity activity){
-            mActivty =new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_LOADING_TIME_OUT:
-                    BaseWebAuthorizeActivity authorizeActivity = mActivty.get();
-                    if (authorizeActivity != null) {
-                        authorizeActivity.handleLoadingTimeout();
-                    }
-                    break;
-                default:
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        mHandler = new MyHandler(this);
         handleIntent(getIntent(), this);
         int layoutId = getResources().getIdentifier("tiktok_layout_open_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
@@ -212,8 +188,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             isShowNetworkError = true;
             showNetworkErrorDialog(OP_ERROR_NO_CONNECTION);
         } else {
-            // 开始加载, 等待8s
-            mHandler.sendEmptyMessageDelayed(MSG_LOADING_TIME_OUT, 8000);
             startLoading();
             mContentWebView.setWebViewClient(new AuthWebViewClient());
             mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
@@ -291,17 +265,20 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     private void initView() {
         int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
-        mContainer = (RelativeLayout) findViewById(containerId);
+        mContainer = findViewById(containerId);
         // 添加取消按钮
         int headerId = getResources().getIdentifier("tiktok_open_header_view", RES_ID, getPackageName());
-        mHeaderView = (RelativeLayout) findViewById(headerId);
-        setContainerViewBgColor();
+        mHeaderView = findViewById(headerId);
 
-        View headerView = getHeaderView(mHeaderView);
-        if (headerView != null) {
-            mHeaderView.removeAllViews();
-            mHeaderView.addView(headerView);
-        }
+        int cancleImgId = getResources().getIdentifier("tiktok_cancel", RES_ID, getPackageName());
+        mCancelImg = findViewById(cancleImgId);
+        mCancelImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
+            }
+        });
+        setContainerViewBgColor();
 
         int loadingId = getResources().getIdentifier("tiktok_open_loading_group", RES_ID, getPackageName());
         mLoadingLayout = (FrameLayout) findViewById(loadingId);
@@ -321,7 +298,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         mContentWebView.setLayoutParams(params);
         mContentWebView.setVisibility(View.INVISIBLE);
         mContainer.addView(mContentWebView);
-
     }
 
     public void initWebView(Context context){
@@ -362,9 +338,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
                 if (mLastErrorCode == 0 && !isShowNetworkError) {
                     OpenUtils.setViewVisibility(mContentWebView, View.VISIBLE);
                 }
-                if (mHandler != null) {
-                    mHandler.removeMessages(MSG_LOADING_TIME_OUT);
-                }
+
 
             }
         }
@@ -389,9 +363,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
         @Override
         public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-            if (mHandler != null) {
-                mHandler.removeMessages(MSG_LOADING_TIME_OUT);
-            }
             showSslErrorDialog(handler, error);
         }
     }
@@ -446,9 +417,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             mContentWebView.stopLoading();
             mContentWebView.setWebViewClient(null);
         }
-        if (mHandler != null) {
-            mHandler.removeMessages(MSG_LOADING_TIME_OUT);
-        }
     }
 
 
@@ -466,18 +434,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
      */
     protected void onCancel(int errCode) {
         redirectToClientApp("", errCode);
-    }
-
-    protected void handleLoadingTimeout() {
-        if (isFinishing() || isDestroyed()) {
-            return;
-        }
-        stopLoading();
-        if (mContentWebView != null && mContentWebView.getVisibility() == View.VISIBLE) {
-            return;
-        }
-        isShowNetworkError = true;
-        showNetworkErrorDialog(OP_ERROR_CONNECT_TIMEOUT);
     }
 
 
@@ -501,13 +457,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         return null;
     }
 
-
-    /**
-     * 添加header页面，封装类不需要返回null
-     */
-    protected View getHeaderView(ViewGroup root) {
-        return null;
-    }
 
     /**
      * 处理webview ssl错误
@@ -569,8 +518,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
      */
     protected void proceedLoad(SslErrorHandler handler) {
         if (handler != null) {
-            // 开始加载, 等待8s
-            mHandler.sendEmptyMessageDelayed(MSG_LOADING_TIME_OUT, 8000);
             handler.proceed();
         }
     }
@@ -599,6 +546,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         if (mBaseErrorDialog == null) {
             int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
             View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
+
             // 添加取消按钮
             int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
             mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
@@ -607,10 +555,12 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
                     onCancel(errCode);
                 }
             });
-            mBaseErrorDialog = new AlertDialog.Builder(this)
-                    .setCancelable(false)
+
+            mBaseErrorDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo))
                     .setView(mDialogView)
+                    .setCancelable(false)
                     .create();
+
         }
         mBaseErrorDialog.show();
     }

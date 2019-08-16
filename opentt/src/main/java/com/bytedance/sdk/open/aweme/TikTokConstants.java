@@ -100,6 +100,11 @@ public interface TikTokConstants {
          */
         int ERROR_REFRESH_TOKEN = 10010;
 
+        /**
+         * 授权鉴权失败
+         */
+        int ERROR_AUTHORIZATION_NO_PERMISSION = 10011;
+
     }
     /**
      * Bundle 动作类型
