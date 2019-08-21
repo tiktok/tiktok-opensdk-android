@@ -97,8 +97,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             case TikTokConstants.ModeType.SEND_AUTH_REQUEST:
             case TikTokConstants.ModeType.SEND_AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case TikTokConstants.ModeType.SHARE_CONTENT_TO_DY:
-            case TikTokConstants.ModeType.SHARE_CONTENT_TO_DY_RESP:
+            case TikTokConstants.ModeType.SHARE_CONTENT_TO_TT:
+            case TikTokConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
