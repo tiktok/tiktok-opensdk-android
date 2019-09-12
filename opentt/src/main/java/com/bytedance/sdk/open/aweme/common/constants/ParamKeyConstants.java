@@ -82,10 +82,7 @@ public interface ParamKeyConstants {
         String SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene";
 
         String SHARE_MICROAPP_INFO = "_aweme_open_sdk_params_micro_app_info";
-        /**
-         * extra 内容
-         */
-        String EXTRA = "_aweme_open_sdk_params_extra";
+
         String TYPE = "_aweme_open_sdk_params_type";
 
         String ERROR_CODE = "_aweme_open_sdk_params_error_code";
@@ -102,7 +99,6 @@ public interface ParamKeyConstants {
          * extra 内容
          */
         String EXTRA = "_bytedance_params_extra";
-
 
         /**
          * 结果的 error_code

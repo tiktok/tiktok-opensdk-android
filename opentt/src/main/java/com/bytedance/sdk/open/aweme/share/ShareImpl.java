@@ -61,6 +61,11 @@ public class ShareImpl {
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }
+
+            if (request.extras != null) {
+                bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, request.extras);
+            }
+
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
             intent.setComponent(componentName);

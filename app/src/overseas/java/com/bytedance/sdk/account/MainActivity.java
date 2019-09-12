@@ -20,13 +20,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bytedance.sdk.open.aweme.TikTokConstants;
+import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;
@@ -259,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
+
+
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
@@ -270,6 +272,23 @@ public class MainActivity extends AppCompatActivity {
 //                request.mMicroAppInfo = mMicroInfo;
                 break;
         }
+
+                //测试extras
+                Bundle bundle = new Bundle();
+                bundle.putString("style_id","3");
+                bundle.putInt("测试int", 5);
+                bundle.putString("adasd", "asdjjwdoaiwdjiaowduawoidawudoaiwduaiowduawoiduawioduawidiuaowduaoiwduiawiduoiwaduaowidu");
+                ArrayList<String> list = new ArrayList<>();
+                list.add("11e23r231r23r");
+                list.add("222222222222");
+                list.add("33333333333");
+                list.add("44444444444");
+                list.add("55555555555");
+                list.add("66666666666");
+
+                bundle.putStringArrayList("bbbbb",list);
+
+                request.extras = bundle;
 
         return bdOpenApi.share(request);
     }
