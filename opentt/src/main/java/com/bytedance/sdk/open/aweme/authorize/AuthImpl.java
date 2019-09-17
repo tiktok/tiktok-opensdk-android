@@ -35,7 +35,7 @@ public class AuthImpl {
             return false;
         } else {
             // 兼容以前版本，把可选权限添加到scope字段
-            OpenUtils.handleRequestScope(req);
+//            OpenUtils.handleRequestScope(req);
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
@@ -68,9 +68,9 @@ public class AuthImpl {
             return false;
         } else {
             // 兼容以前版本，把可选权限添加到scope字段
-            if (req instanceof Authorization.Request) {
-                OpenUtils.handleRequestScope(req);
-            }
+//            if (req instanceof Authorization.Request) {
+//                OpenUtils.handleRequestScope(req);
+//            }
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
