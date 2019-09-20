@@ -39,7 +39,6 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
 
@@ -79,7 +78,6 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
