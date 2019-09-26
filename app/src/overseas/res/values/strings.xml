@@ -2,4 +2,9 @@
     <string name="app_name">TiktokOpenSDK</string>
     <string name="authorize_title">Tiktok/抖音openSdk</string>
     <string name="authorize">去Tiktok授权</string>
+
+
+
+    <string name="share_to_aweme_with_shareid_no_callbacK">启动带shareId无回调</string>
+    <string name="share_to_aweme_with_shareid_callback">启动带shareId有回调</string>
 </resources>

@@ -32,17 +32,10 @@ public class Share {
         public TikTokMicroAppInfo mMicroAppInfo;  // 小程序
 
         public String mCallerPackage;
-        public String mCallerSDKVersion;
 
         public String mClientKey;
 
         public String mState;
-
-        /**
-         * 扩展信息
-         */
-        public Bundle extras;
-
 
         public Request() {
             super();
@@ -60,9 +53,8 @@ public class Share {
         @SuppressLint("MissingSuperCall")
         @Override
         public void fromBundle(Bundle bundle) {
+            super.fromBundle(bundle);
             this.mCallerPackage = bundle.getString(ParamKeyConstants.ShareParams.CALLER_PKG);
-            this.mCallerSDKVersion = bundle.getString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION);
-            this.extras = bundle.getBundle(ParamKeyConstants.ShareParams.EXTRA);
             this.callerLocalEntry = bundle.getString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY);
             this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
             this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
@@ -76,11 +68,9 @@ public class Share {
         @SuppressLint("MissingSuperCall")
         @Override
         public void toBundle(Bundle bundle) {
-            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
+            super.toBundle(bundle);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,false));
@@ -94,11 +84,15 @@ public class Share {
         }
 
         public void toBundleForOldVersion(Bundle bundle) {
+
+            // 没有super 所以这个参数需要手动掉一下
+            // 历史原因，老SDK无法改BD里的参数，导致这里的params有两份，同时为了兼容老版本，导致这里的两份需要一直存在.
+            // extras可以复用，因为老版本没上
+            bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
+
             bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,true));
@@ -144,9 +138,8 @@ public class Share {
         public void fromBundle(Bundle bundle) {
             this.errorCode = bundle.getInt(ParamKeyConstants.ShareParams.ERROR_CODE);
             this.errorMsg = bundle.getString(ParamKeyConstants.ShareParams.ERROR_MSG);
-            this.extras = bundle.getBundle(ParamKeyConstants.ShareParams.EXTRA);
+            this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA); // EXTRAS 复用老base
             this.state = bundle.getString(ParamKeyConstants.ShareParams.STATE);
-
         }
 
         @SuppressLint("MissingSuperCall")
@@ -155,7 +148,7 @@ public class Share {
             bundle.putInt(ParamKeyConstants.ShareParams.ERROR_CODE, errorCode);
             bundle.putString(ParamKeyConstants.ShareParams.ERROR_MSG, errorMsg);
             bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(ParamKeyConstants.ShareParams.EXTRA, extras);
+            bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras); // EXTRAS 复用老base
             bundle.putString(ParamKeyConstants.ShareParams.STATE, state);
         }
     }
