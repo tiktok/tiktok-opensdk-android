@@ -13,12 +13,6 @@ android {
 
     }
 
-    afterEvaluate {
-        generateOverseasDebugBuildConfig.enabled = false
-        generateOverseasReleaseBuildConfig.enabled = false
-
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -34,16 +28,19 @@ android {
         // 国内版
         china {
             dimension "area"
+            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_CHINAL_VERSION\""
         }
 
         // 海外版
         overseas {
             dimension "area"
+            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_OVERSEAS_VERSION\""
         }
 
         // 内部版本，多一些额外的功能支持，上公司内部公仓
         internal {
             dimension "area"
+            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_INTERNAL_VERSION\""
         }
     }
 
