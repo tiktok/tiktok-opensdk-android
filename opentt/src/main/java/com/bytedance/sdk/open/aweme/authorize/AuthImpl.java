@@ -1,6 +1,5 @@
 package com.bytedance.sdk.open.aweme.authorize;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -40,9 +39,13 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
+
+            if (mContext instanceof Application) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             }
@@ -75,7 +78,6 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
