@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.aweme.common.impl;
 import android.content.Context;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 
 /**
@@ -18,8 +19,7 @@ public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     protected int getAuthRequestApi() {
-        // 因服务端未ready，Tiktok的授权禁用，只能M授权成功，T的话走wap授权
-        return 999;
+        return ParamKeyConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
     }
 
     @Override
