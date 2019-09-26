@@ -16,6 +16,8 @@ public abstract class BaseReq {
     public Bundle extras;
 
     public BaseReq() {
+        // TODO: 2019-09-23 在extra字段中添加sdversion
+//        extras.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION);
 
     }
 
@@ -63,6 +65,7 @@ public abstract class BaseReq {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION,ParamKeyConstants.SdkVersion.VERSION);
     }
 
     public void fromBundle(Bundle bundle) {

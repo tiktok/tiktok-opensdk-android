@@ -32,7 +32,6 @@ public class Share {
         public TikTokMicroAppInfo mMicroAppInfo;  // 小程序
 
         public String mCallerPackage;
-        public String mCallerSDKVersion;
 
         public String mClientKey;
 
@@ -56,7 +55,6 @@ public class Share {
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
             this.mCallerPackage = bundle.getString(ParamKeyConstants.ShareParams.CALLER_PKG);
-            this.mCallerSDKVersion = bundle.getString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION);
             this.callerLocalEntry = bundle.getString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY);
             this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
             this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
@@ -73,7 +71,6 @@ public class Share {
             super.toBundle(bundle);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,false));
@@ -96,7 +93,6 @@ public class Share {
             bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, mCallerSDKVersion);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
             bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,true));
