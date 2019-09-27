@@ -62,7 +62,6 @@ public abstract class BaseReq {
 
     public void toBundle(Bundle bundle) {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
-        extras.putString("sdk_version",BuildConfig.SDK_VERSION);
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
         bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BuildConfig.SDK_VERSION);
