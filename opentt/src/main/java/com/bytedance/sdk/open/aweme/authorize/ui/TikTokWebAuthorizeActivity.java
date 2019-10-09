@@ -23,7 +23,7 @@ import com.bytedance.sdk.open.aweme.utils.ViewUtils;
  */
 public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
-    public static final String AUTH_HOST = "open-api.musical.ly";
+    public static final String AUTH_HOST = "open-api.tiktok.com";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
 

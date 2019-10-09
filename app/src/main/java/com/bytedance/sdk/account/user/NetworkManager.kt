@@ -20,7 +20,7 @@ class NetworkManager {
     private fun <T> createApi(apiClass: Class<T>): T {
         var retrofitBuilder = Retrofit.Builder()
         if (MainActivity.targetAppId == TikTokConstants.TARGET_APP.TIKTOK) {
-            retrofitBuilder.baseUrl("https:\\open-api.musical.ly")
+            retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
         }else {
             retrofitBuilder.baseUrl("https:\\open.douyin.com")
         }
