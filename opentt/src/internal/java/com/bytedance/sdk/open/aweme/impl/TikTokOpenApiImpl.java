@@ -105,6 +105,37 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         }
     }
 
+    @Override
+    public boolean authorizeNative(Authorization.Request request) {
+        IAPPCheckHelper appHasInstalled;
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
+            appHasInstalled = new AwemeCheckHelperImpl(mContext);
+            if (!appHasInstalled.isAppSupportAuthorization()) {
+                // 这个时候抖音没安装所以要走web授权
+                appHasInstalled = null;
+            }
+        } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+            appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+        } else {
+            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+        }
+        if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
+            return true;
+        } else {
+            return sendWebAuthRequest(request);
+        }
+    }
+
+    @Override
+    public boolean authorizeWeb(Authorization.Request request) {
+        return sendWebAuthRequest(request);
+    }
+
+    @Override
+    public boolean authorizeWeb(Authorization.Request request, Class cla) {
+        return senWebAuthRequest(request, cla);
+    }
+
     @Override public boolean isAppSupportAuthorization() {
         if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             return new AwemeCheckHelperImpl(mContext).isAppSupportAuthorization();
@@ -139,27 +170,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
                 }
             }
             return false;
-        }
-    }
-
-    @Override
-    public boolean authorize(Authorization.Request request) {
-        IAPPCheckHelper appHasInstalled;
-        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            appHasInstalled = new AwemeCheckHelperImpl(mContext);
-            if (!appHasInstalled.isAppSupportAuthorization()) {
-                // 这个时候抖音没安装所以要走web授权
-                appHasInstalled = null;
-            }
-        } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
-            appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
-        } else {
-            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
-        }
-        if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
-            return true;
-        } else {
-            return sendWebAuthRequest(request);
         }
     }
 
@@ -206,6 +216,18 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
         }
     }
+
+    private boolean senWebAuthRequest(Authorization.Request request, Class cla) {
+        if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+            return authImpl.authorizeWeb(cla, request);
+        } else if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
+            return authImpl.authorizeWeb(AwemeWebAuthorizeActivity.class, request);
+        } else {
+            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+        }
+    }
+
+
 
 
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
