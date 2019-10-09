@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
   <string name="tiktok_loading">Memuat...</string>
+  <string name="tiktok_open_ssl_error">Kesalahan sertifikat</string>
+  <string name="tiktok_open_ssl_untrusted">Sertifikat tidak tepercaya</string>
+  <string name="tiktok_open_ssl_expired">Sertifikat kedaluwarsa</string>
+  <string name="tiktok_open_ssl_mismatched">Ketidakcocokan nama sertifikat</string>
+  <string name="tiktok_open_ssl_notyetvalid">Sertifikat belum valid</string>
+  <string name="tiktok_open_ssl_continue">Lanjutkan?</string>
+  <string name="tiktok_open_ssl_warning">Peringatan</string>
+  <string name="tiktok_open_ssl_ok">OK</string>
+  <string name="tiktok_open_ssl_cancel">Batal</string>
+  <string name="tiktok_open_error_tips_cancel">Batal</string>
+  <string name="tiktok_open_network_error_title">Otorisasi gagal</string>
+  <string name="tiktok_open_network_error_tips">Kesalahan jaringan. Harap coba lagi.</string>
+  <string name="tiktok_open_network_error_confirm">OK</string>
 </resources>

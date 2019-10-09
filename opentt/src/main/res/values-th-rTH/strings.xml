@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
   <string name="tiktok_loading">กำลังโหลด...</string>
+  <string name="tiktok_open_ssl_error">ข้อผิดพลาดใบรับรอง</string>
+  <string name="tiktok_open_ssl_untrusted">ใบรับรองไม่น่าเชื่อถือ</string>
+  <string name="tiktok_open_ssl_expired">ใบรับรองหมดอายุ</string>
+  <string name="tiktok_open_ssl_mismatched">ชื่อใบรับรองไม่สอดคล้องกัน</string>
+  <string name="tiktok_open_ssl_notyetvalid">ไม่รับรองยังใช้ไม่ได้</string>
+  <string name="tiktok_open_ssl_continue">ดำเนินการต่อ?</string>
+  <string name="tiktok_open_ssl_warning">การแจ้งเตือน</string>
+  <string name="tiktok_open_ssl_ok">ตกลง</string>
+  <string name="tiktok_open_ssl_cancel">ยกเลิก</string>
+  <string name="tiktok_open_error_tips_cancel">ยกเลิก</string>
+  <string name="tiktok_open_network_error_title">การตรวจสอบสิทธิ์ล้มเหลว</string>
+  <string name="tiktok_open_network_error_tips">ข้อผิดพลาดด้านเน็ตเวิร์ก กรุณาลองอีกครั้ง</string>
+  <string name="tiktok_open_network_error_confirm">ตกลง</string>
 </resources>

@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
   <string name="tiktok_loading">लोड हो रहा है...</string>
+  <string name="tiktok_open_ssl_error">प्रमाणपत्र त्रुटि</string>
+  <string name="tiktok_open_ssl_untrusted">प्रमाणपत्र विश्वसनीय नहीं है</string>
+  <string name="tiktok_open_ssl_expired">प्रमाणपत्र की अवधि समाप्त हो गई</string>
+  <string name="tiktok_open_ssl_mismatched">प्रमाणपत्र का नाम मेल नहीं खाता</string>
+  <string name="tiktok_open_ssl_notyetvalid">प्रमाणपत्र अभी मान्य नहीं है</string>
+  <string name="tiktok_open_ssl_continue">जारी रखें?</string>
+  <string name="tiktok_open_ssl_warning">चेतावनी</string>
+  <string name="tiktok_open_ssl_ok">ठीक</string>
+  <string name="tiktok_open_ssl_cancel">रद्द करें</string>
+  <string name="tiktok_open_error_tips_cancel">रद्द करें</string>
+  <string name="tiktok_open_network_error_title">प्रमाणीकरण असफल रहा</string>
+  <string name="tiktok_open_network_error_tips">नेटवर्क त्रुटि। कृपया फिर कोशिश करें।</string>
+  <string name="tiktok_open_network_error_confirm">ठीक</string>
 </resources>
