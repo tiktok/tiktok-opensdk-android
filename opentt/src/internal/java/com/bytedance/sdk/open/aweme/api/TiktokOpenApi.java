@@ -75,4 +75,7 @@ public interface TiktokOpenApi {
      */
     boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
+
+    String getSdkVersion();
+
 }

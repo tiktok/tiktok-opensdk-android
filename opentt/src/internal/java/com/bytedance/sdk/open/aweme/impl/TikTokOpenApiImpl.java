@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bytedance.sdk.account.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
@@ -103,6 +104,11 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
         }
+    }
+
+    @Override
+    public String getSdkVersion() {
+        return BuildConfig.SDK_VERSION;
     }
 
     @Override
