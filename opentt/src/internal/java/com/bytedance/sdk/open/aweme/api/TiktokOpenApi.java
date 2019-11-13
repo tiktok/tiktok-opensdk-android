@@ -18,12 +18,18 @@ public interface TiktokOpenApi {
      * @param request
      * @return
      */
-    boolean authorize(Authorization.Request request);
+    boolean authorizeNative(Authorization.Request request);
 
-    /**
-     * check if the application supports authorization
-     * @return
-     */
+
+    boolean authorizeWeb(Authorization.Request request);
+
+    boolean authorizeWeb(Authorization.Request request, Class cla);
+
+
+        /**
+         * check if the application supports authorization
+         * @return
+         */
     boolean isAppSupportAuthorization();
 
     /**
@@ -68,5 +74,8 @@ public interface TiktokOpenApi {
      * @return
      */
     boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
+
+
+    String getSdkVersion();
 
 }

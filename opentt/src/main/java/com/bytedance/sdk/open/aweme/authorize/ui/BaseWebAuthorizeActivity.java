@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -189,10 +191,18 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             showNetworkErrorDialog(OP_ERROR_NO_CONNECTION);
         } else {
             startLoading();
-            mContentWebView.setWebViewClient(new AuthWebViewClient());
+            configWebView();
             mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
+
         }
     }
+
+    protected void configWebView() {
+        mContentWebView.setWebViewClient(new AuthWebViewClient());
+    }
+
+
+
 
     private void redirectToClientApp(String code, int errorCode) {
         redirectToClientApp(code, null, errorCode);
@@ -315,7 +325,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     }
 
-    public final class AuthWebViewClient extends WebViewClient {
+    public class AuthWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (isNetworkAvailable()) {

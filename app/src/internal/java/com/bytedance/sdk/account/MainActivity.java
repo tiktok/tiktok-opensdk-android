@@ -2,6 +2,7 @@ package com.bytedance.sdk.account;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -164,8 +167,11 @@ public class MainActivity extends AppCompatActivity {
         request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-        return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
-
+        if (tiktokOpenApi.isAppSupportAuthorization()) {
+            return tiktokOpenApi.authorizeNative(request);
+        } else {
+            return tiktokOpenApi.authorizeWeb(request, TikTokGeckoWebActivity.class);
+        }
     }
 
     @Override
