@@ -29,18 +29,23 @@ android {
         china {
             dimension "area"
             buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_CHINAL_VERSION\""
+            buildConfigField "String" , "SDK_NAME" , "\"$CHINA_TAG\""
         }
 
         // 海外版
         overseas {
             dimension "area"
             buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_OVERSEAS_VERSION\""
+            buildConfigField "String" , "SDK_NAME" , "\"$OVERSEAS_TAG\""
+
         }
 
         // 内部版本，多一些额外的功能支持，上公司内部公仓
         internal {
             dimension "area"
             buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_INTERNAL_VERSION\""
+            buildConfigField "String" , "SDK_NAME" , "\"$INTERNAL_TAG\""
+
         }
     }
 

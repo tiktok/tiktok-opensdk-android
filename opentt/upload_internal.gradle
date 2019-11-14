@@ -5,12 +5,10 @@ uploadArchives {
         mavenDeployer {
             pom.project {
                 groupId GROUP_ID
-                artifactId ARTIFACT_ID
+                artifactId ARTIFACT_INTERNAL_ID
                 version ARTIFACT_INTERNAL_VERSION
             }
-//            repository(url: "file:///Users/admin/Documents/jarclass")
 
-//
             repository(url: uri('https://maven.byted.org/nexus/content/repositories/ugc_android/')) {
                 authentication(userName: 'ugc_android', password: 'wer0]fN-7t[jsdcBdfm/')
             }

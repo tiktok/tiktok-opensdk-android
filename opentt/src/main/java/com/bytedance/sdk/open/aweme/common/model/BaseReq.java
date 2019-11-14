@@ -64,7 +64,7 @@ public abstract class BaseReq {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
-        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BuildConfig.SDK_VERSION);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BuildConfig.SDK_NAME + " " + BuildConfig.SDK_VERSION);
     }
 
     public void fromBundle(Bundle bundle) {
