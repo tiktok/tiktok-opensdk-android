@@ -59,7 +59,7 @@ public class Share {
             this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
             this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
             this.mTargetSceneType =
-                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
+                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.LANDPAGE_SCENE_DEFAULT);
             this.mHashTag = bundle.getString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
             this.mMediaContent = TikTokMediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = TikTokMicroAppInfo.unserialize(bundle);
