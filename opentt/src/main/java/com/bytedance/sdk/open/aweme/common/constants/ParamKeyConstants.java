@@ -76,7 +76,7 @@ public interface ParamKeyConstants {
         String CALLER_PKG = "_aweme_open_sdk_params_caller_package";
         String CALLER_SDK_VERSION = "_aweme_open_sdk_params_caller_sdk_version";
         String CALLER_LOCAL_ENTRY = "_aweme_open_sdk_params_caller_local_entry";
-        String SHARE_TARGET_SCENE = "_aweme_open_sdk_params_target_scene";
+        String SHARE_TARGET_SCENE = "_aweme_open_sdk_params_target_landpage_scene";
 
         // 因为工具线整体组件化下沉，引用不到DYOpenConstants，所以这里暂时也要写一下~ 555~ 要改！
         String SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene";
@@ -141,7 +141,9 @@ public interface ParamKeyConstants {
     }
 
     interface TargetSceneType {
-        int SHARE_DEFAULT_TYPE = 0;
+        int LANDPAGE_SCENE_DEFAULT = 0;
+        int LANDPAGE_SCENE_EDIT = 1;
+        int LANDPAGE_SCENE_CUT = 2;
     }
 
 
