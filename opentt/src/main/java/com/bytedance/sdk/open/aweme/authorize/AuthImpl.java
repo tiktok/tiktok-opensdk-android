@@ -33,8 +33,6 @@ public class AuthImpl {
         } else if (!req.checkArgs()) {
             return false;
         } else {
-            // 兼容以前版本，把可选权限添加到scope字段
-//            OpenUtils.handleRequestScope(req);
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
@@ -45,9 +43,6 @@ public class AuthImpl {
             if (mContext instanceof Application) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             } else {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                }
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -64,17 +59,12 @@ public class AuthImpl {
     }
 
 
-
     public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry) {
         if (TextUtils.isEmpty(packageName) || req == null || mContext == null) {
             return false;
         } else if (!req.checkArgs()) {
             return false;
         } else {
-            // 兼容以前版本，把可选权限添加到scope字段
-//            if (req instanceof Authorization.Request) {
-//                OpenUtils.handleRequestScope(req);
-//            }
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
@@ -92,13 +82,7 @@ public class AuthImpl {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                }
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             }
 
             try {

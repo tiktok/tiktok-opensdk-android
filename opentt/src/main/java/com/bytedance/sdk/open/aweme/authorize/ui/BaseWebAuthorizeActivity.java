@@ -255,10 +255,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
             intent.setComponent(componentName);
             intent.putExtras(bundle);
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
