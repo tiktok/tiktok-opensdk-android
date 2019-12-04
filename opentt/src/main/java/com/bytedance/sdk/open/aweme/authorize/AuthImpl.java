@@ -1,6 +1,6 @@
 package com.bytedance.sdk.open.aweme.authorize;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
-import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 
 /**
  *
@@ -40,13 +39,11 @@ public class AuthImpl {
             Intent intent = new Intent(mContext, clazz);
             intent.putExtras(bundle);
 
-            if (mContext instanceof Application) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (mContext instanceof Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             } else {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             }
 
             try {
@@ -78,10 +75,10 @@ public class AuthImpl {
             intent.setComponent(componentName);
             intent.putExtras(bundle);
 
-            if (mContext instanceof Application) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (mContext instanceof Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             } else {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             }
 
