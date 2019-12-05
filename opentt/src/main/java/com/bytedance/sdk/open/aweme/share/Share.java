@@ -121,6 +121,9 @@ public class Share {
     public static class Response extends BaseResp {
         public String state;
 
+        public int subErrorCode;
+
+
         public Response() {
         }
 
@@ -140,6 +143,8 @@ public class Share {
             this.errorMsg = bundle.getString(ParamKeyConstants.ShareParams.ERROR_MSG);
             this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA); // EXTRAS 复用老base
             this.state = bundle.getString(ParamKeyConstants.ShareParams.STATE);
+            this.subErrorCode = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE);
+
         }
 
         @SuppressLint("MissingSuperCall")
@@ -150,6 +155,8 @@ public class Share {
             bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
             bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras); // EXTRAS 复用老base
             bundle.putString(ParamKeyConstants.ShareParams.STATE, state);
+            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE, subErrorCode);
+
         }
     }
 }

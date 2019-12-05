@@ -54,7 +54,7 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
 //                startActivity(intent);
             } else {
 
-                Toast.makeText(this, "授权失败" + response.grantedPermissions,
+                Toast.makeText(this, "授权失败" + response.errorCode ,
                         Toast.LENGTH_LONG).show();
 
             }
@@ -66,7 +66,7 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
             } else if(response.isCancel()) {
                 Toast.makeText(this,"用户手动取消",Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this,"分享失败,errorCode:"+response.errorCode,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"分享失败,errorCode: " + response.errorCode + "subcode" + response.subErrorCode,Toast.LENGTH_SHORT).show();
             }
 //            Intent intent = new Intent(this,MainActivity.class);
 //            startActivity(intent);

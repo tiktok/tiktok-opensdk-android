@@ -87,6 +87,8 @@ public interface ParamKeyConstants {
 
         String ERROR_CODE = "_aweme_open_sdk_params_error_code";
         String ERROR_MSG = "_aweme_open_sdk_params_error_msg";
+        String SHARE_SUB_ERROR_CODE = "_aweme_open_sdk_params_sub_error_code";
+
     }
 
     interface BaseParams {
