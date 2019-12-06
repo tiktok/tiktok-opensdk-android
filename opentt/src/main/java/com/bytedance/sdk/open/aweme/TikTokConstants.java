@@ -38,6 +38,91 @@ public interface TikTokConstants {
          */
         int ERROR_CODE_UNSUPPORT = -5;
 
+
+
+        /********** subErrorCode ****************
+         *
+
+        /**
+         * 授权失败/无权限
+         */
+        int INVALID_GRANT = 20003;
+
+        /**
+         * 用户手动取消登录
+         */
+        int CANCEL_LOGIN = 20004;
+
+        /**
+         * 用户未授权使用相册
+         */
+        int GALLERY_PERMISSION_ERROR = 20005;
+
+        /**
+         * 请求授权时网络出错
+         */
+        int GRANT_NETWORK_ERR = 20006;
+
+        /**
+         * 视频时长不支持
+         */
+        int INVALID_VIDEO_LENGTH = 20007;
+
+        /**
+         * 分享图文不支持 ab开关关闭
+         * 要求
+         * a:宽高都大于360
+         * b:1/2.2<=宽高比<=2.2
+         */
+        int INVALID_PHOTO = 20008;
+
+        /**
+         * 时间戳校验失败
+         */
+        int TIME_STAMP_INVALID = 20009;
+
+        /**
+         * 解析媒体资源失败，包含图片，视频
+         */
+        int PARSE_MEDIA_FAIL = 20010;
+
+        /**
+         * 视频尺寸或比例不支持
+         * 最大边小于1100
+         * 最大边除以最小边 要小于4
+         */
+        int INVALID_VIDEO_SIZE_RATIO = 20011;
+
+        /**
+         * 视频格式不支持（要求mp4）
+         */
+        int INVALID_VIDEO_TYPE = 20012;
+
+        /**
+         * 用户手动取消发布
+         */
+        int CANCEL_PUBLISH = 20013;
+
+        /**
+         * 有正在上传的作品，需要发布完成后再拍摄
+         */
+        int LAST_PUBLISH_NOT_FINISH = 20014;
+
+        /**
+         * 用户存为草稿
+         */
+        int SAVE_TO_DRAFT = 20015;
+
+        /**
+         * 用户点击发布视频按钮，但因为网络或其他原因，视频没有发布成功
+         */
+        int PUBLISH_FAIL_UNKNOWN = 20016;
+
+        /**
+         * 不支持的分辨率 android 独有
+         */
+        int INVALID_VIDEO_RESOLUTION = 22001;
+
     }
 
     interface AuthErrorCode {

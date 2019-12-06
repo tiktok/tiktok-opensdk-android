@@ -62,9 +62,9 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
         } else if (resp instanceof Share.Response) {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
-                Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"分享成功,errorCode: " + response.errorCode + "subcode" + response.subErrorCode,Toast.LENGTH_SHORT).show();
             } else if(response.isCancel()) {
-                Toast.makeText(this,"用户手动取消",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"用户取消,errorCode: " + response.errorCode + "subcode" + response.subErrorCode,Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this,"分享失败,errorCode: " + response.errorCode + "subcode" + response.subErrorCode,Toast.LENGTH_SHORT).show();
             }
