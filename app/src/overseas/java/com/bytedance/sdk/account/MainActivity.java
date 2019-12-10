@@ -20,14 +20,19 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bytedance.sdk.account.share.GameExtras;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
+import com.bytedance.sdk.account.share.GameAnchorObject;
+import com.bytedance.sdk.open.aweme.base.TikTokAnchorObject;
 import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
+import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTiktokApiImpl(int targetApp) {
-        bdOpenApi = TikTokOpenApiFactory.create(this,targetApp);
+        bdOpenApi = TikTokOpenApiFactory.create(this, targetApp);
     }
 
     private boolean sendAuth() {
@@ -188,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case PHOTO_REQUEST_GALLERY:
                     Uri uri = data.getData();
-                    mUri.add(UriUtil.convertUriToPath(this,uri));
+                    mUri.add(UriUtil.convertUriToPath(this, uri));
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
@@ -259,6 +264,27 @@ public class MainActivity extends AppCompatActivity {
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
+                Gson gson = new Gson();
+                GameAnchorObject gameAnchorObject = new GameAnchorObject();
+                gameAnchorObject.setGameId("cg9b482794e900851b");
+
+                GameExtras gameExtras = new GameExtras();
+                gameExtras.setGameName("堡垒前线");
+                gameExtras.setGameDeviceId("8899");
+                gameExtras.setShowCaseObjId(3000);
+                gameExtras.setEntranceId(2);
+                gameExtras.setAid("123456789");
+                gameExtras.setClientKey(BuildConfig.CLIENT_KEY);
+                String extraStr = gson.toJson(gameExtras);
+
+                gameAnchorObject.setExtra(extraStr);
+
+                TikTokAnchorObject anchorObject = new TikTokAnchorObject();
+                anchorObject.setAnchorBusinessType(10);
+                anchorObject.setAnchorTitle("英雄之夜");
+                String str = gson.toJson(gameAnchorObject);
+                anchorObject.setAnchorContent(str);
+                request.mAnchorInfo = anchorObject;
 
 
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
@@ -273,22 +299,22 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-                //测试extras
-                Bundle bundle = new Bundle();
-                bundle.putString("style_id","3");
-                bundle.putInt("测试int", 5);
-                bundle.putString("adasd", "asdjjwdoaiwdjiaowduawoidawudoaiwduaiowduawoiduawioduawidiuaowduaoiwduiawiduoiwaduaowidu");
-                ArrayList<String> list = new ArrayList<>();
-                list.add("11e23r231r23r");
-                list.add("222222222222");
-                list.add("33333333333");
-                list.add("44444444444");
-                list.add("55555555555");
-                list.add("66666666666");
+        //测试extras
+        Bundle bundle = new Bundle();
+        bundle.putString("style_id", "3");
+        bundle.putInt("测试int", 5);
+        bundle.putString("adasd", "asdjjwdoaiwdjiaowduawoidawudoaiwduaiowduawoiduawioduawidiuaowduaoiwduiawiduoiwaduaowidu");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("11e23r231r23r");
+        list.add("222222222222");
+        list.add("33333333333");
+        list.add("44444444444");
+        list.add("55555555555");
+        list.add("66666666666");
 
-                bundle.putStringArrayList("bbbbb",list);
+        bundle.putStringArrayList("bbbbb", list);
 
-                request.extras = bundle;
+        request.extras = bundle;
 
         return bdOpenApi.share(request);
     }
