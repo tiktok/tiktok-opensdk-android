@@ -266,22 +266,21 @@ public class MainActivity extends AppCompatActivity {
                 request.mState = "ss";
                 Gson gson = new Gson();
                 GameAnchorObject gameAnchorObject = new GameAnchorObject();
-                gameAnchorObject.setGameId("cg9b482794e900851b");
+                gameAnchorObject.setGameId("cge56412b084ae57d0");
 
                 GameExtras gameExtras = new GameExtras();
-                gameExtras.setGameName("堡垒前线");
+                gameExtras.setGameName("第五人格");
                 gameExtras.setGameDeviceId("8899");
                 gameExtras.setShowCaseObjId(3000);
                 gameExtras.setEntranceId(2);
-                gameExtras.setAid("123456789");
-                gameExtras.setClientKey(BuildConfig.CLIENT_KEY);
+                gameExtras.setClientKey("aw5k7vhtdbeqdoo8");
                 String extraStr = gson.toJson(gameExtras);
 
                 gameAnchorObject.setExtra(extraStr);
 
                 TikTokAnchorObject anchorObject = new TikTokAnchorObject();
                 anchorObject.setAnchorBusinessType(10);
-                anchorObject.setAnchorTitle("英雄之夜");
+                anchorObject.setAnchorTitle("第五人格");
                 String str = gson.toJson(gameAnchorObject);
                 anchorObject.setAnchorContent(str);
                 request.mAnchorInfo = anchorObject;
