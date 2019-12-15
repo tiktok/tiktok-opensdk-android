@@ -19,6 +19,17 @@ public class GameAnchorObject {
     @SerializedName("extra")
     String extra;
 
+    public String getmKeyWord() {
+        return mKeyWord;
+    }
+
+    public void setmKeyWord(String mKeyWord) {
+        this.mKeyWord = mKeyWord;
+    }
+
+    @SerializedName("keyword")
+    String mKeyWord;
+
 
     public String getGameId() {
         return mGameId;

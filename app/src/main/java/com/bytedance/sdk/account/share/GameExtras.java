@@ -5,13 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class GameExtras {
 
-    public String getGameName() {
-        return mGameName;
-    }
-
-    public void setGameName(String mGameName) {
-        this.mGameName = mGameName;
-    }
 
     public String getGameDeviceId() {
         return mGameDeviceId;
@@ -61,8 +54,6 @@ public class GameExtras {
         this.mClientKey = mClientKey;
     }
 
-    @SerializedName("game_name")
-    String mGameName;
     @SerializedName("game_device_id")
     String mGameDeviceId;
     @SerializedName("ttgame_showcase_mgr_obj_id")

@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
                 gameAnchorObject.setGameId("cge56412b084ae57d0");
 
                 GameExtras gameExtras = new GameExtras();
-                gameExtras.setGameName("第五人格");
                 gameExtras.setGameDeviceId("8899");
                 gameExtras.setShowCaseObjId(3000);
                 gameExtras.setEntranceId(2);
@@ -277,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 String extraStr = gson.toJson(gameExtras);
 
                 gameAnchorObject.setExtra(extraStr);
+                gameAnchorObject.setmKeyWord("第五人格");
 
                 TikTokAnchorObject anchorObject = new TikTokAnchorObject();
                 anchorObject.setAnchorBusinessType(10);
