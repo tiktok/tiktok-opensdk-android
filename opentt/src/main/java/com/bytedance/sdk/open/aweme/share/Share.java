@@ -2,14 +2,17 @@ package com.bytedance.sdk.open.aweme.share;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.bytedance.sdk.open.aweme.base.TikTokAnchorObject;
 import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
+import com.google.gson.Gson;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.
@@ -30,6 +33,8 @@ public class Share {
 
         public TikTokMediaContent mMediaContent;  // 基础媒体数据
         public TikTokMicroAppInfo mMicroAppInfo;  // 小程序
+
+        public TikTokAnchorObject mAnchorInfo; //锚点
 
         public String mCallerPackage;
 
@@ -59,10 +64,11 @@ public class Share {
             this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
             this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
             this.mTargetSceneType =
-                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.SHARE_DEFAULT_TYPE);
+                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.LANDPAGE_SCENE_DEFAULT);
             this.mHashTag = bundle.getString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
             this.mMediaContent = TikTokMediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = TikTokMicroAppInfo.unserialize(bundle);
+            this.mAnchorInfo = TikTokAnchorObject.unserialize(bundle);
         }
 
         @SuppressLint("MissingSuperCall")
@@ -80,6 +86,10 @@ public class Share {
             // 670添加小程序
             if (mMicroAppInfo != null) {
                 mMicroAppInfo.serialize(bundle);
+            }
+            //添加锚点
+            if (mAnchorInfo != null) {
+                mAnchorInfo.serialize(bundle);
             }
         }
 
