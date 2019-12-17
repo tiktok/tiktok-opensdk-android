@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.utils;
 import java.security.MessageDigest;
 
 /**
- * MD5 工具类
+ * MD5 utils
  * Created by yangzhirong on 2018/10/8.
  */
 public class Md5Utils {

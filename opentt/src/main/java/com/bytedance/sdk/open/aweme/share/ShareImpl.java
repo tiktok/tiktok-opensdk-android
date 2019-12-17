@@ -31,12 +31,12 @@ public class ShareImpl {
     }
 
     /**
-     * 发送一个 Request 请求到目标应用
+     * send a request to target app
      *
-     * @param remotePackageName  目标应用包名
-     * @param remoteRequestEntry 目标应用入口 Activity. 用于接收 Request
-     * @param request            实际请求数据
-     * @param localEntry         当前应用的入口 Activity.用于接收 Response
+     * @param remotePackageName  target app's package name
+     * @param remoteRequestEntry target app's entry actity name
+     * @param request            request data
+     * @param localEntry         your app's activity name to get result from target app
      * @return
      */
     public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request,String remotePlatformEntryName) {
@@ -57,7 +57,6 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, ParamKeyConstants.SdkVersion.VERSION);
-            // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }

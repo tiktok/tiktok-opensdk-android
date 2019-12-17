@@ -12,9 +12,7 @@ import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
 /**
- * 主要功能：不同app检查基类
- * author: ChangLei
- * since: 2019/4/1
+ * To check app is support authorization request or share request
  */
 abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
@@ -36,7 +34,15 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
         return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
     }
 
-
+    /**
+     * There is version requirement of sharing and authorizing. The minimum TikTok version supporting sharing is 11.3.0.
+     * This method is to check if TikTok supports sharing and authorizing
+     *
+     * @param platformPackageName
+     * @param remoteRequestEntry
+     * @param requiredApi
+     * @return
+     */
     private boolean isAppSupportAPI(String platformPackageName, String remoteRequestEntry, int requiredApi) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
             return false;
@@ -54,12 +60,15 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
         return activityInfo != null && activityInfo.exported && (platformSdkVersion >= requiredApi);
     }
 
+    /**
+     * To check if app supports authorizing
+     * @return
+     */
     private boolean isAppSupportAuthApi() {
         return isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(), getAuthRequestApi());
     }
 
 
-    // TODO: 2019-07-12 是否需要迁移至apputil中 
     public int getPlatformSDKVersion(String platformPackageName, String remoteRequestEntry) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
             return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
@@ -79,17 +88,24 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
         return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
     }
 
+    /**
+     * To check if app supports sharing
+     * @param platformPackageName
+     * @param remoteRequestEntry
+     * @param requiredApi
+     * @return
+     */
     private boolean isAppSupportShareApi(String platformPackageName, String remoteRequestEntry, int requiredApi) {
         return isAppSupportAPI(platformPackageName, remoteRequestEntry, requiredApi);
     }
 
+    /**
+     * To check if app is installed
+     *
+     * @return
+     */
     public boolean isAppInstalled() {
         return AppUtil.isAppInstalled(mContext, getPackageName());
-    }
-
-    public boolean isSupportNewTiktokApi() {
-        return getPlatformSDKVersion(getPackageName(), getRemoteAuthEntryActivity())
-                >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API;
     }
     
 
@@ -99,13 +115,13 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     }
 
     /**
-     * M T有差异 (可能)
+     *
      * @return
      */
     abstract protected int getAuthRequestApi();
 
     /**
-     * M T有差异
+     *
      * @return
      */
     public abstract String getSignature();

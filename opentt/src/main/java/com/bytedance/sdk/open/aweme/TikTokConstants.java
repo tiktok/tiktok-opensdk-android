@@ -2,20 +2,20 @@ package com.bytedance.sdk.open.aweme;
 
 public interface TikTokConstants {
 
-    // 定义一些抖音内的事件，广播的形式通知给第三方app
+    // send broadcast to your app
     String ACTION_STAY_IN_TT = "com.aweme.opensdk.action.stay.in.dy";
 
     interface BaseErrorCode {
         /**
-         * 正常
+         * success
          */
         int OK = 0;
         /**
-         * 未知错误
+         * unknown error
          */
         int ERROR_UNKNOW = -1;
         /**
-         * 用户手动取消
+         * User Canceled
          */
         int ERROR_CANCEL = -2;
     }
@@ -24,17 +24,17 @@ public interface TikTokConstants {
 
     interface ShareErrorCode {
         /**
-         * 发送失败，分享使用
+         * User pubilsh content Failed
          */
         int ERROR_CODE_SEND_FAIL = -3;
 
         /**
-         * 权限错误, 第三方未获取相关分享权限或获取权限失败
+         * Auth Denied
          */
         int ERROR_CODE_AUTH_DENIED = -4;
 
         /**
-         * 文件解析过程出错或命中其它的一些限制，分享使用
+         * Unsupported
          */
         int ERROR_CODE_UNSUPPORT = -5;
 
@@ -44,82 +44,83 @@ public interface TikTokConstants {
          *
 
         /**
-         * 授权失败/无权限
+         * Not enough permissions to operation.
          */
         int INVALID_GRANT = 20003;
 
         /**
-         * 用户手动取消登录
+         * User not login
          */
         int CANCEL_LOGIN = 20004;
 
         /**
-         * 用户未授权使用相册
+         * TikTok has no album permissions
          */
         int GALLERY_PERMISSION_ERROR = 20005;
 
         /**
-         * 请求授权时网络出错
+         * TikTok Network error
          */
         int GRANT_NETWORK_ERR = 20006;
 
         /**
-         * 视频时长不支持
+         * Video length doesn't meet requirements
          */
         int INVALID_VIDEO_LENGTH = 20007;
 
         /**
-         * 分享图文不支持 ab开关关闭
+         * Photo doesn't meet requirements
          * 要求
-         * a:宽高都大于360
-         * b:1/2.2<=宽高比<=2.2
+         * a:both width and height over 360
+         * b:1/2.2<=Aspect ratio<=2.2
          */
         int INVALID_PHOTO = 20008;
 
         /**
-         * 时间戳校验失败
+         * Timestamp check failed
          */
         int TIME_STAMP_INVALID = 20009;
 
         /**
-         * 解析媒体资源失败，包含图片，视频
+         * Processing photo resources faild
          */
         int PARSE_MEDIA_FAIL = 20010;
 
         /**
-         * 视频尺寸或比例不支持
-         * 最大边小于1100
-         * 最大边除以最小边 要小于4
+         * Video resolution doesn't meet requirements
+         * Largest edge is less than 1100
+         * Max side / Min side < 4
          */
         int INVALID_VIDEO_SIZE_RATIO = 20011;
 
         /**
-         * 视频格式不支持（要求mp4）
+         * Video format is not supported(MP4)
          */
         int INVALID_VIDEO_TYPE = 20012;
 
         /**
-         * 用户手动取消发布
+         * Sharing canceled
          */
         int CANCEL_PUBLISH = 20013;
 
         /**
-         * 有正在上传的作品，需要发布完成后再拍摄
+         * Another video is currently uploading
          */
         int LAST_PUBLISH_NOT_FINISH = 20014;
 
         /**
-         * 用户存为草稿
+         * Users store shared content for draft or user
+         * accounts are not allowed to post videos
          */
         int SAVE_TO_DRAFT = 20015;
 
         /**
-         * 用户点击发布视频按钮，但因为网络或其他原因，视频没有发布成功
+         * Post share content failed
          */
         int PUBLISH_FAIL_UNKNOWN = 20016;
 
         /**
-         * 不支持的分辨率 android 独有
+         * Unsupport resolution
          */
         int INVALID_VIDEO_RESOLUTION = 22001;
 
@@ -127,7 +128,7 @@ public interface TikTokConstants {
 
     interface AuthErrorCode {
         /**
-         * -12、-13、 -14、 -15、 -16、-21 表示网络请求过程中的一些exception
+         * -12、-13、 -14、 -15、 -16、-21 newwork exception
          */
         int ERROR_NETWORK_NO_CONNECTION = -12;
         int ERROR_NETWORK_CONNECT_TIMEOUT = -13;
@@ -137,62 +138,62 @@ public interface TikTokConstants {
         int ERROR_NETWORK_SSL = -21;
 
         /**
-         * 系统异常
+         * System error
          */
         int ERROR_SYSTEM = 10001;
 
         /**
-         * 参数错误
+         * param error
          */
         int ERROR_PARAM = 10002;
 
         /**
-         * 非法的配置（partner_client）
+         * error config（partner_client）
          */
         int ERROR_CONFIG = 10003;
 
         /**
-         * 非法的scope
+         * error scope
          */
         int ERROR_SCOPE = 10004;
 
         /**
-         * 缺少参数
+         * Missing parameters
          */
         int ERROR_N_PARAMS = 10005;
 
         /**
-         * 非法重定向url
+         * error redirect url
          */
         int ERROR_REDIRECT_URL = 10006;
         /**
-         * code已失效
+         * code expired
          */
         int ERROR_CODE_EXPIRED = 10007;
 
         /**
-         * 无效token
+         * error token
          */
         int ERROR_TOKEN = 10008;
 
         /**
-         * 非法参数
+         * error ticked
          */
         int ERROR_TICKET = 10009;
 
         /**
-         * refresh token 过期
+         * refresh token expired
          */
         int ERROR_REFRESH_TOKEN = 10010;
 
         /**
-         * 授权鉴权失败
+         * authorization no permission
          */
         int ERROR_AUTHORIZATION_NO_PERMISSION = 10011;
 
     }
     /**
-     * Bundle 动作类型
+     * Bundle type
      */
     interface ModeType {
         /**
@@ -216,11 +217,11 @@ public interface TikTokConstants {
     }
 
     /**
-     * 目标app，区分国内国外
+     * target app
      */
     interface TARGET_APP {
 
-        int AWEME = 1; // 抖音
+        int AWEME = 1; // DOUYIN
 
         int TIKTOK = 2; // TikTok
     }

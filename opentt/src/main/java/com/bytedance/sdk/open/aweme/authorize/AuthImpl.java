@@ -66,7 +66,6 @@ public class AuthImpl {
             req.toBundle(bundle);
             bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, openConfig.clientKey);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mContext.getPackageName());
-            // 没有主动设置CallerLocalEntry
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
             }

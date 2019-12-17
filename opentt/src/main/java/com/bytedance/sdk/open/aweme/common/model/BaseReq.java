@@ -6,22 +6,22 @@ import com.bytedance.sdk.account.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
- * 基本请求数据
+ * Base Model
  * Created by yangzhirong on 2018/9/26.
  */
 public abstract class BaseReq {
 
     /**
-     * 扩展信息
+     * extra data
      */
     public Bundle extras;
 
     public BaseReq() {
-        // TODO: 2019-09-23 在extra字段中添加sdversion
+
     }
 
     /**
-     * 类型
+     * type
      *
      * @return
      */
@@ -36,14 +36,14 @@ public abstract class BaseReq {
     public String callerLocalEntry;
 
     /**
-     * 调用方 entry
+     * your entry
      */
     public String getCallerLocalEntry() {
         return callerLocalEntry;
     }
 
     /**
-     * 调用方包名
+     * your package
      *
      * @return
      */
@@ -52,7 +52,7 @@ public abstract class BaseReq {
     }
 
     /**
-     * 调用方版本号
+     * your version
      *
      * @return
      */

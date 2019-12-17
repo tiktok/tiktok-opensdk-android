@@ -41,7 +41,6 @@ import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 
 
 /**
- * 基础的 AuthorizeActivity
  * Created by yangzhirong on 2018/10/10.
  */
 public abstract class BaseWebAuthorizeActivity extends Activity implements TikTokApiEventHandler {
@@ -63,47 +62,46 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     protected AlertDialog mBaseErrorDialog;
 
     /**
-     * 网络是否通畅
+     * if network is available
      *
      * @return
      */
     protected abstract boolean isNetworkAvailable();
 
     /**
-     * 处理API
+     * handle intent
      */
     protected abstract boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
     /**
-     * 发送数据回调
+     * send response result
      *
      * @param resp
      */
     protected abstract void sendInnerResponse(Authorization.Request req, BaseResp resp);
 
     /**
-     * wap登录页域名
+     * web authorization host
      *
      * @return
      */
     protected abstract String getHost();
 
     /**
-     * wap登录页Path
+     * web authorization path
      *
      * @return
      */
     protected abstract String getAuthPath();
 
     /**
-     * 授权成功后跳转的redirectUrl的domain
-     *
+     * redirectUrl domain when authorization success
      * @return
      */
     protected abstract String getDomain();
 
     /**
-     * errorCode 转 errorMsg
+     * errorCode to errorMsg
      *
      * @param errorCode
      * @return
@@ -148,7 +146,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         if (req instanceof Authorization.Request) {
             mAuthRequest = (Authorization.Request) req;
             mAuthRequest.redirectUri = "https://" + getDomain() + ParamKeyConstants.REDIRECT_URL_PATH;
-            // 设置wap授权页横竖屏模式
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
@@ -174,9 +171,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         redirectToClientApp("", TikTokConstants.BaseErrorCode.ERROR_CANCEL);
     }
 
-    /**
-     * 调用h5进行授权请求
-     */
     public final void handleRequestIntent() {
 
         Authorization.Request argument = mAuthRequest;
@@ -209,7 +203,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     /**
-     * 结果返回
+     * return result to app
      *
      * @param code
      * @param state
@@ -225,7 +219,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     /**
-     * 结果返回
+     * return result to app
      *
      * @param code
      * @param state
@@ -272,7 +266,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     private void initView() {
         int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
         mContainer = findViewById(containerId);
-        // 添加取消按钮
+        // cancle button
         int headerId = getResources().getIdentifier("tiktok_open_header_view", RES_ID, getPackageName());
         mHeaderView = findViewById(headerId);
 
@@ -313,7 +307,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         WebSettings settings = mContentWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓存模式
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
 
@@ -340,7 +334,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             mHasExecutingRequest = false;
             if (mContentWebView != null && mContentWebView.getProgress() == 100) {
                 stopLoading();
-                // 加载没有出错
+                // loading  success
                 if (mLastErrorCode == 0 && !isShowNetworkError) {
                     OpenUtils.setViewVisibility(mContentWebView, View.VISIBLE);
                 }
@@ -362,7 +356,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             mLastErrorCode = errorCode;
-            // 加载出错
+            // loading error
             showNetworkErrorDialog(OP_ERROR_NETWORK_ERROR);
             isShowNetworkError = true;
         }
@@ -402,9 +396,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         return true;
     }
 
-    /**
-     * 默认设置背景颜色
-     */
     protected void setContainerViewBgColor() {
         if (mContainer != null) {
             mContainer.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -434,10 +425,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         OpenUtils.setViewVisibility(mLoadingLayout, View.GONE);
     }
 
-    /**
-     * 取消操作
-     * @param errCode
-     */
     protected void onCancel(int errCode) {
         redirectToClientApp("", errCode);
     }
@@ -456,16 +443,13 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         }
     }
 
-    /**
-     * 页面加载样式, 封装类实现loading样式
-     */
     protected View getLoadingView(ViewGroup root) {
         return null;
     }
 
 
     /**
-     * 处理webview ssl错误
+     * deal with ssl error
      */
     protected void showSslErrorDialog(final SslErrorHandler handler, SslError error) {
         try {
@@ -520,7 +504,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     /**
-     * webview 收到ssl错误，继续加载
+     * proceed load when error
      */
     protected void proceedLoad(SslErrorHandler handler) {
         if (handler != null) {
@@ -529,7 +513,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     /**
-     * webview 收到ssl错误 取消加载
+     * cancel load when error
      */
     protected void cancelLoad(SslErrorHandler handler) {
         if (handler != null) {
@@ -540,11 +524,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         isShowNetworkError = true;
     }
 
-    /**
-     * 显示网络错误对话框, 封装类可实现自定义样式
-     * @param errCode 网络错误码
-     *
-     */
     protected void showNetworkErrorDialog(final int errCode) {
         if (mBaseErrorDialog != null && mBaseErrorDialog.isShowing()) {
             return;
@@ -553,7 +532,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
             View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
 
-            // 添加取消按钮
             int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
             mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
                 @Override

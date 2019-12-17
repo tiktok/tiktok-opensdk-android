@@ -7,7 +7,7 @@ import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 
 /**
- * 主要功能：检查Tiktok的相关
+ * TikTok check helper
  * author: ChangLei
  * since: 2019/4/1
  */

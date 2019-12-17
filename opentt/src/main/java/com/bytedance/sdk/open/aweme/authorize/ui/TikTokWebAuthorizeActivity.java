@@ -57,7 +57,6 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void sendInnerResponse(Authorization.Request req, BaseResp resp) {
-        // 添加wap url数据
         if (resp != null && mContentWebView != null) {
             if (resp.extras == null) {
                 resp.extras = new Bundle();
@@ -92,7 +91,6 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected String errorCode2Message(int errorCode) {
-        // 目前Tiktok没有自定义的错误码，不需要转换
         return "";
     }
 }

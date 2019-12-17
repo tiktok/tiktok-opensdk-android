@@ -6,7 +6,7 @@ import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
- * 主要功能：检查Musically的相关
+ * Musically check helper
  * author: ChangLei
  * since: 2019/3/31
  */

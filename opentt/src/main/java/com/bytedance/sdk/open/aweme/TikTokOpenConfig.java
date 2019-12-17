@@ -1,7 +1,7 @@
 package com.bytedance.sdk.open.aweme;
 
 /**
- * open 配置
+ * open config
  * Created by yangzhirong on 2018/10/22.
  */
 public class TikTokOpenConfig {

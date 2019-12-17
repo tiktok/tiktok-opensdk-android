@@ -5,29 +5,26 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
 /**
- * 请求
- * Created by yangzhirong on 2018/9/26.
- *
- * @author yangzhirong@bytedance.com
+ * Handle request data and response data
  */
 public interface TikTokApiEventHandler {
 
     /**
-     * 请求数据
+     * Handle request data
      *
      * @param req
      */
     void onReq(BaseReq req);
 
     /**
-     * 结果数据
+     * Handle response data
      *
      * @param resp
      */
     void onResp(BaseResp resp);
 
     /**
-     * 非正常 intent
+     * Handle error intent
      *
      * @param intent
      */

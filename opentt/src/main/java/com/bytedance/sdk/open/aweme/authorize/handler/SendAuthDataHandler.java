@@ -8,7 +8,7 @@ import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 
 /**
- * auth 请求/结果的 数据解析
+ * data parse of authorization result
  * Created by yangzhirong on 2018/10/8.
  */
 public class SendAuthDataHandler implements TikTokDataHandler {
@@ -20,7 +20,7 @@ public class SendAuthDataHandler implements TikTokDataHandler {
         if (type == TikTokConstants.ModeType.SEND_AUTH_REQUEST) {
             Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
-                // 处理调空格，否则服务端不认
+                // deal with white space
                 if (request.scope != null) {
                     request.scope = request.scope.replace(" ","");
                 }

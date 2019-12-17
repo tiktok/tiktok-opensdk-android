@@ -29,12 +29,12 @@ public class Share {
 
         public String mHashTag;
         @Deprecated
-        public int mTargetApp = TikTokConstants.TARGET_APP.TIKTOK; //默认tiktok
+        public int mTargetApp = TikTokConstants.TARGET_APP.TIKTOK; // default is tiktok
 
-        public TikTokMediaContent mMediaContent;  // 基础媒体数据
-        public TikTokMicroAppInfo mMicroAppInfo;  // 小程序
+        public TikTokMediaContent mMediaContent;
+        public TikTokMicroAppInfo mMicroAppInfo;
 
-        public TikTokAnchorObject mAnchorInfo; //锚点
+        public TikTokAnchorObject mAnchorInfo;
 
         public String mCallerPackage;
 
@@ -83,11 +83,11 @@ public class Share {
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
-            // 670添加小程序
+            // 670 add micro app
             if (mMicroAppInfo != null) {
                 mMicroAppInfo.serialize(bundle);
             }
-            //添加锚点
+            // 920 add anchor
             if (mAnchorInfo != null) {
                 mAnchorInfo.serialize(bundle);
             }
@@ -109,7 +109,6 @@ public class Share {
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
-            // 670添加小程序
             if (mMicroAppInfo != null) {
                 mMicroAppInfo.serialize(bundle);
             }

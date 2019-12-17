@@ -19,18 +19,18 @@ public class Authorization {
         public String redirectUri;
         public String clientKey;
         /**
-         * 必选权限，多个以逗号分割
-         * 传入格式：scope = "user_info,friend_relation";
+         * required permission，separated by commas
+         * format：scope = "user_info,friend_relation";
          */
         public String scope;
         /**
-         * 可选权限(默认不勾选)，多个以逗号分割
-         * 传入格式：optionalScope = "message,friend_relation";
+         * optional permission, which is not checked by default,separated by commas
+         * format：optionalScope = "message,friend_relation";
          */
         public String optionalScope0;
         /**
-         * 可选权限(默认勾选)，多个以逗号分割
-         * 传入格式：optionalScope = "message,friend_relation";
+         * optional permission, which is checked by default,separated by commas
+         * format：optionalScope = "message,friend_relation";
          */
         public String optionalScope1;
 

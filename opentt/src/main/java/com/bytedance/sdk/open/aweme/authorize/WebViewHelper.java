@@ -12,12 +12,12 @@ import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 import java.util.List;
 
 /**
- * webview授权页
+ * web authorization helper
  * Created by jianghaiyang on 2018/12/24.
  */
 public class WebViewHelper {
     /**
-     * 根据request和host生成 WAP授权页url
+     * generate url according to request and host
      * @param context
      * @param request
      * @param host

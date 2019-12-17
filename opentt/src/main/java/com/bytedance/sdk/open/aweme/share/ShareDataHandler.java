@@ -7,7 +7,7 @@ import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
 
 /**
- * share 请求/结果的 数据解析
+ * sharing data parser
  */
 public class ShareDataHandler implements TikTokDataHandler {
     @Override
