@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TikTokOpenApiFactory.create(this, targetAppId);
+        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetAppId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTiktokApiImpl(int targetApp) {
-        bdOpenApi = TikTokOpenApiFactory.create(this, targetApp);
+        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetApp);
     }
 
     private boolean sendAuth() {
