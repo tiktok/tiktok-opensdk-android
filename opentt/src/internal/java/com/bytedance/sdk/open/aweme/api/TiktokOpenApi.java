@@ -18,7 +18,16 @@ public interface TiktokOpenApi {
      * @param request
      * @return
      */
+    @Deprecated
     boolean authorizeNative(Authorization.Request request);
+
+    /**
+     * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
+     *
+     * @param request
+     * @return
+     */
+    boolean authorize(Authorization.Request request);
 
 
     boolean authorizeWeb(Authorization.Request request);

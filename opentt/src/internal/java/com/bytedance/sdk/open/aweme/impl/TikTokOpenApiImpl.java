@@ -133,6 +133,27 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     @Override
+    public boolean authorize(Authorization.Request request) {
+        IAPPCheckHelper appHasInstalled;
+        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
+            appHasInstalled = new AwemeCheckHelperImpl(mContext);
+            if (!appHasInstalled.isAppSupportAuthorization()) {
+                // 这个时候抖音没安装所以要走web授权
+                appHasInstalled = null;
+            }
+        } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+            appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+        } else {
+            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+        }
+        if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
+            return true;
+        } else {
+            return sendWebAuthRequest(request);
+        }
+    }
+
+    @Override
     public boolean authorizeWeb(Authorization.Request request) {
         return sendWebAuthRequest(request);
     }
