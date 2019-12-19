@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 签名工具类
+ * signature utils
  * Created by yangzhirong on 2018/10/8.
  */
 public class SignatureUtils {
 
     /**
-     * 验证签名
+     * verify signature
      *
      * @param context
      * @param pkgName
@@ -39,7 +39,7 @@ public class SignatureUtils {
     }
 
     /**
-     * 获取应用签名
+     * get app signature
      *
      * @param context
      * @param pkgName
@@ -72,8 +72,8 @@ public class SignatureUtils {
     }
 
     /**
-     * 一个 list 的签名拼成一个字符串
      *
+     * Joining signatures in an array into a string
      * @param signs
      * @return
      */

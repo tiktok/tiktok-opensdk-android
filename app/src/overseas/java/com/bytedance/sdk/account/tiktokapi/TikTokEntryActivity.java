@@ -51,26 +51,26 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
                         Toast.LENGTH_LONG).show();
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
-                startActivity(intent);
+//                startActivity(intent);
             } else {
 
-                Toast.makeText(this, "授权失败" + response.grantedPermissions,
+                Toast.makeText(this, "授权失败" + response.errorCode ,
                         Toast.LENGTH_LONG).show();
 
             }
-            finish();
+//            finish();
         } else if (resp instanceof Share.Response) {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
-                Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"分享成功,errorCode: " + response.errorCode + "subcode" + response.subErrorCode + " Error Msg : " + response.errorMsg,Toast.LENGTH_SHORT).show();
             } else if(response.isCancel()) {
-                Toast.makeText(this,"用户手动取消",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"用户取消,errorCode: " + response.errorCode + "subcode" + response.subErrorCode + " Error Msg : " + response.errorMsg,Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this,"分享失败,errorCode:"+response.errorCode,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"分享失败,errorCode: " + response.errorCode + "subcode" + response.subErrorCode + " Error Msg : " + response.errorMsg,Toast.LENGTH_SHORT).show();
             }
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(this,MainActivity.class);
+//            startActivity(intent);
+//            finish();
         }
 
     }

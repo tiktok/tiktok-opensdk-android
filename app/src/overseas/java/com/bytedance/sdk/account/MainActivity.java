@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TikTokOpenApiFactory.create(this, targetAppId);
+        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetAppId);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
@@ -157,13 +157,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTiktokApiImpl(int targetApp) {
-        bdOpenApi = TikTokOpenApiFactory.create(this, targetApp);
+        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetApp);
     }
 
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
-        request.scope = mScope;                          // 用户授权时必选权限
+        request.scope = "user_info";                          // 用户授权时必选权限
+        request.optionalScope0 = "mobile";      //同步手机号
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("require_tel_num_bind", true); //是否强行绑定手机号流程， true代表授权流程需要绑定手机号流程，false代表授权流程不需要绑定手机号流程
+        request.extras = bundle;
         //request.callerLocalEntry = "com.xxx.xxx...activity";
         return bdOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 

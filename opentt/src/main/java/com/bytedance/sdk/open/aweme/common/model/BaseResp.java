@@ -7,24 +7,24 @@ import com.bytedance.sdk.open.aweme.TikTokConstants;
 
 
 /**
- * 基本回调数据
+ * Base Model
  * Created by yangzhirong on 2018/9/26.
  */
 
 public abstract class BaseResp {
 
     /**
-     * 错误码
+     * error code
      */
     public int errorCode;
 
     /**
-     * 错误信息
+     * error message
      */
     public String errorMsg;
 
     /**
-     * 扩展信息
+     * extra data
      */
     public Bundle extras;
 
@@ -33,7 +33,6 @@ public abstract class BaseResp {
     }
 
     /**
-     * 是否请求取消
      *
      * @return
      */
@@ -42,7 +41,7 @@ public abstract class BaseResp {
     }
 
     /**
-     * 是否请求成功
+     * if request is success
      *
      * @return
      */
@@ -51,14 +50,13 @@ public abstract class BaseResp {
     }
 
     /**
-     * 类型
+     * authorization of sharing
      *
      * @return
      */
     public abstract int getType();
 
     /**
-     * 判断参数是否符合规范
      *
      * @return
      */

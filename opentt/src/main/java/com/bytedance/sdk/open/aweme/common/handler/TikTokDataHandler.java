@@ -6,16 +6,15 @@ import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 
 
 /**
- * Bundle 数据解析
  * Created by yangzhirong on 2018/10/8.
  */
 public interface TikTokDataHandler {
 
     /**
-     * @param type         类型( Request/Response
-     * @param bundle       数据
-     * @param eventHandler 接收数据解析结果的回调
-     * @return 是否解析改 type
+     * @param type         type of Request/Response
+     * @param bundle       data
+     * @param eventHandler handle return data
+     * @return if it can parse data
      */
     boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler);
 }

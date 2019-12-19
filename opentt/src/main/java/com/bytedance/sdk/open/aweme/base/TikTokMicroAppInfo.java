@@ -14,18 +14,14 @@ import com.google.gson.JsonSyntaxException;
  */
 public class TikTokMicroAppInfo {
 
-    //小程序id
     private String appId;
-    //小程序title
+
     private String appTitle;
 
-    //小程序描述
     private String description;
 
-    // 小程序入口页
     private String appUrl;
 
-    // 创建两个方法，将整个对象序列化程json字符串，传递给bundle
     public void serialize(Bundle sendBundle) {
         if (sendBundle == null) {
             return;

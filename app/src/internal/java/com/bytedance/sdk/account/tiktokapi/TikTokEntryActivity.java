@@ -49,7 +49,7 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
             Intent intent = null;
             if (resp.isSuccess()) {
                 if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
-                    Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions + "with url:" + wapUrlIfAuthByWap,
+                    Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
                             Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
@@ -61,10 +61,10 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
             }
             else {
                 if (!TextUtils.isEmpty(wapUrlIfAuthByWap)) {
-                    Toast.makeText(this, "授权失败" + "with url:" + wapUrlIfAuthByWap,
+                    Toast.makeText(this, "授权失败" + "error code:" + response.errorCode,
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "授权失败" + response.grantedPermissions,
+                    Toast.makeText(this, "授权失败" + response.errorCode,
                             Toast.LENGTH_LONG).show();
                 }
             }

@@ -36,7 +36,7 @@ public class TikTokMediaContent {
             bundle = new Bundle();
             if (mediaContent.mMediaObject != null) {
                 String className = mediaContent.mMediaObject.getClass().getName();
-                // 适配老版本抖音..
+                // adapt to old douyin version
                 if (className.contains("sdk")) {
                     className = className.replace("sdk", "sdk.account");
                 }
@@ -56,7 +56,7 @@ public class TikTokMediaContent {
             String mediaClassName;
             if (((mediaClassName = bundle.getString(KEY_IDENTIFIER))) != null && mediaClassName.length() > 0) {
                 try {
-                    // 适配老版本抖音..
+                    // adapt to old douyin version
                     if (mediaClassName.contains("sdk")) {
                         mediaClassName = mediaClassName.replace("sdk", "sdk.account");
                     }

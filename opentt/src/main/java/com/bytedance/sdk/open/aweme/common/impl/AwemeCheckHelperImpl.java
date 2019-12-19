@@ -6,7 +6,7 @@ import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
- * 抖音检查类
+ * DOUYIN check helper
  */
 public class AwemeCheckHelperImpl extends BaseCheckHelperImpl {
 

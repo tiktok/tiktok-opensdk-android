@@ -16,7 +16,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 
 /**
- * 主要功能：该类是为了在Tiktok SDK中兼容抖音的授权逻辑
+ * DouYin web authorization
  * author: ChangLei
  * since: 2019/5/17
  */
@@ -54,7 +54,6 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void sendInnerResponse(Authorization.Request req, BaseResp resp) {
-        // 添加wap url数据
         if (resp != null && mContentWebView != null) {
             if (resp.extras == null) {
                 resp.extras = new Bundle();
@@ -89,7 +88,6 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected String errorCode2Message(int errorCode) {
-        // 目前Tiktok没有自定义的错误码，不需要转换
         return "";
     }
 }

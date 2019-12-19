@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tiktok授权实现类
  *
  * @author changlei@bytedance.com
  */
@@ -47,8 +46,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     static final int API_TYPE_LOGIN = 0;
     static final int API_TYPE_SHARE = 1;
 
-    static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
-    static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
+    static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // the activity of get result from sharing or authorization
+    static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // the entrance of share activity
 
 
     private static final int TYPE_AUTH_HANDLER = 1;
@@ -87,9 +86,9 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             return false;
         }
 
-        int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);//授权使用的
+        int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);//the authorization will use this
         if (type == 0) {
-            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//分享使用的
+            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//the sharing will use this
         }
         switch (type) {
             case TikTokConstants.ModeType.SEND_AUTH_REQUEST:
@@ -127,10 +126,11 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             appHasInstalled = new AwemeCheckHelperImpl(mContext);
             if (!appHasInstalled.isAppSupportAuthorization()) {
-                // 这个时候抖音没安装所以要走web授权
+                // if tiktok is not installed, it will be web authorization
                 appHasInstalled = null;
             }
         } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+            // if both Musically and Tiktok are installed, will use Musically authorization first
             appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         } else {
             throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
@@ -148,7 +148,6 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             return false;
         }
 
-        // 适配抖音
         if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
             AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(mContext);
             if (mContext != null && checkHelper.isAppSupportShare()) {
@@ -156,9 +155,9 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
                         checkHelper.getRemoteAuthEntryActivity());
             }
         } else {
-            // MT需要判断用户安装了哪个，并且哪个支持分享功能
+            // if both Musically and Tiktok are installed, will use Musically sharing first
             if (isAppSupportShare()) {
-                String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();// 授权方包名
+                String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
                 return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
                         getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity());
             }

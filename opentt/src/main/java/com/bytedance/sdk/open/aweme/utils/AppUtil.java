@@ -15,7 +15,7 @@ import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 public class AppUtil {
 
     /**
-     * 应用是否安装
+     * if app is installed
      *
      * @param context
      * @param platformPackageName
@@ -45,7 +45,7 @@ public class AppUtil {
     }
 
     /**
-     * 打开目标应用
+     * open target app
      */
     public static boolean openApp(Context context, String platformPackageName) {
         if (!isAppInstalled(context, platformPackageName)) {
@@ -64,7 +64,7 @@ public class AppUtil {
     }
 
     /**
-     * 检测抖音版本
+     * check tiktok version
      * @param context
      * @param platformPackageName
      * @param remoteRequestEntry
