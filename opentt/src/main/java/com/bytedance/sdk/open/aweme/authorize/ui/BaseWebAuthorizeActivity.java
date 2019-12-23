@@ -20,8 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -186,7 +185,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         } else {
             startLoading();
             configWebView();
-            mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
+            mContentWebView.loadUrl("http://10.227.12.58:8080/pages/demo");
 
         }
     }

@@ -31,6 +31,7 @@ import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
 import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
 import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -96,10 +97,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.set_scope).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.auth_commonparam).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetScopeActivity.show(MainActivity.this, mScope, mOptionalScope1, mOptionalScope2, SET_SCOPE_REQUEST);
+                Authorization.Request request = new Authorization.Request();
+                request.scope = mScope;                          // 用户授权时必选权限
+                request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
+                request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+
+                Bundle bundle = new Bundle();
+                CommonParamTest test = new CommonParamTest();
+                test.setmAc("ac");
+                test.setmAid("aid");
+                test.setmAppName("douyin");
+                test.setmChannel("channel");
+                Gson gson = new Gson();
+
+                bundle.putString("internal_secure_common_params", gson.toJson(test));
+                request.extras = bundle;
+                tiktokOpenApi.authorize(request);
+
             }
         });
 

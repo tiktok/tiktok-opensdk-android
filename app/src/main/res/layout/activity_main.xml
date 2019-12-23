@@ -23,14 +23,14 @@
         android:text="@string/authorize"
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/set_scope"
+        app:layout_constraintRight_toLeftOf="@+id/auth_commonparam"
         app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <Button
-        android:id="@+id/set_scope"
+        android:id="@+id/auth_commonparam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="配置权限"
+        android:text="授权通用参数"
         app:layout_constraintTop_toTopOf="@id/go_to_auth"
         app:layout_constraintBottom_toBottomOf="@id/go_to_auth"
         app:layout_constraintLeft_toRightOf="@id/go_to_auth"
@@ -44,7 +44,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/set_scope"/>
+        app:layout_constraintTop_toBottomOf="@id/auth_commonparam"/>
 
     <Button
         android:id="@+id/share_to_tiktok"
