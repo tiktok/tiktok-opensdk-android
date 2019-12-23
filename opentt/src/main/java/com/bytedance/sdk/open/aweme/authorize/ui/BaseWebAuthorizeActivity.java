@@ -185,7 +185,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         } else {
             startLoading();
             configWebView();
-            mContentWebView.loadUrl("http://10.227.12.58:8080/pages/demo");
+            mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
 
         }
     }

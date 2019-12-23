@@ -84,6 +84,7 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     private void injectCommonParams() {
         if (!TextUtils.isEmpty(mCommonParams)) {
+            mCommonParams = TextUtils.htmlEncode(mCommonParams);
             String command = "javascript:(function () {" +
                     "window.secureCommonParams ='" + mCommonParams +"';" +
                     "})();";
