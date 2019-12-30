@@ -1,6 +1,6 @@
 package com.bytedance.sdk.open.aweme;
 
-public interface TikTokConstants {
+public interface BaseConstants {
 
     // send broadcast to your app
     String ACTION_STAY_IN_TT = "com.aweme.opensdk.action.stay.in.dy";

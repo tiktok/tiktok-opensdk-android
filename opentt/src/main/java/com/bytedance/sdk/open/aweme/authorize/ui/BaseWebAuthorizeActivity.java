@@ -20,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,7 +31,7 @@ import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
+import com.bytedance.sdk.open.aweme.BaseConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
@@ -168,7 +166,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
 
     @Override
     public void onBackPressed() {
-        redirectToClientApp("", TikTokConstants.BaseErrorCode.ERROR_CANCEL);
+        redirectToClientApp("", BaseConstants.BaseErrorCode.ERROR_CANCEL);
     }
 
     public final void handleRequestIntent() {
@@ -273,7 +271,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         mCancelImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel(TikTokConstants.BaseErrorCode.ERROR_CANCEL);
+                onCancel(BaseConstants.BaseErrorCode.ERROR_CANCEL);
             }
         });
         setContainerViewBgColor();
@@ -379,7 +377,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         String grantedPermissions = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
             String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
-            int errorCode = TikTokConstants.BaseErrorCode.ERROR_UNKNOW;
+            int errorCode = BaseConstants.BaseErrorCode.ERROR_UNKNOW;
             if (!TextUtils.isEmpty(errorCodeStr)) {
                 try {
                     errorCode = Integer.parseInt(errorCodeStr);
@@ -390,7 +388,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             redirectToClientApp("", errorCode);
             return false;
         }
-        redirectToClientApp(code, state, grantedPermissions, TikTokConstants.BaseErrorCode.OK);
+        redirectToClientApp(code, state, grantedPermissions, BaseConstants.BaseErrorCode.OK);
         return true;
     }
 

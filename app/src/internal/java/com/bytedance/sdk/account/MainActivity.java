@@ -2,7 +2,6 @@ package com.bytedance.sdk.account;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,8 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -26,9 +23,9 @@ import android.widget.Toast;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
-import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
-import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
+import com.bytedance.sdk.open.aweme.base.DouYinImageObject;
+import com.bytedance.sdk.open.aweme.base.DouYinMediaContent;
+import com.bytedance.sdk.open.aweme.base.DouYinVideoObject;
 import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
@@ -248,9 +245,9 @@ public class MainActivity extends AppCompatActivity {
         Share.Request request = new Share.Request();
         switch (shareType) {
             case Share.IMAGE:
-                TikTokImageObject imageObject = new TikTokImageObject();
+                DouYinImageObject imageObject = new DouYinImageObject();
                 imageObject.mImagePaths = mUri;
-                TikTokMediaContent mediaContent = new TikTokMediaContent();
+                DouYinMediaContent mediaContent = new DouYinMediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
@@ -260,19 +257,19 @@ public class MainActivity extends AppCompatActivity {
                 request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
-                TikTokVideoObject videoObject = new TikTokVideoObject();
+                DouYinVideoObject videoObject = new DouYinVideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
-                TikTokMediaContent content = new TikTokMediaContent();
+                DouYinMediaContent content = new DouYinMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
+//                BaseMicroAppInfo mMicroInfo = new BaseMicroAppInfo();
 //                mMicroInfo.setAppTitle("小程序title");
 //                mMicroInfo.setDescription("小程序描述");
 //                mMicroInfo.setAppId("ttef9b992670b151ec");

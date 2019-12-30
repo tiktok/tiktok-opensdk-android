@@ -6,8 +6,6 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
-import com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity;
-
 public class TikTokGeckoWebActivity extends TikTokWebAuthorizeActivity {
 
 

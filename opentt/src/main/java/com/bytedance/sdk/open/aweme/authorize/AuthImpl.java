@@ -26,6 +26,7 @@ public class AuthImpl {
         this.openConfig = sConfig;
     }
 
+
     public boolean authorizeWeb(Class clazz, Authorization.Request req) {
         if (req == null || mContext == null) {
             return false;

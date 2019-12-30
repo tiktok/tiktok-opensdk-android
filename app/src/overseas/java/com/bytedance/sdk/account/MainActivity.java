@@ -26,11 +26,10 @@ import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.account.share.GameAnchorObject;
-import com.bytedance.sdk.open.aweme.base.TikTokAnchorObject;
-import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
-import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
-import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
-import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
+import com.bytedance.sdk.open.aweme.base.BaseAnchorObject;
+import com.bytedance.sdk.open.aweme.base.BaseImageObject;
+import com.bytedance.sdk.open.aweme.base.BaseMediaContent;
+import com.bytedance.sdk.open.aweme.base.BaseVideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.google.gson.Gson;
 
@@ -247,9 +246,9 @@ public class MainActivity extends AppCompatActivity {
         Share.Request request = new Share.Request();
         switch (shareType) {
             case Share.IMAGE:
-                TikTokImageObject imageObject = new TikTokImageObject();
+                BaseImageObject imageObject = new BaseImageObject();
                 imageObject.mImagePaths = mUri;
-                TikTokMediaContent mediaContent = new TikTokMediaContent();
+                BaseMediaContent mediaContent = new BaseMediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
@@ -259,12 +258,12 @@ public class MainActivity extends AppCompatActivity {
                 request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
-                TikTokVideoObject videoObject = new TikTokVideoObject();
+                BaseVideoObject videoObject = new BaseVideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
-                TikTokMediaContent content = new TikTokMediaContent();
+                BaseMediaContent content = new BaseMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
@@ -282,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 gameAnchorObject.setExtra(extraStr);
                 gameAnchorObject.setmKeyWord("第五人格");
 
-                TikTokAnchorObject anchorObject = new TikTokAnchorObject();
+                BaseAnchorObject anchorObject = new BaseAnchorObject();
                 anchorObject.setAnchorBusinessType(10);
                 anchorObject.setAnchorTitle("第五人格");
                 String str = gson.toJson(gameAnchorObject);
@@ -293,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
+//                BaseMicroAppInfo mMicroInfo = new BaseMicroAppInfo();
 //                mMicroInfo.setAppTitle("小程序title");
 //                mMicroInfo.setDescription("小程序描述");
 //                mMicroInfo.setAppId("ttef9b992670b151ec");

@@ -8,7 +8,7 @@ import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 /**
  * Created by yangzhirong on 2018/10/8.
  */
-public interface TikTokDataHandler {
+public interface IDataHandler {
 
     /**
      * @param type         type of Request/Response

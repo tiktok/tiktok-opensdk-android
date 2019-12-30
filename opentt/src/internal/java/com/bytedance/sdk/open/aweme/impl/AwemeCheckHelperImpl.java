@@ -5,15 +5,12 @@ import android.content.Context;
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
-
 /**
- * TikTok check helper
- * author: ChangLei
- * since: 2019/4/1
+ * DOUYIN check helper
  */
-public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
+public class AwemeCheckHelperImpl extends BaseCheckHelperImpl {
 
-    public TiktokCheckHelperImpl(Context context) {
+    public AwemeCheckHelperImpl(Context context) {
         super(context);
     }
 
@@ -29,6 +26,6 @@ public class TiktokCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     public String getPackageName() {
-        return "com.ss.android.ugc.trill";
+        return "com.ss.android.ugc.aweme";
     }
 }

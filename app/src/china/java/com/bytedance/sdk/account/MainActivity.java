@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 request.mHashTag = "设置我的默认话题";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
+//                BaseMicroAppInfo mMicroInfo = new BaseMicroAppInfo();
 //                mMicroInfo.setAppTitle("小程序title");
 //                mMicroInfo.setDescription("小程序描述");
 //                mMicroInfo.setAppId("ttef9b992670b151ec");

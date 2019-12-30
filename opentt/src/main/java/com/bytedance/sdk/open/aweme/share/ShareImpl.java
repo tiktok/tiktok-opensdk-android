@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
@@ -22,7 +22,7 @@ public class ShareImpl {
 
     private Context mContext;
     private TikTokOpenConfig openConfig;
-    private List<TikTokDataHandler> handlers = new ArrayList<>();
+    private List<IDataHandler> handlers = new ArrayList<>();
 
     public ShareImpl(Context context, TikTokOpenConfig sConfig) {
         this.mContext = context;

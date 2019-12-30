@@ -2,17 +2,15 @@ package com.bytedance.sdk.open.aweme.share;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.bytedance.sdk.open.aweme.base.TikTokAnchorObject;
-import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
-import com.bytedance.sdk.open.aweme.base.TikTokMicroAppInfo;
+import com.bytedance.sdk.open.aweme.BaseConstants;
+import com.bytedance.sdk.open.aweme.base.BaseAnchorObject;
+import com.bytedance.sdk.open.aweme.base.BaseMediaContent;
+import com.bytedance.sdk.open.aweme.base.BaseMicroAppInfo;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.google.gson.Gson;
 
 /**
  * Powered by WangJiaWei on 2019/1/15.
@@ -29,12 +27,12 @@ public class Share {
 
         public String mHashTag;
         @Deprecated
-        public int mTargetApp = TikTokConstants.TARGET_APP.TIKTOK; // default is tiktok
+        public int mTargetApp = BaseConstants.TARGET_APP.TIKTOK; // default is tiktok
 
-        public TikTokMediaContent mMediaContent;
-        public TikTokMicroAppInfo mMicroAppInfo;
+        public BaseMediaContent mMediaContent;
+        public BaseMicroAppInfo mMicroAppInfo;
 
-        public TikTokAnchorObject mAnchorInfo;
+        public BaseAnchorObject mAnchorInfo;
 
         public String mCallerPackage;
 
@@ -52,7 +50,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SHARE_CONTENT_TO_TT;
+            return BaseConstants.ModeType.SHARE_CONTENT_TO_TT;
         }
 
         @SuppressLint("MissingSuperCall")
@@ -66,9 +64,9 @@ public class Share {
             this.mTargetSceneType =
                     bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.LANDPAGE_SCENE_DEFAULT);
             this.mHashTag = bundle.getString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
-            this.mMediaContent = TikTokMediaContent.Builder.fromBundle(bundle);
-            this.mMicroAppInfo = TikTokMicroAppInfo.unserialize(bundle);
-            this.mAnchorInfo = TikTokAnchorObject.unserialize(bundle);
+            this.mMediaContent = BaseMediaContent.Builder.fromBundle(bundle);
+            this.mMicroAppInfo = BaseMicroAppInfo.unserialize(bundle);
+            this.mAnchorInfo = BaseAnchorObject.unserialize(bundle);
         }
 
         @SuppressLint("MissingSuperCall")
@@ -79,7 +77,7 @@ public class Share {
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
-            bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,false));
+            bundle.putAll(BaseMediaContent.Builder.toBundle(this.mMediaContent,false));
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
@@ -105,7 +103,7 @@ public class Share {
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
-            bundle.putAll(TikTokMediaContent.Builder.toBundle(this.mMediaContent,true));
+            bundle.putAll(BaseMediaContent.Builder.toBundle(this.mMediaContent,true));
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
@@ -142,7 +140,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SHARE_CONTENT_TO_TT_RESP;
+            return BaseConstants.ModeType.SHARE_CONTENT_TO_TT_RESP;
         }
 
         @SuppressLint("MissingSuperCall")

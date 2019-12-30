@@ -6,9 +6,9 @@ import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 import java.util.ArrayList;
 
-public class TikTokVideoObject implements IMediaObject{
+public class BaseVideoObject implements IMediaObject{
 
-    private static final String TAG = "TikTokVideoObject";
+    private static final String TAG = "BaseVideoObject";
     public ArrayList<String> mVideoPaths;
 
     @Override

@@ -1,8 +1,8 @@
 package com.bytedance.sdk.open.aweme.authorize.model;
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.BaseConstants;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
@@ -48,7 +48,7 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SEND_AUTH_REQUEST;
+            return BaseConstants.ModeType.SEND_AUTH_REQUEST;
         }
 
         @Override
@@ -89,7 +89,7 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return TikTokConstants.ModeType.SEND_AUTH_RESPONSE;
+            return BaseConstants.ModeType.SEND_AUTH_RESPONSE;
         }
 
         @Override

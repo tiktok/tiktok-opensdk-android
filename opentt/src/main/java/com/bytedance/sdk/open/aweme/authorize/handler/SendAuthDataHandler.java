@@ -2,22 +2,22 @@ package com.bytedance.sdk.open.aweme.authorize.handler;
 
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.BaseConstants;
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 
 /**
  * data parse of authorization result
  * Created by yangzhirong on 2018/10/8.
  */
-public class SendAuthDataHandler implements TikTokDataHandler {
+public class SendAuthDataHandler implements IDataHandler {
     @Override
     public boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == TikTokConstants.ModeType.SEND_AUTH_REQUEST) {
+        if (type == BaseConstants.ModeType.SEND_AUTH_REQUEST) {
             Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
                 // deal with white space
@@ -35,7 +35,7 @@ public class SendAuthDataHandler implements TikTokDataHandler {
             } else {
                 return false;
             }
-        } else if (type == TikTokConstants.ModeType.SEND_AUTH_RESPONSE) {
+        } else if (type == BaseConstants.ModeType.SEND_AUTH_RESPONSE) {
             Authorization.Response response = new Authorization.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

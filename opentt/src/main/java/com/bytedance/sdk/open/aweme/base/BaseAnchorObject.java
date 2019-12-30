@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 
-public class TikTokAnchorObject {
+public class BaseAnchorObject {
     @SerializedName("anchor_business_type")
     int mAnchorBusinessType;
     @SerializedName("anchor_title")
@@ -51,7 +51,7 @@ public class TikTokAnchorObject {
         sendBundle.putString(ParamKeyConstants.ShareParams.SHARE_ANCHOR_INFO, result);
     }
 
-    public static TikTokAnchorObject unserialize(Bundle clientBundle) {
+    public static BaseAnchorObject unserialize(Bundle clientBundle) {
         if (clientBundle == null) {
             return null;
         }
@@ -60,7 +60,7 @@ public class TikTokAnchorObject {
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson gson = new Gson();
-                return gson.fromJson(info, TikTokAnchorObject.class);
+                return gson.fromJson(info, BaseAnchorObject.class);
             }
         } catch (JsonSyntaxException e) {
             e.printStackTrace();

@@ -3,23 +3,21 @@ package com.bytedance.sdk.open.aweme.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.bytedance.sdk.open.aweme.BaseConstants;
+import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
-import com.bytedance.sdk.open.aweme.authorize.ui.AwemeWebAuthorizeActivity;
-import com.bytedance.sdk.open.aweme.authorize.ui.TikTokWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokDataHandler;
-import com.bytedance.sdk.open.aweme.common.impl.AwemeCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.common.impl.MusicallyCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.common.impl.TiktokCheckHelperImpl;
+import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.aweme.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +34,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     private final IAPPCheckHelper[] mAuthcheckApis;
     private final IAPPCheckHelper[] mSharecheckApis;
 
-    private Map<Integer, TikTokDataHandler> handlerMap = new HashMap<>(2);
+    private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
 
 
     private ShareImpl shareImpl;
@@ -91,11 +89,11 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
             type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//the sharing will use this
         }
         switch (type) {
-            case TikTokConstants.ModeType.SEND_AUTH_REQUEST:
-            case TikTokConstants.ModeType.SEND_AUTH_RESPONSE:
+            case BaseConstants.ModeType.SEND_AUTH_REQUEST:
+            case BaseConstants.ModeType.SEND_AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case TikTokConstants.ModeType.SHARE_CONTENT_TO_TT:
-            case TikTokConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
+            case BaseConstants.ModeType.SHARE_CONTENT_TO_TT:
+            case BaseConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
@@ -104,36 +102,28 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     @Override
     public boolean isAppSupportAuthorization() {
-        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            return new AwemeCheckHelperImpl(mContext).isAppSupportAuthorization();
-        } else {
+        if (mTargetApp == BaseConstants.TARGET_APP.TIKTOK) {
             return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
         }
+        return false;
     }
 
     @Override
     public boolean isAppSupportShare() {
-        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            return new AwemeCheckHelperImpl(mContext).isAppSupportShare();
-        } else {
+        if (mTargetApp == BaseConstants.TARGET_APP.TIKTOK) {
             return getSupportApiAppInfo(API_TYPE_SHARE) != null;
         }
+        return false;
     }
 
     @Override
     public boolean authorize(Authorization.Request request) {
         IAPPCheckHelper appHasInstalled;
-        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            appHasInstalled = new AwemeCheckHelperImpl(mContext);
-            if (!appHasInstalled.isAppSupportAuthorization()) {
-                // if tiktok is not installed, it will be web authorization
-                appHasInstalled = null;
-            }
-        } else if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+        if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             // if both Musically and Tiktok are installed, will use Musically authorization first
             appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
         } else {
-            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+            throw new IllegalArgumentException("We only support TIKTOK for authorization.");
         }
         if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
             return true;
@@ -147,14 +137,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         if (request == null) {
             return false;
         }
-
-        if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            AwemeCheckHelperImpl checkHelper = new AwemeCheckHelperImpl(mContext);
-            if (mContext != null && checkHelper.isAppSupportShare()) {
-                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                        checkHelper.getRemoteAuthEntryActivity());
-            }
-        } else {
+        if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
             // if both Musically and Tiktok are installed, will use Musically sharing first
             if (isAppSupportShare()) {
                 String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
@@ -167,12 +150,10 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-        if (mTargetApp == TikTokConstants.TARGET_APP.TIKTOK) {
+        if (mTargetApp == BaseConstants.TARGET_APP.TIKTOK) {
             return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
-        } else if (mTargetApp == TikTokConstants.TARGET_APP.AWEME) {
-            return authImpl.authorizeWeb(AwemeWebAuthorizeActivity.class, request);
         } else {
-            throw new IllegalArgumentException("We only support AWEME And TIKTOK for authorization.");
+            throw new IllegalArgumentException("We only support TIKTOK for authorization.");
         }
     }
 

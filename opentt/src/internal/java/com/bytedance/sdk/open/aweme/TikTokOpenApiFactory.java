@@ -3,7 +3,6 @@ package com.bytedance.sdk.open.aweme;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.aweme.TikTokConstants;
 import com.bytedance.sdk.open.aweme.TikTokOpenConfig;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
@@ -36,7 +35,7 @@ public class TikTokOpenApiFactory {
     public static TiktokOpenApi create(Context context) {
         AuthImpl auth = new AuthImpl(context, sConfig);
         ShareImpl share = new ShareImpl(context, sConfig);
-        return new TikTokOpenApiImpl(context, auth, share, TikTokConstants.TARGET_APP.TIKTOK);
+        return new TikTokOpenApiImpl(context, auth, share, DouYinConstants.TARGET_APP.TIKTOK);
     }
 
     /**

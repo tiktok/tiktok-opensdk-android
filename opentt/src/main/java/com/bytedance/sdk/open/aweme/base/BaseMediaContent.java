@@ -4,16 +4,16 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-public class TikTokMediaContent {
+public class BaseMediaContent {
 
-    private static final String TAG = "AWEME.SDK.TikTokMediaContent";
+    private static final String TAG = "AWEME.SDK.BaseMediaContent";
     public IMediaObject mMediaObject;
 
-    public TikTokMediaContent() {
+    public BaseMediaContent() {
 
     }
 
-    public TikTokMediaContent(IMediaObject obj) {
+    public BaseMediaContent(IMediaObject obj) {
         this.mMediaObject = obj;
     }
 
@@ -31,7 +31,7 @@ public class TikTokMediaContent {
         public Builder() {
         }
 
-        public static Bundle toBundle(TikTokMediaContent mediaContent, boolean supportOldVersion) {
+        public static Bundle toBundle(BaseMediaContent mediaContent, boolean supportOldVersion) {
             Bundle bundle;
             bundle = new Bundle();
             if (mediaContent.mMediaObject != null) {
@@ -50,9 +50,9 @@ public class TikTokMediaContent {
         }
 
         @SuppressLint("LongLogTag")
-        public static TikTokMediaContent fromBundle(Bundle bundle) {
-            TikTokMediaContent mediaContent;
-            mediaContent = new TikTokMediaContent();
+        public static BaseMediaContent fromBundle(Bundle bundle) {
+            BaseMediaContent mediaContent;
+            mediaContent = new BaseMediaContent();
             String mediaClassName;
             if (((mediaClassName = bundle.getString(KEY_IDENTIFIER))) != null && mediaClassName.length() > 0) {
                 try {

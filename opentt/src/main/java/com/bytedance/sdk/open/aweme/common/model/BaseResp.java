@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.aweme.common.model;
 
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.BaseConstants;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.TikTokConstants;
 
 
 /**
@@ -37,7 +37,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == TikTokConstants.BaseErrorCode.ERROR_CANCEL;
+        return errorCode == BaseConstants.BaseErrorCode.ERROR_CANCEL;
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == TikTokConstants.BaseErrorCode.OK;
+        return errorCode == BaseConstants.BaseErrorCode.OK;
     }
 
     /**

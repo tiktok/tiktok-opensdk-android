@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.common.impl;
+package com.bytedance.sdk.open.aweme.impl;
 
 import android.content.Context;
 
