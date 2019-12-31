@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
@@ -33,7 +32,6 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     private TiktokOpenApi ttOpenApi;
     private String mCommonParams;
-    private boolean isInjectParams = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +42,6 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void configWebView() {
-        if (!TextUtils.isEmpty(mCommonParams)) {
-            mContentWebView.setWebChromeClient(new WebChromeClient(){
-                @Override
-                public void onProgressChanged(WebView view, int newProgress) {
-                    super.onProgressChanged(view, newProgress);
-                    if (newProgress > 70 && newProgress <= 100) {
-                        if (!isInjectParams) {
-                            injectCommonParams();
-                            isInjectParams = !isInjectParams;
-                        }
-                    }
-
-                }
-            });
-        }
         mContentWebView.setWebViewClient(new AuthClient());
     }
 
@@ -66,30 +49,23 @@ public class AwemeWebAuthorizeActivity extends BaseWebAuthorizeActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            if (!isInjectParams) {
-                injectCommonParams();
-                isInjectParams = !isInjectParams;
-            }
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            if (!isInjectParams) {
+            if (!TextUtils.isEmpty(mCommonParams)) {
                 injectCommonParams();
-                isInjectParams = !isInjectParams;
             }
         }
     }
 
     private void injectCommonParams() {
-        if (!TextUtils.isEmpty(mCommonParams)) {
-            mCommonParams = TextUtils.htmlEncode(mCommonParams);
-            String command = "javascript:(function () {" +
-                    "window.secureCommonParams ='" + mCommonParams +"';" +
-                    "})();";
-            mContentWebView.loadUrl(command);
-        }
+        String command = "javascript:(function () {" +
+                "window.secureCommonParams ='" + mCommonParams + "';" +
+                "})();";
+        mContentWebView.loadUrl(command);
+
     }
 
     @Override
