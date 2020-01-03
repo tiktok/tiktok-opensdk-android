@@ -51,14 +51,14 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
                         Toast.LENGTH_LONG).show();
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
-//                startActivity(intent);
+                startActivity(intent);
             } else {
 
                 Toast.makeText(this, "授权失败" + response.errorCode ,
                         Toast.LENGTH_LONG).show();
 
             }
-//            finish();
+            finish();
         } else if (resp instanceof Share.Response) {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
