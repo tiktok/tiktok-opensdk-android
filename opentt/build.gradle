@@ -77,4 +77,4 @@ dependencies {
 
 apply plugin: 'com.jfrog.bintray'
 apply from:'./mvn_publish.gradle'
-apply from: 'http://tosv.byted.org/obj/ttclient-android/publish.gradle'
+apply from:'./upload_internal.gradle'
