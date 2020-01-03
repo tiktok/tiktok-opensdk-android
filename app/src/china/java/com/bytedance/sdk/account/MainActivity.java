@@ -94,13 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.set_scope).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SetScopeActivity.show(MainActivity.this, mScope, mOptionalScope1, mOptionalScope2, SET_SCOPE_REQUEST);
-            }
-        });
-
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
