@@ -26,7 +26,6 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.DouYinImageObject;
 import com.bytedance.sdk.open.aweme.base.DouYinMediaContent;
 import com.bytedance.sdk.open.aweme.base.DouYinVideoObject;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;

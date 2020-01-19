@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bytedance.sdk.open.aweme.BaseConstants;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.OpenApiFactory;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;
@@ -33,7 +33,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = TikTokOpenApiFactory.create(this, BaseConstants.TARGET_APP.TIKTOK);
+        ttOpenApi = OpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
         mCancelImg.setColorFilter(Color.BLACK);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);

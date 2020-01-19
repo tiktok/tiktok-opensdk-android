@@ -21,8 +21,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.share.GameExtras;
+import com.bytedance.sdk.open.aweme.OpenApiFactory;
 import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.account.share.GameAnchorObject;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetAppId);
+        bdOpenApi = OpenApiFactory.create(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createTiktokApiImpl(int targetApp) {
-        bdOpenApi = TikTokOpenApiFactory.create(getApplicationContext(), targetApp);
+        bdOpenApi = OpenApiFactory.create(getApplicationContext());
     }
 
     private boolean sendAuth() {

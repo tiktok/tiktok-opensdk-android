@@ -1,4 +1,4 @@
 package com.bytedance.sdk.open.aweme;
 
-interface DouYinConstants extends BaseConstants {
+public interface DouYinConstants extends BaseConstants {
 }

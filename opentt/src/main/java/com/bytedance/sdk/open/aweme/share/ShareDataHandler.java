@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.aweme.share;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.BaseConstants;
-import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 
 /**

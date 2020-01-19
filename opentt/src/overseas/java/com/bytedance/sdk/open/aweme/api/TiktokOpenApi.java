@@ -3,6 +3,7 @@ import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 /**

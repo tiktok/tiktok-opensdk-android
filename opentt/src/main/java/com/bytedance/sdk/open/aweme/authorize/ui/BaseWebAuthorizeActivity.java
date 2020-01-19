@@ -27,7 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;

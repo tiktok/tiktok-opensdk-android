@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bytedance.sdk.open.aweme.TikTokConstants;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.aweme.api.TikTokApiEventHandler;
+
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;

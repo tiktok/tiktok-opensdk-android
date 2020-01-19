@@ -20,20 +20,20 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.bytedance.sdk.open.aweme.TikTokConstants;
+import com.bytedance.sdk.open.aweme.DouYinConstants;
+import com.bytedance.sdk.open.aweme.OpenApiFactory;
 import com.bytedance.sdk.open.aweme.api.TiktokOpenApi;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.base.TikTokImageObject;
-import com.bytedance.sdk.open.aweme.base.TikTokMediaContent;
-import com.bytedance.sdk.open.aweme.base.TikTokVideoObject;
-import com.bytedance.sdk.open.aweme.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.aweme.base.DouYinImageObject;
+import com.bytedance.sdk.open.aweme.base.DouYinMediaContent;
+import com.bytedance.sdk.open.aweme.base.DouYinVideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int targetAppId = TikTokConstants.TARGET_APP.AWEME; // 默认抖音
+    public static int targetAppId = DouYinConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi tiktokOpenApi;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tiktokOpenApi = TikTokOpenApiFactory.create(this, targetAppId);
+        tiktokOpenApi = OpenApiFactory.create(this);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,18 +113,18 @@ public class MainActivity extends AppCompatActivity {
                 int id = group.getCheckedRadioButtonId();
                 switch (id) {
                     case R.id.app_aweme:
-                        targetAppId = TikTokConstants.TARGET_APP.AWEME;
-                        createTikTokImplApi(TikTokConstants.TARGET_APP.AWEME);
+                        targetAppId = DouYinConstants.TARGET_APP.AWEME;
+                        createTikTokImplApi(DouYinConstants.TARGET_APP.AWEME);
                         break;
                     case R.id.app_tiktok:
-                        targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
+                        targetAppId = DouYinConstants.TARGET_APP.TIKTOK;
                         IS_AUTH_BY_M = false;
-                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
+                        createTikTokImplApi(DouYinConstants.TARGET_APP.TIKTOK);
                         break;
                     case R.id.app_tiktok_m:
                         IS_AUTH_BY_M = true;
-                        targetAppId = TikTokConstants.TARGET_APP.TIKTOK;
-                        createTikTokImplApi(TikTokConstants.TARGET_APP.TIKTOK);
+                        targetAppId = DouYinConstants.TARGET_APP.TIKTOK;
+                        createTikTokImplApi(DouYinConstants.TARGET_APP.TIKTOK);
                         break;
                 }
             }
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = TikTokOpenApiFactory.create(this,targetApp);
+        tiktokOpenApi = OpenApiFactory.create(this);
     }
 
     private boolean sendAuth() {
@@ -242,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
         Share.Request request = new Share.Request();
         switch (shareType) {
             case Share.IMAGE:
-                TikTokImageObject imageObject = new TikTokImageObject();
+                DouYinImageObject imageObject = new DouYinImageObject();
                 imageObject.mImagePaths = mUri;
-                TikTokMediaContent mediaContent = new TikTokMediaContent();
+                DouYinMediaContent mediaContent = new DouYinMediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
@@ -254,12 +254,12 @@ public class MainActivity extends AppCompatActivity {
                 request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
-                TikTokVideoObject videoObject = new TikTokVideoObject();
+                DouYinVideoObject videoObject = new DouYinVideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
                     request.mHashTag = mSetDefaultHashTag.getText().toString();
                 }
-                TikTokMediaContent content = new TikTokMediaContent();
+                DouYinMediaContent content = new DouYinMediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";

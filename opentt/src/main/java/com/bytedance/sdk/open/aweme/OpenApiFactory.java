@@ -13,7 +13,7 @@ import com.bytedance.sdk.open.aweme.share.ShareImpl;
  *
  * @author changlei@bytedance.com
  */
-public class TikTokOpenApiFactory {
+public class OpenApiFactory {
 
     private static TikTokOpenConfig sConfig;
 
@@ -34,18 +34,8 @@ public class TikTokOpenApiFactory {
     public static TiktokOpenApi create(Context context) {
         AuthImpl auth = new AuthImpl(context, sConfig);
         ShareImpl share = new ShareImpl(context, sConfig);
-        return new TikTokOpenApiImpl(context, auth, share, BaseConstants.TARGET_APP.TIKTOK);
+        return new TikTokOpenApiImpl(context, auth, share);
     }
 
-    /**
-     * 创建 TTOpenApi
-     *
-     * @param context
-     * @return
-     */
-    public static TiktokOpenApi create(Context context, int targetApp) {
-        AuthImpl auth = new AuthImpl(context, sConfig);
-        ShareImpl share = new ShareImpl(context, sConfig);
-        return new TikTokOpenApiImpl(context, auth, share, targetApp);
-    }
+
 }

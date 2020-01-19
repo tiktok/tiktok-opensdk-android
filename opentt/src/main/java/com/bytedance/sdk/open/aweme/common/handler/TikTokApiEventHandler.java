@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.aweme.api;
+package com.bytedance.sdk.open.aweme.common.handler;
 import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
