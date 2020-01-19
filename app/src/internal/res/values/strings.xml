@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">TiktokOpenSDK</string>
-    <string name="authorize_title">Tiktok/抖音openSdk</string>
-    <string name="authorize">去Tiktok授权</string>
-</resources>

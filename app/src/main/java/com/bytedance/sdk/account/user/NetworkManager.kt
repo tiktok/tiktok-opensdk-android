@@ -3,12 +3,10 @@ package com.bytedance.sdk.account.user
 import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
-import com.bytedance.sdk.open.aweme.BaseConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * 主要功能：
@@ -19,13 +17,12 @@ class NetworkManager {
 
     private fun <T> createApi(apiClass: Class<T>): T {
         var retrofitBuilder = Retrofit.Builder()
-        if (MainActivity.targetAppId == BaseConstants.TARGET_APP.TIKTOK) {
+        if (MainActivity.targetAppId == 2) {
             retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
         }else {
             retrofitBuilder.baseUrl("https:\\open.douyin.com")
         }
         var retrofit = retrofitBuilder
-                .addConverterFactory(GsonConverterFactory.create())
                 .build()
         return retrofit.create(apiClass)
     }

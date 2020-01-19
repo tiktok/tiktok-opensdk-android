@@ -1,6 +1,5 @@
 package com.bytedance.sdk.account.share;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 public class GameAnchorObject {
