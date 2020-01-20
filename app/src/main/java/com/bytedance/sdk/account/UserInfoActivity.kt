@@ -44,7 +44,7 @@ class UserInfoActivity: Activity() {
         if (intent.hasExtra(MainActivity.CODE_KEY)) {
             val code = intent.getStringExtra(MainActivity.CODE_KEY)
             Thread(Runnable {
-                NetworkManager().getUserInfo(code, "xxx", "xxx", object : IUserApiBack {
+                NetworkManager().getUserInfo(code, "x", "x", object : IUserApiBack {
                     override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?) {
                         mLoadingGroup.visibility = View.GONE
                         if (success) {

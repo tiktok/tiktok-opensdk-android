@@ -3,6 +3,7 @@ package com.bytedance.sdk.account.user
 import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
+import com.bytedance.sdk.open.aweme.CommonConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +18,7 @@ class NetworkManager {
 
     private fun <T> createApi(apiClass: Class<T>): T {
         var retrofitBuilder = Retrofit.Builder()
-        if (MainActivity.targetAppId == 2) {
+        if (MainActivity.targetAppId == CommonConstants.TARGET_APP.TIKTOK) {
             retrofitBuilder.baseUrl("https:\\open-api.tiktok.com")
         }else {
             retrofitBuilder.baseUrl("https:\\open.douyin.com")

@@ -1,93 +1,93 @@
-import groovy.json.JsonBuilder
-
-/**
- * 全局构建上下文
- *
- * 构建环境相关的参数添加到BuildContext
- */
-class BuildContext {
-
-    boolean isChina         // 该次编译是否是针对国内版本，true为国内，false为国外
-    boolean isInternal      // 该次编译是否是针对内部版本，true为内部，false为外部
-    boolean isSnapshot      // 该次编译是否是Snapshot
-
-    public boolean isChina() {
-        return isChina
-    }
-
-    public boolean isInternal() {
-        return isInternal
-    }
-
-    public boolean isSnapshot() {
-        return isSnapshot
-    }
-
-    @Override
-    public String toString() {
-        return String.format("isChina:%b isInternal:%b isSnapshot:%b",
-                this.isChina, this.isInternal, this.isSnapshot)
-    }
-}
-
-def initBuildContext() {
-    def context = new BuildContext()
-    parseTask(context)
-    return context
-}
-
-class TaskInfo {
-    String module
-    List<String> args = []
-
-    @Override
-    String toString() {
-        try {
-            return new JsonBuilder(this).toPrettyString()
-        } catch (ignore) {
-            return ""
-        }
-    }
-}
-
-/**
- * 根据任务信息解析flavor相关参数
- * @param context
- */
-def parseTask(context) {
-    List<String> taskInfos = []
-    gradle.startParameter.taskNames.each { task ->
-        if (task == null) return
-        def taskInfo = new TaskInfo()
-        def args = task.split(":")
-        taskInfo.module = args.length < 2 ? null : args[args.length - 2]
-        taskInfo.args = changeStyle(args[args.length - 1])
-        taskInfos.add(taskInfo)
-    }
-    if (taskInfos == null) {
-        return
-    }
-    def snapshot = project.gradle.startParameter.projectProperties["snapshot"]
-    context.isSnapshot = snapshot == null ? false : snapshot.toBoolean()
-    taskInfos.each { task ->
-        if (task.module == null || task.module == 'opentt') {
-            // 这是opentt的任务
-            context.isChina = task.args.contains("china")
-            context.isInternal = task.args.contains("internal")
-        }
-    }
-
-    System.println(context.toString())
-}
-
-def List<String> changeStyle(String str) {
-    if (!str || str.size() <= 1) {
-        return str
-    }
-
-    str = str[0].toLowerCase() + str[1..-1]
-    str = str.collect { cc -> ((char) cc).isUpperCase() ? '_' + cc.toLowerCase() : cc }.join('')
-    return str.split("_")
-}
-
-ext.initBuildContext = this.&initBuildContext
+//import groovy.json.JsonBuilder
+//
+///**
+// * 全局构建上下文
+// *
+// * 构建环境相关的参数添加到BuildContext
+// */
+//class BuildContext {
+//
+//    boolean isChina         // 该次编译是否是针对国内版本，true为国内，false为国外
+//    boolean isInternal      // 该次编译是否是针对内部版本，true为内部，false为外部
+//    boolean isSnapshot      // 该次编译是否是Snapshot
+//
+//    public boolean isChina() {
+//        return isChina
+//    }
+//
+//    public boolean isInternal() {
+//        return isInternal
+//    }
+//
+//    public boolean isSnapshot() {
+//        return isSnapshot
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return String.format("isChina:%b isInternal:%b isSnapshot:%b",
+//                this.isChina, this.isInternal, this.isSnapshot)
+//    }
+//}
+//
+//def initBuildContext() {
+//    def context = new BuildContext()
+//    parseTask(context)
+//    return context
+//}
+//
+//class TaskInfo {
+//    String module
+//    List<String> args = []
+//
+//    @Override
+//    String toString() {
+//        try {
+//            return new JsonBuilder(this).toPrettyString()
+//        } catch (ignore) {
+//            return ""
+//        }
+//    }
+//}
+//
+///**
+// * 根据任务信息解析flavor相关参数
+// * @param context
+// */
+//def parseTask(context) {
+//    List<String> taskInfos = []
+//    gradle.startParameter.taskNames.each { task ->
+//        if (task == null) return
+//        def taskInfo = new TaskInfo()
+//        def args = task.split(":")
+//        taskInfo.module = args.length < 2 ? null : args[args.length - 2]
+//        taskInfo.args = changeStyle(args[args.length - 1])
+//        taskInfos.add(taskInfo)
+//    }
+//    if (taskInfos == null) {
+//        return
+//    }
+//    def snapshot = project.gradle.startParameter.projectProperties["snapshot"]
+//    context.isSnapshot = snapshot == null ? false : snapshot.toBoolean()
+//    taskInfos.each { task ->
+//        if (task.module == null || task.module == 'opentt') {
+//            // 这是opentt的任务
+//            context.isChina = task.args.contains("china")
+//            context.isInternal = task.args.contains("internal")
+//        }
+//    }
+//
+//    System.println(context.toString())
+//}
+//
+//def List<String> changeStyle(String str) {
+//    if (!str || str.size() <= 1) {
+//        return str
+//    }
+//
+//    str = str[0].toLowerCase() + str[1..-1]
+//    str = str.collect { cc -> ((char) cc).isUpperCase() ? '_' + cc.toLowerCase() : cc }.join('')
+//    return str.split("_")
+//}
+//
+//ext.initBuildContext = this.&initBuildContext

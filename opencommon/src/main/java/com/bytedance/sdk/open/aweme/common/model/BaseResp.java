@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.aweme.common.model;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.BaseConstants;
+import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 
@@ -37,7 +37,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == BaseConstants.BaseErrorCode.ERROR_CANCEL;
+        return errorCode == CommonConstants.BaseErrorCode.ERROR_CANCEL;
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == BaseConstants.BaseErrorCode.OK;
+        return errorCode == CommonConstants.BaseErrorCode.OK;
     }
 
     /**

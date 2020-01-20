@@ -13,6 +13,7 @@ android {
 
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,48 +21,28 @@ android {
         }
     }
 
+    publishNonDefault true
 
     // open sdk分为国内和海外版本
     flavorDimensions "area"
 
-//    productFlavors {
-//        // 国内版
-//        china {
-//            dimension "area"
-//            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_CHINAL_VERSION\""
-//            buildConfigField "String" , "SDK_NAME" , "\"$CHINA_TAG\""
-//        }
-//
-//        // 海外版
-//        overseas {
-//            dimension "area"
-//            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_OVERSEAS_VERSION\""
-//            buildConfigField "String" , "SDK_NAME" , "\"$OVERSEAS_TAG\""
-//
-//        }
-//
-//        // 内部版本，多一些额外的功能支持，上公司内部公仓
-//        internal {
-//            dimension "area"
-//            buildConfigField "String" , "SDK_VERSION" , "\"$ARTIFACT_INTERNAL_VERSION\""
-//            buildConfigField "String" , "SDK_NAME" , "\"$INTERNAL_TAG\""
-//
-//        }
-//    }
+    productFlavors {
+        // 国内版
+        chinainternal {
+            dimension "area"
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
+            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+        }
 
-//    sourceSets {
-//        china {
-//            java.srcDirs += 'src/china/java'
-//        }
-//
-//        overseas {
-//            java.srcDirs += 'src/overseas/java'
-//        }
-////
-////        internal {
-////            java.srcDirs += 'src/internal/java'
-////        }
-//    }
+
+        chinaexternal {
+            dimension "area"
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
+            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+        }
+
+
+    }
 
 }
 
@@ -72,5 +53,5 @@ dependencies {
 }
 
 apply plugin: 'com.jfrog.bintray'
-apply from:'./mvn_publish.gradle'
-apply from:'./upload_internal.gradle'
+apply from: './mvn_publish.gradle'
+apply from: './upload_internal.gradle'
