@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    // open sdk分为国内和海外版本
+    flavorDimensions "area"
+
+    productFlavors {
+        // 国内版
+        overseainternal {
+            dimension "area"
+//            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
+//            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+        }
+
+
+        overseaexternal {
+            dimension "area"
+//            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
+//            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+        }
+
+
+    }
+
+    sourceSets {
+        overseainternal { java.srcDirs = ['src/overseainternal/java', 'src/overseainternal/java/'] }
+        overseaexternal { java.srcDirs = ['src/overseaexternal/java', 'src/overseaexternal/java/'] }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(path: ':opencommon')
+
+}

@@ -77,7 +77,8 @@ public class Share {
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
             bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
-            bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent,false));
+
+            bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent));
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
             bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
 
@@ -91,27 +92,6 @@ public class Share {
             }
         }
 
-        public void toBundleForOldVersion(Bundle bundle) {
-
-            // 没有super 所以这个参数需要手动掉一下
-            // 历史原因，老SDK无法改BD里的参数，导致这里的params有两份，同时为了兼容老版本，导致这里的两份需要一直存在.
-            // extras可以复用，因为老版本没上
-            bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
-
-            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
-            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
-            bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
-            bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent,true));
-            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
-            bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
-
-            if (mMicroAppInfo != null) {
-                mMicroAppInfo.serialize(bundle);
-            }
-
-        }
 
         @SuppressLint("MissingSuperCall")
         public boolean checkArgs() {

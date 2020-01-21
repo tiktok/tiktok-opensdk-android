@@ -4,6 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.aweme.utils.AppUtil;
+
+import java.util.ArrayList;
+
 public class MediaContent {
 
     private static final String TAG = "AWEME.SDK.MediaContent";
@@ -31,20 +36,28 @@ public class MediaContent {
         public Builder() {
         }
 
-        public static Bundle toBundle(MediaContent mediaContent, boolean supportOldVersion) {
+        public static Bundle toBundle(MediaContent mediaContent) {
             Bundle bundle;
             bundle = new Bundle();
             if (mediaContent.mMediaObject != null) {
-                String className = mediaContent.mMediaObject.getClass().getName();
-                // adapt to old douyin version
-                if (className.contains("sdk")) {
-                    className = className.replace("sdk", "sdk.account");
+               String className = "";
+                // 不打算支持7月14号之前的版本
+                mediaContent.mMediaObject.serialize(bundle);
+
+                // 支持旧版本抖音
+                ArrayList<String> imagePath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
+                ArrayList<String> videoPath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH);
+                if (videoPath != null && videoPath.size() != 0) {
+                    className = "com.ss.android.ugc.aweme.opensdk.share.base.TikTokVideoObject";
                 }
-                if (supportOldVersion) {
-                    className = className.replace("TikTok","DY");
+                if (imagePath!= null && imagePath.size() != 0) {
+                    className = "com.ss.android.ugc.aweme.opensdk.share.base.TikTokImageObject";
                 }
                 bundle.putString(KEY_IDENTIFIER, className);
-                mediaContent.mMediaObject.serialize(bundle);
+
+
+
+
             }
             return bundle;
         }

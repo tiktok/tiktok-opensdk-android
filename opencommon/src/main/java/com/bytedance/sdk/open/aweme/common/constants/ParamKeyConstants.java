@@ -141,6 +141,8 @@ public interface ParamKeyConstants {
         //adapt to old version because of changing api name
         int MIN_SDK_NEW_TIKTOK_API = 3;
 
+        int MIN_SDK_NEW_SECURITY_VERSION_API = 5;
+
     }
 
     interface TargetSceneType {
