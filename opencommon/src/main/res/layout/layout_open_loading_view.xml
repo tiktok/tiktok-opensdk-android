@@ -28,7 +28,7 @@
         android:layout_marginLeft="8dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="@string/tiktok_loading"
+        android:text="@string/aweme_loading"
         android:textColor="#ffffff"
         android:textSize="17dp" />
 

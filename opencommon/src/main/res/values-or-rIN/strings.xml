@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-  <string name="tiktok_loading">ଲୋଡ୍ ହେଉଛି...</string>
-  <string name="tiktok_open_ssl_error">ପ୍ରମାଣୀକରଣ ତୃଟି</string>
-  <string name="tiktok_open_ssl_untrusted">ପ୍ରମାଣୀକରଣ ବିଶ୍ୱସ୍ତ ନୁହେଁ</string>
-  <string name="tiktok_open_ssl_expired">ପ୍ରମାଣୀକରଣ ସମୟ ସମାପ୍ତ ହୋଇଛି</string>
-  <string name="tiktok_open_ssl_mismatched">ପ୍ରମାଣୀକରଣ ନାମ ମେଳକ</string>
-  <string name="tiktok_open_ssl_notyetvalid">ପ୍ରମାଣୀକରଣ ଏପର୍ଯ୍ୟନ୍ତ ବୈଧ ନୁହେଁ</string>
-  <string name="tiktok_open_ssl_continue">ଜାରିରଖିବେ?</string>
-  <string name="tiktok_open_ssl_warning">ସର୍ତକ</string>
-  <string name="tiktok_open_ssl_ok">ଠିକ୍ ଅଛି</string>
-  <string name="tiktok_open_ssl_cancel">କ୍ୟାନ୍ସଲ୍ କରନ୍ତୁ</string>
-  <string name="tiktok_open_error_tips_cancel">କ୍ୟାନ୍ସଲ୍ କରନ୍ତୁ</string>
-  <string name="tiktok_open_network_error_title">ସ୍ଵୀକୃତକରଣ ବିଫଳ ହୋଇଛି</string>
-  <string name="tiktok_open_network_error_tips">ନେଟ୍‌ୱର୍କ ତ୍ରୁଟି। ଦୟାକରି ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ।</string>
-  <string name="tiktok_open_network_error_confirm">ଠିକ୍ ଅଛି</string>
+  <string name="aweme_loading">ଲୋଡ୍ ହେଉଛି...</string>
+  <string name="aweme_open_ssl_error">ପ୍ରମାଣୀକରଣ ତୃଟି</string>
+  <string name="aweme_open_ssl_untrusted">ପ୍ରମାଣୀକରଣ ବିଶ୍ୱସ୍ତ ନୁହେଁ</string>
+  <string name="aweme_open_ssl_expired">ପ୍ରମାଣୀକରଣ ସମୟ ସମାପ୍ତ ହୋଇଛି</string>
+  <string name="aweme_open_ssl_mismatched">ପ୍ରମାଣୀକରଣ ନାମ ମେଳକ</string>
+  <string name="aweme_open_ssl_notyetvalid">ପ୍ରମାଣୀକରଣ ଏପର୍ଯ୍ୟନ୍ତ ବୈଧ ନୁହେଁ</string>
+  <string name="aweme_open_ssl_continue">ଜାରିରଖିବେ?</string>
+  <string name="aweme_open_ssl_warning">ସର୍ତକ</string>
+  <string name="aweme_open_ssl_ok">ଠିକ୍ ଅଛି</string>
+  <string name="aweme_open_ssl_cancel">କ୍ୟାନ୍ସଲ୍ କରନ୍ତୁ</string>
+  <string name="aweme_open_error_tips_cancel">କ୍ୟାନ୍ସଲ୍ କରନ୍ତୁ</string>
+  <string name="aweme_open_network_error_title">ସ୍ଵୀକୃତକରଣ ବିଫଳ ହୋଇଛି</string>
+  <string name="aweme_open_network_error_tips">ନେଟ୍‌ୱର୍କ ତ୍ରୁଟି। ଦୟାକରି ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ।</string>
+  <string name="aweme_open_network_error_confirm">ଠିକ୍ ଅଛି</string>
 </resources>

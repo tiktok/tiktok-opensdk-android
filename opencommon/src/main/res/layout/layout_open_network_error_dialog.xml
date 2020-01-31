@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:background="@color/tiktok_network_error_dialog_bg"
+    android:background="@color/aweme_network_error_dialog_bg"
     android:orientation="vertical"
     android:paddingLeft="24dp"
     android:paddingTop="22dp">
@@ -15,8 +15,8 @@
         android:layout_marginRight="24dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="@string/tiktok_open_network_error_title"
-        android:textColor="@color/tiktok_network_error_title_color"
+        android:text="@string/aweme_open_network_error_title"
+        android:textColor="@color/aweme_network_error_title_color"
         android:textSize="17dp" />
 
     <TextView
@@ -26,8 +26,8 @@
         android:layout_marginBottom="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="18dp"
-        android:text="@string/tiktok_open_network_error_tips"
-        android:textColor="@color/tiktok_network_error_content_color"
+        android:text="@string/aweme_open_network_error_tips"
+        android:textColor="@color/aweme_network_error_content_color"
         android:textSize="15dp" />
 
     <LinearLayout
@@ -48,8 +48,8 @@
             android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@string/tiktok_open_network_error_confirm"
-            android:textColor="@color/tiktok_network_error_button_color"
+            android:text="@string/aweme_open_network_error_confirm"
+            android:textColor="@color/aweme_network_error_button_color"
             android:textSize="15dp" />
     </LinearLayout>
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-  <string name="tiktok_loading">Laden ...</string>
-  <string name="tiktok_open_ssl_error">Certificaatfout</string>
-  <string name="tiktok_open_ssl_untrusted">Het certificaat wordt niet vertrouwd</string>
-  <string name="tiktok_open_ssl_expired">Certificaat verlopen</string>
-  <string name="tiktok_open_ssl_mismatched">De naam van het certificaat stemt niet overeen</string>
-  <string name="tiktok_open_ssl_notyetvalid">Het certificaat is nog niet geldig</string>
-  <string name="tiktok_open_ssl_continue">Doorgaan?</string>
-  <string name="tiktok_open_ssl_warning">Waarschuwing</string>
-  <string name="tiktok_open_ssl_ok">Oké</string>
-  <string name="tiktok_open_ssl_cancel">Annuleren</string>
-  <string name="tiktok_open_error_tips_cancel">Annuleren</string>
-  <string name="tiktok_open_network_error_title">Autorisatie mislukt</string>
-  <string name="tiktok_open_network_error_tips">Netwerkfout. Probeer het opnieuw.</string>
-  <string name="tiktok_open_network_error_confirm">Oké</string>
+  <string name="aweme_loading">Laden ...</string>
+  <string name="aweme_open_ssl_error">Certificaatfout</string>
+  <string name="aweme_open_ssl_untrusted">Het certificaat wordt niet vertrouwd</string>
+  <string name="aweme_open_ssl_expired">Certificaat verlopen</string>
+  <string name="aweme_open_ssl_mismatched">De naam van het certificaat stemt niet overeen</string>
+  <string name="aweme_open_ssl_notyetvalid">Het certificaat is nog niet geldig</string>
+  <string name="aweme_open_ssl_continue">Doorgaan?</string>
+  <string name="aweme_open_ssl_warning">Waarschuwing</string>
+  <string name="aweme_open_ssl_ok">Oké</string>
+  <string name="aweme_open_ssl_cancel">Annuleren</string>
+  <string name="aweme_open_error_tips_cancel">Annuleren</string>
+  <string name="aweme_open_network_error_title">Autorisatie mislukt</string>
+  <string name="aweme_open_network_error_tips">Netwerkfout. Probeer het opnieuw.</string>
+  <string name="aweme_open_network_error_confirm">Oké</string>
 </resources>

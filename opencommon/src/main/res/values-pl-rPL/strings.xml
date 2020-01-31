@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-  <string name="tiktok_loading">Wczytywanie...</string>
-  <string name="tiktok_open_ssl_error">Błąd certyfikatu</string>
-  <string name="tiktok_open_ssl_untrusted">Certyfikat niezaufany</string>
-  <string name="tiktok_open_ssl_expired">Certyfikat wygasł</string>
-  <string name="tiktok_open_ssl_mismatched">Niezgodność nazwy certyfikatu</string>
-  <string name="tiktok_open_ssl_notyetvalid">Certyfikat wciąż nie jest ważny</string>
-  <string name="tiktok_open_ssl_continue">Kontynuuj?</string>
-  <string name="tiktok_open_ssl_warning">Powiadomienie</string>
-  <string name="tiktok_open_ssl_ok">OK</string>
-  <string name="tiktok_open_ssl_cancel">Anuluj</string>
-  <string name="tiktok_open_error_tips_cancel">Anuluj</string>
-  <string name="tiktok_open_network_error_title">Autoryzacja nieudana</string>
-  <string name="tiktok_open_network_error_tips">Błąd siecią. Spróbuj ponownie.</string>
-  <string name="tiktok_open_network_error_confirm">OK</string>
+  <string name="aweme_loading">Wczytywanie...</string>
+  <string name="aweme_open_ssl_error">Błąd certyfikatu</string>
+  <string name="aweme_open_ssl_untrusted">Certyfikat niezaufany</string>
+  <string name="aweme_open_ssl_expired">Certyfikat wygasł</string>
+  <string name="aweme_open_ssl_mismatched">Niezgodność nazwy certyfikatu</string>
+  <string name="aweme_open_ssl_notyetvalid">Certyfikat wciąż nie jest ważny</string>
+  <string name="aweme_open_ssl_continue">Kontynuuj?</string>
+  <string name="aweme_open_ssl_warning">Powiadomienie</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Anuluj</string>
+  <string name="aweme_open_error_tips_cancel">Anuluj</string>
+  <string name="aweme_open_network_error_title">Autoryzacja nieudana</string>
+  <string name="aweme_open_network_error_tips">Błąd siecią. Spróbuj ponownie.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
 </resources>

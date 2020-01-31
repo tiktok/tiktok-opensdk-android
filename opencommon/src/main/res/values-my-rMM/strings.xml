@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-  <string name="tiktok_loading">လုပ်ဆောင်နေဆဲ...</string>
-  <string name="tiktok_open_ssl_error">အထောက်အထား လက်မှတ် ပြဿနာ</string>
-  <string name="tiktok_open_ssl_untrusted">အထောက်အထားလက်မှတ်ကို ယုံကြည်မထားပါ</string>
-  <string name="tiktok_open_ssl_expired">အထောက်အထားလက်မှတ် သက်တမ်းကုန်သွားပြီ</string>
-  <string name="tiktok_open_ssl_mismatched">အထောက်အထားလက်မှတ် အမည် မကိုက်ညီပါ</string>
-  <string name="tiktok_open_ssl_notyetvalid">အထောက်အထားလက်မှတ် အကျုံးမဝင်ပါ</string>
-  <string name="tiktok_open_ssl_continue">ဆက်လုပ်မလား။</string>
-  <string name="tiktok_open_ssl_warning">သတိပေးမည်</string>
-  <string name="tiktok_open_ssl_ok">အိုကေ</string>
-  <string name="tiktok_open_ssl_cancel">ဖျက်သိမ်းပါ</string>
-  <string name="tiktok_open_error_tips_cancel">ဖျက်သိမ်းပါ</string>
-  <string name="tiktok_open_network_error_title">ခွင့်ပြုချက်ပေးခြင်း မအောင်မြင်ပါ</string>
-  <string name="tiktok_open_network_error_tips">ကွန်ရက်မှားယွင်းချက်၊ ပြန်ကြိုးစားကြည့်ပါ။</string>
-  <string name="tiktok_open_network_error_confirm">အိုကေ</string>
+  <string name="aweme_loading">လုပ်ဆောင်နေဆဲ...</string>
+  <string name="aweme_open_ssl_error">အထောက်အထား လက်မှတ် ပြဿနာ</string>
+  <string name="aweme_open_ssl_untrusted">အထောက်အထားလက်မှတ်ကို ယုံကြည်မထားပါ</string>
+  <string name="aweme_open_ssl_expired">အထောက်အထားလက်မှတ် သက်တမ်းကုန်သွားပြီ</string>
+  <string name="aweme_open_ssl_mismatched">အထောက်အထားလက်မှတ် အမည် မကိုက်ညီပါ</string>
+  <string name="aweme_open_ssl_notyetvalid">အထောက်အထားလက်မှတ် အကျုံးမဝင်ပါ</string>
+  <string name="aweme_open_ssl_continue">ဆက်လုပ်မလား။</string>
+  <string name="aweme_open_ssl_warning">သတိပေးမည်</string>
+  <string name="aweme_open_ssl_ok">အိုကေ</string>
+  <string name="aweme_open_ssl_cancel">ဖျက်သိမ်းပါ</string>
+  <string name="aweme_open_error_tips_cancel">ဖျက်သိမ်းပါ</string>
+  <string name="aweme_open_network_error_title">ခွင့်ပြုချက်ပေးခြင်း မအောင်မြင်ပါ</string>
+  <string name="aweme_open_network_error_tips">ကွန်ရက်မှားယွင်းချက်၊ ပြန်ကြိုးစားကြည့်ပါ။</string>
+  <string name="aweme_open_network_error_confirm">အိုကေ</string>
 </resources>

@@ -263,7 +263,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
         mContainer = findViewById(containerId);
         // cancle button
-        int headerId = getResources().getIdentifier("tiktok_open_header_view", RES_ID, getPackageName());
+        int headerId = getResources().getIdentifier("layout_open_web_header_view", RES_ID, getPackageName());
         mHeaderView = findViewById(headerId);
 
         int cancleImgId = getResources().getIdentifier("tiktok_cancel", RES_ID, getPackageName());
@@ -440,7 +440,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     }
 
     protected View getLoadingView(ViewGroup root) {
-        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("tiktok_layout_open_loading_view", "layout", getPackageName()), root, false);
+        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_loading_view", "layout", getPackageName()), root, false);
         return loadingView;
     }
 
@@ -452,34 +452,34 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             AlertDialog ad = builder.create();
-            int sslError = getResources().getIdentifier("tiktok_open_ssl_error", RES_STRING, getPackageName());
+            int sslError = getResources().getIdentifier("aweme_open_ssl_error", RES_STRING, getPackageName());
             String message = mContext.getString(sslError);
             final int errorCode = error.getPrimaryError();
             switch (errorCode) {
                 case SslError.SSL_UNTRUSTED:
-                    int sslUntrusted = getResources().getIdentifier("tiktok_open_ssl_untrusted", RES_STRING, getPackageName());
+                    int sslUntrusted = getResources().getIdentifier("aweme_open_ssl_untrusted", RES_STRING, getPackageName());
                     message = mContext.getString(sslUntrusted);
                     break;
                 case SslError.SSL_EXPIRED:
-                    int sslExpired = getResources().getIdentifier("tiktok_open_ssl_expired", RES_STRING, getPackageName());
+                    int sslExpired = getResources().getIdentifier("aweme_open_ssl_expired", RES_STRING, getPackageName());
                     message = mContext.getString(sslExpired);
                     break;
                 case SslError.SSL_IDMISMATCH:
-                    int sslMismatched = getResources().getIdentifier("tiktok_open_ssl_mismatched", RES_STRING, getPackageName());
+                    int sslMismatched = getResources().getIdentifier("aweme_open_ssl_mismatched", RES_STRING, getPackageName());
                     message = mContext.getString(sslMismatched);
                     break;
                 case SslError.SSL_NOTYETVALID:
-                    int sslNotyetvalid= getResources().getIdentifier("tiktok_open_ssl_notyetvalid", RES_STRING, getPackageName());
+                    int sslNotyetvalid= getResources().getIdentifier("aweme_open_ssl_notyetvalid", RES_STRING, getPackageName());
                     message = mContext.getString(sslNotyetvalid);
                     break;
             }
-            int sslContinue = getResources().getIdentifier("tiktok_open_ssl_continue", RES_STRING, getPackageName());
+            int sslContinue = getResources().getIdentifier("aweme_open_ssl_continue", RES_STRING, getPackageName());
             message += mContext.getString(sslContinue);
-            int sslWarning = getResources().getIdentifier("tiktok_open_ssl_warning", RES_STRING, getPackageName());
+            int sslWarning = getResources().getIdentifier("aweme_open_ssl_warning", RES_STRING, getPackageName());
             ad.setTitle(sslWarning);
             ad.setTitle(message);
-            int sslOk = getResources().getIdentifier("tiktok_open_ssl_ok", RES_STRING, getPackageName());
-            int sslCancel = getResources().getIdentifier("tiktok_open_ssl_cancel", RES_STRING, getPackageName());
+            int sslOk = getResources().getIdentifier("aweme_open_ssl_ok", RES_STRING, getPackageName());
+            int sslCancel = getResources().getIdentifier("aweme_open_ssl_cancel", RES_STRING, getPackageName());
             ad.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(sslOk), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -526,10 +526,10 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
             return;
         }
         if (mBaseErrorDialog == null) {
-            int layoutId = getResources().getIdentifier("tiktok_layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
+            int layoutId = getResources().getIdentifier("layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
             View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
 
-            int confirmId = getResources().getIdentifier("tiktok_open_auth_tv_confirm", RES_ID, getPackageName());
+            int confirmId = getResources().getIdentifier("tv_confirm", RES_ID, getPackageName());
             mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

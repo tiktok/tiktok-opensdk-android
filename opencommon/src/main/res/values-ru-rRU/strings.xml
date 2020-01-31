@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-  <string name="tiktok_loading">Загрузка...</string>
-  <string name="tiktok_open_ssl_error">Ошибка сертификата</string>
-  <string name="tiktok_open_ssl_untrusted">Непроверенный сертификат</string>
-  <string name="tiktok_open_ssl_expired">Сертификат истек</string>
-  <string name="tiktok_open_ssl_mismatched">Несоответствие имени сертификата</string>
-  <string name="tiktok_open_ssl_notyetvalid">Сертификат недействителен</string>
-  <string name="tiktok_open_ssl_continue">Продолжить?</string>
-  <string name="tiktok_open_ssl_warning">Внимание</string>
-  <string name="tiktok_open_ssl_ok">OK</string>
-  <string name="tiktok_open_ssl_cancel">Отмена</string>
-  <string name="tiktok_open_error_tips_cancel">Отмена</string>
-  <string name="tiktok_open_network_error_title">Не удалось авторизоваться</string>
-  <string name="tiktok_open_network_error_tips">Проблема с сетью. Попробуйте ещё раз.</string>
-  <string name="tiktok_open_network_error_confirm">OK</string>
+  <string name="aweme_loading">Загрузка...</string>
+  <string name="aweme_open_ssl_error">Ошибка сертификата</string>
+  <string name="aweme_open_ssl_untrusted">Непроверенный сертификат</string>
+  <string name="aweme_open_ssl_expired">Сертификат истек</string>
+  <string name="aweme_open_ssl_mismatched">Несоответствие имени сертификата</string>
+  <string name="aweme_open_ssl_notyetvalid">Сертификат недействителен</string>
+  <string name="aweme_open_ssl_continue">Продолжить?</string>
+  <string name="aweme_open_ssl_warning">Внимание</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Отмена</string>
+  <string name="aweme_open_error_tips_cancel">Отмена</string>
+  <string name="aweme_open_network_error_title">Не удалось авторизоваться</string>
+  <string name="aweme_open_network_error_tips">Проблема с сетью. Попробуйте ещё раз.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
 </resources>
