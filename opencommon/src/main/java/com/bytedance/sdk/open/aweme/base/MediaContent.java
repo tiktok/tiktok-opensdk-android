@@ -55,9 +55,6 @@ public class MediaContent {
                 }
                 bundle.putString(KEY_IDENTIFIER, className);
 
-
-
-
             }
             return bundle;
         }

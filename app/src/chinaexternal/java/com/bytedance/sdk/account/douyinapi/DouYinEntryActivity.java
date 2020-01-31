@@ -1,4 +1,4 @@
-package com.bytedance.sdk.account.tiktokapi;
+package com.bytedance.sdk.account.douyinapi;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.bytedance.sdk.open.douyin.api.DYOpenApi;
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class TikTokEntryActivity extends Activity implements TikTokApiEventHandler {
+public class DouYinEntryActivity extends Activity implements TikTokApiEventHandler {
 
     DYOpenApi ttOpenApi;
 

@@ -21,12 +21,6 @@ import com.bytedance.sdk.open.douyin.ui.DYWebAuthorizeActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Tiktok授权实现类
- *
- * @author changlei@bytedance.com
- */
-
 public class DYOpenApiImpl implements DYOpenApi {
 
     private Context mContext;
@@ -38,11 +32,12 @@ public class DYOpenApiImpl implements DYOpenApi {
     private ShareImpl shareImpl;
     private AuthImpl authImpl;
 
-    static final int API_TYPE_LOGIN = 0;
-    static final int API_TYPE_SHARE = 1;
+    private static final String LOCAL_ENTRY_ACTIVITY = "douyinapi.DouYinEntryActivity"; // 请求授权的结果回调Activity入口
+    private static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
-    static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
-    static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
+    public static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
+
+
 
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
@@ -88,53 +83,72 @@ public class DYOpenApiImpl implements DYOpenApi {
     }
 
     @Override
+    public boolean isAppInstalled() {
+        return new DYCheckHelperImpl(mContext).isAppInstalled();
+    }
+
+    @Override
+    public String getWapUrlIfAuthByWap(Authorization.Response response) {
+        // 该数据是在 wap授权页面sendInnerResponse方法添加的。
+        if (response != null && response.extras != null && response.extras.containsKey(WAP_AUTHORIZE_URL)) {
+            return response.extras.getString(WAP_AUTHORIZE_URL, "");
+        }
+        return null;
+    }
+
+    @Override
+    public String getSdkVersion() {
+        return null;
+    }
+
+    @Override
     public boolean isAppSupportAuthorization() {
-            return new DYCheckHelperImpl(mContext).isAppSupportAuthorization();
+        return new DYCheckHelperImpl(mContext).isAppSupportAuthorization();
 
     }
 
     @Override
     public boolean isAppSupportShare() {
-            return new DYCheckHelperImpl(mContext).isAppSupportShare();
+        return new DYCheckHelperImpl(mContext).isAppSupportShare();
 
     }
 
     @Override
     public boolean authorize(Authorization.Request request) {
-        IAPPCheckHelper appHasInstalled;
-
-            appHasInstalled = new DYCheckHelperImpl(mContext);
-            if (!appHasInstalled.isAppSupportAuthorization()) {
-                // 这个时候抖音没安装所以要走web授权
-                appHasInstalled = null;
-            }
-
-        if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
-            return true;
+        if (request == null) {
+            return false;
+        }
+        IAPPCheckHelper appHasInstalled = new DYCheckHelperImpl(mContext);
+        if (appHasInstalled.isAppSupportAuthorization()) {
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY);
         } else {
             return sendWebAuthRequest(request);
         }
     }
 
     @Override
+    public boolean authorizeWeb(Authorization.Request request) {
+        return sendWebAuthRequest(request);
+
+    }
+
+
+    @Override
     public boolean share(Share.Request request) {
         if (request == null) {
             return false;
         }
-
-        // 适配抖音
-            DYCheckHelperImpl checkHelper = new DYCheckHelperImpl(mContext);
-            if (mContext != null && checkHelper.isAppSupportShare()) {
-                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                        checkHelper.getRemoteAuthEntryActivity());
-
+        DYCheckHelperImpl checkHelper = new DYCheckHelperImpl(mContext);
+        if (mContext != null && checkHelper.isAppSupportShare()) {
+            return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
+                    checkHelper.getRemoteAuthEntryActivity());
         }
-
         return false;
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-            return authImpl.authorizeWeb(DYWebAuthorizeActivity.class, request);
+        return authImpl.authorizeWeb(DYWebAuthorizeActivity.class, request);
 
     }
+
 }

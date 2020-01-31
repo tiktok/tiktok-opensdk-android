@@ -1,13 +1,10 @@
-package com.bytedance.sdk.open.tiktok.impl;
+package com.bytedance.sdk.open.tiktok.helper;
 
 import android.content.Context;
 
 import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
-/**
- * DOUYIN check helper
- */
 public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
 
     public TikTokCheckHelperImpl(Context context) {
@@ -26,6 +23,6 @@ public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     public String getPackageName() {
-        return "com.ss.android.ugc.aweme";
+        return "com.ss.android.ugc.trill";
     }
 }

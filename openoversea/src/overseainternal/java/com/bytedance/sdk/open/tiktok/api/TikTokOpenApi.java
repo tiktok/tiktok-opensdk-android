@@ -46,4 +46,7 @@ public interface TikTokOpenApi {
     boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
 
 
+    boolean authorizeWeb(Authorization.Request request, Class cla);
+
+
 }

@@ -16,6 +16,8 @@ import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
+import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
@@ -30,6 +32,8 @@ import java.util.Map;
 public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     private Context mContext;
+    private final IAPPCheckHelper[] mAuthcheckApis;
+    private final IAPPCheckHelper[] mSharecheckApis;
 
 
     private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
@@ -53,6 +57,15 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         this.authImpl = authImpl;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
         handlerMap.put(TYPE_SHARE_HANDLER, new ShareDataHandler());
+        mAuthcheckApis = new IAPPCheckHelper[]{
+                new MusicallyCheckHelperImpl(context),
+                new TikTokCheckHelperImpl(context)
+        };
+
+        mSharecheckApis = new IAPPCheckHelper[]{
+                new MusicallyCheckHelperImpl(context),
+                new TikTokCheckHelperImpl(context)
+        };
 
     }
 
@@ -88,29 +101,33 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean isAppSupportAuthorization() {
-            return new TikTokCheckHelperImpl(mContext).isAppSupportAuthorization();
+    public boolean authorizeWeb(Authorization.Request request, Class cla) {
+        return senWebAuthRequest(request, cla);
 
+    }
+
+    private boolean senWebAuthRequest(Authorization.Request request, Class cla) {
+        return authImpl.authorizeWeb(cla, request);
+    }
+
+
+
+    @Override
+    public boolean isAppSupportAuthorization() {
+        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
     }
 
     @Override
     public boolean isAppSupportShare() {
-            return new TikTokCheckHelperImpl(mContext).isAppSupportShare();
-
+        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
     }
 
     @Override
     public boolean authorize(Authorization.Request request) {
-        IAPPCheckHelper appHasInstalled;
+        IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
-            appHasInstalled = new TikTokCheckHelperImpl(mContext);
-            if (!appHasInstalled.isAppSupportAuthorization()) {
-                // 这个时候抖音没安装所以要走web授权
-                appHasInstalled = null;
-            }
-
-        if (appHasInstalled != null && authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY)) {
-            return true;
+        if (appHasInstalled != null) {
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -122,19 +139,41 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             return false;
         }
 
-        // 适配抖音
-            TikTokCheckHelperImpl checkHelper = new TikTokCheckHelperImpl(mContext);
-            if (mContext != null && checkHelper.isAppSupportShare()) {
-                return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                        checkHelper.getRemoteAuthEntryActivity());
-
+        if (isAppSupportShare()) {
+            String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
+            return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
+                    getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity());
         }
 
         return false;
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-            return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
+        return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
 
     }
+
+
+    private IAPPCheckHelper getSupportApiAppInfo(int type) {
+
+        switch (type) {
+            case API_TYPE_LOGIN:
+                for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+                    if (checkapi.isAppSupportAuthorization()) {
+                        return checkapi;
+                    }
+                }
+                break;
+            case API_TYPE_SHARE:
+                for (IAPPCheckHelper checkapi : mSharecheckApis) {
+                    if (checkapi.isAppSupportShare()) {
+                        return checkapi;
+                    }
+                }
+                break;
+        }
+
+        return null;
+    }
+
 }

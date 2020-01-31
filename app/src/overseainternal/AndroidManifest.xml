@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".tiktokapi.TikTokEntryActivity"
+            android:name=".douyinapi.DouYinEntryActivity"
             android:launchMode="singleInstance"
             android:exported="true">
         </activity>
