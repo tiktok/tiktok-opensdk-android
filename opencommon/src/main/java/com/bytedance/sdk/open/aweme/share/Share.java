@@ -130,7 +130,7 @@ public class Share {
             this.errorMsg = bundle.getString(ParamKeyConstants.ShareParams.ERROR_MSG);
             this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA); // EXTRAS 复用老base
             this.state = bundle.getString(ParamKeyConstants.ShareParams.STATE);
-            this.subErrorCode = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE);
+            this.subErrorCode = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE, -1000); // set default value
 
         }
 
