@@ -55,3 +55,6 @@ dependencies {
     api project(path: ':opencommon')
 
 }
+
+apply plugin: 'com.jfrog.bintray'
+apply from: './upload_internal_oversea.gradle'
