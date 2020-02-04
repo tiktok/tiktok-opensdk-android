@@ -38,7 +38,7 @@ public class ShareImpl {
      * @param localEntry         your app's activity name to get result from target app
      * @return
      */
-    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request,String remotePlatformEntryName) {
+    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request,String remotePlatformEntryName, String sdkName, String sdkVersion) {
         if (TextUtils.isEmpty(remotePackageName) || request == null || mContext == null) {
             return false;
         } else if (!request.checkArgs()) {
@@ -61,6 +61,8 @@ public class ShareImpl {
             if (request.extras != null) {
                 bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, request.extras);
             }
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
 
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));

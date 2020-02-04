@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.aweme.common.model;
 import android.os.Bundle;
 
 //import com.bytedance.sdk.account.open.aweme.BuildConfig;
+import com.bytedance.sdk.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
 /**
@@ -64,7 +65,8 @@ public abstract class BaseReq {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
-//        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION, BuildConfig.SDK_NAME + " " + BuildConfig.SDK_VERSION);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_NAME);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_VERSION);
     }
 
     public void fromBundle(Bundle bundle) {

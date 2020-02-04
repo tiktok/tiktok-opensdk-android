@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
@@ -127,7 +128,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
         if (appHasInstalled != null) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY);
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -142,7 +143,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         if (isAppSupportShare()) {
             String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
             return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
-                    getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity());
+                    getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity(), BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
         }
 
         return false;

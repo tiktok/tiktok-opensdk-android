@@ -56,7 +56,7 @@ public class AuthImpl {
     }
 
 
-    public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry) {
+    public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry, String sdkName, String sdkVersion) {
         if (TextUtils.isEmpty(packageName) || req == null || mContext == null) {
             return false;
         } else if (!req.checkArgs()) {
@@ -69,6 +69,9 @@ public class AuthImpl {
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
                 bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mContext.getPackageName(), localEntry));
             }
+
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
+            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);

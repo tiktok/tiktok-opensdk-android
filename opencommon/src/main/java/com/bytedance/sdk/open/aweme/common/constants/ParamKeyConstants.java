@@ -125,6 +125,15 @@ public interface ParamKeyConstants {
          * your base open SDK version
          */
         String CALLER_BASE_OPEN_VERSION = "__bytedance_base_caller_version";
+
+
+        String CALLER_BASE_OPEN_SDK_NAME = "_aweme_params_caller_open_sdk_name";
+        String CALLER_BASE_OPEN_SDK_VERSION = "_aweme_params_caller_open_sdk_version";
+
+        String CALLER_BASE_OPEN_SDK_COMMON_NAME = "_aweme_params_caller_open_sdk_common_name";
+        String CALLER_BASE_OPEN_SDK_COMMON_VERSION = "_aweme_params_caller_open_sdk_common_version";
+
+
     }
 
     /**

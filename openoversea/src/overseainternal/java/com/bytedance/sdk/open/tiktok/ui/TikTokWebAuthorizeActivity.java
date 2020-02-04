@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;
 import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;

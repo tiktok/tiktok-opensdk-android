@@ -19,6 +19,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION\""
+            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_ID\""
+        }
+
+        debug {
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION\""
+            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_ID\""
         }
     }
 

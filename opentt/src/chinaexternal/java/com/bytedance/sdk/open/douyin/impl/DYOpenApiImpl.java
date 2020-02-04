@@ -15,6 +15,7 @@ import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.douyin.BuildConfig;
 import com.bytedance.sdk.open.douyin.api.DYOpenApi;
 import com.bytedance.sdk.open.douyin.ui.DYWebAuthorizeActivity;
 
@@ -97,7 +98,7 @@ public class DYOpenApiImpl implements DYOpenApi {
         }
         IAPPCheckHelper appHasInstalled = new DYCheckHelperImpl(mContext);
         if (appHasInstalled.isAppSupportAuthorization()) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY);
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -111,7 +112,7 @@ public class DYOpenApiImpl implements DYOpenApi {
         DYCheckHelperImpl checkHelper = new DYCheckHelperImpl(mContext);
         if (mContext != null && checkHelper.isAppSupportShare()) {
             return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                    checkHelper.getRemoteAuthEntryActivity());
+                    checkHelper.getRemoteAuthEntryActivity(), BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
         }
         return false;
     }

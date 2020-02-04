@@ -30,15 +30,15 @@ android {
         // 国内版
         overseainternal {
             dimension "area"
-//            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
-//            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION\""
+            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_NAME\""
         }
 
 
         overseaexternal {
             dimension "area"
-//            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_CHINAL_VERSION\""
-//            buildConfigField "String", "SDK_NAME", "\"$CHINA_TAG\""
+            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION_EXTERNAL\""
+            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
         }
 
 
