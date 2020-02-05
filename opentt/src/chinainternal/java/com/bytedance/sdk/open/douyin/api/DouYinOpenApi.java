@@ -3,10 +3,10 @@ package com.bytedance.sdk.open.douyin.api;
 import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
-public interface DYOpenApi {
+public interface DouYinOpenApi {
     /**
      * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
      *
@@ -47,7 +47,7 @@ public interface DYOpenApi {
      * @param eventHandler
      * @return
      */
-    boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
+    boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
     /**
      * 目标应用是否已经安装

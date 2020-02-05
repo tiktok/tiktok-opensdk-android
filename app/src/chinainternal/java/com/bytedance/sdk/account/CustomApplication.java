@@ -2,8 +2,8 @@ package com.bytedance.sdk.account;
 
 import android.app.Application;
 
-import com.bytedance.sdk.open.douyin.DYApiFactory;
-import com.bytedance.sdk.open.douyin.DYOpenConfig;
+import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.DouYinOpenConfig;
 
 
 /**
@@ -17,6 +17,6 @@ public class CustomApplication extends Application {
         super.onCreate();
 
         String clientkey = BuildConfig.CLIENT_KEY; // 需要到开发者网站申请
-        DYApiFactory.init(new DYOpenConfig(clientkey));
+        DouYinOpenApiFactory.init(new DouYinOpenConfig(clientkey));
     }
 }

@@ -3,15 +3,15 @@ package com.bytedance.sdk.open.aweme.share;
 import android.os.Bundle;
 
 import com.bytedance.sdk.open.aweme.CommonConstants;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 
 /**
  * sharing data parser
  */
 public class ShareDataHandler implements IDataHandler {
     @Override
-    public boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler) {
+    public boolean handle(int type, Bundle bundle, IApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }

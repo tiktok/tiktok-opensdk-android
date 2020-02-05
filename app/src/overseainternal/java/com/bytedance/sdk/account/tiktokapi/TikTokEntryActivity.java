@@ -9,11 +9,11 @@ import android.widget.Toast;
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.tiktok.TikTokApiFactory;
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 /**
@@ -22,7 +22,7 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class TikTokEntryActivity extends Activity implements TikTokApiEventHandler {
+public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
     TikTokOpenApi ttOpenApi;
 
@@ -30,7 +30,7 @@ public class TikTokEntryActivity extends Activity implements TikTokApiEventHandl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ttOpenApi = TikTokApiFactory.create(this);
+        ttOpenApi = TikTokOpenApiFactory.create(this);
         ttOpenApi.handleIntent(getIntent(), this);
     }
 

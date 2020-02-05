@@ -27,8 +27,8 @@ import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.douyin.DYApiFactory;
-import com.bytedance.sdk.open.douyin.api.DYOpenApi;
+import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static int targetAppId = CommonConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
-    DYOpenApi tiktokOpenApi;
+    DouYinOpenApi tiktokOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tiktokOpenApi = DYApiFactory.create(this);
+        tiktokOpenApi = DouYinOpenApiFactory.create(this);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = DYApiFactory.create(this);
+        tiktokOpenApi = DouYinOpenApiFactory.create(this);
     }
 
     private boolean sendAuth() {

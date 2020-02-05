@@ -11,8 +11,8 @@ import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
@@ -71,7 +71,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler) {
+    public boolean handleIntent(Intent intent, IApiEventHandler eventHandler) {
         if (eventHandler == null) {
             return false;
         }

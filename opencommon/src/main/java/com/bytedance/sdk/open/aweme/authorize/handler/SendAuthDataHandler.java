@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 
 /**
  * data parse of authorization result
@@ -13,7 +13,7 @@ import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
  */
 public class SendAuthDataHandler implements IDataHandler {
     @Override
-    public boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler) {
+    public boolean handle(int type, Bundle bundle, IApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }

@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
-import com.bytedance.sdk.open.tiktok.TikTokApiFactory;
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 
@@ -19,7 +18,7 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
  *
  * @author changlei@bytedance.com
  */
-public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
+public class IWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     public static final String AUTH_HOST = "open-api.tiktok.com";
     public static final String DOMAIN = "api.snssdk.com";
@@ -30,7 +29,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = TikTokApiFactory.create(this);
+        ttOpenApi = TikTokOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
         mCancelImg.setColorFilter(Color.BLACK);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
@@ -42,7 +41,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     }
 
     @Override
-    protected boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler) {
+    protected boolean handleIntent(Intent intent, IApiEventHandler eventHandler) {
         return ttOpenApi.handleIntent(intent, eventHandler);
     }
 

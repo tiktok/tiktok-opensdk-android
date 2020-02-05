@@ -7,7 +7,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 /**
  * Handle request data and response data
  */
-public interface TikTokApiEventHandler {
+public interface IApiEventHandler {
 
     /**
      * Handle request data

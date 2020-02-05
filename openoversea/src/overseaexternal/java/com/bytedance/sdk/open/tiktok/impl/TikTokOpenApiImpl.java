@@ -12,14 +12,14 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
+import com.bytedance.sdk.open.tiktok.ui.IWebAuthorizeActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +71,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler) {
+    public boolean handleIntent(Intent intent, IApiEventHandler eventHandler) {
         if (eventHandler == null) {
             return false;
         }
@@ -139,7 +139,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-        return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
+        return authImpl.authorizeWeb(IWebAuthorizeActivity.class, request);
 
     }
 

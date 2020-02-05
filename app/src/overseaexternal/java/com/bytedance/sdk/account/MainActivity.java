@@ -27,7 +27,7 @@ import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.tiktok.TikTokApiFactory;
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tiktokOpenApi = TikTokApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = TikTokApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
     private boolean sendAuth() {

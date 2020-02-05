@@ -14,5 +14,5 @@ public interface IDataHandler {
      * @param eventHandler handle return data
      * @return if it can parse data
      */
-    boolean handle(int type, Bundle bundle, TikTokApiEventHandler eventHandler);
+    boolean handle(int type, Bundle bundle, IApiEventHandler eventHandler);
 }

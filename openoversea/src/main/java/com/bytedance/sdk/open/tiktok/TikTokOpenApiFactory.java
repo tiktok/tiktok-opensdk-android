@@ -8,12 +8,7 @@ import com.bytedance.sdk.open.aweme.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl;
 
-/**
- * TTOpenApi
- *
- * @author changlei@bytedance.com
- */
-public class TikTokApiFactory {
+public class TikTokOpenApiFactory {
 
     private static TikTokOpenConfig sConfig;
 

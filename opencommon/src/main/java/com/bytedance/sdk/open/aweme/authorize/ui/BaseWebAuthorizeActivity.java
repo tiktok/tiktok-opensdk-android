@@ -31,7 +31,7 @@ import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
@@ -41,7 +41,7 @@ import com.bytedance.sdk.open.aweme.utils.OpenUtils;
 /**
  * Created by yangzhirong on 2018/10/10.
  */
-public abstract class BaseWebAuthorizeActivity extends Activity implements TikTokApiEventHandler {
+public abstract class BaseWebAuthorizeActivity extends Activity implements IApiEventHandler {
 
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
@@ -69,7 +69,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements TikTo
     /**
      * handle intent
      */
-    protected abstract boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
+    protected abstract boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
     /**
      * send response result

@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.tiktok.api;
 import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 public interface TikTokOpenApi {
@@ -43,7 +43,7 @@ public interface TikTokOpenApi {
      * @param eventHandler
      * @return
      */
-    boolean handleIntent(Intent intent, TikTokApiEventHandler eventHandler);
+    boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
 
     boolean authorizeWeb(Authorization.Request request, Class cla);

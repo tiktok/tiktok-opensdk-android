@@ -9,12 +9,12 @@ import android.widget.Toast;
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.common.handler.TikTokApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.douyin.DYApiFactory;
-import com.bytedance.sdk.open.douyin.api.DYOpenApi;
+import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -22,15 +22,15 @@ import com.bytedance.sdk.open.douyin.api.DYOpenApi;
  * 注：该activity必须在程序包名下 bdopen包下定义
  * since: 2018/12/25
  */
-public class DouYinEntryActivity extends Activity implements TikTokApiEventHandler {
+public class DouYinEntryActivity extends Activity implements IApiEventHandler {
 
-    DYOpenApi ttOpenApi;
+    DouYinOpenApi ttOpenApi;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ttOpenApi = DYApiFactory.create(this);
+        ttOpenApi = DouYinOpenApiFactory.create(this);
         ttOpenApi.handleIntent(getIntent(), this);
     }
 

@@ -8,9 +8,9 @@ import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 /**
  * DOUYIN check helper
  */
-public class DYCheckHelperImpl extends BaseCheckHelperImpl {
+public class DouYinCheckHelperImpl extends BaseCheckHelperImpl {
 
-    public DYCheckHelperImpl(Context context) {
+    public DouYinCheckHelperImpl(Context context) {
         super(context);
     }
 

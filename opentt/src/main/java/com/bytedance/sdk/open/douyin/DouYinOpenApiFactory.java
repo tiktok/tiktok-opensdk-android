@@ -5,19 +5,19 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
-import com.bytedance.sdk.open.douyin.api.DYOpenApi;
-import com.bytedance.sdk.open.douyin.impl.DYOpenApiImpl;
+import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.bytedance.sdk.open.douyin.impl.DouYinOpenApiImpl;
 
 /**
  * TTOpenApi
  *
  * @author changlei@bytedance.com
  */
-public class DYApiFactory {
+public class DouYinOpenApiFactory {
 
-    private static DYOpenConfig sConfig;
+    private static DouYinOpenConfig sConfig;
 
-    public static boolean init(DYOpenConfig config) {
+    public static boolean init(DouYinOpenConfig config) {
         if (config != null && !TextUtils.isEmpty(config.clientKey)) {
             sConfig = config;
             return true;
@@ -31,10 +31,10 @@ public class DYApiFactory {
      * @param context
      * @return
      */
-    public static DYOpenApi create(Context context) {
+    public static DouYinOpenApi create(Context context) {
         AuthImpl auth = new AuthImpl(context, sConfig.clientKey);
         ShareImpl share = new ShareImpl(context, sConfig.clientKey);
-        return new DYOpenApiImpl(context, auth, share);
+        return new DouYinOpenApiImpl(context, auth, share);
     }
 
 
