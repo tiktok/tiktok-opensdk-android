@@ -39,4 +39,5 @@ dependencies {
 }
 apply plugin: 'com.jfrog.bintray'
 
-apply from: './upload_internal_common.gradle'
+apply from: '../upload_all.gradle'
+apply from: '../mvn_publish.gradle'

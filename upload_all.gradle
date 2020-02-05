@@ -1,0 +1,77 @@
+apply plugin: 'maven'
+
+def flavorname = ''
+
+uploadArchives {
+    android.productFlavors.all { flavor ->
+        flavorname = flavor.name
+    }
+        if (flavorname.toLowerCase().contains("internal") || project.name.toLowerCase().contains("common")) {
+            repositories {
+                mavenDeployer {
+
+                    repository(url: REPOSITORY) {
+                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                    }
+                    snapshotRepository(url: REPOSITORY_SNAPSHOT) {
+                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                    }
+                    addFilter("aar-src") { artifact, file ->
+                        artifact.name == 'aar-src' || artifact.name == 'aar'
+                    }
+                    addFilter("aar") { artifact, file ->
+                        artifact.name == 'aar'
+                    }
+
+                    project.afterEvaluate {
+                        def versionName = ARTIFACT_VERSION
+                        def version = ARTIFACT_VERSION
+                        def aarSrcVersion = "$versionName-sources"
+
+                        if (ISSNAPSHOT) {
+                            version = "$versionName-SNAPSHOT"
+                            aarSrcVersion += "-SNAPSHOT"
+
+                        }
+
+                        //修改pom文件（maven的配置文件）
+                        pom('aar').version = version
+                        pom('aar').artifactId = ARTIFACT_ID
+                        pom('aar').groupId = ARTIFACT_GROUP
+
+                        pom('aar-src').artifactId = ARTIFACT_ID
+                        pom('aar-src').groupId = ARTIFACT_GROUP
+                        pom('aar-src').version = aarSrcVersion
+                    }
+
+                }
+            }
+        }
+
+
+
+}
+
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+
+artifacts {
+    if (flavorname.toLowerCase().contains("internal")) {
+        archives(file("$buildDir/outputs/aar/${project.name}-${flavorname}-release.aar")) {
+            name 'aar'
+        }
+    } else if (project.name.toLowerCase().contains("common")) {
+        archives(file("$buildDir/outputs/aar/${project.name}-release.aar")) {
+            name 'aar'
+        }
+    }
+
+    archives(generateSourcesJar) {
+        name 'aar-src'
+    }
+}
+
+
