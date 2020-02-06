@@ -14,9 +14,7 @@ import com.bytedance.sdk.open.aweme.utils.AppUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Powered by WangJiaWei on 2019/1/15.
- */
+
 public class ShareImpl {
 
     private Context mContext;

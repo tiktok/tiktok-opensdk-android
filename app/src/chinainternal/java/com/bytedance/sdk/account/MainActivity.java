@@ -47,13 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mMediaPathList;
 
-    Button mAddMedia;
 
     Button mClearMedia;
 
     EditText mSetDefaultHashTag;
 
-    RadioGroup mTargetApp;
 
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.china_internal_main);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -98,38 +96,8 @@ public class MainActivity extends AppCompatActivity {
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
-        mAddMedia = findViewById(R.id.add_photo_video);
         mClearMedia = findViewById(R.id.clear_media);
-        mTargetApp = findViewById(R.id.target_app);
 
-        mTargetApp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int id = group.getCheckedRadioButtonId();
-                switch (id) {
-                    case R.id.app_aweme:
-                        targetAppId = CommonConstants.TARGET_APP.AWEME;
-                        createTikTokImplApi(CommonConstants.TARGET_APP.AWEME);
-                        break;
-                    case R.id.app_tiktok:
-                        targetAppId = CommonConstants.TARGET_APP.TIKTOK;
-                        IS_AUTH_BY_M = false;
-                        createTikTokImplApi(CommonConstants.TARGET_APP.TIKTOK);
-                        break;
-                    case R.id.app_tiktok_m:
-                        IS_AUTH_BY_M = true;
-                        targetAppId = CommonConstants.TARGET_APP.TIKTOK;
-                        createTikTokImplApi(CommonConstants.TARGET_APP.TIKTOK);
-                        break;
-                }
-            }
-        });
-
-        mAddMedia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSystemGallery();
-            }
-        });
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
-                    mAddMedia.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
                     break;
