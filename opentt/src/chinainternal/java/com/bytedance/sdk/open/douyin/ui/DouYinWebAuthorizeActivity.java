@@ -9,7 +9,6 @@ import android.webkit.WebView;
 
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;
-import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
@@ -27,14 +26,16 @@ public class DouYinWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     public static final String AUTH_HOST = "open.douyin.com";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
+    protected static final String LOCAL_ENTRY_ACTIVITY = "douyinapi.DouYinEntryActivity"; // 请求授权的结果回调Activity入口
 
-    private DouYinOpenApi ttOpenApi;
+
+    private DouYinOpenApi douYinOpenApi;
     private String mCommonParams;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = DouYinOpenApiFactory.create(this);
+        douYinOpenApi = DouYinOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
@@ -80,7 +81,7 @@ public class DouYinWebAuthorizeActivity extends BaseWebAuthorizeActivity {
             mCommonParams = bundle.getString("internal_secure_common_params");
         }
 
-        return ttOpenApi.handleIntent(intent, eventHandler);
+        return douYinOpenApi.handleIntent(intent, eventHandler);
     }
 
     @Override

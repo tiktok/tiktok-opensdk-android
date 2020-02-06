@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.open.douyin">
-    <application>
+    package="com.bytedance.sdk.open.tiktok">
 
-        <activity android:name="com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity"
+    <application>
+        <activity android:name="com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
-    </application></manifest>
+    </application>
+
+</manifest>

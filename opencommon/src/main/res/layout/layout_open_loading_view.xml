@@ -2,34 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7F161823"
-    android:orientation="horizontal"
+    android:background="@android:color/transparent"
     android:gravity="center">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
-        style="@android:style/Widget.ProgressBar.Small.Inverse"/>
+    <LinearLayout
+        android:layout_width="144dp"
+        android:layout_height="96dp"
+        android:background="@color/aweme_loading_view_background"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/loading_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="8dp"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="@string/aweme_loading"
-        android:textColor="#ffffff"
-        android:textSize="17dp" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            style="@android:style/Widget.ProgressBar.Small.Inverse"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/aweme_loading"
+            android:textColor="@color/aweme_loading_view_text_color"
+            android:textSize="13dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

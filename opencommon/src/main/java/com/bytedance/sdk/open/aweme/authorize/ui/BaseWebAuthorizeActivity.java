@@ -46,7 +46,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     private static final String RES_ID = "id";
     private static final String RES_LAYOUT = "layout";
     private static final String RES_STRING = "string";
-    protected static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
     protected static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
 
@@ -132,7 +131,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         super.onCreate(savedInstanceState);
         mContext = this;
         handleIntent(getIntent(), this);
-        int layoutId = getResources().getIdentifier("tiktok_layout_open_web_authorize", RES_LAYOUT, getPackageName());
+        int layoutId = getResources().getIdentifier("layout_open_web_authorize", RES_LAYOUT, getPackageName());
         setContentView(layoutId);
         initView();
         initActions();
@@ -260,13 +259,13 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
 
     private void initView() {
-        int containerId = getResources().getIdentifier("tiktok_open_rl_container", RES_ID, getPackageName());
+        int containerId = getResources().getIdentifier("open_rl_container", RES_ID, getPackageName());
         mContainer = findViewById(containerId);
         // cancle button
-        int headerId = getResources().getIdentifier("layout_open_web_header_view", RES_ID, getPackageName());
+        int headerId = getResources().getIdentifier("open_header_view", RES_ID, getPackageName());
         mHeaderView = findViewById(headerId);
 
-        int cancleImgId = getResources().getIdentifier("tiktok_cancel", RES_ID, getPackageName());
+        int cancleImgId = getResources().getIdentifier("cancel", RES_ID, getPackageName());
         mCancelImg = findViewById(cancleImgId);
         mCancelImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,7 +275,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         });
         setContainerViewBgColor();
 
-        int loadingId = getResources().getIdentifier("tiktok_open_loading_group", RES_ID, getPackageName());
+        int loadingId = getResources().getIdentifier("open_loading_group", RES_ID, getPackageName());
         mLoadingLayout = (FrameLayout) findViewById(loadingId);
 
         View loadingView = getLoadingView(mLoadingLayout);

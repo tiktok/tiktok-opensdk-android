@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
@@ -61,10 +62,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/share_to_aweme_with_shareid_no_callbacK"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/share_to_tiktok"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/microbutton"
+        android:layout_width="wrap_content"
+        android:text="分享携带小程序"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/share_to_douyin_with_shareid_callback"
@@ -74,7 +78,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/share_to_douyin_with_shareid_no_callback"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <EditText
         android:id="@+id/set_default_hashtag"
@@ -105,7 +109,7 @@
         android:layout_marginLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/media_text"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <Button
         android:id="@+id/clear_media"
@@ -144,4 +148,4 @@
             android:text="抖音"/>
     </RadioGroup>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

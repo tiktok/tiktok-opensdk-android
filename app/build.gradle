@@ -39,14 +39,14 @@ android {
 
         overseaexternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
-            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
+            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
 
         overseainternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
-            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
+            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
 
     }
@@ -98,6 +98,8 @@ dependencies {
     // for test
     //retrofit2 依赖库
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    //Gson 数据解析器依赖库
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //okhttp3 输出网络请求日志依赖库
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

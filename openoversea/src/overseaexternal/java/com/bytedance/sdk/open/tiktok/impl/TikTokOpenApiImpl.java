@@ -19,7 +19,7 @@ import com.bytedance.sdk.open.aweme.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.ui.IWebAuthorizeActivity;
+import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,7 +139,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {
-        return authImpl.authorizeWeb(IWebAuthorizeActivity.class, request);
+        return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
 
     }
 

@@ -22,12 +22,14 @@ public class DouYinWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     public static final String AUTH_HOST = "open.douyin.com";
     public static final String DOMAIN = "api.snssdk.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
+    protected static final String LOCAL_ENTRY_ACTIVITY = "douyinapi.DouYinEntryActivity"; // 请求授权的结果回调Activity入口
 
-    private DouYinOpenApi ttOpenApi;
+
+    private DouYinOpenApi douYinOpenApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ttOpenApi = DouYinOpenApiFactory.create(this);
+        douYinOpenApi = DouYinOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
@@ -39,7 +41,7 @@ public class DouYinWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     @Override
     protected boolean handleIntent(Intent intent, IApiEventHandler eventHandler) {
-        return ttOpenApi.handleIntent(intent, eventHandler);
+        return douYinOpenApi.handleIntent(intent, eventHandler);
     }
 
     @Override
