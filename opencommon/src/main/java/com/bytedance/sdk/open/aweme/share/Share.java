@@ -12,6 +12,8 @@ import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
+import java.util.ArrayList;
+
 /**
  * Powered by WangJiaWei on 2019/1/15.
  */
@@ -25,9 +27,7 @@ public class Share {
 
         public int mTargetSceneType = 0;
 
-        public String mHashTag;
-        @Deprecated
-        public int mTargetApp = CommonConstants.TARGET_APP.TIKTOK; // default is tiktok
+        public ArrayList<String> mHashTagList;
 
         public MediaContent mMediaContent;
         public MicroAppInfo mMicroAppInfo;
@@ -63,7 +63,7 @@ public class Share {
             this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
             this.mTargetSceneType =
                     bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.LANDPAGE_SCENE_DEFAULT);
-            this.mHashTag = bundle.getString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, "");
+            this.mHashTagList = bundle.getStringArrayList(ParamKeyConstants.ShareParams.SHARE_HASHTAG_LIST);
             this.mMediaContent = MediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = MicroAppInfo.unserialize(bundle);
             this.mAnchorInfo = AnchorObject.unserialize(bundle);
@@ -80,7 +80,10 @@ public class Share {
 
             bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent));
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
-            bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTag);
+            if (mHashTagList.size() > 0) {
+                bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTagList.get(0)); // 兼容旧版本aweme
+                bundle.putStringArrayList(ParamKeyConstants.ShareParams.SHARE_HASHTAG_LIST, mHashTagList);
+            }
 
             // 670 add micro app
             if (mMicroAppInfo != null) {

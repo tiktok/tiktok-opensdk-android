@@ -79,6 +79,8 @@ public interface ParamKeyConstants {
         String SHARE_TARGET_SCENE = "_aweme_open_sdk_params_target_landpage_scene";
 
         String SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene";
+        String SHARE_HASHTAG_LIST = "_aweme_open_sdk_params_hashtag_list";
+
 
         String SHARE_MICROAPP_INFO = "_aweme_open_sdk_params_micro_app_info";
 

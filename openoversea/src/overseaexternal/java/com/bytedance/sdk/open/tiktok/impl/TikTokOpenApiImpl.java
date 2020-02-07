@@ -30,7 +30,7 @@ import java.util.Map;
  * @author changlei@bytedance.com
  */
 
-public class TiktokOpenApiImpl implements TiktokOpenApi {
+public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     private Context mContext;
     private final IAPPCheckHelper[] mAuthcheckApis;
@@ -52,7 +52,7 @@ public class TiktokOpenApiImpl implements TiktokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    public TiktokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
+    public TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
         this.mContext = context;
         this.shareImpl = shareImpl;
         this.authImpl = authImpl;

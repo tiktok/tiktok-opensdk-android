@@ -30,6 +30,7 @@ import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -207,24 +208,26 @@ public class MainActivity extends AppCompatActivity {
                 MediaContent mediaContent = new MediaContent();
                 mediaContent.mMediaObject = imageObject;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                    ArrayList<String> hashtags = new ArrayList<>();
+                    hashtags.add(mSetDefaultHashTag.getText().toString());
+                    request.mHashTagList = hashtags;
                 }
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
-                request.mTargetApp = targetAppId;
                 break;
             case Share.VIDEO:
                 VideoObject videoObject = new VideoObject();
                 videoObject.mVideoPaths = mUri;
                 if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    request.mHashTag = mSetDefaultHashTag.getText().toString();
+                    ArrayList<String> hashtags = new ArrayList<>();
+                    hashtags.add(mSetDefaultHashTag.getText().toString());
+                    request.mHashTagList = hashtags;
                 }
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
-                request.mHashTag = "设置我的默认话题";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
 //                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
@@ -235,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
 //                request.mMicroAppInfo = mMicroInfo;
 
                 // 指定掉起抖音或者tiktok，不填默认tiktok
-                request.mTargetApp = targetAppId;
                 break;
         }
 
