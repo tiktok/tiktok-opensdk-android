@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.open.aweme.CommonConstants;
@@ -28,7 +27,7 @@ import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
 
 import java.util.ArrayList;
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static int targetAppId = CommonConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
-    TikTokOpenApi tiktokOpenApi;
+    TiktokOpenApi tiktokOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,

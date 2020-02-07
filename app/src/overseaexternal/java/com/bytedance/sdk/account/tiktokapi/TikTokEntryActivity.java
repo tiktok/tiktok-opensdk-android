@@ -14,7 +14,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -24,7 +24,7 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
  */
 public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
-    TikTokOpenApi ttOpenApi;
+    TiktokOpenApi ttOpenApi;
 
 
     @Override

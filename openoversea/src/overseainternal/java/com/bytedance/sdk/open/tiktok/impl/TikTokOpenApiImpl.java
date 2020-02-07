@@ -16,7 +16,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
@@ -30,7 +30,7 @@ import java.util.Map;
  * @author changlei@bytedance.com
  */
 
-public class TikTokOpenApiImpl implements TikTokOpenApi {
+public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     private Context mContext;
     private final IAPPCheckHelper[] mAuthcheckApis;
