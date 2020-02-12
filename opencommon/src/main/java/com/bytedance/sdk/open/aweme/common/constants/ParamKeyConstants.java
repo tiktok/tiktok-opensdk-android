@@ -150,9 +150,7 @@ public interface ParamKeyConstants {
         int SHARE_REQUIRED_MIN_VERSION = 2; //DOUYIN 5.2.0  tiktok 6.3.0,musically 11.3
 
         //adapt to old version because of changing api name
-        int MIN_SDK_NEW_TIKTOK_API = 3;
-
-        int MIN_SDK_NEW_SECURITY_VERSION_API = 5;
+        int MIN_SDK_NEW_VERSION_API = 3;
 
     }
 

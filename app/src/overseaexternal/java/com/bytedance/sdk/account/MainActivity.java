@@ -24,6 +24,7 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
 import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
+import com.bytedance.sdk.open.aweme.base.MicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -226,12 +227,12 @@ public class MainActivity extends AppCompatActivity {
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                TikTokMicroAppInfo mMicroInfo = new TikTokMicroAppInfo();
-//                mMicroInfo.setAppTitle("小程序title");
-//                mMicroInfo.setDescription("小程序描述");
-//                mMicroInfo.setAppId("ttef9b992670b151ec");
-//                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
-//                request.mMicroAppInfo = mMicroInfo;
+                MicroAppInfo mMicroInfo = new MicroAppInfo();
+                mMicroInfo.setAppTitle("小程序title");
+                mMicroInfo.setDescription("小程序描述");
+                mMicroInfo.setAppId("ttef9b992670b151ec");
+                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
+                request.mMicroAppInfo = mMicroInfo;
 
                 // 指定掉起抖音或者tiktok，不填默认tiktok
                 break;

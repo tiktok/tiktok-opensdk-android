@@ -46,7 +46,7 @@ public class ShareImpl {
             Bundle bundle = new Bundle();
 
             if (AppUtil.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
-                    >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_TIKTOK_API) {
+                    >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API) {
                 request.toBundle(bundle);
             }
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
