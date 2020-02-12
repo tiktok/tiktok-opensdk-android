@@ -205,25 +205,23 @@ public class MainActivity extends AppCompatActivity {
                 imageObject.mImagePaths = mUri;
                 MediaContent mediaContent = new MediaContent();
                 mediaContent.mMediaObject = imageObject;
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    ArrayList<String> hashtags = new ArrayList<>();
-                    hashtags.add(mSetDefaultHashTag.getText().toString());
-                    request.mHashTagList = hashtags;
-                }
+                ArrayList<String> hashtagsi = new ArrayList<>();
+                hashtagsi.add("哈哈哈图片");
+                hashtagsi.add("hhahajpic");
                 request.mMediaContent = mediaContent;
+                request.mHashTagList = hashtagsi;
                 request.mState = "ww";
                 break;
             case Share.VIDEO:
                 VideoObject videoObject = new VideoObject();
                 videoObject.mVideoPaths = mUri;
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    ArrayList<String> hashtags = new ArrayList<>();
-                    hashtags.add(mSetDefaultHashTag.getText().toString());
-                    request.mHashTagList = hashtags;
-                }
+                ArrayList<String> hashtags = new ArrayList<>();
+                hashtags.add("哈哈哈图片");
+                hashtags.add("hhahajpic");
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
+                request.mHashTagList = hashtags;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 

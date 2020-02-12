@@ -207,22 +207,30 @@ public class MainActivity extends AppCompatActivity {
                 imageObject.mImagePaths = mUri;
                 MediaContent mediaContent = new MediaContent();
                 mediaContent.mMediaObject = imageObject;
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    ArrayList<String> hashtags = new ArrayList<>();
-                    hashtags.add(mSetDefaultHashTag.getText().toString());
-                    request.mHashTagList = hashtags;
-                }
+//                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+//                    ArrayList<String> hashtags = new ArrayList<>();
+//                    hashtags.add(mSetDefaultHashTag.getText().toString());
+//                    request.mHashTagList = hashtags;
+//                }
+
+
+                ArrayList<String> hashtags = new ArrayList<>();
+                hashtags.add("哈哈哈图片");
+                hashtags.add("hhahajpic");
+                request.mHashTagList = hashtags;
+
                 request.mMediaContent = mediaContent;
                 request.mState = "ww";
                 break;
             case Share.VIDEO:
                 VideoObject videoObject = new VideoObject();
                 videoObject.mVideoPaths = mUri;
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    ArrayList<String> hashtags = new ArrayList<>();
-                    hashtags.add(mSetDefaultHashTag.getText().toString());
-                    request.mHashTagList = hashtags;
-                }
+//                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    ArrayList<String> hashtagsim = new ArrayList<>();
+                hashtagsim.add("哈哈哈");
+                hashtagsim.add("hhahaj");
+                    request.mHashTagList = hashtagsim;
+//                }
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;

@@ -80,7 +80,7 @@ public class Share {
 
             bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent));
             bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
-            if (mHashTagList.size() > 0) {
+            if (mHashTagList != null && mHashTagList.size() > 0) {
                 bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTagList.get(0)); // 兼容旧版本aweme
                 bundle.putStringArrayList(ParamKeyConstants.ShareParams.SHARE_HASHTAG_LIST, mHashTagList);
             }
