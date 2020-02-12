@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
 import com.bytedance.sdk.open.aweme.authorize.handler.SendAuthDataHandler;
@@ -16,6 +15,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
@@ -43,11 +43,11 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
     private ShareImpl shareImpl;
     private AuthImpl authImpl;
 
-    static final int API_TYPE_LOGIN = 0;
-    static final int API_TYPE_SHARE = 1;
+    private static final int API_TYPE_LOGIN = 0;
+    private static final int API_TYPE_SHARE = 1;
 
-    static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
-    static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
+    private static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
+    private static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
 
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
@@ -103,11 +103,26 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     @Override
     public boolean authorizeWeb(Authorization.Request request, Class cla) {
-        return senWebAuthRequest(request, cla);
+        return sendWebAuthRequest(request, cla);
 
     }
 
-    private boolean senWebAuthRequest(Authorization.Request request, Class cla) {
+    @Override
+    public boolean isAppInstalled() {
+        for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+            if (checkapi.isAppInstalled()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String getSdkVersion() {
+        return BuildConfig.SDK_OVERSEA_VERSION;
+    }
+
+    private boolean sendWebAuthRequest(Authorization.Request request, Class cla) {
         return authImpl.authorizeWeb(cla, request);
     }
 
@@ -128,10 +143,15 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
         if (appHasInstalled != null) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
+    }
+
+    @Override
+    public boolean authorizeWeb(Authorization.Request request) {
+        return sendWebAuthRequest(request);
     }
 
     @Override
@@ -143,7 +163,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
         if (isAppSupportShare()) {
             String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
             return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
-                    getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity(), BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+                    getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity(), BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         }
 
         return false;

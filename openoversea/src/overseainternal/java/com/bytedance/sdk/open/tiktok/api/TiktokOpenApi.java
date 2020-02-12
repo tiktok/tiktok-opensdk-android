@@ -15,6 +15,8 @@ public interface TiktokOpenApi {
      */
     boolean authorize(Authorization.Request request);
 
+    boolean authorizeWeb(Authorization.Request request);
+
 
     /**
      * check if the application supports authorization
@@ -47,6 +49,14 @@ public interface TiktokOpenApi {
 
 
     boolean authorizeWeb(Authorization.Request request, Class cla);
+
+    boolean isAppInstalled();
+
+    String getSdkVersion();
+
+
+
+
 
 
 }

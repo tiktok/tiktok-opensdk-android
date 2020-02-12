@@ -30,15 +30,15 @@ android {
         // 国内版
         chinainternal {
             dimension "area"
-            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION\""
-            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_ID\""
+            buildConfigField "String", "SDK_CHINA_VERSION", "\"$ARTIFACT_VERSION\""
+            buildConfigField "String", "SDK_CHINA_NAME", "\"$ARTIFACT_ID\""
         }
 
 
         chinaexternal {
             dimension "area"
-            buildConfigField "String", "SDK_VERSION", "\"$ARTIFACT_VERSION_EXTERNAL\""
-            buildConfigField "String", "SDK_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
+            buildConfigField "String", "SDK_CHINA_VERSION", "\"$ARTIFACT_VERSION_EXTERNAL\""
+            buildConfigField "String", "SDK_CHINA_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
         }
 
 

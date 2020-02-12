@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
@@ -16,6 +15,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.douyin.BuildConfig;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 import com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity;
 
@@ -99,7 +99,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
 
     @Override
     public String getSdkVersion() {
-        return null;
+        return BuildConfig.SDK_CHINA_VERSION;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
         }
         IAPPCheckHelper appHasInstalled = new DouYinCheckHelperImpl(mContext);
         if (appHasInstalled.isAppSupportAuthorization()) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_CHINA_NAME, BuildConfig.SDK_CHINA_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -142,7 +142,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
         DouYinCheckHelperImpl checkHelper = new DouYinCheckHelperImpl(mContext);
         if (mContext != null && checkHelper.isAppSupportShare()) {
             return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                    checkHelper.getRemoteAuthEntryActivity(), BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+                    checkHelper.getRemoteAuthEntryActivity(), BuildConfig.SDK_CHINA_NAME, BuildConfig.SDK_CHINA_VERSION);
         }
         return false;
     }

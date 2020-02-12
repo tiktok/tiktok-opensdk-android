@@ -80,6 +80,12 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
     }
 
     @Override
+    public boolean isAppInstalled() {
+        return new DouYinCheckHelperImpl(mContext).isAppInstalled();
+
+    }
+
+    @Override
     public boolean isAppSupportAuthorization() {
         return new DouYinCheckHelperImpl(mContext).isAppSupportAuthorization();
 
@@ -98,7 +104,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
         }
         IAPPCheckHelper appHasInstalled = new DouYinCheckHelperImpl(mContext);
         if (appHasInstalled.isAppSupportAuthorization()) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_CHINA_NAME, BuildConfig.SDK_CHINA_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -112,7 +118,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
         DouYinCheckHelperImpl checkHelper = new DouYinCheckHelperImpl(mContext);
         if (mContext != null && checkHelper.isAppSupportShare()) {
             return shareImpl.share(LOCAL_ENTRY_ACTIVITY, checkHelper.getPackageName(), REMOTE_SHARE_ACTIVITY, request,
-                    checkHelper.getRemoteAuthEntryActivity(), BuildConfig.SDK_NAME, BuildConfig.SDK_VERSION);
+                    checkHelper.getRemoteAuthEntryActivity(), BuildConfig.SDK_CHINA_NAME, BuildConfig.SDK_CHINA_VERSION);
         }
         return false;
     }

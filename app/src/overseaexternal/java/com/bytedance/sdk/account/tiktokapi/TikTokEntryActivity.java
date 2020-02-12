@@ -67,7 +67,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
             } else if (response.isCancel()) {
                 Toast.makeText(this, "用户手动取消", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "分享失败,errorCode:" + response.errorCode, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "分享失败,errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
             }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

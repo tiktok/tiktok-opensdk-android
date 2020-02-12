@@ -44,6 +44,8 @@ public interface DouYinOpenApi {
      * @return
      */
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
+    boolean isAppInstalled();
+
 
 
 }

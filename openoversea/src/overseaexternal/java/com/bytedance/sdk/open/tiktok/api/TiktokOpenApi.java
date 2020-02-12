@@ -45,5 +45,8 @@ public interface TiktokOpenApi {
      */
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
+    boolean isAppInstalled();
+
+
 
 }
