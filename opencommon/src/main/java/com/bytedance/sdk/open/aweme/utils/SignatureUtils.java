@@ -9,10 +9,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * signature utils
- * Created by yangzhirong on 2018/10/8.
- */
+
 public class SignatureUtils {
 
     /**

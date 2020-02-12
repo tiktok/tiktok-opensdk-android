@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 hashtagsi.add("哈哈哈图片");
                 hashtagsi.add("hhahajpic");
                 request.mMediaContent = mediaContent;
-                request.mHashTagList = hashtagsi;
+//                request.mHashTagList = hashtagsi;
                 request.mState = "ww";
                 break;
             case Share.VIDEO:
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
-                request.mHashTagList = hashtags;
+//                request.mHashTagList = hashtags;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 

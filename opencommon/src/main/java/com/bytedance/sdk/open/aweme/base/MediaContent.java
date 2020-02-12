@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
 import java.util.ArrayList;
 

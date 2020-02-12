@@ -6,10 +6,6 @@ import android.os.Bundle;
 import com.bytedance.sdk.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 
-/**
- * Base Model
- * Created by yangzhirong on 2018/9/26.
- */
 public abstract class BaseReq {
 
     /**

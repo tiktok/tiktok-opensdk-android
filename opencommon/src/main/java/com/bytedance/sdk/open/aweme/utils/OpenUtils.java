@@ -8,9 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by gy on 2019/1/15.
- */
+
 public class OpenUtils {
     /**
      *  Remove duplicate strings from an array

@@ -14,9 +14,6 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
 import java.util.ArrayList;
 
-/**
- * Powered by WangJiaWei on 2019/1/15.
- */
 public class Share {
 
     private static final String TAG = "Aweme.OpenSDK.Share";

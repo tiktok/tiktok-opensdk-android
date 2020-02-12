@@ -3,9 +3,6 @@ package com.bytedance.sdk.open.aweme.common.handler;
 import android.os.Bundle;
 
 
-/**
- * Created by yangzhirong on 2018/10/8.
- */
 public interface IDataHandler {
 
     /**
