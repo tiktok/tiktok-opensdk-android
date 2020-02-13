@@ -114,6 +114,12 @@ public class Share {
             if (mMicroAppInfo != null) {
                 mMicroAppInfo.serialize(bundle);
             }
+            // 920 add anchor
+            if (mAnchorInfo != null) {
+                if (mAnchorInfo.getAnchorBusinessType() == 10){
+                    mAnchorInfo.serialize(bundle);
+                }
+            }
 
         }
 
