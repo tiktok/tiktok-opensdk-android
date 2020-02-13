@@ -31,7 +31,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     @Override
     public boolean isAppSupportShare() {
-        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.SHARE_REQUIRED_MIN_VERSION);
+        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API);
     }
 
     /**
