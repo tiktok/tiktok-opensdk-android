@@ -94,6 +94,14 @@ dependencies {
     chinainternalApi project(path: ':opentt')
     overseaexternalApi project(path: ':openoversea')
     overseainternalApi project(path: ':openoversea')
+    chinaexternalApi project(path: ':opencommon')
+    chinainternalApi project(path: ':opencommon')
+    overseaexternalApi project(path: ':opencommon')
+    overseainternalApi project(path: ':opencommon')
+
+
+
+
 
     // for test
     //retrofit2 依赖库

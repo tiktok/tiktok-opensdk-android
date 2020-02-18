@@ -52,7 +52,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(path: ':opencommon')
+    compileOnly project(path: ':opencommon')
 
 }
 

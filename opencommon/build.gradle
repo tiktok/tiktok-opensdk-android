@@ -33,7 +33,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.google.code.gson:gson:2.2.4'
+    compileOnly 'com.google.code.gson:gson:2.2.4'
 
 
 }
