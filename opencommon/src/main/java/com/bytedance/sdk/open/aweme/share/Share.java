@@ -88,7 +88,9 @@ public class Share {
             }
             // 920 add anchor
             if (mAnchorInfo != null) {
-                mAnchorInfo.serialize(bundle);
+                if (mAnchorInfo.getAnchorBusinessType() == 10){
+                    mAnchorInfo.serialize(bundle);
+                }
             }
         }
 
