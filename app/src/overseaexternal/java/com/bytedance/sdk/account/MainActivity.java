@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mSetDefaultHashTag;
 
+    EditText mSetDefaultHashTag2;
+
+
 
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
@@ -95,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
+        mSetDefaultHashTag2 = findViewById(R.id.set_default_hashtag1);
+
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
 
@@ -156,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                     mUri.add(UriUtil.convertUriToPath(this,uri));
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
+                    mSetDefaultHashTag2.setVisibility(View.VISIBLE);
+
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
@@ -206,9 +213,17 @@ public class MainActivity extends AppCompatActivity {
                 imageObject.mImagePaths = mUri;
                 MediaContent mediaContent = new MediaContent();
                 mediaContent.mMediaObject = imageObject;
-                ArrayList<String> hashtagsi = new ArrayList<>();
-                hashtagsi.add("哈哈哈图片");
-                hashtagsi.add("hhahajpic");
+                ArrayList<String> hashtags = new ArrayList<>();
+
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    hashtags.add(mSetDefaultHashTag.getText().toString());
+                }
+
+                if (!TextUtils.isEmpty(mSetDefaultHashTag2.getText())) {
+                    hashtags.add(mSetDefaultHashTag2.getText().toString());
+
+                }
+                request.mHashTagList = hashtags;
                 request.mMediaContent = mediaContent;
 //                request.mHashTagList = hashtagsi;
                 request.mState = "ww";
@@ -216,9 +231,17 @@ public class MainActivity extends AppCompatActivity {
             case Share.VIDEO:
                 VideoObject videoObject = new VideoObject();
                 videoObject.mVideoPaths = mUri;
-                ArrayList<String> hashtags = new ArrayList<>();
-                hashtags.add("哈哈哈图片");
-                hashtags.add("hhahajpic");
+                ArrayList<String> hashtagsVideo = new ArrayList<>();
+
+                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+                    hashtagsVideo.add(mSetDefaultHashTag.getText().toString());
+                }
+
+                if (!TextUtils.isEmpty(mSetDefaultHashTag2.getText())) {
+                    hashtagsVideo.add(mSetDefaultHashTag2.getText().toString());
+
+                }
+                request.mHashTagList = hashtagsVideo;
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
@@ -227,12 +250,12 @@ public class MainActivity extends AppCompatActivity {
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 
                 // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-                MicroAppInfo mMicroInfo = new MicroAppInfo();
-                mMicroInfo.setAppTitle("小程序title");
-                mMicroInfo.setDescription("小程序描述");
-                mMicroInfo.setAppId("ttef9b992670b151ec");
-                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
-                request.mMicroAppInfo = mMicroInfo;
+//                MicroAppInfo mMicroInfo = new MicroAppInfo();
+//                mMicroInfo.setAppTitle("小程序title");
+//                mMicroInfo.setDescription("小程序描述");
+//                mMicroInfo.setAppId("ttef9b992670b151ec");
+//                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
+//                request.mMicroAppInfo = mMicroInfo;
 
                 // 指定掉起抖音或者tiktok，不填默认tiktok
                 break;
