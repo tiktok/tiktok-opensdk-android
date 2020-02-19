@@ -40,12 +40,12 @@ publishing {
                         groupId ARTIFACT_GROUP_EXTERNAL
                         artifactId ARTIFACT_ID_EXTERNAL
 
-//                        if (!ISSNAPSHOT) {
+                        if (!ISSNAPSHOT) {
                             version ARTIFACT_VERSION_EXTERNAL
 
-//                        } else {
-//                                version "${ARTIFACT_VERSION_EXTERNAL}-SNAPSHOT"
-//                        }
+                        } else {
+                                version "${ARTIFACT_VERSION_EXTERNAL}-SNAPSHOT"
+                        }
                         pom.withXml {
                             def depsNode = asNode()["dependencies"][0]
                             if (depsNode != null) {
