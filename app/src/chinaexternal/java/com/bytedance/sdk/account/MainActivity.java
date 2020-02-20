@@ -34,7 +34,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int targetAppId = CommonConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     DouYinOpenApi tiktokOpenApi;
