@@ -515,7 +515,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         if (handler != null) {
             handler.cancel();
         }
-        // 加载出错
         showNetworkErrorDialog(OP_ERROR_NETWORK_ERROR);
         isShowNetworkError = true;
     }

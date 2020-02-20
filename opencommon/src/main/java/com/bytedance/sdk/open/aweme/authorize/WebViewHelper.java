@@ -11,10 +11,7 @@ import com.bytedance.sdk.open.aweme.utils.SignatureUtils;
 
 import java.util.List;
 
-/**
- * web authorization helper
- * Created by jianghaiyang on 2018/12/24.
- */
+
 public class WebViewHelper {
     /**
      * generate url according to request and host
@@ -24,7 +21,6 @@ public class WebViewHelper {
      * @return
      */
     public static String getLoadUrl(Context context, Authorization.Request request, String host, String path) {
-        // 将optionalScope0和optionalScope1拼接成optionalScope = "messag,1,friend_relation,0 ";格式
         StringBuilder optionalScope = new StringBuilder();
         if (!TextUtils.isEmpty(request.optionalScope1)) {
             String[] optionalScope1s = request.optionalScope1.split(",");

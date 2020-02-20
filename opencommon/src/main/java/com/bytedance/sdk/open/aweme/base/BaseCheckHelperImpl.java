@@ -35,8 +35,8 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     }
 
     /**
-     * There is version requirement of sharing and authorizing. The minimum TikTok version supporting sharing is 11.3.0.
-     * This method is to check if TikTok supports sharing and authorizing
+     * There is version requirement of sharing and authorizing. The minimum app version supporting sharing is 11.3.0.
+     * This method is to check if app supports sharing and authorizing
      *
      * @param platformPackageName
      * @param remoteRequestEntry

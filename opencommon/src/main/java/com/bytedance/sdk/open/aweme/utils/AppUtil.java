@@ -43,7 +43,7 @@ public class AppUtil {
     }
 
     /**
-     * check tiktok version
+     * check app version
      * @param context
      * @param platformPackageName
      * @param remoteRequestEntry

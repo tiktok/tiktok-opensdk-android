@@ -10,11 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-/**
- * 主要功能：operate {@link Window} and {@link View}
- * author: ChangLei
- * since: 2019/1/3
- */
 public final class ViewUtils {
 
     /**
@@ -64,7 +59,6 @@ public final class ViewUtils {
      * @return
      */
     private static View createStatusBarView(Activity activity, int color) {
-        // 绘制一个和状态栏一样高的矩形
         View statusBarView = new View(activity);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 getStatusBarHeight(activity));

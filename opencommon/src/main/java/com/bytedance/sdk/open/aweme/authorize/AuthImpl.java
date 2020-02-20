@@ -11,11 +11,6 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.aweme.utils.AppUtil;
 
-/**
- *
- * @author cassie.wang@bytedance.com
- */
-
 public class AuthImpl {
     private Context mContext;
     private String mClientKey;

@@ -34,7 +34,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int targetAppId = CommonConstants.TARGET_APP.AWEME; // 默认抖音
     public static final String CODE_KEY = "code";
 
     TiktokOpenApi tiktokOpenApi;
@@ -223,9 +222,8 @@ public class MainActivity extends AppCompatActivity {
                     hashtags.add(mSetDefaultHashTag2.getText().toString());
 
                 }
-                request.mHashTagList = hashtags;
+//                request.mHashTagList = hashtags;
                 request.mMediaContent = mediaContent;
-//                request.mHashTagList = hashtagsi;
                 request.mState = "ww";
                 break;
             case Share.VIDEO:
@@ -241,11 +239,10 @@ public class MainActivity extends AppCompatActivity {
                     hashtagsVideo.add(mSetDefaultHashTag2.getText().toString());
 
                 }
-                request.mHashTagList = hashtagsVideo;
+//                request.mHashTagList = hashtagsVideo;
                 MediaContent content = new MediaContent();
                 content.mMediaObject = videoObject;
                 request.mMediaContent = content;
-//                request.mHashTagList = hashtags;
                 request.mState = "ss";
 //                request.callerLocalEntry = "com.xxx.xxx...activity";
 

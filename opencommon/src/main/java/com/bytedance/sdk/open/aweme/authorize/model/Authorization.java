@@ -7,10 +7,6 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 
 
-/**
- * auth 请求
- * Created by yangzhirong on 2018/10/8.
- */
 public class Authorization {
 
     public static class Request extends BaseReq {

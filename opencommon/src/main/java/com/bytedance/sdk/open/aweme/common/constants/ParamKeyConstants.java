@@ -144,10 +144,10 @@ public interface ParamKeyConstants {
     interface REQUIRED_API_VERSION {
 
         // authorization
-        int AUTH_REQUIRE_API = 1; // 用于验证api版本是否支持
+        int AUTH_REQUIRE_API = 1;
 
         // sharing
-        int SHARE_REQUIRED_MIN_VERSION = 2; //DOUYIN 5.2.0  tiktok 6.3.0,musically 11.3
+        int SHARE_REQUIRED_MIN_VERSION = 2;
 
         //adapt to old version because of changing api name
         int MIN_SDK_NEW_VERSION_API = 3;

@@ -54,12 +54,12 @@ public interface CommonConstants {
         int CANCEL_LOGIN = 20004;
 
         /**
-         * TikTok has no album permissions
+         * App has no album permissions
          */
         int GALLERY_PERMISSION_ERROR = 20005;
 
         /**
-         * TikTok Network error
+         * App Network error
          */
         int GRANT_NETWORK_ERR = 20006;
 
@@ -214,16 +214,6 @@ public interface CommonConstants {
          * share response
          */
         int SHARE_CONTENT_TO_TT_RESP = 4;
-    }
-
-    /**
-     * target app
-     */
-    public interface TARGET_APP {
-
-        int AWEME = 1; // DOUYIN
-
-        int TIKTOK = 2; // TikTok
     }
 
 }
