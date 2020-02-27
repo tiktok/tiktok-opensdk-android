@@ -143,7 +143,6 @@ public interface ParamKeyConstants {
      */
     interface REQUIRED_API_VERSION {
 
-        // authorization
         int AUTH_REQUIRE_API = 1;
 
         // sharing

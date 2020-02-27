@@ -7,20 +7,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 
 public interface TiktokOpenApi {
-    /**
-     * send request to authorize. If tiktok is not support authorization, it will get authorization through wap
-     *
-     * @param request
-     * @return
-     */
-    boolean authorize(Authorization.Request request);
 
-
-    /**
-     * check if the application supports authorization
-     * @return
-     */
-    boolean isAppSupportAuthorization();
 
     /**
      * share image/video

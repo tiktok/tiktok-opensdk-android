@@ -80,13 +80,6 @@ public class MainActivity extends AppCompatActivity {
         }
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
-        findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 如果本地未安装抖音或者抖音的版本过低，会直接自动调用 web页面 进行授权
-                sendAuth();
-            }
-        });
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,16 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
     private  void createTikTokImplApi(int targetApp) {
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
-    }
-
-    private boolean sendAuth() {
-        Authorization.Request request = new Authorization.Request();
-        request.scope = mScope;                          // 用户授权时必选权限
-        request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
-        request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
-        request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-        return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
-
     }
 
     @Override

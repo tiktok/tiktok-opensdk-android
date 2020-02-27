@@ -14,20 +14,11 @@ public class Authorization {
         public String state;
         public String redirectUri;
         public String clientKey;
-        /**
-         * required permission，separated by commas
-         * format：scope = "user_info,friend_relation";
-         */
+
         public String scope;
-        /**
-         * optional permission, which is not checked by default,separated by commas
-         * format：optionalScope = "message,friend_relation";
-         */
+
         public String optionalScope0;
-        /**
-         * optional permission, which is checked by default,separated by commas
-         * format：optionalScope = "message,friend_relation";
-         */
+
         public String optionalScope1;
 
         public String getClientKey() {
