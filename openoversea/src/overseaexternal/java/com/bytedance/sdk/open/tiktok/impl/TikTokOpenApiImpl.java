@@ -33,8 +33,8 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
     private static final int API_TYPE_SHARE = 1;
 
-    private static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
-    private static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
+    private static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity";
+    private static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity";
 
     private static final int TYPE_SHARE_HANDLER = 2;
 
@@ -68,7 +68,7 @@ public class TikTokOpenApiImpl implements TiktokOpenApi {
 
         int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);
         if (type == 0) {
-            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//分享使用的
+            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);
         }
         switch (type) {
             case CommonConstants.ModeType.SHARE_CONTENT_TO_TT:
