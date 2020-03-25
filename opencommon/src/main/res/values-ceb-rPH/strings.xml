@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+    <string name="aweme_loading">Nag-loading...</string>
+    <string name="aweme_open_ssl_error">Sayop sa sertipiko</string>
+    <string name="aweme_open_ssl_untrusted">Sertipiko dili kasaligan</string>
+    <string name="aweme_open_ssl_expired">Sertipiko lampas na</string>
+    <string name="aweme_open_ssl_mismatched">Wala magkatukma ang pangalan sa sertipiko</string>
+    <string name="aweme_open_ssl_notyetvalid">Sertipiko dili pa balido</string>
+    <string name="aweme_open_ssl_continue">Padayon?</string>
+    <string name="aweme_open_ssl_warning">Alerto</string>
+    <string name="aweme_open_ssl_ok">OK</string>
+    <string name="aweme_open_ssl_cancel">Kanselaha</string>
+    <string name="aweme_open_error_tips_cancel">Kanselaha</string>
+    <string name="aweme_open_network_error_title">Napakyas ang awtorisasyon</string>
+    <string name="aweme_open_network_error_tips">Isyu sa network. Palihug sulayi pag-usab.</string>
+    <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

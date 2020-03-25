@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+    <string name="aweme_loading">Ngamot...</string>
+    <string name="aweme_open_ssl_error">Sertifikat error</string>
+    <string name="aweme_open_ssl_untrusted">Sertifikat ora dipercaya</string>
+    <string name="aweme_open_ssl_expired">Sertifikat kedaluwarsa</string>
+    <string name="aweme_open_ssl_mismatched">Error jeneng sertifikat ora cocog</string>
+    <string name="aweme_open_ssl_notyetvalid">Sertifikat durung valid</string>
+    <string name="aweme_open_ssl_continue">Terusake?</string>
+    <string name="aweme_open_ssl_warning">Tandha</string>
+    <string name="aweme_open_ssl_ok">OK</string>
+    <string name="aweme_open_ssl_cancel">Wurung</string>
+    <string name="aweme_open_error_tips_cancel">Wurung</string>
+    <string name="aweme_open_network_error_title">Otorisasi gagal</string>
+    <string name="aweme_open_network_error_tips">Jaringan error. Cobanen maneh.</string>
+    <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

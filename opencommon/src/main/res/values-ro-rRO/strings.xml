@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">Se încarcă...</string>
+  <string name="aweme_open_ssl_error">Eroare certificat</string>
+  <string name="aweme_open_ssl_untrusted">Certificatul nu este de încredere</string>
+  <string name="aweme_open_ssl_expired">Certificat expirat</string>
+  <string name="aweme_open_ssl_mismatched">Nepotrivire nume certificat</string>
+  <string name="aweme_open_ssl_notyetvalid">Certificatul nu este încă valid</string>
+  <string name="aweme_open_ssl_continue">Continuă?</string>
+  <string name="aweme_open_ssl_warning">Alertă</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Anulează</string>
+  <string name="aweme_open_error_tips_cancel">Anulează</string>
+  <string name="aweme_open_network_error_title">Autorizare eșuată</string>
+  <string name="aweme_open_network_error_tips">Eroare de rețea. Te rugăm să încerci din nou.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

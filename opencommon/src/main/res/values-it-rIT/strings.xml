@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">Caricamento...</string>
+  <string name="aweme_open_ssl_error">Errore di certificato</string>
+  <string name="aweme_open_ssl_untrusted">Certificato non attendibile</string>
+  <string name="aweme_open_ssl_expired">Certificato scaduto</string>
+  <string name="aweme_open_ssl_mismatched">Mancata corrispondenza del nome di certificato</string>
+  <string name="aweme_open_ssl_notyetvalid">Certificato non ancora valido</string>
+  <string name="aweme_open_ssl_continue">Continua?</string>
+  <string name="aweme_open_ssl_warning">Avviso</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Annulla</string>
+  <string name="aweme_open_error_tips_cancel">Annulla</string>
+  <string name="aweme_open_network_error_title">Autorizzazione non riuscita</string>
+  <string name="aweme_open_network_error_tips">Errore di rete, riprova.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

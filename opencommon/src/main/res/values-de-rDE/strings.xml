@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">Načítání...</string>
+  <string name="aweme_open_ssl_error">Zertifikatsfehler</string>
+  <string name="aweme_open_ssl_untrusted">Zertifikat nicht vertrauenswürdig</string>
+  <string name="aweme_open_ssl_expired">Zertifikat abgelaufen</string>
+  <string name="aweme_open_ssl_mismatched">Keine Übereinstimmung des Zertifikatsnamens</string>
+  <string name="aweme_open_ssl_notyetvalid">Zertifikat ist noch nicht gültig</string>
+  <string name="aweme_open_ssl_continue">Weiter?</string>
+  <string name="aweme_open_ssl_warning">Achtung</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Abbrechen</string>
+  <string name="aweme_open_error_tips_cancel">Abbrechen</string>
+  <string name="aweme_open_network_error_title">Autorisierung fehlgeschlagen</string>
+  <string name="aweme_open_network_error_tips">Netzwerkfehler. Bitte versuche es erneut.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

@@ -19,52 +19,64 @@ android {
         }
     }
 
-    // open sdk分为国内、海外、内部版本
+    //open sdk分为国内、海外、内部版本
     flavorDimensions "area"
 
     productFlavors {
         // 国内版
-        china {
+        chinaexternal {
+            dimension "area"
+            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
+            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+        }
+
+        chinainternal {
             dimension "area"
 
             buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
             buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
         }
 
-        // 海外版
-        overseas {
+        overseaexternal {
             dimension "area"
-
             buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
             buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
 
-        // 内部版本，多一些额外的功能支持，上公司内部公仓
-        internal {
+        overseainternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
-            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
+            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
+
     }
 
     sourceSets {
-        china {
-            manifest.srcFile "src/china/AndroidManifest.xml"
-            java.srcDirs += 'src/china/java'
-            res.srcDirs += "src/china/res"
+        chinainternal {
+            manifest.srcFile "src/chinainternal/AndroidManifest.xml"
+            java.srcDirs += 'src/chinainternal/java'
+            res.srcDirs += "src/chinainternal/res"
         }
 
-        overseas {
-            manifest.srcFile "src/overseas/AndroidManifest.xml"
-            java.srcDirs += 'src/overseas/java'
-            res.srcDirs += "src/overseas/res"
+        chinaexternal {
+            manifest.srcFile "src/chinaexternal/AndroidManifest.xml"
+            java.srcDirs += 'src/chinaexternal/java'
+            res.srcDirs += "src/chinaexternal/res"
         }
 
-        internal {
-            manifest.srcFile "src/internal/AndroidManifest.xml"
-            java.srcDirs += 'src/internal/java'
-            res.srcDirs += "src/internal/res"
+        overseainternal {
+            manifest.srcFile "src/overseainternal/AndroidManifest.xml"
+            java.srcDirs += 'src/overseainternal/java'
+            res.srcDirs += "src/overseainternal/res"
         }
+
+        overseaexternal {
+            manifest.srcFile "src/overseaexternal/AndroidManifest.xml"
+            java.srcDirs += 'src/overseaexternal/java'
+            res.srcDirs += "src/overseaexternal/res"
+        }
+
+
     }
 
     compileOptions {
@@ -76,11 +88,19 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:27.1.1'
-    androidTestCompile 'com.android.support.test:runner:1.0.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(path: ':opentt')
+    testApi 'junit:junit:4.12'
+    api 'com.android.support:design:27.1.1'
+    chinaexternalApi project(path: ':opentt')
+    chinainternalApi project(path: ':opentt')
+    overseaexternalApi project(path: ':openoversea')
+    overseainternalApi project(path: ':openoversea')
+    chinaexternalApi project(path: ':opencommon')
+    chinainternalApi project(path: ':opencommon')
+    overseaexternalApi project(path: ':opencommon')
+    overseainternalApi project(path: ':opencommon')
+
+
+
 
 
     // for test
@@ -90,10 +110,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //okhttp3 输出网络请求日志依赖库
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.github.bumptech.glide:glide:4.0.0'
-}
-repositories {
-    mavenCentral()
 }

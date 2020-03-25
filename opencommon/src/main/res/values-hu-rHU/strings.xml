@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">Betöltés...</string>
+  <string name="aweme_open_ssl_error">Tanúsítványhiba</string>
+  <string name="aweme_open_ssl_untrusted">A tanúsítvány nem megbízható</string>
+  <string name="aweme_open_ssl_expired">Tanúsítvány lejárt</string>
+  <string name="aweme_open_ssl_mismatched">Tanúsítvány neve nem egyezik</string>
+  <string name="aweme_open_ssl_notyetvalid">Tanúsítvány még nem érvényes</string>
+  <string name="aweme_open_ssl_continue">Folytatás?</string>
+  <string name="aweme_open_ssl_warning">Figyelmeztetés</string>
+  <string name="aweme_open_ssl_ok">OK</string>
+  <string name="aweme_open_ssl_cancel">Mégse</string>
+  <string name="aweme_open_error_tips_cancel">Mégse</string>
+  <string name="aweme_open_network_error_title">Engedélyezés sikertelen</string>
+  <string name="aweme_open_network_error_tips">Hálózati hiba. Próbáld meg újra.</string>
+  <string name="aweme_open_network_error_confirm">OK</string>
+</resources>

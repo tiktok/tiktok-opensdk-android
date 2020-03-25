@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+    <string name="aweme_loading">Laai tans...</string>
+    <string name="aweme_open_ssl_error">Sertifikaatfout</string>
+    <string name="aweme_open_ssl_untrusted">Sertifikaat word nie vertrou nie</string>
+    <string name="aweme_open_ssl_expired">Sertifikaat het verstryk</string>
+    <string name="aweme_open_ssl_mismatched">Sertifikaatnaam is nie dieselfde nie</string>
+    <string name="aweme_open_ssl_notyetvalid">Sertifikaat is nog nie geldig nie</string>
+    <string name="aweme_open_ssl_continue">Gaan voort?</string>
+    <string name="aweme_open_ssl_warning">Waarskuwing</string>
+    <string name="aweme_open_ssl_ok">Oukei</string>
+    <string name="aweme_open_ssl_cancel">Kanselleer</string>
+    <string name="aweme_open_error_tips_cancel">Kanselleer</string>
+    <string name="aweme_open_network_error_title">Kon nie magtig nie</string>
+    <string name="aweme_open_network_error_tips">Netwerkprobleem. Probeer gerus weer.</string>
+    <string name="aweme_open_network_error_confirm">Oukei</string>
+</resources>

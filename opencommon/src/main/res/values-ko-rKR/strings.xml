@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">로드 중...</string>
+  <string name="aweme_open_ssl_error">인증서 오류</string>
+  <string name="aweme_open_ssl_untrusted">신뢰할 수 없는 인증서</string>
+  <string name="aweme_open_ssl_expired">인증서 만료</string>
+  <string name="aweme_open_ssl_mismatched">인증서 이름 불일치</string>
+  <string name="aweme_open_ssl_notyetvalid">인증서가 아직 유효하지 않습니다</string>
+  <string name="aweme_open_ssl_continue">계속?</string>
+  <string name="aweme_open_ssl_warning">알림</string>
+  <string name="aweme_open_ssl_ok">확인</string>
+  <string name="aweme_open_ssl_cancel">취소</string>
+  <string name="aweme_open_error_tips_cancel">취소</string>
+  <string name="aweme_open_network_error_title">인증 실패</string>
+  <string name="aweme_open_network_error_tips">네트워크 오류가 있습니다. 다시 시도하세요.</string>
+  <string name="aweme_open_network_error_confirm">확인</string>
+</resources>

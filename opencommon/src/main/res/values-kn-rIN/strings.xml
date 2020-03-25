@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">ಲೋಡ್ ಆಗುತ್ತಿದೆ...</string>
+  <string name="aweme_open_ssl_error">ಪ್ರಮಾಣಪತ್ರದ ದೋಷ</string>
+  <string name="aweme_open_ssl_untrusted">ಪ್ರಮಾಣಪತ್ರವು ವಿಶ್ವಾಸಾರ್ಹವಾಗಿಲ್ಲ</string>
+  <string name="aweme_open_ssl_expired">ಪ್ರಮಾಣಪತ್ರದ ಅವಧಿ ಮೀರಿದೆ</string>
+  <string name="aweme_open_ssl_mismatched">ಪ್ರಮಾಣಪತ್ರದ ಹೆಸರಿನಲ್ಲಿ ಹೊಂದಾಣಿಕೆಯಿಲ್ಲ</string>
+  <string name="aweme_open_ssl_notyetvalid">ಪ್ರಮಾಣಪತ್ರವು ಇನ್ನೂ ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
+  <string name="aweme_open_ssl_continue">ಮುಂದುವರೆಸುವುದೇ?</string>
+  <string name="aweme_open_ssl_warning">ಎಚ್ಚರಿಕೆ</string>
+  <string name="aweme_open_ssl_ok">ಸರಿ</string>
+  <string name="aweme_open_ssl_cancel">ರದ್ದುಗೊಳಿಸಿ</string>
+  <string name="aweme_open_error_tips_cancel">ರದ್ದುಗೊಳಿಸಿ</string>
+  <string name="aweme_open_network_error_title">ದೃಢೀಕರಣ ವಿಫಲವಾಗಿದೆ</string>
+  <string name="aweme_open_network_error_tips">ನೆಟ್‌ವರ್ಕ್ ದೋಷ. ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.</string>
+  <string name="aweme_open_network_error_confirm">ಸರಿ</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">Yükleniyor...</string>
+  <string name="aweme_open_ssl_error">Sertifika hatası</string>
+  <string name="aweme_open_ssl_untrusted">Sertifika güvenilmez</string>
+  <string name="aweme_open_ssl_expired">Sertifikanın süresi doldu</string>
+  <string name="aweme_open_ssl_mismatched">Sertifika adı uyumsuz</string>
+  <string name="aweme_open_ssl_notyetvalid">Sertifika henüz geçerli değil</string>
+  <string name="aweme_open_ssl_continue">Devam?</string>
+  <string name="aweme_open_ssl_warning">Uyarı</string>
+  <string name="aweme_open_ssl_ok">TAMAM</string>
+  <string name="aweme_open_ssl_cancel">İptal</string>
+  <string name="aweme_open_error_tips_cancel">İptal</string>
+  <string name="aweme_open_network_error_title">Yetkilendirme başarısız</string>
+  <string name="aweme_open_network_error_tips">Ağ sorunu. Lütfen tekrar deneyin.</string>
+  <string name="aweme_open_network_error_confirm">TAMAM</string>
+</resources>

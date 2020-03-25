@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<resources>
+  <string name="aweme_loading">内容載入中...</string>
+  <string name="aweme_open_ssl_error">憑證錯誤</string>
+  <string name="aweme_open_ssl_untrusted">憑證不可信</string>
+  <string name="aweme_open_ssl_expired">憑證已逾期</string>
+  <string name="aweme_open_ssl_mismatched">憑證不符</string>
+  <string name="aweme_open_ssl_notyetvalid">憑證尚未生效</string>
+  <string name="aweme_open_ssl_continue">是否繼續？</string>
+  <string name="aweme_open_ssl_warning">警告</string>
+  <string name="aweme_open_ssl_ok">確認</string>
+  <string name="aweme_open_ssl_cancel">取消</string>
+  <string name="aweme_open_error_tips_cancel">取消</string>
+  <string name="aweme_open_network_error_title">授權失敗</string>
+  <string name="aweme_open_network_error_tips">目前網路無法使用，請稍後重試</string>
+  <string name="aweme_open_network_error_confirm">確定</string>
+</resources>
