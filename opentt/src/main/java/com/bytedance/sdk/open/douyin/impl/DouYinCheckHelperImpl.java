@@ -28,4 +28,13 @@ public class DouYinCheckHelperImpl extends BaseCheckHelperImpl {
     public String getPackageName() {
         return "com.ss.android.ugc.aweme";
     }
+
+    public boolean isSupportShareToContact() {
+        return isAppInstalled() && isAppSupportAPI(getPackageName(), "openshare.ShareToContactsActivity", 1);
+    }
+
+    public String getRemoteContactActivity() {
+        return getPackageName() + "." + "openshare.ShareToContactsActivity";
+    }
+
 }

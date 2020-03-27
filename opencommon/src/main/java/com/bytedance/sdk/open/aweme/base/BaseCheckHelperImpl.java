@@ -43,7 +43,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
      * @param requiredApi
      * @return
      */
-    private boolean isAppSupportAPI(String platformPackageName, String remoteRequestEntry, int requiredApi) {
+    public boolean isAppSupportAPI(String platformPackageName, String remoteRequestEntry, int requiredApi) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
             return false;
         }

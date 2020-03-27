@@ -34,7 +34,8 @@ public class DouYinOpenApiFactory {
     public static DouYinOpenApi create(Context context) {
         AuthImpl auth = new AuthImpl(context, sConfig.clientKey);
         ShareImpl share = new ShareImpl(context, sConfig.clientKey);
-        return new DouYinOpenApiImpl(context, auth, share);
+        ShareToContactImpl contact = new ShareToContactImpl(context, sConfig.clientKey);
+        return new DouYinOpenApiImpl(context, auth, share, contact);
     }
 
 

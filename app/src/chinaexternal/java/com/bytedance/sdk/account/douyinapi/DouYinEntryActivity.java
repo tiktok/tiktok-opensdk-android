@@ -53,14 +53,14 @@ public class DouYinEntryActivity extends Activity implements IApiEventHandler {
 
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
-                startActivity(intent);
+//                startActivity(intent);
             } else {
 
                 Toast.makeText(this, "授权失败" + response.grantedPermissions,
                         Toast.LENGTH_LONG).show();
 
             }
-            finish();
+//            finish();
         } else if (resp.getType() == CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP) {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
