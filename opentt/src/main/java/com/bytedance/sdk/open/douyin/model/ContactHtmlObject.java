@@ -19,7 +19,7 @@ public class ContactHtmlObject implements IMediaObject {
 
     @Override
     public int type() {
-        return IMediaObject.TYPE_CONTACT_IMAGE;
+        return IMediaObject.TYPE_CONTACT_HTML;
     }
 
     @Override

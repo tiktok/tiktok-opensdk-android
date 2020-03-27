@@ -28,7 +28,10 @@ import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.bytedance.sdk.open.douyin.model.ContactImageObject;
+import com.bytedance.sdk.open.douyin.model.ContactMediaContent;
 
 import java.util.ArrayList;
 
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button mClearMedia;
 
+    Button shareToContact;
+
     EditText mSetDefaultHashTag;
 
 
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     int currentShareType;
 
     private ArrayList<String> mUri = new ArrayList<>();
+
+    private String shareContactPath = "";
 
     private String mScope = "user_info";
     private String mOptionalScope1 = "friend_relation";
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
+        shareToContact = findViewById(R.id.share_to_contact);
 
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 share(currentShareType);
+            }
+        });
+
+        shareToContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareToContact();
             }
         });
 
@@ -154,10 +169,12 @@ public class MainActivity extends AppCompatActivity {
                 case PHOTO_REQUEST_GALLERY:
                     Uri uri = data.getData();
                     mUri.add(UriUtil.convertUriToPath(this,uri));
+                    shareContactPath = UriUtil.convertUriToPath(this, uri);
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
+                    shareToContact.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
                     break;
@@ -196,6 +213,17 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void shareToContact() {
+        ContactImageObject cImage = new ContactImageObject();
+        cImage.mPath = shareContactPath;
+        ContactMediaContent contactMediaContent = new ContactMediaContent();
+        contactMediaContent.object = cImage;
+        ShareToContact.Request request = new ShareToContact.Request();
+        request.mMediaContent = contactMediaContent;
+        request.mState = "ww";
+        tiktokOpenApi.shareToContacts(request);
     }
 
     private boolean share(int shareType) {

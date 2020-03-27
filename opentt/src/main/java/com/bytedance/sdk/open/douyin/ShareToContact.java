@@ -35,7 +35,7 @@ public class ShareToContact {
             bundle.putBundle(ShareContactsMediaConstants.ParamKey.EXTRA, extras);
             bundle.putString(ShareContactsMediaConstants.ParamKey.SHARE_FROM_ENTRY, callerLocalEntry);
             bundle.putString(ShareContactsMediaConstants.ParamKey.SHARE_STATE_KEY, mState);
-            bundle.putAll(new ContactMediaContent().toBundle());
+            bundle.putAll(mMediaContent.toBundle());
         }
 
     }

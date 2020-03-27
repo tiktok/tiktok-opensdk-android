@@ -110,7 +110,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
     public boolean shareToContacts(ShareToContact.Request request) {
         DouYinCheckHelperImpl checkHelper = new DouYinCheckHelperImpl(mContext);
         if (checkHelper.isSupportShareToContact()) {
-            contactImpl.shareToContacts(checkHelper.getPackageName(),
+            contactImpl.shareToContacts(LOCAL_ENTRY_ACTIVITY,
                     checkHelper.getPackageName(),
                     "openshare.ShareToContactsActivity", request);
             return true;
