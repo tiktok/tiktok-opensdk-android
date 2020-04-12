@@ -54,6 +54,8 @@ public class AuthImpl {
     public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry, String sdkName, String sdkVersion) {
         if (TextUtils.isEmpty(packageName) || req == null || mContext == null) {
             return false;
+        } else if (!checkIfActivity(mContext)) {
+            return false;
         } else if (!req.checkArgs()) {
             return false;
         } else {
@@ -71,22 +73,28 @@ public class AuthImpl {
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
-
-            if (mContext instanceof Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            } else {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             try {
-                mContext.startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, ParamKeyConstants.AUTH_REQUEST_CODE);
                 return true;
             } catch (Exception e) {
                 return false;
             }
         }
 
+    }
+
+    /**
+     * new sdk need context to be instance of Activity, so we can use startActivityForResult instead
+     * @param context
+     * @return
+     */
+    private boolean checkIfActivity(Context context) {
+        if (context instanceof Activity) {
+            return true;
+        }
+        return false;
     }
 
 }

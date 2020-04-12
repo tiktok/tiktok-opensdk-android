@@ -29,6 +29,8 @@ public interface ParamKeyConstants {
      */
     String META_PLATFORM_SDK_VERSION = "BD_PLATFORM_SDK_VERSION";
 
+    int AUTH_REQUEST_CODE = 100;
+
 
     interface AuthParams {
         /**
