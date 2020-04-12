@@ -1,6 +1,6 @@
 package com.bytedance.sdk.open.tiktok;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
@@ -23,13 +23,13 @@ public class TikTokOpenApiFactory {
     /**
      * 创建 TTOpenApi
      *
-     * @param context
+     * @param activity
      * @return
      */
-    public static TiktokOpenApi create(Context context) {
-        AuthImpl auth = new AuthImpl(context, sConfig.clientKey);
-        ShareImpl share = new ShareImpl(context, sConfig.clientKey);
-        return new TikTokOpenApiImpl(context,auth, share);
+    public static TiktokOpenApi create(Activity activity) {
+        AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
+        ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
+        return new TikTokOpenApiImpl(activity,auth, share);
     }
 
 
