@@ -26,8 +26,8 @@ android {
         // 国内版
         chinaexternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw34833b06560574"'
-            buildConfigField "String", "CLIENT_SECRET", '"ad8a0a2f128e10499dd5bba7be24a3d4"'
+            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
+            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
         }
 
         chinainternal {
@@ -39,8 +39,8 @@ android {
 
         overseaexternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
-            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
+            buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
+            buildConfigField "String", "CLIENT_SECRET", '"9538882f53da8a8288cdceec28f7d789"'
         }
 
         overseainternal {
