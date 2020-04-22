@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     Button mShareToDouyin;
 
+    Button requireButton;
+    Button optionalButton;
+
+
     EditText mMediaPathList;
 
 
@@ -90,6 +94,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
+            }
+        });
+        findViewById(R.id.require_mobile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authorization.Request request = new Authorization.Request();
+                request.scope = "user_info,mobile";                          // 用户授权时必选权限
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+                tiktokOpenApi.authorize(request);
+            }
+        });
+
+        findViewById(R.id.option_mobile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authorization.Request request = new Authorization.Request();
+                request.scope = "user_info";// 用户授权时必选权限
+                request.optionalScope0 = "mobile";
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+                tiktokOpenApi.authorize(request);
             }
         });
 

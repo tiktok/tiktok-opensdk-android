@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
-import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl;
 
 public class TikTokOpenApiFactory {
@@ -25,7 +25,7 @@ public class TikTokOpenApiFactory {
      * @param context
      * @return
      */
-    public static TiktokOpenApi create(Context context) {
+    public static TikTokOpenApi create(Context context) {
         ShareImpl share = new ShareImpl(context, sConfig.clientKey);
         return new TikTokOpenApiImpl(context, share);
     }

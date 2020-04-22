@@ -10,7 +10,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.utils.ViewUtils;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 
 /**
@@ -27,7 +27,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
 
 
-    private TiktokOpenApi ttOpenApi;
+    private TikTokOpenApi ttOpenApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
