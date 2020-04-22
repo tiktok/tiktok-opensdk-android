@@ -19,24 +19,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bytedance.sdk.open.aweme.CommonConstants;
-import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-
 import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
-import com.bytedance.sdk.open.aweme.base.MicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String CODE_KEY = "code";
-
-    TiktokOpenApi tiktokOpenApi;
+    TikTokOpenApi tikTokOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -62,11 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> mUri = new ArrayList<>();
 
-    private String mScope = "user_info";
-    private String mOptionalScope1 = "friend_relation";
-    private String mOptionalScope2 = "message";
 
-    public static boolean IS_AUTH_BY_M = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tikTokOpenApi = TikTokOpenApiFactory.create(this);
 
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
@@ -113,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tikTokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
     @Override
@@ -149,12 +140,6 @@ public class MainActivity extends AppCompatActivity {
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
-                    break;
-
-                case SET_SCOPE_REQUEST:
-                    mScope = data.getStringExtra(SetScopeActivity.SCOPE_KEY);
-                    mOptionalScope1 = data.getStringExtra(SetScopeActivity.OPTIONAL_1_SCOPE_KEY);
-                    mOptionalScope2 = data.getStringExtra(SetScopeActivity.OPTIONAL_2_SCOPE_KEY);
                     break;
             }
         }
@@ -241,6 +226,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        return tiktokOpenApi.share(request);
+        return tikTokOpenApi.share(request);
     }
 }
