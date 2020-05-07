@@ -216,12 +216,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void shareToContact() {
-        ContactImageObject cImage = new ContactImageObject();
-        cImage.mPath = shareContactPath;
-        ContactMediaContent contactMediaContent = new ContactMediaContent();
-        contactMediaContent.object = cImage;
+        ImageObject cImage = new ImageObject();
+        cImage.mImagePaths = mUri;
+        MediaContent mediaContent = new MediaContent();
+        mediaContent.mMediaObject = cImage;
         ShareToContact.Request request = new ShareToContact.Request();
-        request.mMediaContent = contactMediaContent;
+        request.mMediaContent = mediaContent;
         request.mState = "ww";
         tiktokOpenApi.shareToContacts(request);
     }
