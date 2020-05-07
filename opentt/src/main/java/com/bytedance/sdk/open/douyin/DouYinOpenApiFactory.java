@@ -1,6 +1,6 @@
 package com.bytedance.sdk.open.douyin;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.aweme.authorize.AuthImpl;
@@ -28,14 +28,13 @@ public class DouYinOpenApiFactory {
     /**
      * 创建 TTOpenApi
      *
-     * @param context
+     * @param activity
      * @return
      */
-    public static DouYinOpenApi create(Context context) {
-        AuthImpl auth = new AuthImpl(context, sConfig.clientKey);
-        ShareImpl share = new ShareImpl(context, sConfig.clientKey);
-        ShareToContactImpl contact = new ShareToContactImpl(context, sConfig.clientKey);
-        return new DouYinOpenApiImpl(context, auth, share, contact);
+    public static DouYinOpenApi create(Activity activity) {
+        AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
+        ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
+        return new DouYinOpenApiImpl(activity, auth, share);
     }
 
 

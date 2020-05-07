@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
 import com.bytedance.sdk.open.aweme.base.ImageObject;
@@ -27,7 +26,7 @@ import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TiktokOpenApi;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String CODE_KEY = "code";
 
-    TiktokOpenApi tiktokOpenApi;
+    TikTokOpenApi tiktokOpenApi;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
