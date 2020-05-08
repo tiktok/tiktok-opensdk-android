@@ -71,6 +71,12 @@
         android:layout_height="wrap_content"
         android:text="@string/set_default_title"
         android:visibility="gone"/>
+    <EditText
+        android:id="@+id/set_default_hashtag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第二个默认话题"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/media_text"
