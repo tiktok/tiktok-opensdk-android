@@ -23,12 +23,14 @@ import android.widget.Toast;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
+import com.bytedance.sdk.open.aweme.base.AnchorObject;
 import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     Button mShareToDouyin;
+    Button mGameAnchor;
 
     EditText mMediaPathList;
 
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         mSetDefaultHashTag1 = findViewById(R.id.set_default_hashtag1);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
+        mGameAnchor = findViewById(R.id.game_anchor);
 
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mUri.clear();
                 mMediaPathList.setText("");
+            }
+        });
+
+        mGameAnchor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareGameAnchor(currentShareType);
             }
         });
 
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag1.setVisibility(View.VISIBLE);
+                    mGameAnchor.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
@@ -199,6 +211,42 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void shareGameAnchor(int shareType) {
+        Share.Request request = new Share.Request();
+        switch (shareType) {
+            case Share.VIDEO:
+                VideoObject videoObject = new VideoObject();
+                videoObject.mVideoPaths = mUri;
+                MediaContent content = new MediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
+
+                Gson gson = new Gson();
+                GameAnchorObject gameAnchorObject = new GameAnchorObject();
+                gameAnchorObject.setGameId("cge56412b084ae57d0");
+
+                GameExtras gameExtras = new GameExtras();
+                gameExtras.setGameDeviceId("8899");
+                gameExtras.setShowCaseObjId(3000);
+                gameExtras.setEntranceId(2);
+                gameExtras.setClientKey("aw5k7vhtdbeqdoo8");
+                String extraStr = gson.toJson(gameExtras);
+
+                gameAnchorObject.setExtra(extraStr);
+                gameAnchorObject.setmKeyWord("第五人格");
+
+                AnchorObject anchorObject = new AnchorObject();
+                anchorObject.setAnchorBusinessType(10);
+                anchorObject.setAnchorTitle("第五人格");
+                String str = gson.toJson(gameAnchorObject);
+                anchorObject.setAnchorContent(str);
+                request.mAnchorInfo = anchorObject;
+                tiktokOpenApi.share(request);
+                break;
+        }
     }
 
     private boolean share(int shareType) {

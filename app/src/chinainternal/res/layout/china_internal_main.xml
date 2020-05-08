@@ -54,6 +54,12 @@
         android:text="分享携带小程序"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
+    <Button
+        android:id="@+id/game_anchor"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享携带游戏锚点"/>
 
     <Button
         android:id="@+id/share_to_douyin_with_shareid_callback"
