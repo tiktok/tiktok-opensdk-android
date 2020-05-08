@@ -23,13 +23,16 @@ import android.widget.Toast;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 
+import com.bytedance.sdk.open.aweme.base.AnchorObject;
 import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
+import com.bytedance.sdk.open.aweme.base.MicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.google.gson.Gson;
 import com.bytedance.sdk.open.douyin.model.ContactImageObject;
 import com.bytedance.sdk.open.douyin.model.ContactMediaContent;
 
@@ -46,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     Button mShareToDouyin;
+    Button mGameAnchor;
 
+    Button mMicroButton;
     EditText mMediaPathList;
 
 
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     Button shareToContact;
 
     EditText mSetDefaultHashTag;
+    EditText mSetDefaultHashTag1;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -92,6 +98,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.require_mobile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authorization.Request request = new Authorization.Request();
+                request.scope = "user_info,mobile";                          // 用户授权时必选权限
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+                tiktokOpenApi.authorize(request);
+            }
+        });
+
+        findViewById(R.id.option_mobile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authorization.Request request = new Authorization.Request();
+                request.scope = "user_info";// 用户授权时必选权限
+                request.optionalScope0 = "mobile";
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+                tiktokOpenApi.authorize(request);
+            }
+        });
+
+        findViewById(R.id.id_mobile_alert).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authorization.Request request = new Authorization.Request();
+                request.scope = "user_info,mobile_alert";// 用户授权时必选权限
+                request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
+                tiktokOpenApi.authorize(request);
+            }
+        });
+
+
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,16 +139,33 @@ public class MainActivity extends AppCompatActivity {
 
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
+        mSetDefaultHashTag1 = findViewById(R.id.set_default_hashtag1);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
         shareToContact = findViewById(R.id.share_to_contact);
 
+        mGameAnchor = findViewById(R.id.game_anchor);
+        mMicroButton = findViewById(R.id.microbutton);
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mUri.clear();
                 mMediaPathList.setText("");
+            }
+        });
+
+        mGameAnchor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareGameAnchor(currentShareType);
+            }
+        });
+
+        mMicroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareMicroApp(currentShareType);
             }
         });
 
@@ -137,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
         request.scope = mScope;                          // 用户授权时必选权限
-        request.optionalScope1 = "mobile_alert";     // 用户授权时可选权限（默认选择）
-//        request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
+        request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
+        request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
         return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
 
@@ -172,6 +227,9 @@ public class MainActivity extends AppCompatActivity {
                     shareContactPath = UriUtil.convertUriToPath(this, uri);
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
+                    mSetDefaultHashTag1.setVisibility(View.VISIBLE);
+                    mGameAnchor.setVisibility(View.VISIBLE);
+                    mMicroButton.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     shareToContact.setVisibility(View.VISIBLE);
@@ -213,6 +271,76 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void shareMicroApp(int shareType) {
+        Share.Request request = new Share.Request();
+        switch (shareType) {
+            case Share.IMAGE:
+                ImageObject imageObject = new ImageObject();
+                imageObject.mImagePaths = mUri;
+                MediaContent mediaContent = new MediaContent();
+                mediaContent.mMediaObject = imageObject;
+                request.mMediaContent = mediaContent;
+                request.mState = "ww";
+                break;
+            case Share.VIDEO:
+                VideoObject videoObject = new VideoObject();
+                videoObject.mVideoPaths = mUri;
+                MediaContent content = new MediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
+//                request.callerLocalEntry = "com.xxx.xxx...activity";
+
+                // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
+                MicroAppInfo mMicroInfo = new MicroAppInfo();
+                mMicroInfo.setAppTitle("小程序title");
+                mMicroInfo.setDescription("小程序描述");
+                mMicroInfo.setAppId("ttef9b992670b151ec");
+                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
+                request.mMicroAppInfo = mMicroInfo;
+
+                break;
+        }
+
+        tiktokOpenApi.share(request);
+    }
+
+    private void shareGameAnchor(int shareType) {
+        Share.Request request = new Share.Request();
+        switch (shareType) {
+            case Share.VIDEO:
+                VideoObject videoObject = new VideoObject();
+                videoObject.mVideoPaths = mUri;
+                MediaContent content = new MediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
+
+                Gson gson = new Gson();
+                GameAnchorObject gameAnchorObject = new GameAnchorObject();
+                gameAnchorObject.setGameId("cge56412b084ae57d0");
+
+                GameExtras gameExtras = new GameExtras();
+                gameExtras.setGameDeviceId("8899");
+                gameExtras.setShowCaseObjId(3000);
+                gameExtras.setEntranceId(2);
+                gameExtras.setClientKey("aw5k7vhtdbeqdoo8");
+                String extraStr = gson.toJson(gameExtras);
+
+                gameAnchorObject.setExtra(extraStr);
+                gameAnchorObject.setmKeyWord("第五人格");
+
+                AnchorObject anchorObject = new AnchorObject();
+                anchorObject.setAnchorBusinessType(10);
+                anchorObject.setAnchorTitle("第五人格");
+                String str = gson.toJson(gameAnchorObject);
+                anchorObject.setAnchorContent(str);
+                request.mAnchorInfo = anchorObject;
+                tiktokOpenApi.share(request);
+                break;
+        }
     }
 
     private void shareToContact() {
