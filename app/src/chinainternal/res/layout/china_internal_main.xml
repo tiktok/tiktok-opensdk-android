@@ -25,6 +25,19 @@
         android:layout_marginTop="20dp" />
 
     <Button
+        android:id="@+id/require_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="必选电话"
+        android:layout_marginTop="20dp" />
+    <Button
+        android:id="@+id/option_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="可选电话"
+        android:layout_marginTop="20dp" />
+
+    <Button
         android:id="@+id/go_to_system_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
