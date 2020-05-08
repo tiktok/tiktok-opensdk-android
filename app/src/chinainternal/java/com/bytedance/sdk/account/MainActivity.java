@@ -26,6 +26,7 @@ import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.base.AnchorObject;
 import com.bytedance.sdk.open.aweme.base.ImageObject;
 import com.bytedance.sdk.open.aweme.base.MediaContent;
+import com.bytedance.sdk.open.aweme.base.MicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Button mShareToDouyin;
     Button mGameAnchor;
 
+    Button mMicroButton;
     EditText mMediaPathList;
 
 
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
         mGameAnchor = findViewById(R.id.game_anchor);
-
+        mMicroButton = findViewById(R.id.microbutton);
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 shareGameAnchor(currentShareType);
+            }
+        });
+
+        mMicroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareMicroApp(currentShareType);
             }
         });
 
@@ -171,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag1.setVisibility(View.VISIBLE);
                     mGameAnchor.setVisibility(View.VISIBLE);
+                    mMicroButton.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
@@ -211,6 +221,40 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void shareMicroApp(int shareType) {
+        Share.Request request = new Share.Request();
+        switch (shareType) {
+            case Share.IMAGE:
+                ImageObject imageObject = new ImageObject();
+                imageObject.mImagePaths = mUri;
+                MediaContent mediaContent = new MediaContent();
+                mediaContent.mMediaObject = imageObject;
+                request.mMediaContent = mediaContent;
+                request.mState = "ww";
+                break;
+            case Share.VIDEO:
+                VideoObject videoObject = new VideoObject();
+                videoObject.mVideoPaths = mUri;
+                MediaContent content = new MediaContent();
+                content.mMediaObject = videoObject;
+                request.mMediaContent = content;
+                request.mState = "ss";
+//                request.callerLocalEntry = "com.xxx.xxx...activity";
+
+                // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
+                MicroAppInfo mMicroInfo = new MicroAppInfo();
+                mMicroInfo.setAppTitle("小程序title");
+                mMicroInfo.setDescription("小程序描述");
+                mMicroInfo.setAppId("ttef9b992670b151ec");
+                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
+                request.mMicroAppInfo = mMicroInfo;
+
+                break;
+        }
+
+        tiktokOpenApi.share(request);
     }
 
     private void shareGameAnchor(int shareType) {
