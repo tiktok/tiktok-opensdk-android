@@ -25,6 +25,25 @@
         android:layout_marginTop="20dp" />
 
     <Button
+        android:id="@+id/require_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="必选电话"
+        android:layout_marginTop="20dp" />
+    <Button
+        android:id="@+id/option_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="可选电话"
+        android:layout_marginTop="20dp" />
+    <Button
+        android:id="@+id/id_mobile_alert"
+        android:layout_width="wrap_content"
+        android:text="电话号码弹窗权限"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:id="@+id/go_to_system_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,6 +73,12 @@
         android:text="分享携带小程序"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
+    <Button
+        android:id="@+id/game_anchor"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享视频携带游戏锚点"/>
 
     <Button
         android:id="@+id/share_to_douyin_with_shareid_callback"
@@ -70,6 +95,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_default_title"
+        android:visibility="gone"/>
+    <EditText
+        android:id="@+id/set_default_hashtag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第二个默认话题"
         android:visibility="gone"/>
 
     <EditText
