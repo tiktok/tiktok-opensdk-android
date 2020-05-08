@@ -59,7 +59,7 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="分享携带游戏锚点"/>
+        android:text="分享视频携带游戏锚点"/>
 
     <Button
         android:id="@+id/share_to_douyin_with_shareid_callback"
