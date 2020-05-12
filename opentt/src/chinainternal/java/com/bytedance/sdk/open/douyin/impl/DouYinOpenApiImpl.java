@@ -19,6 +19,7 @@ import com.bytedance.sdk.open.douyin.BuildConfig;
 import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.ShareToContactImpl;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.bytedance.sdk.open.douyin.datahandle.ShareToContactDataHandler;
 import com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity;
 
 import java.util.HashMap;
@@ -82,6 +83,10 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
             case CommonConstants.ModeType.SHARE_CONTENT_TO_TT:
             case CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
+            case CommonConstants.ModeType.SHARE_TO_CONTACTS:
+                return new ShareToContactDataHandler().handle(type, bundle, eventHandler);
+            case CommonConstants.ModeType.SHARE_TO_CONTACT_RESP:
+                return new ShareToContactDataHandler().handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
         }

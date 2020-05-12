@@ -50,6 +50,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly project(path: ':opencommon')
+    compileOnly 'com.google.code.gson:gson:2.2.4'
+
 }
 
 apply plugin: 'com.jfrog.bintray'

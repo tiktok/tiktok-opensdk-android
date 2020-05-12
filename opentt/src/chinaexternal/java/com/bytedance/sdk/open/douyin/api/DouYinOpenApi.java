@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.bytedance.sdk.open.douyin.ShareToContact;
 
 public interface DouYinOpenApi {
     /**
@@ -15,6 +16,7 @@ public interface DouYinOpenApi {
      */
     boolean authorize(Authorization.Request request);
 
+    boolean shareToContacts(ShareToContact.Request request);
 
     /**
      * check if the application supports authorization

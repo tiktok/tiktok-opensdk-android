@@ -32,9 +32,8 @@ import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.bytedance.sdk.open.douyin.model.ContactHtmlObject;
 import com.google.gson.Gson;
-import com.bytedance.sdk.open.douyin.model.ContactImageObject;
-import com.bytedance.sdk.open.douyin.model.ContactMediaContent;
 
 import java.util.ArrayList;
 
@@ -134,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
+            }
+        });
+
+        findViewById(R.id.share_to_contact_html).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareToContactHtml();
             }
         });
 
@@ -343,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void shareToContact() {
+    private void shareToContact() { // image
         ImageObject cImage = new ImageObject();
         cImage.mImagePaths = mUri;
         MediaContent mediaContent = new MediaContent();
@@ -352,6 +358,17 @@ public class MainActivity extends AppCompatActivity {
         request.mMediaContent = mediaContent;
         request.mState = "ww";
         tiktokOpenApi.shareToContacts(request);
+    }
+
+    private void shareToContactHtml() {
+        ContactHtmlObject htmlObject = new ContactHtmlObject();
+        htmlObject.setHtml("https://www.baidu.com");
+        htmlObject.setDiscription("bbbbbbbb");
+        htmlObject.setTitle("title");
+        ShareToContact.Request request = new ShareToContact.Request();
+        request.htmlObject = htmlObject;
+        tiktokOpenApi.shareToContacts(request);
+
     }
 
     private boolean share(int shareType) {

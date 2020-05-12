@@ -16,6 +16,8 @@ import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
 import com.bytedance.sdk.open.douyin.BuildConfig;
+import com.bytedance.sdk.open.douyin.ShareToContact;
+import com.bytedance.sdk.open.douyin.ShareToContactImpl;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 import com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity;
 
@@ -28,6 +30,7 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
 
 
     private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
+    private ShareToContactImpl contactImpl;
 
 
     private ShareImpl shareImpl;
@@ -39,10 +42,11 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    public DouYinOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
+    public DouYinOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl, ShareToContactImpl contactImpl) {
         this.mContext = context;
         this.shareImpl = shareImpl;
         this.authImpl = authImpl;
+        this.contactImpl = contactImpl;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
         handlerMap.put(TYPE_SHARE_HANDLER, new ShareDataHandler());
 
@@ -108,6 +112,18 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
         } else {
             return sendWebAuthRequest(request);
         }
+    }
+
+    @Override
+    public boolean shareToContacts(ShareToContact.Request request) {
+        DouYinCheckHelperImpl checkHelper = new DouYinCheckHelperImpl(mContext);
+        if (checkHelper.isSupportShareToContact()) {
+            contactImpl.shareToContacts(LOCAL_ENTRY_ACTIVITY,
+                    checkHelper.getPackageName(),
+                    "openshare.ShareToContactsActivity", request);
+            return true;
+        }
+        return false;
     }
 
     @Override
