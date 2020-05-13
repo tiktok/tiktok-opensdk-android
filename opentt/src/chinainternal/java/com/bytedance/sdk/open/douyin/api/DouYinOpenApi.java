@@ -73,4 +73,5 @@ public interface DouYinOpenApi {
     String getSdkVersion();
 
     boolean shareToContacts(ShareToContact.Request request);
+    boolean isAppSupportShareToContacts();
 }

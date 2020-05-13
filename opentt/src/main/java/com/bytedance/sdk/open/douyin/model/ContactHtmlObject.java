@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.bytedance.sdk.open.douyin.constants.ShareContactsMediaConstants;
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 
 public class ContactHtmlObject {
@@ -22,8 +23,9 @@ public class ContactHtmlObject {
     public void setDiscription(String mDiscription) {
         this.mDiscription = mDiscription;
     }
-
+    @SerializedName("html")
     private String mHtml;
+    @SerializedName("discription")
     private String mDiscription;
 
     public String getTitle() {
@@ -34,6 +36,7 @@ public class ContactHtmlObject {
         this.mTitle = mTitle;
     }
 
+    @SerializedName("title")
     private String mTitle;
     public void serialize(Bundle var1) {
         if (var1 == null) {

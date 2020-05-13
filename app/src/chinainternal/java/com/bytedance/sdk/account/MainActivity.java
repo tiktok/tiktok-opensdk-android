@@ -139,7 +139,11 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.share_to_contact_html).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareToContactHtml();
+                if (tiktokOpenApi.isAppSupportShareToContacts()) {
+                    shareToContactHtml();
+                } else {
+                    Toast.makeText(MainActivity.this, "当前抖音版本不支持", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -185,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
         shareToContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareToContact();
+                if (tiktokOpenApi.isAppSupportShareToContacts()) {
+                    shareToContact();
+                } else {
+                    Toast.makeText(MainActivity.this, "当前抖音版本不支持", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
-    }
-
-    private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = DouYinOpenApiFactory.create(this);
     }
 
     private boolean sendAuth() {

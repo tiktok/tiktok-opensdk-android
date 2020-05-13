@@ -48,6 +48,7 @@ public interface DouYinOpenApi {
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
     boolean isAppInstalled();
 
+    boolean isAppSupportShareToContacts();
 
 
 }

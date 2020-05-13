@@ -125,6 +125,12 @@ public class DouYinOpenApiImpl implements DouYinOpenApi {
     }
 
     @Override
+    public boolean isAppSupportShareToContacts() {
+        DouYinCheckHelperImpl checkHelper = new DouYinCheckHelperImpl(mContext);
+        return checkHelper.isSupportShareToContact();
+    }
+
+    @Override
     public boolean isAppSupportAuthorization() {
         return new DouYinCheckHelperImpl(mContext).isAppSupportAuthorization();
 
