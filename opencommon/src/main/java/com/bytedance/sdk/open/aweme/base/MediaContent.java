@@ -40,10 +40,10 @@ public class MediaContent {
             bundle = new Bundle();
             if (mediaContent.mMediaObject != null) {
                String className = "";
-                // 不打算支持7月14号之前的版本
+                // no support for early 7.14
                 mediaContent.mMediaObject.serialize(bundle);
 
-                // 支持旧版本抖音
+                // adapt to old version
                 ArrayList<String> imagePath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
                 ArrayList<String> videoPath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH);
                 if (videoPath != null && videoPath.size() != 0) {
@@ -65,7 +65,7 @@ public class MediaContent {
             String mediaClassName;
             if (((mediaClassName = bundle.getString(KEY_IDENTIFIER))) != null && mediaClassName.length() > 0) {
                 try {
-                    // adapt to old douyin version
+                    // adapt to old version
                     if (mediaClassName.contains("sdk")) {
                         mediaClassName = mediaClassName.replace("sdk", "sdk.account");
                     }

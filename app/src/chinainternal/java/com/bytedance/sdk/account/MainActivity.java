@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
-        request.scope = mScope;                          // 用户授权时必选权限
-        request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
+        request.scope = "user_info";                          // 用户授权时必选权限
+//        request.optionalScope1 = "friend_relation,message,fans.list,video.list,video.create,video.data,aweme.share,video.delete,poi.search,video.comment";     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
         return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
@@ -369,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
         htmlObject.setHtml("https://www.baidu.com");
         htmlObject.setDiscription("bbbbbbbb");
         htmlObject.setTitle("title");
+        htmlObject.setThumbUrl("https://tpc.googlesyndication.com/simgad/16034773615176939809?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qnz29EViShgiSFixrRkn77Pu29abA");
         ShareToContact.Request request = new ShareToContact.Request();
         request.htmlObject = htmlObject;
         tiktokOpenApi.shareToContacts(request);

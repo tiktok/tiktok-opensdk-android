@@ -35,6 +35,16 @@ public class ContactHtmlObject {
     public void setTitle(String mTitle) {
         this.mTitle = mTitle;
     }
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+    @SerializedName("thumburl")
+    private String thumbUrl;
+
 
     @SerializedName("title")
     private String mTitle;
