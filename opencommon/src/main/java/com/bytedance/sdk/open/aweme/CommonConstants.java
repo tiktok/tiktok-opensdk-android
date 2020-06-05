@@ -214,6 +214,10 @@ public interface CommonConstants {
          * share response
          */
         int SHARE_CONTENT_TO_TT_RESP = 4;
+
+        int SHARE_TO_CONTACTS = 5;
+
+        int SHARE_TO_CONTACT_RESP = 6;
     }
 
 }

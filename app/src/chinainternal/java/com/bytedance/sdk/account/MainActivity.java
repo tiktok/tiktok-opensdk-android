@@ -30,7 +30,9 @@ import com.bytedance.sdk.open.aweme.base.MicroAppInfo;
 import com.bytedance.sdk.open.aweme.base.VideoObject;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.bytedance.sdk.open.douyin.model.ContactHtmlObject;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button mClearMedia;
 
+    Button shareToContact;
+
     EditText mSetDefaultHashTag;
     EditText mSetDefaultHashTag1;
 
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     int currentShareType;
 
     private ArrayList<String> mUri = new ArrayList<>();
+
+    private String shareContactPath = "";
 
     private String mScope = "user_info";
     private String mOptionalScope1 = "friend_relation";
@@ -130,11 +136,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.share_to_contact_html).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tiktokOpenApi.isAppSupportShareToContacts()) {
+                    shareToContactHtml();
+                } else {
+                    Toast.makeText(MainActivity.this, "当前抖音版本不支持", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mSetDefaultHashTag1 = findViewById(R.id.set_default_hashtag1);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
+        shareToContact = findViewById(R.id.share_to_contact);
+
         mGameAnchor = findViewById(R.id.game_anchor);
         mMicroButton = findViewById(R.id.microbutton);
 
@@ -167,16 +186,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        shareToContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tiktokOpenApi.isAppSupportShareToContacts()) {
+                    shareToContact();
+                } else {
+                    Toast.makeText(MainActivity.this, "当前抖音版本不支持", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
-    private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = DouYinOpenApiFactory.create(this);
     }
 
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
-        request.scope = mScope;                          // 用户授权时必选权限
-        request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
+        request.scope = "user_info";                          // 用户授权时必选权限
+//        request.optionalScope1 = "friend_relation,message,fans.list,video.list,video.create,video.data,aweme.share,video.delete,poi.search,video.comment";     // 用户授权时可选权限（默认选择）
         request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
         request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
         return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
@@ -208,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 case PHOTO_REQUEST_GALLERY:
                     Uri uri = data.getData();
                     mUri.add(UriUtil.convertUriToPath(this,uri));
+                    shareContactPath = UriUtil.convertUriToPath(this, uri);
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag1.setVisibility(View.VISIBLE);
@@ -215,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     mMicroButton.setVisibility(View.VISIBLE);
                     mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
+                    shareToContact.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
                     break;
@@ -323,6 +351,29 @@ public class MainActivity extends AppCompatActivity {
                 tiktokOpenApi.share(request);
                 break;
         }
+    }
+
+    private void shareToContact() { // image
+        ImageObject cImage = new ImageObject();
+        cImage.mImagePaths = mUri;
+        MediaContent mediaContent = new MediaContent();
+        mediaContent.mMediaObject = cImage;
+        ShareToContact.Request request = new ShareToContact.Request();
+        request.mMediaContent = mediaContent;
+        request.mState = "ww";
+        tiktokOpenApi.shareToContacts(request);
+    }
+
+    private void shareToContactHtml() {
+        ContactHtmlObject htmlObject = new ContactHtmlObject();
+        htmlObject.setHtml("https://www.baidu.com");
+        htmlObject.setDiscription("bbbbbbbb");
+        htmlObject.setTitle("title");
+        htmlObject.setThumbUrl("https://tpc.googlesyndication.com/simgad/16034773615176939809?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qnz29EViShgiSFixrRkn77Pu29abA");
+        ShareToContact.Request request = new ShareToContact.Request();
+        request.htmlObject = htmlObject;
+        tiktokOpenApi.shareToContacts(request);
+
     }
 
     private boolean share(int shareType) {

@@ -25,7 +25,8 @@
 
         <activity
             android:name=".douyinapi.DouYinEntryActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.bytedance.sdk.account"
             android:exported="true">
         </activity>
         <activity android:name=".TikTokGeckoWebActivity"/>

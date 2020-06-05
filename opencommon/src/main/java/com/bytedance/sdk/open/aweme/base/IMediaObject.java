@@ -8,6 +8,8 @@ public interface IMediaObject {
     int TYPE_TEXT = 1;
     int TYPE_IMAGE = 2;
     int TYPE_VIDEO = 3;
+    int TYPE_CONTACT_IMAGE = 4;
+    int TYPE_CONTACT_HTML = 5;
 
     void serialize(Bundle var1);
 

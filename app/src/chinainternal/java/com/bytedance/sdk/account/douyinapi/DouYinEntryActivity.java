@@ -14,6 +14,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseReq;
 import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
+import com.bytedance.sdk.open.douyin.ShareToContact;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 /**
@@ -69,8 +70,12 @@ public class DouYinEntryActivity extends Activity implements IApiEventHandler {
             } else {
                 Toast.makeText(this, "分享失败,errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
             }
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+            finish();
+        } else if (resp instanceof ShareToContact.Response) {
+            ShareToContact.Response response = (ShareToContact.Response) resp;
+            Toast.makeText(this, "error code:" + resp.errorCode + " error Msg:" + resp.errorMsg, Toast.LENGTH_LONG).show();
             finish();
         }
 
