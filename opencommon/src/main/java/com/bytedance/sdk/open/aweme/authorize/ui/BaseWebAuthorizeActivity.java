@@ -188,6 +188,14 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mBaseErrorDialog != null && mBaseErrorDialog.isShowing()) {
+            mBaseErrorDialog.dismiss();
+        }
+    }
+
     protected void configWebView() {
         mContentWebView.setWebViewClient(new AuthWebViewClient());
     }
