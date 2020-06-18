@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.open.aweme.CommonConstants;
+import com.bytedance.sdk.open.aweme.R;
 import com.bytedance.sdk.open.aweme.authorize.WebViewHelper;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
@@ -131,8 +132,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         super.onCreate(savedInstanceState);
         mContext = this;
         handleIntent(getIntent(), this);
-        int layoutId = getResources().getIdentifier("layout_open_web_authorize", RES_LAYOUT, getPackageName());
-        setContentView(layoutId);
+        setContentView(R.layout.layout_open_web_authorize);
         initView();
         initActions();
         handleRequestIntent();
@@ -267,14 +267,11 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
 
     private void initView() {
-        int containerId = getResources().getIdentifier("open_rl_container", RES_ID, getPackageName());
-        mContainer = findViewById(containerId);
+        mContainer = findViewById(R.id.open_rl_container);
         // cancle button
-        int headerId = getResources().getIdentifier("open_header_view", RES_ID, getPackageName());
-        mHeaderView = findViewById(headerId);
+        mHeaderView = findViewById(R.id.open_header_view);
 
-        int cancleImgId = getResources().getIdentifier("cancel", RES_ID, getPackageName());
-        mCancelImg = findViewById(cancleImgId);
+        mCancelImg = findViewById(R.id.cancel);
         mCancelImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,8 +280,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         });
         setContainerViewBgColor();
 
-        int loadingId = getResources().getIdentifier("open_loading_group", RES_ID, getPackageName());
-        mLoadingLayout = (FrameLayout) findViewById(loadingId);
+        mLoadingLayout = (FrameLayout) findViewById(R.id.open_loading_group);
 
         View loadingView = getLoadingView(mLoadingLayout);
         if (loadingView != null) {
@@ -297,7 +293,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             ((ViewGroup) mContentWebView.getParent()).removeView(mContentWebView);
         }
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mContentWebView.getLayoutParams();
-        params.addRule(RelativeLayout.BELOW, headerId);
+        params.addRule(RelativeLayout.BELOW, R.id.open_header_view);
         mContentWebView.setLayoutParams(params);
         mContentWebView.setVisibility(View.INVISIBLE);
         mContainer.addView(mContentWebView);
@@ -447,8 +443,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     }
 
     protected View getLoadingView(ViewGroup root) {
-        View loadingView = LayoutInflater.from(this).inflate(getResources().getIdentifier("layout_open_loading_view", "layout", getPackageName()), root, false);
-        return loadingView;
+        return LayoutInflater.from(this).inflate(R.layout.layout_open_loading_view, root, false);
     }
 
 
@@ -459,41 +454,32 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             AlertDialog ad = builder.create();
-            int sslError = getResources().getIdentifier("aweme_open_ssl_error", RES_STRING, getPackageName());
-            String message = mContext.getString(sslError);
+            String message = mContext.getString(R.string.aweme_open_ssl_error);
             final int errorCode = error.getPrimaryError();
             switch (errorCode) {
                 case SslError.SSL_UNTRUSTED:
-                    int sslUntrusted = getResources().getIdentifier("aweme_open_ssl_untrusted", RES_STRING, getPackageName());
-                    message = mContext.getString(sslUntrusted);
+                    message = mContext.getString(R.string.aweme_open_ssl_untrusted);
                     break;
                 case SslError.SSL_EXPIRED:
-                    int sslExpired = getResources().getIdentifier("aweme_open_ssl_expired", RES_STRING, getPackageName());
-                    message = mContext.getString(sslExpired);
+                    message = mContext.getString(R.string.aweme_open_ssl_expired);
                     break;
                 case SslError.SSL_IDMISMATCH:
-                    int sslMismatched = getResources().getIdentifier("aweme_open_ssl_mismatched", RES_STRING, getPackageName());
-                    message = mContext.getString(sslMismatched);
+                    message = mContext.getString(R.string.aweme_open_ssl_mismatched);
                     break;
                 case SslError.SSL_NOTYETVALID:
-                    int sslNotyetvalid= getResources().getIdentifier("aweme_open_ssl_notyetvalid", RES_STRING, getPackageName());
-                    message = mContext.getString(sslNotyetvalid);
+                    message = mContext.getString(R.string.aweme_open_ssl_notyetvalid);
                     break;
             }
-            int sslContinue = getResources().getIdentifier("aweme_open_ssl_continue", RES_STRING, getPackageName());
-            message += mContext.getString(sslContinue);
-            int sslWarning = getResources().getIdentifier("aweme_open_ssl_warning", RES_STRING, getPackageName());
-            ad.setTitle(sslWarning);
+            message += mContext.getString(R.string.aweme_open_ssl_continue);
+            ad.setTitle(R.string.aweme_open_ssl_warning);
             ad.setTitle(message);
-            int sslOk = getResources().getIdentifier("aweme_open_ssl_ok", RES_STRING, getPackageName());
-            int sslCancel = getResources().getIdentifier("aweme_open_ssl_cancel", RES_STRING, getPackageName());
-            ad.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(sslOk), new DialogInterface.OnClickListener() {
+            ad.setButton(AlertDialog.BUTTON_POSITIVE, mContext.getString(R.string.aweme_open_ssl_ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    proceedLoad(handler);
+                    cancelLoad(handler);
                 }
             });
-            ad.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(sslCancel), new DialogInterface.OnClickListener() {
+            ad.setButton(AlertDialog.BUTTON_NEGATIVE, mContext.getString(R.string.aweme_open_ssl_cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     cancelLoad(handler);
@@ -503,16 +489,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             ad.show();
         } catch (Exception e) {
             // ignore
-            proceedLoad(handler);
-        }
-    }
-
-    /**
-     * proceed load when error
-     */
-    protected void proceedLoad(SslErrorHandler handler) {
-        if (handler != null) {
-            handler.proceed();
+            cancelLoad(handler);
         }
     }
 
@@ -532,11 +509,9 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             return;
         }
         if (mBaseErrorDialog == null) {
-            int layoutId = getResources().getIdentifier("layout_open_network_error_dialog", RES_LAYOUT, getPackageName());
-            View mDialogView = LayoutInflater.from(this).inflate(layoutId, null, false);
+            View mDialogView = LayoutInflater.from(this).inflate(R.layout.layout_open_network_error_dialog, null, false);
 
-            int confirmId = getResources().getIdentifier("tv_confirm", RES_ID, getPackageName());
-            mDialogView.findViewById(confirmId).setOnClickListener(new View.OnClickListener() {
+            mDialogView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onCancel(errCode);
