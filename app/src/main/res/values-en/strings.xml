@@ -1,0 +1,22 @@
+<resources>
+    <string name="authorize_web">Authorize via Web</string>
+    <string name="open_system_photo">Open system photos to share</string>
+    <string name="share_to_aweme">Share</string>
+    <string name="set_default_title">Set default topic</string>
+    <string name="media_path">Path</string>
+
+    <string name="add_photo_video">Add a photo or video</string>
+    <string name="clear">Clear</string>
+    <string name="image">Image</string>
+    <string name="video">Video</string>
+    <string name="auth_success">Successfully authenticated</string>
+    <string name="share_success">Succesfully shared</string>
+    <string name="scope_hint">Required permissions (comma-separated)</string>
+    <string name="optional_scope">Optional default unselected permissions</string>
+    <string name="optional_1_scope">Optional default selected permissions</string>
+    <string name="set_scope_btn">Set</string>
+    <string name="app_name">Test SDK</string>
+
+    <string name="share_to_aweme_with_shareid_no_callbacK">Start with shareId without callback</string>
+    <string name="share_to_aweme_with_shareid_callback">Start with shareId with callback</string>
+</resources>
