@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.bytedance.sdk.account"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -88,8 +90,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testApi 'junit:junit:4.12'
-    api 'com.android.support:design:27.1.1'
+    testImplementation 'junit:junit:4.12'
     chinaexternalApi project(path: ':opentt')
     chinainternalApi project(path: ':opentt')
     overseaexternalApi project(path: ':openoversea')
