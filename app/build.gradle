@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.bytedance.sdk.account"
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -23,20 +25,6 @@ android {
     flavorDimensions "area"
 
     productFlavors {
-        // 国内版
-        chinaexternal {
-            dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
-            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
-        }
-
-        chinainternal {
-            dimension "area"
-
-            buildConfigField "String", "CLIENT_KEY", '"awipqx94gnfz3rux"'
-            buildConfigField "String", "CLIENT_SECRET", '"bbbefe4b12554943f2cf040bdfa18b92"'
-        }
-
         overseaexternal {
             dimension "area"
             buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
@@ -52,18 +40,6 @@ android {
     }
 
     sourceSets {
-        chinainternal {
-            manifest.srcFile "src/chinainternal/AndroidManifest.xml"
-            java.srcDirs += 'src/chinainternal/java'
-            res.srcDirs += "src/chinainternal/res"
-        }
-
-        chinaexternal {
-            manifest.srcFile "src/chinaexternal/AndroidManifest.xml"
-            java.srcDirs += 'src/chinaexternal/java'
-            res.srcDirs += "src/chinaexternal/res"
-        }
-
         overseainternal {
             manifest.srcFile "src/overseainternal/AndroidManifest.xml"
             java.srcDirs += 'src/overseainternal/java'
@@ -87,21 +63,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testApi 'junit:junit:4.12'
-    api 'com.android.support:design:27.1.1'
-    chinaexternalApi project(path: ':opentt')
-    chinainternalApi project(path: ':opentt')
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    api 'com.google.android.material:material:1.0.0'
     overseaexternalApi project(path: ':openoversea')
     overseainternalApi project(path: ':openoversea')
-    chinaexternalApi project(path: ':opencommon')
-    chinainternalApi project(path: ':opencommon')
     overseaexternalApi project(path: ':opencommon')
     overseainternalApi project(path: ':opencommon')
-
-
-
-
 
     // for test
     //retrofit2 依赖库

@@ -14,7 +14,8 @@ publishing {
                         source = variant.javaCompile.source
                         exclude '**/BuildConfig.java'
                         exclude '**/R.java'
-                        classpath += files(variant.javaCompile.classpath.files) + files(android.bootClasspath)
+
+                        doFirst { classpath += files(variant.javaCompile.classpath.files) + files(android.bootClasspath) }
                     }
 
                     def javadocJar = project.tasks.create("${variant.flavorName}JavadocJar", Jar) {

@@ -1,8 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.open.douyin">
-    <application>
-
-        <activity android:name="com.bytedance.sdk.open.douyin.ui.DouYinWebAuthorizeActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:screenOrientation="behind"/>
-    </application></manifest>
