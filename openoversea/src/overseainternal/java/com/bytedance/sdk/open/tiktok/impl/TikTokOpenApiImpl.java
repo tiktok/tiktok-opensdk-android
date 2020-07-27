@@ -15,6 +15,7 @@ import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.aweme.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
@@ -126,8 +127,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return authImpl.authorizeWeb(cla, request);
     }
 
-
-
     @Override
     public boolean isAppSupportAuthorization() {
         return getSupportApiAppInfo(API_TYPE_SHARE) != null;
@@ -169,11 +168,15 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return false;
     }
 
+    @Override
+    public boolean share(ShareRequest request) {
+        return share(request.getShareRequest());
+    }
+
     private boolean sendWebAuthRequest(Authorization.Request request) {
         return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
 
     }
-
 
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
 

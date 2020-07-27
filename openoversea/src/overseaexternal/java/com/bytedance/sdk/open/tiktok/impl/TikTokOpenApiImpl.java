@@ -7,11 +7,12 @@ import android.os.Bundle;
 import com.bytedance.sdk.open.aweme.CommonConstants;
 import com.bytedance.sdk.open.aweme.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
-import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
+import com.bytedance.sdk.open.aweme.common.handler.IDataHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareDataHandler;
 import com.bytedance.sdk.open.aweme.share.ShareImpl;
+import com.bytedance.sdk.open.aweme.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
@@ -111,6 +112,10 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return false;
     }
 
+    @Override
+    public boolean share(ShareRequest request) {
+        return share(request.getShareRequest());
+    }
 
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
 
