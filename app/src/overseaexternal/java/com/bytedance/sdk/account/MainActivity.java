@@ -184,15 +184,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ShareRequest.Builder requestBuilder = ShareRequest.builder()
+                .mediaPaths(mUri)
                 .hashtags(hashtags);
 
         switch (shareType) {
             case Share.IMAGE:
-                requestBuilder.imagePaths(mUri);
+                requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
                 break;
 
             case Share.VIDEO:
-                requestBuilder.videoPaths(mUri);
+                requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
                 break;
         }
 

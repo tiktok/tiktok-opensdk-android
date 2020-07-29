@@ -15,6 +15,11 @@ import java.util.List;
  */
 public class ShareRequest {
 
+    public enum MediaType {
+        IMAGE,
+        VIDEO
+    }
+
     private Share.Request shareRequest;
 
     private ShareRequest(Share.Request shareRequest) {
@@ -32,35 +37,27 @@ public class ShareRequest {
 
     /** Builder class for config */
     public static class Builder {
-        private List<String> videoPaths;
-        private List<String> imagePaths;
+        private List<String> mediaPaths;
+        private MediaType mediaType;
         private List<String> hashtags;
 
         private Builder() {}
 
         /**
-         * @param imagePaths paths to videos to set
+         * @param mediaPaths paths to media to set
          * @return Builder builder instance
          */
-        public Builder imagePaths(List<String> imagePaths) {
-            if (videoPaths != null) {
-                throw new IllegalStateException("Share requests do not support both images and videos");
-            }
-
-            this.imagePaths = imagePaths;
+        public Builder mediaPaths(List<String> mediaPaths) {
+            this.mediaPaths = mediaPaths;
             return this;
         }
 
         /**
-         * @param videoPaths paths to videos to set
+         * @param mediaType type of media for paths
          * @return Builder builder instance
          */
-        public Builder videoPaths(List<String> videoPaths) {
-            if (imagePaths != null) {
-                throw new IllegalStateException("Share requests do not support both images and videos");
-            }
-
-            this.videoPaths = videoPaths;
+        public Builder mediaType(MediaType mediaType) {
+            this.mediaType = mediaType;
             return this;
         }
 
@@ -75,22 +72,30 @@ public class ShareRequest {
 
         /** @return Immutable ShareRequest instance */
         public ShareRequest build() {
-            if (videoPaths == null && imagePaths == null) {
-                throw new IllegalStateException("Share requests must contain media paths");
+            if (mediaType == null) {
+                throw new IllegalStateException("Share request must specify media type");
+            }
+
+            if (mediaPaths == null) {
+                throw new IllegalStateException("Share request must specify media paths");
             }
 
             Share.Request shareReq = new Share.Request();
 
             IMediaObject mediaObject;
-            if (videoPaths != null) {
-                VideoObject videoObject = new VideoObject();
-                videoObject.mVideoPaths = new ArrayList<>(videoPaths);
-                mediaObject = videoObject;
-
-            } else {
-                ImageObject imageObject = new ImageObject();
-                imageObject.mImagePaths = new ArrayList<>(imagePaths);
-                mediaObject = imageObject;
+            switch (mediaType) {
+                case IMAGE:
+                    ImageObject imageObject = new ImageObject();
+                    imageObject.mImagePaths = new ArrayList<>(mediaPaths);
+                    mediaObject = imageObject;
+                    break;
+                case VIDEO:
+                    VideoObject videoObject = new VideoObject();
+                    videoObject.mVideoPaths = new ArrayList<>(mediaPaths);
+                    mediaObject = videoObject;
+                    break;
+                default:
+                    throw new IllegalStateException("Unsupported media type");
             }
 
             MediaContent mediaContent = new MediaContent();
