@@ -8,10 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,14 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bytedance.sdk.open.aweme.base.ImageObject;
-import com.bytedance.sdk.open.aweme.base.MediaContent;
-import com.bytedance.sdk.open.aweme.base.VideoObject;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.bytedance.sdk.open.aweme.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -173,59 +173,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean share(int shareType) {
-        Share.Request request = new Share.Request();
+        List<String> hashtags = new ArrayList<>();
+
+        if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
+            hashtags.add(mSetDefaultHashTag.getText().toString());
+        }
+
+        if (!TextUtils.isEmpty(mSetDefaultHashTag2.getText())) {
+            hashtags.add(mSetDefaultHashTag2.getText().toString());
+        }
+
+        ShareRequest.Builder requestBuilder = ShareRequest.builder()
+                .mediaPaths(mUri)
+                .hashtags(hashtags);
+
         switch (shareType) {
             case Share.IMAGE:
-                ImageObject imageObject = new ImageObject();
-                imageObject.mImagePaths = mUri;
-                MediaContent mediaContent = new MediaContent();
-                mediaContent.mMediaObject = imageObject;
-                ArrayList<String> hashtags = new ArrayList<>();
-
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    hashtags.add(mSetDefaultHashTag.getText().toString());
-                }
-
-                if (!TextUtils.isEmpty(mSetDefaultHashTag2.getText())) {
-                    hashtags.add(mSetDefaultHashTag2.getText().toString());
-
-                }
-//                request.mHashTagList = hashtags;
-                request.mMediaContent = mediaContent;
-                request.mState = "ww";
+                requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
                 break;
+
             case Share.VIDEO:
-                VideoObject videoObject = new VideoObject();
-                videoObject.mVideoPaths = mUri;
-                ArrayList<String> hashtagsVideo = new ArrayList<>();
-
-                if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
-                    hashtagsVideo.add(mSetDefaultHashTag.getText().toString());
-                }
-
-                if (!TextUtils.isEmpty(mSetDefaultHashTag2.getText())) {
-                    hashtagsVideo.add(mSetDefaultHashTag2.getText().toString());
-
-                }
-//                request.mHashTagList = hashtagsVideo;
-                MediaContent content = new MediaContent();
-                content.mMediaObject = videoObject;
-                request.mMediaContent = content;
-                request.mState = "ss";
-//                request.callerLocalEntry = "com.xxx.xxx...activity";
-
-                // 0.0.1.1版本新增分享带入小程序功能，具体请看官网
-//                MicroAppInfo mMicroInfo = new MicroAppInfo();
-//                mMicroInfo.setAppTitle("小程序title");
-//                mMicroInfo.setDescription("小程序描述");
-//                mMicroInfo.setAppId("ttef9b992670b151ec");
-//                mMicroInfo.setAppUrl("pages/movie/index?utm_source=share_wxapp&cityId=10&cityName=%E4%B8%8A%E6%B5%B7");
-//                request.mMicroAppInfo = mMicroInfo;
-
-                // 指定掉起抖音或者tiktok，不填默认tiktok
+                requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
                 break;
         }
 
-        return tikTokOpenApi.share(request);
+        return tikTokOpenApi.share(requestBuilder.build());
     }
 }

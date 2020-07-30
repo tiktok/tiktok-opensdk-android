@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.bytedance.sdk.open.aweme.share.ShareRequest;
 
 public interface TikTokOpenApi {
 
@@ -14,6 +15,13 @@ public interface TikTokOpenApi {
      * @return
      */
     boolean share(Share.Request request);
+
+    /**
+     * share image/video
+     *
+     * @return
+     */
+    boolean share(ShareRequest request);
 
     /**
      *
@@ -32,7 +40,5 @@ public interface TikTokOpenApi {
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
     boolean isAppInstalled();
-
-
 
 }

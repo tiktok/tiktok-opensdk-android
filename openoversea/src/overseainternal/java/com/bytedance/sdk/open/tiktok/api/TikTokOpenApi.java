@@ -5,6 +5,7 @@ import android.content.Intent;
 import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
 import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.aweme.share.Share;
+import com.bytedance.sdk.open.aweme.share.ShareRequest;
 
 public interface TikTokOpenApi {
     /**
@@ -23,6 +24,13 @@ public interface TikTokOpenApi {
      * @return
      */
     boolean isAppSupportAuthorization();
+
+    /**
+     * share image/video
+     *
+     * @return
+     */
+    boolean share(ShareRequest request);
 
     /**
      * share image/video
