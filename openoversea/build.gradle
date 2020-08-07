@@ -22,7 +22,6 @@ android {
         }
     }
 
-
     // open sdk分为国内和海外版本
     flavorDimensions "area"
 
@@ -34,14 +33,11 @@ android {
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME\""
         }
 
-
         overseaexternal {
             dimension "area"
             buildConfigField "String", "SDK_OVERSEA_VERSION", "\"$ARTIFACT_VERSION_EXTERNAL\""
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
         }
-
-
     }
 
     sourceSets {
