@@ -3,11 +3,10 @@ apply plugin: 'digital.wup.android-maven-publish'
 def mavenPublications = []
 
 publishing {
-
     publications {
         if (project.plugins.hasPlugin("com.android.library")) {
             android.libraryVariants.all { variant ->
-                println variant.name + "cooooooo"
+                println "Setting up tasks for variant: ${variant.name}"
                 if (variant.name.toLowerCase().contains("release")) {
 
                     def javadoc = task("${variant.flavorName}Javadoc", type: Javadoc) {
@@ -31,11 +30,14 @@ publishing {
                         from sourceDirs
                     }
 
-                    mavenPublications += "${variant.flavorName.capitalize()}AAR"
-                    println mavenPublications
-                    "${variant.flavorName.capitalize()}AAR"(MavenPublication) {
+                    def mavenPublication = "${variant.flavorName.capitalize()}AAR"
+                    mavenPublications += mavenPublication
+                    println "Added ${mavenPublication} as publication"
+                    println "Publications available: ${mavenPublications}"
+                    "${mavenPublication}"(MavenPublication) {
                         // Gets android component for build variant
                         from components.getByName("android${variant.name.capitalize()}")
+
                         artifact javadocJar
                         artifact sourcesJar
                         groupId ARTIFACT_GROUP_EXTERNAL
@@ -73,8 +75,9 @@ publishing {
 bintray {
     user = 'adminByteDance'
     key = '28d174551141db323784d7237f2922ce3e308350'
+    // The publications registered here will get published via bintrayUpload
     // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
-    publications = ['ChinaexternalAAR']
+    publications = []
     override = false
     pkg {
         // organization,各自申请的地址
