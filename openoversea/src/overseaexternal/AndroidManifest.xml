@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bytedance.sdk.open.tiktok">
 
+    <queries>
+        <package android:name="com.zhiliaoapp.musically" />
+    </queries>
+
     <application>
 
     </application>
