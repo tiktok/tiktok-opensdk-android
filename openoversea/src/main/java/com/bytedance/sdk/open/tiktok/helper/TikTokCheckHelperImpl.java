@@ -22,6 +22,13 @@ public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
     }
 
     @Override
+    public boolean isShareSupportFileProvider() {
+        return isAppInstalled()
+                && isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(),
+                ParamKeyConstants.REQUIRED_API_VERSION.SHARE_SUPPORT_FILEPROVIDER);
+    }
+
+    @Override
     public String getPackageName() {
         return "com.ss.android.ugc.trill";
     }

@@ -206,6 +206,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean share(int shareType) {
+
+        if (!tiktokOpenApi.isShareSupportFileProvider() ||
+                android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+            Toast.makeText(TestFileProviderActivity.this, "Version does not match", Toast.LENGTH_LONG).show();
+        }
+
         List<String> hashtags = new ArrayList<>();
 
         if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {

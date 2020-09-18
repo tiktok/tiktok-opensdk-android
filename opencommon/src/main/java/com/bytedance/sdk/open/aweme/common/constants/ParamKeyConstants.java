@@ -154,6 +154,8 @@ public interface ParamKeyConstants {
         //adapt to old version because of changing api name
         int MIN_SDK_NEW_VERSION_API = 3;
 
+        int SHARE_SUPPORT_FILEPROVIDER = 4;
+
     }
 
     interface TargetSceneType {

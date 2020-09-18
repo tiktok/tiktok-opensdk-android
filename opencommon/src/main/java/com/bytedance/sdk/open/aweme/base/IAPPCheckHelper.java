@@ -11,6 +11,8 @@ public interface IAPPCheckHelper {
 
     boolean isAppInstalled();
 
+    boolean isShareSupportFileProvider();
+
     String getPackageName();
 
     String getRemoteAuthEntryActivity();
