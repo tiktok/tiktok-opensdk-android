@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bytedance.sdk.open.tiktok">
 
-    <application>
+    <queries>
+        <package android:name="com.zhiliaoapp.musically" />
+    </queries>
 
+    <application>
         <activity android:name="com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
