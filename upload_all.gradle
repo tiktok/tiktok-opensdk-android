@@ -28,7 +28,7 @@ uploadArchives {
                         def version = ARTIFACT_VERSION
                         def aarSrcVersion = "$versionName-sources"
 
-                        if (ISSNAPSHOT) {
+                        if (ISSNAPSHOT==true) {
                             version = "$versionName-SNAPSHOT"
                             aarSrcVersion += "-SNAPSHOT"
 
