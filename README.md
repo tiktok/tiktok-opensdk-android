@@ -1,8 +1,11 @@
-# 抖音对外开放sdk
-## 主要功能
-1. 授权
-2. 分享
+# TikTok Developer SDK
+## Capabilities
+1. Share
 
-## 分支管理
-> develop分支 进行功能开发和测试
-> master分支 保存已经上线外发的版本
+## Branch Management
+> Use the `develop` branch for development and testing
+> Merge to the `master` branch after a release
+
+## Publish
+
+Please follow the instructions [here](https://bytedance.feishu.cn/docs/doccnIVScHWfdpGNaayhv2gG7vd#).
