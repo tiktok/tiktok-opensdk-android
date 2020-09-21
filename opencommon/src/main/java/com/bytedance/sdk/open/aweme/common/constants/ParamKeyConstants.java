@@ -154,7 +154,8 @@ public interface ParamKeyConstants {
         //adapt to old version because of changing api name
         int MIN_SDK_NEW_VERSION_API = 3;
 
-        int SHARE_SUPPORT_FILEPROVIDER = 4;
+        //skipping 4 as Tiktok repo already was using version 4
+        int SHARE_SUPPORT_FILEPROVIDER = 5;
 
     }
 

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -187,6 +186,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void share(int shareType) {
+
+        if (!tikTokOpenApi.isShareSupportFileProvider() ||
+                android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+            Toast.makeText(MainActivity.this, "Version does not match", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         List<String> hashtags = new ArrayList<>();
 
         if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
