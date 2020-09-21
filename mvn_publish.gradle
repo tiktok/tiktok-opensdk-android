@@ -43,12 +43,7 @@ publishing {
                         groupId ARTIFACT_GROUP_EXTERNAL
                         artifactId ARTIFACT_ID_EXTERNAL
 
-                        if (!ISSNAPSHOT) {
-                            version ARTIFACT_VERSION_EXTERNAL
-
-                        } else {
-                                version "${ARTIFACT_VERSION_EXTERNAL}-SNAPSHOT"
-                        }
+                        version ARTIFACT_VERSION_EXTERNAL
                         pom.withXml {
                             def depsNode = asNode()["dependencies"][0]
                             if (depsNode != null) {
@@ -77,7 +72,7 @@ bintray {
     key = '28d174551141db323784d7237f2922ce3e308350'
     // The publications registered here will get published via bintrayUpload
     // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
-    publications = []
+    publications = ['OverseaexternalAAR']
     override = false
     pkg {
         // organization,各自申请的地址
