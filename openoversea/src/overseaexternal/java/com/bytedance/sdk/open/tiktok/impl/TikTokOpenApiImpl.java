@@ -96,6 +96,16 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return getSupportApiAppInfo(API_TYPE_SHARE) != null;
     }
 
+    @Override
+    public boolean isShareSupportFileProvider() {
+        for (IAPPCheckHelper checkapi : mSharecheckApis) {
+            if (checkapi.isShareSupportFileProvider()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public boolean share(Share.Request request) {

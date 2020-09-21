@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,12 +22,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.aweme.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,7 +185,14 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private boolean share(int shareType) {
+    private void share(int shareType) {
+
+        if (!tikTokOpenApi.isShareSupportFileProvider() ||
+                android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
+            Toast.makeText(MainActivity.this, "Version does not match", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         List<String> hashtags = new ArrayList<>();
 
         if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
@@ -183,20 +203,106 @@ public class MainActivity extends AppCompatActivity {
             hashtags.add(mSetDefaultHashTag2.getText().toString());
         }
 
-        ShareRequest.Builder requestBuilder = ShareRequest.builder()
-                .mediaPaths(mUri)
-                .hashtags(hashtags);
+        Handler handler = new Handler();
+        Runnable r = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ShareRequest.Builder requestBuilder = ShareRequest.builder()
+                        .hashtags(hashtags);
+                switch (shareType) {
+                    case Share.IMAGE:
+                        ArrayList<String> images = new ArrayList<>();
+                        for (int i=0; i<mUri.size(); i++) {
+                            String filePath = mUri.get(i);
+                            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+                            File path = new File(getExternalFilesDir(null), "/imageData");
+                            path.mkdirs();
+                            File file = new File(path, i + ".png");
 
-        switch (shareType) {
-            case Share.IMAGE:
-                requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
-                break;
+                            FileOutputStream out = null;
+                            try {
+                                out = new FileOutputStream(file);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
 
-            case Share.VIDEO:
-                requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
-                break;
-        }
+                                out.flush();
+                                out.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-        return tikTokOpenApi.share(requestBuilder.build());
+                            Uri uri = FileProvider.getUriForFile(MainActivity.this, getPackageName()+".fileprovider", file);
+                            images.add(uri.toString());
+                            grantUriPermission("com.zhiliaoapp.musically",
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        }
+                        handler.post(
+                                new Runnable() {
+                                    public void run()
+                                    {
+                                        requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
+                                        requestBuilder.mediaPaths(images);
+
+                                        tikTokOpenApi.share(requestBuilder.build());
+                                    }
+                                });
+                        break;
+                    case Share.VIDEO:
+                        ArrayList<String> videos = new ArrayList<>();
+                        InputStream is = null;
+                        ByteArrayOutputStream out = null;
+                        for (int i=0; i<mUri.size(); i++) {
+                            String filePath = mUri.get(i);
+                            try {
+                                is = new BufferedInputStream(new FileInputStream(filePath));
+
+                                File file = new File(getExternalFilesDir(null), "/videoData");
+                                file.mkdirs();
+
+                                OutputStream output = new FileOutputStream(getExternalFilesDir(null) + "/videoData/" + String.valueOf(i) + ".mp4");
+
+                                byte data[] = new byte[1024];
+
+                                int countin;
+                                while ((countin = is.read(data)) != -1) {
+                                    output.write(data, 0, countin);
+                                }
+
+                                output.flush();
+                                output.close();
+                                is.close();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            File dir = new File(getExternalFilesDir(null) + "/videoData/" + String.valueOf(i) + ".mp4");
+                            Uri uri = FileProvider.getUriForFile(MainActivity.this, getPackageName()+".fileprovider", dir);
+                            videos.add(uri.toString());
+                            grantUriPermission("com.zhiliaoapp.musically",  // 这里填微信包名
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        }
+                        handler.post(
+                                new Runnable() {
+                                    public void run()
+                                    {
+                                        requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
+                                        requestBuilder.mediaPaths(videos);
+
+                                        tikTokOpenApi.share(requestBuilder.build());
+                                    }
+                                });
+                        break;
+                }
+
+            }
+        };
+
+        Thread t = new Thread(r);
+        t.start();
     }
 }
