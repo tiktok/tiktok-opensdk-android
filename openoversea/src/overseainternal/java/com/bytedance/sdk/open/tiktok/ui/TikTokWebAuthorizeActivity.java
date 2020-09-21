@@ -21,12 +21,10 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
 
     public static final String AUTH_HOST = "open-api.tiktok.com";
-    public static final String DOMAIN = "api.snssdk.com";
+    public static final String DOMAIN = "open-api.tiktok.com";
     public static final String AUTH_PATH = "/platform/oauth/connect/";
     protected static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
-
-
-
+    
     private TikTokOpenApi ttOpenApi;
 
     @Override
