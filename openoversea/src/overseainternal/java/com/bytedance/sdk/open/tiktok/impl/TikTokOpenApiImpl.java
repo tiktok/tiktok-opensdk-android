@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.CommonConstants;
+import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
@@ -135,6 +135,16 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     @Override
     public boolean isAppSupportShare() {
         return getSupportApiAppInfo(API_TYPE_SHARE) != null;
+    }
+
+    @Override
+    public boolean isShareSupportFileProvider() {
+        for (IAPPCheckHelper checkapi : mSharecheckApis) {
+            if (checkapi.isShareSupportFileProvider()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

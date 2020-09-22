@@ -47,6 +47,13 @@ public interface TikTokOpenApi {
     boolean isAppSupportShare();
 
     /**
+     *
+     * check if the version enables FileProvider
+     * @return
+     */
+    boolean isShareSupportFileProvider();
+
+    /**
      * parse response or request data in intent
      *
      * @param intent

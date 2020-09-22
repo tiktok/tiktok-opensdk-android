@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,10 +30,15 @@ import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -262,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                                         requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
                                         requestBuilder.mediaPaths(images);
 
-                                        tikTokOpenApi.share(requestBuilder.build());
+                                        tiktokOpenApi.share(requestBuilder.build());
                                     }
                                 });
                         break;
@@ -309,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
                                         requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
                                         requestBuilder.mediaPaths(videos);
 
-                                        tikTokOpenApi.share(requestBuilder.build());
+                                        tiktokOpenApi.share(requestBuilder.build());
                                     }
                                 });
                         break;
