@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.aweme.authorize.model.Authorization;
-import com.bytedance.sdk.open.aweme.authorize.ui.BaseWebAuthorizeActivity;
-import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
-import com.bytedance.sdk.open.aweme.common.model.BaseResp;
-import com.bytedance.sdk.open.aweme.utils.ViewUtils;
+import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthorizeActivity;
+import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
+import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
+import com.bytedance.sdk.open.tiktok.utils.ViewUtils;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 

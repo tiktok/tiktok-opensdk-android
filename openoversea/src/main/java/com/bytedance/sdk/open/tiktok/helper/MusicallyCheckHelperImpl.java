@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.tiktok.helper;
 
 import android.content.Context;
 
-import com.bytedance.sdk.open.aweme.base.BaseCheckHelperImpl;
-import com.bytedance.sdk.open.aweme.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.base.BaseCheckHelperImpl;
+import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 
 public class MusicallyCheckHelperImpl extends BaseCheckHelperImpl {
 
