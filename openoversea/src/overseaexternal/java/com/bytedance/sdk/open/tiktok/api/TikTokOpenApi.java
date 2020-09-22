@@ -2,9 +2,9 @@ package com.bytedance.sdk.open.tiktok.api;
 
 import android.content.Intent;
 
-import com.bytedance.sdk.open.aweme.common.handler.IApiEventHandler;
-import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.aweme.share.ShareRequest;
+import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
+import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 
 public interface TikTokOpenApi {
 

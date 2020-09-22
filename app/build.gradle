@@ -68,8 +68,6 @@ dependencies {
     api 'com.google.android.material:material:1.0.0'
     overseaexternalApi project(path: ':openoversea')
     overseainternalApi project(path: ':openoversea')
-    overseaexternalApi project(path: ':opencommon')
-    overseainternalApi project(path: ':opencommon')
 
     // for test
     //retrofit2 依赖库

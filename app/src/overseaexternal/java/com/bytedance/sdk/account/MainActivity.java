@@ -24,8 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import com.bytedance.sdk.open.aweme.share.Share;
-import com.bytedance.sdk.open.aweme.share.ShareRequest;
+import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 

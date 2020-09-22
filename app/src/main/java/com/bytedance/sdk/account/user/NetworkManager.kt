@@ -1,15 +1,11 @@
 package com.bytedance.sdk.account.user
 
-import com.bytedance.sdk.account.MainActivity
 import com.bytedance.sdk.account.NetUtils
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
-import com.bytedance.sdk.open.aweme.CommonConstants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * 主要功能：
