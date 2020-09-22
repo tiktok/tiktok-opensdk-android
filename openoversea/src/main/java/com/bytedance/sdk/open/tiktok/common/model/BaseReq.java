@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.tiktok.common.model;
 import android.os.Bundle;
 
 //import com.bytedance.sdk.account.open.aweme.BuildConfig;
+import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 
 public abstract class BaseReq {
@@ -60,6 +61,8 @@ public abstract class BaseReq {
         bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
         bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
         bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME);
+        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION);
     }
 
     public void fromBundle(Bundle bundle) {
