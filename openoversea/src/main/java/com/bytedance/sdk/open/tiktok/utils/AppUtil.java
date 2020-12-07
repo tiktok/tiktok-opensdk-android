@@ -12,31 +12,6 @@ import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 
 public class AppUtil {
 
-    /**
-     * if app is installed
-     *
-     * @param context
-     * @param platformPackageName
-     * @return
-     */
-    public static boolean isAppInstalled(Context context, String platformPackageName) {
-        if (context == null || TextUtils.isEmpty(platformPackageName)) {
-            return false;
-        }
-        boolean installed = false;
-        if (!TextUtils.isEmpty(platformPackageName)) {
-            PackageManager packageManager = context.getPackageManager();
-            try {
-                PackageInfo packageInfo = packageManager.getPackageInfo(platformPackageName, PackageManager.GET_ACTIVITIES);
-                if (packageInfo != null) {
-                    installed = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return installed;
-    }
 
     public static String buildComponentClassName(String packageName, String classPath) {
         return packageName + "." + classPath;
@@ -51,9 +26,6 @@ public class AppUtil {
      */
     public static int getPlatformSDKVersion(Context context,String platformPackageName, String remoteRequestEntry) {
         if ( context== null || TextUtils.isEmpty(platformPackageName)) {
-            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
-        }
-        if (!AppUtil.isAppInstalled(context, platformPackageName)) {
             return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
         }
         try {

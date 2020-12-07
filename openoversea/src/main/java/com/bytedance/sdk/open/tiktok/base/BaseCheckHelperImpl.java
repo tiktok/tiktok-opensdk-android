@@ -24,14 +24,13 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     @Override
     public boolean isAppSupportAuthorization() {
-        return isAppInstalled()
-                && isAppSupportAuthApi()
+        return  isAppSupportAuthApi()
                 && SignatureUtils.validateSign(mContext, getPackageName(), getSignature());
     }
 
     @Override
     public boolean isAppSupportShare() {
-        return isAppInstalled() && isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API);
+        return  isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API);
     }
 
     /**
@@ -48,9 +47,6 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
             return false;
         }
 
-        if (!isAppInstalled()) {
-            return false;
-        }
 
         Intent intent = new Intent();
         ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
@@ -71,9 +67,6 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     public int getPlatformSDKVersion(String platformPackageName, String remoteRequestEntry) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
-            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
-        }
-        if (!AppUtil.isAppInstalled(mContext, getPackageName())) {
             return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
         }
         try {
@@ -105,7 +98,9 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
      * @return
      */
     public boolean isAppInstalled() {
-        return AppUtil.isAppInstalled(mContext, getPackageName());
+        // for lite , getPackageInfo is not legal so should delete the function
+        // authorize & share can use the same activity to test
+        return isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(), getAuthRequestApi());
     }
     
 
