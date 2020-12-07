@@ -42,6 +42,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
      * @param requiredApi
      * @return
      */
+
     public boolean isAppSupportAPI(String platformPackageName, String remoteRequestEntry, int requiredApi) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
             return false;
@@ -107,6 +108,11 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     @Override
     public String getRemoteAuthEntryActivity() {
         return "openauthorize.AwemeAuthorizedActivity";
+    }
+
+    @Override
+    public boolean isAppSupportAPI(int requiredApi) {
+        return isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(),requiredApi);
     }
 
     /**

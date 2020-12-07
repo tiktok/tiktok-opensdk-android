@@ -157,6 +157,9 @@ public interface ParamKeyConstants {
         //skipping 4 as Tiktok repo already was using version 4
         int SHARE_SUPPORT_FILEPROVIDER = 5;
 
+        //Special for Lite Authorize
+        int AUTHORIZE_FOR_TIKTOK_LITE = 6;
+
     }
 
     interface TargetSceneType {
