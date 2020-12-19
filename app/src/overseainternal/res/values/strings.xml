@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prod">Prod</string>
+    <string name="boe">BOE</string>
+    <string name="prod_env">Prod Environment</string>
+    <string name="boe_env">BOE Environment</string>
+</resources>

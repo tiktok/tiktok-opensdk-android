@@ -12,10 +12,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
@@ -56,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mMediaPathList;
 
+    Switch envSwitch;
+
+    TextView envTitle;
 
     Button mClearMedia;
 
@@ -69,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     int currentShareType;
 
     private ArrayList<String> mUri = new ArrayList<>();
+    private TikTokOpenConfig prodTiktokOpenConfig;
+    private TikTokOpenConfig boeTiktokOpenConfig;
 
     private String mScope = "user_info";
     private String mOptionalScope1 = "friend_relation";
@@ -80,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.oversea_internal_main);
-
+        prodTiktokOpenConfig = new TikTokOpenConfig(BuildConfig.CLIENT_KEY);
+        boeTiktokOpenConfig = new TikTokOpenConfig(BuildConfig.CLIENT_KEY_BOE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // 设置状态栏透明
@@ -125,6 +137,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem menuItem = (MenuItem) menu.findItem(R.id.envSwitchItem);
+        envSwitch = (Switch) menuItem.getActionView().findViewById(R.id.switchAB);
+        envTitle = (TextView) menuItem.getActionView().findViewById(R.id.envTitle);
+
+        envSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    initClientKey(false);
+                    envTitle.setText(getString(R.string.boe));
+                    Toast.makeText(getApplication(), getString(R.string.boe_env), Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    initClientKey(true);
+                    envTitle.setText(getString(R.string.prod));
+                    Toast.makeText(getApplication(), getString(R.string.prod_env), Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+        return true;
+    }
+
+    private void initClientKey(boolean isProd) {
+        TikTokOpenApiFactory.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
     private  void createTikTokImplApi(int targetApp) {
@@ -260,6 +304,8 @@ public class MainActivity extends AppCompatActivity {
                             images.add(uri.toString());
                             grantUriPermission("com.ss.android.ugc.trill",
                                     uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            grantUriPermission("com.zhiliaoapp.musically",
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         }
                         handler.post(
                                 new Runnable() {
@@ -305,7 +351,9 @@ public class MainActivity extends AppCompatActivity {
                             File dir = new File(getExternalFilesDir(null) + "/videoData/" + String.valueOf(i) + ".mp4");
                             Uri uri = FileProvider.getUriForFile(MainActivity.this, getPackageName()+".fileprovider", dir);
                             videos.add(uri.toString());
-                            grantUriPermission("com.ss.android.ugc.trill",  // 这里填微信包名
+                            grantUriPermission("com.ss.android.ugc.trill",
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            grantUriPermission("com.zhiliaoapp.musically",
                                     uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         }
                         handler.post(

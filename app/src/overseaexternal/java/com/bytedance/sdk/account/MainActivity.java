@@ -236,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
 
                             Uri uri = FileProvider.getUriForFile(MainActivity.this, getPackageName()+".fileprovider", file);
                             images.add(uri.toString());
+                            grantUriPermission("com.ss.android.ugc.trill",
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             grantUriPermission("com.zhiliaoapp.musically",
                                     uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         }
@@ -283,7 +285,9 @@ public class MainActivity extends AppCompatActivity {
                             File dir = new File(getExternalFilesDir(null) + "/videoData/" + String.valueOf(i) + ".mp4");
                             Uri uri = FileProvider.getUriForFile(MainActivity.this, getPackageName()+".fileprovider", dir);
                             videos.add(uri.toString());
-                            grantUriPermission("com.zhiliaoapp.musically",  // 这里填微信包名
+                            grantUriPermission("com.ss.android.ugc.trill",
+                                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            grantUriPermission("com.zhiliaoapp.musically",
                                     uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         }
                         handler.post(
