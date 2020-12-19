@@ -2,8 +2,10 @@ package com.bytedance.sdk.account;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,8 +53,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String CODE_KEY = "code";
+    public static final String SHARE_PREFS = "SharePrefs" ;
+    public static final String IS_ENVIRONMENT_BOE = "environment" ;
 
     TikTokOpenApi tiktokOpenApi;
+    SharedPreferences sharedPreferences;
 
     String[] mPermissionList = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -137,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
+
     }
 
     @Override
@@ -151,11 +158,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(IS_ENVIRONMENT_BOE, true);
+                    editor.commit();
                     initClientKey(false);
                     envTitle.setText(getString(R.string.boe));
                     Toast.makeText(getApplication(), getString(R.string.boe_env), Toast.LENGTH_SHORT)
                             .show();
                 } else {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(IS_ENVIRONMENT_BOE, false);
+                    editor.commit();
                     initClientKey(true);
                     envTitle.setText(getString(R.string.prod));
                     Toast.makeText(getApplication(), getString(R.string.prod_env), Toast.LENGTH_SHORT)

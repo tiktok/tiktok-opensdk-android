@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bytedance.sdk.account.MainActivity.IS_ENVIRONMENT_BOE
+import com.bytedance.sdk.account.MainActivity.SHARE_PREFS
 import com.bytedance.sdk.account.user.IUserApiBack
 import com.bytedance.sdk.account.user.NetworkManager
 import com.bytedance.sdk.account.user.bean.UserInfo
@@ -44,7 +46,13 @@ class UserInfoActivity: Activity() {
         if (intent.hasExtra(MainActivity.CODE_KEY)) {
             val code = intent.getStringExtra(MainActivity.CODE_KEY)
             Thread(Runnable {
-                NetworkManager().getUserInfo(code, BuildConfig.CLIENT_KEY, BuildConfig.CLIENT_SECRET, object : IUserApiBack {
+                val sharedPreferences = getSharedPreferences (SHARE_PREFS, android.content.Context.MODE_PRIVATE)
+                val isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false)
+                NetworkManager().getUserInfo(
+                        code,
+                        if (isBOE) BuildConfig.CLIENT_KEY_BOE else BuildConfig.CLIENT_KEY,
+                        if (isBOE) BuildConfig.CLIENT_SECRET_BOE else BuildConfig.CLIENT_SECRET,
+                        object : IUserApiBack {
                     override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?) {
                         mLoadingGroup.visibility = View.GONE
                         if (success) {
