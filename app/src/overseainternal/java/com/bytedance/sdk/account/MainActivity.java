@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
+        updatePreferences(false);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,9 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 share(currentShareType);
             }
         });
-
-        sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-
     }
 
     @Override
@@ -158,17 +157,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(IS_ENVIRONMENT_BOE, true);
-                    editor.commit();
+                   updatePreferences(true);
                     initClientKey(false);
                     envTitle.setText(getString(R.string.boe));
                     Toast.makeText(getApplication(), getString(R.string.boe_env), Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(IS_ENVIRONMENT_BOE, false);
-                    editor.commit();
+                    updatePreferences(false);
                     initClientKey(true);
                     envTitle.setText(getString(R.string.prod));
                     Toast.makeText(getApplication(), getString(R.string.prod_env), Toast.LENGTH_SHORT)
@@ -182,6 +177,16 @@ public class MainActivity extends AppCompatActivity {
     private void initClientKey(boolean isProd) {
         TikTokOpenApiFactory.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
+    }
+
+    private void updatePreferences(boolean isBOE) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if (isBOE) {
+            editor.putBoolean(IS_ENVIRONMENT_BOE, false);
+        } else {
+            editor.putBoolean(IS_ENVIRONMENT_BOE, false);
+        }
+        editor.commit();
     }
 
     private  void createTikTokImplApi(int targetApp) {
