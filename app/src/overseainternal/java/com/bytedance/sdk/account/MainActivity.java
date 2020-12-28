@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
         updatePreferences(false);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
         findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
             @Override
