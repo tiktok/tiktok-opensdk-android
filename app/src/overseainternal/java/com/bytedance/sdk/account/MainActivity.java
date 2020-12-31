@@ -181,11 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updatePreferences(boolean isBOE) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (isBOE) {
-            editor.putBoolean(IS_ENVIRONMENT_BOE, false);
-        } else {
-            editor.putBoolean(IS_ENVIRONMENT_BOE, false);
-        }
+        editor.putBoolean(IS_ENVIRONMENT_BOE, isBOE);
         editor.commit();
     }
 
