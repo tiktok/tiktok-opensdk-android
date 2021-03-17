@@ -3,11 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('/Users/Dhruv/Documents/keystore/debug.keystore')
-        }
-    }
     compileSdkVersion 30
     buildToolsVersion "29.0.2"
 
