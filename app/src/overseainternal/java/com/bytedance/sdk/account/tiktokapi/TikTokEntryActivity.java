@@ -54,7 +54,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Authorization Failed" + response.grantedPermissions,
+                Toast.makeText(this, "Authorization Failed, errorCode: " + response.errorCode + " Message: "+ response.errorMsg,
                         Toast.LENGTH_LONG).show();
 
             }
@@ -78,7 +78,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
     @Override
     public void onErrorIntent(@Nullable Intent intent) {
         // 错误数据
-        Toast.makeText(this, "intent出错啦", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "intent error", Toast.LENGTH_LONG).show();
         finish();
     }
 }

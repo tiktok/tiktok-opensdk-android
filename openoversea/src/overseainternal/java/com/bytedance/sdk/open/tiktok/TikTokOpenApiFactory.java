@@ -27,6 +27,9 @@ public class TikTokOpenApiFactory {
      * @return
      */
     public static TikTokOpenApi create(Activity activity) {
+        if (sConfig == null) {
+            return null;
+        }
         AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
         ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
         return new TikTokOpenApiImpl(activity,auth, share);

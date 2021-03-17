@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -104,15 +105,65 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-        updatePreferences(false);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
-        findViewById(R.id.go_to_auth).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 如果本地未安装抖音或者抖音的版本过低，会直接自动调用 web页面 进行授权
-                sendAuth();
+        findViewById(R.id.go_to_auth).setOnClickListener(v -> {
+            if (tiktokOpenApi == null) {
+                Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                        .show();
+                return;
             }
+            // If Tiktok is not installed locally or the version of Tiktok is too low, it will directly call the web page for authorization.
+            sendAuth();
+        });
+
+        findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
+
+            if (tiktokOpenApi == null) {
+                Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+
+            String scope = "";
+            if (((ToggleButton)findViewById(R.id.user_info_toggle)).isChecked()) {
+                scope = "user_info";
+            }
+
+            if (((ToggleButton)findViewById(R.id.music_collection_toggle)).isChecked()) {
+                scope = appendToScope(scope, "music.collection");
+            }
+
+            if (((ToggleButton)findViewById(R.id.interests_toggle)).isChecked()) {
+                scope = appendToScope(scope, "user.ue");
+            }
+
+            if (((ToggleButton)findViewById(R.id.sound_create_toggle)).isChecked()) {
+                scope = appendToScope(scope, "share.sound.create");
+            }
+
+            if (((ToggleButton)findViewById(R.id.user_basic_toggle)).isChecked()) {
+                scope = appendToScope(scope, "user.info.basic");
+            }
+
+            if (((ToggleButton)findViewById(R.id.user_username_toggle)).isChecked()) {
+                scope = appendToScope(scope, "user.info.username");
+            }
+
+            if (((ToggleButton)findViewById(R.id.user_email_toggle)).isChecked()) {
+                scope = appendToScope(scope, "user.info.email");
+            }
+
+            if (((ToggleButton)findViewById(R.id.user_email_toggle)).isChecked()) {
+                scope = appendToScope(scope, "user.info.phone");
+            }
+
+            if (scope.isEmpty()) {
+                Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+            sendAuth(scope);
         });
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
@@ -153,6 +204,16 @@ public class MainActivity extends AppCompatActivity {
         envSwitch = (Switch) menuItem.getActionView().findViewById(R.id.switchAB);
         envTitle = (TextView) menuItem.getActionView().findViewById(R.id.envTitle);
 
+        boolean isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false);
+        envSwitch.setChecked(isBOE);
+        if (isBOE) {
+            envTitle.setText(getString(R.string.boe));
+            initClientKey(false);
+        } else {
+            envTitle.setText(getString(R.string.prod));
+            initClientKey(true);
+        }
+
         envSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -174,6 +235,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private String appendToScope(String scope, String newScope) {
+        if (scope.isEmpty()) {
+            return newScope;
+        }
+        scope += "," + newScope;
+        return scope;
+    }
+
     private void initClientKey(boolean isProd) {
         TikTokOpenApiFactory.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
@@ -189,15 +258,20 @@ public class MainActivity extends AppCompatActivity {
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
+    private boolean sendAuth(String scope) {
+        Authorization.Request request = new Authorization.Request();
+        request.scope = scope;
+        request.state = "ww";
+        return tiktokOpenApi.authorize(request);
+    }
+
     private boolean sendAuth() {
         Authorization.Request request = new Authorization.Request();
-        request.scope = "user_info,music.collection";                            // 用户授权时必选权限
-//        request.scope = "user_info,share.sound.create";
-//        request.scope = "user_info,user.ue";
-//        request.optionalScope1 = mOptionalScope2;     // 用户授权时可选权限（默认选择）
-//        request.optionalScope0 = mOptionalScope1;    // 用户授权时可选权限（默认不选）
-        request.state = "ww";                                   // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
-        return tiktokOpenApi.authorize(request);               // 优先使用抖音app进行授权，如果抖音app因版本或者其他原因无法授权，则使用wap页授权
+        request.scope = "user_info,music.collection";                            // Required permissions for user authorization
+//        request.optionalScope1 = mOptionalScope2;     // Optional permissions during user authorization (selected by default)
+//        request.optionalScope0 = mOptionalScope1;    // Optional permissions during user authorization (not selected by default)
+        request.state = "ww";                                   // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        return tiktokOpenApi.authorize(request);               // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
     @Override
@@ -271,6 +345,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void share(int shareType) {
+
+        if (tiktokOpenApi == null) {
+            Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
 
         if (!tiktokOpenApi.isShareSupportFileProvider() ||
                 android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {

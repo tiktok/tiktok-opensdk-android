@@ -34,6 +34,9 @@ public class TikTokOpenApiFactory {
      * @return
      */
     public static TikTokOpenApi create(Context context) {
+        if (sConfig == null) {
+            return null;
+        }
         ShareImpl share = new ShareImpl(context, sConfig.getClientKey());
         return new TikTokOpenApiImpl(context, share);
     }

@@ -187,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void share(int shareType) {
 
+        if (tiktokOpenApi == null) {
+            Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
         if (!tikTokOpenApi.isShareSupportFileProvider() ||
                 android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
             Toast.makeText(MainActivity.this, "Version does not match", Toast.LENGTH_LONG).show();

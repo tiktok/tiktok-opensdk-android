@@ -1,22 +1,31 @@
 <resources>
-    <string name="authorize_web">通过web页授权</string>
-    <string name="open_system_photo">打开系统相册并分享</string>
-    <string name="share_to_aweme">启动分享</string>
-    <string name="set_default_title">设置默认话题</string>
-    <string name="media_path">路径</string>
+    <string name="authorize_web">Authorize via web page</string>
+    <string name="open_system_photo">Open system album and share</string>
+    <string name="share_to_aweme">Start sharing</string>
+    <string name="set_default_title">Set default topic</string>
+    <string name="media_path">path</string>
 
-    <string name="add_photo_video">添加相片或视频</string>
-    <string name="clear">清空</string>
-    <string name="image">照片</string>
-    <string name="video">视频</string>
-    <string name="auth_success">授权成功</string>
-    <string name="share_success">分享成功</string>
-    <string name="scope_hint">必选权限(以 , 号间隔)</string>
-    <string name="optional_scope">可选权限，默认不选（以 , 号间隔)</string>
-    <string name="optional_1_scope">可选权限，默认选择（以 , 号间隔)</string>
-    <string name="set_scope_btn">设置</string>
-    <string name="app_name">sdk测试</string>
+    <string name="add_photo_video">Add photos or videos</string>
+    <string name="clear">Empty</string>
+    <string name="image">Photo</string>
+    <string name="video">Video</string>
+    <string name="auth_success">Authorization succeeded</string>
+    <string name="share_success">Successful sharing</string>
+    <string name="scope_hint">Required permissions (separated by, signs)</string>
+    <string name="optional_scope">Optional permissions, not selected by default (separated by, signs)</string>
+    <string name="optional_1_scope">Optional permissions, selected by default (separated by, signs)</string>
+    <string name="set_scope_btn">Set up</string>
+    <string name="app_name">sdk test</string>
 
-    <string name="share_to_aweme_with_shareid_no_callbacK">启动带shareId无回调</string>
-    <string name="share_to_aweme_with_shareid_callback">启动带shareId有回调</string>
+    <string name="share_to_aweme_with_shareid_no_callbacK">Start with shareId without callback</string>
+    <string name="second_default_topic">Second default topic</string>
+    <string name="share_to_aweme_with_shareid_callback">Start with shareId callback</string>
+    <string name="sharing_mini_prog">Sharing and Carrying Mini Program</string>
+    <string name="music_collection">Music Collection</string>
+    <string name="interests">Interests</string>
+    <string name="sound_create">Sound upload</string>
+    <string name="basic">user.info.basic</string>
+    <string name="username">user.info.username</string>
+    <string name="email">user.info.email</string>
+    <string name="phone">user.info.phone</string>
 </resources>

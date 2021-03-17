@@ -52,6 +52,7 @@ class UserInfoActivity: Activity() {
                         code,
                         if (isBOE) BuildConfig.CLIENT_KEY_BOE else BuildConfig.CLIENT_KEY,
                         if (isBOE) BuildConfig.CLIENT_SECRET_BOE else BuildConfig.CLIENT_SECRET,
+                        isBOE,
                         object : IUserApiBack {
                     override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?) {
                         mLoadingGroup.visibility = View.GONE
@@ -69,7 +70,7 @@ class UserInfoActivity: Activity() {
             }).start()
         }
         else {
-            Toast.makeText(this, "授权失败", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Authorization Failed", Toast.LENGTH_LONG).show()
         }
     }
 }
