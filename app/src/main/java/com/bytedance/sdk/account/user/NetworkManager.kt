@@ -1,6 +1,8 @@
 package com.bytedance.sdk.account.user
 
+import android.app.Activity
 import com.bytedance.sdk.account.NetUtils
+import com.bytedance.sdk.account.R
 import com.bytedance.sdk.account.user.bean.AccessTokenResponse
 import com.bytedance.sdk.account.user.bean.UserInfoResponse
 import retrofit2.Call
@@ -15,7 +17,7 @@ import retrofit2.Response
 class NetworkManager {
 
 
-    fun getUserInfo(code: String, clientKey: String, clientSecret: String, isBoe: Boolean, listener: IUserApiBack) {
+    fun getUserInfo(code: String, clientKey: String, clientSecret: String, isBoe: Boolean?, activity: Activity, listener: IUserApiBack) {
         val userInfoApi = NetUtils.createApi(GetUserInfoServie::class.java, isBoe)
         userInfoApi.getAccessToken(clientKey, clientSecret, code, "authorization_code")
                 .enqueue(object : Callback<AccessTokenResponse> {
@@ -24,6 +26,10 @@ class NetworkManager {
                     }
 
                     override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
+                        var successMessage = ""
+                        if (!activity.isFinishing) {
+                            successMessage = activity.getString(R.string.success_user_info)
+                        }
                         if (response.isSuccessful) {
                             response.body()?.data?.let {
                                 userInfoApi.getUserInfo(it.accessToken, it.openid)
@@ -34,7 +40,7 @@ class NetworkManager {
 
                                             override fun onResponse(call: Call<UserInfoResponse>, response: Response<UserInfoResponse>) {
                                                 if (response.isSuccessful) {
-                                                    listener.onResult(true, "Succeeded in obtaining user information", response.body()?.data)
+                                                    listener.onResult(true, successMessage, response.body()?.data)
                                                 }
                                                 else {
                                                     listener.onResult(false, response.message(), null)

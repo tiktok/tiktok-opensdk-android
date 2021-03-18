@@ -46,27 +46,30 @@ class UserInfoActivity: Activity() {
         if (intent.hasExtra(MainActivity.CODE_KEY)) {
             val code = intent.getStringExtra(MainActivity.CODE_KEY)
             Thread(Runnable {
-                val sharedPreferences = getSharedPreferences (SHARE_PREFS, android.content.Context.MODE_PRIVATE)
-                val isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false)
-                NetworkManager().getUserInfo(
-                        code,
-                        if (isBOE) BuildConfig.CLIENT_KEY_BOE else BuildConfig.CLIENT_KEY,
-                        if (isBOE) BuildConfig.CLIENT_SECRET_BOE else BuildConfig.CLIENT_SECRET,
-                        isBOE,
-                        object : IUserApiBack {
-                    override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?) {
-                        mLoadingGroup.visibility = View.GONE
-                        if (success) {
-                            mUserInfoLayout.visibility = View.VISIBLE
-                            mUserNameView.text = info?.nickName ?: ""
+                code?.let {
+                    val sharedPreferences = getSharedPreferences (SHARE_PREFS, android.content.Context.MODE_PRIVATE)
+                    val isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false)
+                    NetworkManager().getUserInfo(
+                            it,
+                            if (isBOE && BuildConfig.CLIENT_KEY_BOE.isNotEmpty()) BuildConfig.CLIENT_KEY_BOE else BuildConfig.CLIENT_KEY,
+                            if (isBOE && BuildConfig.CLIENT_SECRET_BOE.isNotEmpty()) BuildConfig.CLIENT_SECRET_BOE else BuildConfig.CLIENT_SECRET,
+                            isBOE,
+                            this,
+                            object : IUserApiBack {
+                                override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?) {
+                                    mLoadingGroup.visibility = View.GONE
+                                    if (success) {
+                                        mUserInfoLayout.visibility = View.VISIBLE
+                                        mUserNameView.text = info?.nickName ?: ""
 
-                            Glide.with(this@UserInfoActivity).load(info?.avatar).into(mUserAvarView)
-                        } else {
-                            Toast.makeText(this@UserInfoActivity, errorMsg, Toast.LENGTH_LONG).show()
-                        }
-                    }
+                                        Glide.with(this@UserInfoActivity).load(info?.avatar).into(mUserAvarView)
+                                    } else {
+                                        Toast.makeText(this@UserInfoActivity, errorMsg, Toast.LENGTH_LONG).show()
+                                    }
+                                }
 
-                })
+                            })
+                }
             }).start()
         }
         else {

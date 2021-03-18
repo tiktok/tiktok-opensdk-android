@@ -29,6 +29,8 @@ android {
             dimension "area"
             buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
             buildConfigField "String", "CLIENT_SECRET", '"9538882f53da8a8288cdceec28f7d789"'
+            buildConfigField "String", "CLIENT_KEY_BOE", '""'
+            buildConfigField "String", "CLIENT_SECRET_BOE", '""'
         }
 
         overseainternal {

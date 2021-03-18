@@ -127,35 +127,35 @@ public class MainActivity extends AppCompatActivity {
 
             String scope = "";
             if (((ToggleButton)findViewById(R.id.user_info_toggle)).isChecked()) {
-                scope = "user_info";
+                scope = getString(R.string.user_info_scope);
             }
 
             if (((ToggleButton)findViewById(R.id.music_collection_toggle)).isChecked()) {
-                scope = appendToScope(scope, "music.collection");
+                scope = appendToScope(scope, getString(R.string.music_collection_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.interests_toggle)).isChecked()) {
-                scope = appendToScope(scope, "user.ue");
+                scope = appendToScope(scope, getString(R.string.interests_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.sound_create_toggle)).isChecked()) {
-                scope = appendToScope(scope, "share.sound.create");
+                scope = appendToScope(scope, getString(R.string.share_sound_create_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.user_basic_toggle)).isChecked()) {
-                scope = appendToScope(scope, "user.info.basic");
+                scope = appendToScope(scope, getString(R.string.user_info_basic_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.user_username_toggle)).isChecked()) {
-                scope = appendToScope(scope, "user.info.username");
+                scope = appendToScope(scope, getString(R.string.user_info_username_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.user_email_toggle)).isChecked()) {
-                scope = appendToScope(scope, "user.info.email");
+                scope = appendToScope(scope, getString(R.string.user_info_email_scope));
             }
 
             if (((ToggleButton)findViewById(R.id.user_email_toggle)).isChecked()) {
-                scope = appendToScope(scope, "user.info.phone");
+                scope = appendToScope(scope, getString(R.string.user_info_phone_scope));
             }
 
             if (scope.isEmpty()) {
@@ -166,12 +166,8 @@ public class MainActivity extends AppCompatActivity {
             sendAuth(scope);
         });
 
-        findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100);
-            }
-        });
+        findViewById(R.id.go_to_system_picture).setOnClickListener(
+                v -> ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100));
 
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
@@ -180,20 +176,12 @@ public class MainActivity extends AppCompatActivity {
         mClearMedia = findViewById(R.id.clear_media);
 
 
-        mClearMedia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mUri.clear();
-                mMediaPathList.setText("");
-            }
+        mClearMedia.setOnClickListener( v -> {
+            mUri.clear();
+            mMediaPathList.setText("");
         });
 
-        mShareToDouyin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share(currentShareType);
-            }
-        });
+        mShareToDouyin.setOnClickListener( v -> share(currentShareType));
     }
 
     @Override
@@ -214,22 +202,19 @@ public class MainActivity extends AppCompatActivity {
             initClientKey(true);
         }
 
-        envSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                   updatePreferences(true);
-                    initClientKey(false);
-                    envTitle.setText(getString(R.string.boe));
-                    Toast.makeText(getApplication(), getString(R.string.boe_env), Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    updatePreferences(false);
-                    initClientKey(true);
-                    envTitle.setText(getString(R.string.prod));
-                    Toast.makeText(getApplication(), getString(R.string.prod_env), Toast.LENGTH_SHORT)
-                            .show();
-                }
+        envSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+               updatePreferences(true);
+                initClientKey(false);
+                envTitle.setText(getString(R.string.boe));
+                Toast.makeText(getApplication(), getString(R.string.boe_env), Toast.LENGTH_SHORT)
+                        .show();
+            } else {
+                updatePreferences(false);
+                initClientKey(true);
+                envTitle.setText(getString(R.string.prod));
+                Toast.makeText(getApplication(), getString(R.string.prod_env), Toast.LENGTH_SHORT)
+                        .show();
             }
         });
         return true;

@@ -44,6 +44,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String CODE_KEY = "code";
+    public static final String SHARE_PREFS = "SharePrefs";
+    public static final String IS_ENVIRONMENT_BOE = "environment";
+
     TikTokOpenApi tikTokOpenApi;
 
     String[] mPermissionList = new String[]{
@@ -187,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void share(int shareType) {
 
-        if (tiktokOpenApi == null) {
+        if (tikTokOpenApi == null) {
             Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
                     .show();
             return;

@@ -28,4 +28,13 @@
     <string name="username">user.info.username</string>
     <string name="email">user.info.email</string>
     <string name="phone">user.info.phone</string>
+    <string name="success_user_info">Succeeded in obtaining user information</string>
+    <string name="music_collection_scope" translatable="false">music.collection</string>
+    <string name="user_info_scope" translatable="false">user_info</string>
+    <string name="interests_scope" translatable="false">user.ue</string>
+    <string name="share_sound_create_scope" translatable="false">share.sound.create</string>
+    <string name="user_info_basic_scope" translatable="false">user.info.basic</string>
+    <string name="user_info_username_scope" translatable="false">user.info.username</string>
+    <string name="user_info_email_scope" translatable="false">user.info.email</string>
+    <string name="user_info_phone_scope" translatable="false">user.info.phone</string>
 </resources>

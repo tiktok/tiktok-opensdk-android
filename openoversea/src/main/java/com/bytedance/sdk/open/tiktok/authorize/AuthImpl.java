@@ -33,8 +33,6 @@ public class AuthImpl {
             Intent intent = new Intent(mActivity, clazz);
             intent.putExtras(bundle);
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             try {
                 mActivity.startActivity(intent);
                 return true;

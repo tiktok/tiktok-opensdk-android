@@ -7,16 +7,26 @@ import java.util.concurrent.TimeUnit
 
 
 object NetUtils {
-    fun <T> createApi(apiClass: Class<T>, isBoe: Boolean): T {
-        var retrofitBuilder = Retrofit.Builder()
+
+    private lateinit var baseUrl: String;
+
+    fun <T> createApi(apiClass: Class<T>, isBoe: Boolean?): T {
+        baseUrl = "https:\\\\open-api.tiktok.com"
+        isBoe?.let {
+            if (isBoe) {
+                baseUrl = "https:\\open-api-boei18n.bytedance.net"
+            }
+        }
+
+        val retrofitBuilder = Retrofit.Builder()
 
         val okHttpClient = OkHttpClient().newBuilder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .build()
-        retrofitBuilder.baseUrl(if (isBoe) "https:\\\\open-api-boei18n.bytedance.net" else "https:\\\\open-api.tiktok.com")
-        var retrofit = retrofitBuilder
+        retrofitBuilder.baseUrl(baseUrl)
+        val retrofit = retrofitBuilder
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
