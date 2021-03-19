@@ -29,12 +29,16 @@ android {
             dimension "area"
             buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
             buildConfigField "String", "CLIENT_SECRET", '"9538882f53da8a8288cdceec28f7d789"'
+            buildConfigField "String", "CLIENT_KEY_BOE", '""'
+            buildConfigField "String", "CLIENT_SECRET_BOE", '""'
         }
 
         overseainternal {
             dimension "area"
             buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
             buildConfigField "String", "CLIENT_SECRET", '"9538882f53da8a8288cdceec28f7d789"'
+            buildConfigField "String", "CLIENT_KEY_BOE", '"awo2m7w19ica6k85"'
+            buildConfigField "String", "CLIENT_SECRET_BOE", '"d16be1200df39fa948e441af8870b023"'
         }
 
     }

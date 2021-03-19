@@ -33,8 +33,6 @@ public class AuthImpl {
             Intent intent = new Intent(mActivity, clazz);
             intent.putExtras(bundle);
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             try {
                 mActivity.startActivity(intent);
                 return true;
@@ -74,7 +72,7 @@ public class AuthImpl {
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             try {
                 mActivity.startActivityForResult(intent, ParamKeyConstants.AUTH_REQUEST_CODE);

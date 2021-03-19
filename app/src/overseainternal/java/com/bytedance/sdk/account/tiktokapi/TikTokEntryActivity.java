@@ -41,21 +41,20 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
     @Override
     public void onResp(BaseResp resp) {
-        // 授权成功可以获得authCode
+        // Successful Authorization, can get authCode
         if (resp instanceof Authorization.Response) {
             Authorization.Response response = (Authorization.Response) resp;
             Intent intent = null;
             if (resp.isSuccess()) {
 
-                Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions,
+                Toast.makeText(this, "Authorization Successful，granted permissions：" + response.grantedPermissions,
                         Toast.LENGTH_LONG).show();
 
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
                 startActivity(intent);
             } else {
-
-                Toast.makeText(this, "授权失败" + response.grantedPermissions,
+                Toast.makeText(this, "Authorization Failed, errorCode: " + response.errorCode + " Message: "+ response.errorMsg,
                         Toast.LENGTH_LONG).show();
 
             }
@@ -63,11 +62,11 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
         } else if (resp instanceof Share.Response) {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
-                Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sharing Successful", Toast.LENGTH_SHORT).show();
             } else if (response.isCancel()) {
-                Toast.makeText(this, "用户手动取消", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User Manually cancelled", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "分享失败,errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sharing Failed, errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
             }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -79,7 +78,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
     @Override
     public void onErrorIntent(@Nullable Intent intent) {
         // 错误数据
-        Toast.makeText(this, "intent出错啦", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "intent error", Toast.LENGTH_LONG).show();
         finish();
     }
 }
