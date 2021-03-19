@@ -27,7 +27,7 @@ public class AppUtil {
         if (!TextUtils.isEmpty(platformPackageName)) {
             PackageManager packageManager = context.getPackageManager();
             try {
-                PackageInfo packageInfo = packageManager.getPackageInfo(platformPackageName, PackageManager.GET_ACTIVITIES);
+                PackageInfo packageInfo = packageManager.getPackageInfo(platformPackageName, PackageManager.GET_CONFIGURATIONS);
                 if (packageInfo != null) {
                     installed = true;
                 }

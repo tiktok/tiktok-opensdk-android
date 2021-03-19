@@ -4,101 +4,393 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="15dp"
+    android:layout_marginLeft="15dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="授权"
-        android:layout_marginTop="100dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/go_to_auth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TT授权"
-        android:layout_marginTop="20dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/go_to_system_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/open_system_photo"
-        android:layout_marginTop="20dp" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_marginTop="130dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/share_to_tiktok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/go_to_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_with_regular"
+                android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/share_to_douyin_with_shareid_no_callback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme_with_shareid_no_callbacK"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/go_to_selected_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_selected"
+                android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/microbutton"
-        android:layout_width="wrap_content"
-        android:text="分享携带小程序"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/share_to_douyin_with_shareid_callback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme_with_shareid_callback"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/share_to_douyin_with_shareid_no_callback"
-        android:visibility="gone"/>
-
-    <EditText
-        android:id="@+id/set_default_hashtag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_default_title"
-        android:visibility="gone"/>
-    <EditText
-        android:id="@+id/set_default_hashtag1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="第二个默认话题"
-        android:visibility="gone"/>
-
-    <EditText
-        android:id="@+id/media_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/media_path"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/set_default_hashtag"
-        android:visibility="gone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_info"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/clear_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:layout_marginRight="20dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/media_text"
-        android:visibility="gone"/>
+                <ToggleButton
+                    android:id="@+id/user_info_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/music_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/music_collection"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/music_collection_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/interests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interests"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/interests_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/sound_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sound_create"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/sound_create_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/user_basic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/basic"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/user_basic_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/user_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/user_username_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/user_email_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp">
+                <TextView
+                    android:id="@+id/user_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phone"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_weight="5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ToggleButton
+                    android:id="@+id/user_phone_toggle"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/checkbox_selector"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:layout_marginTop="30dp"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/go_to_system_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/open_system_photo"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:id="@+id/share_to_tiktok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/share_to_douyin_with_shareid_no_callback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme_with_shareid_no_callbacK"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/microbutton"
+                android:layout_width="wrap_content"
+                android:text="@string/sharing_mini_prog"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/share_to_douyin_with_shareid_callback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme_with_shareid_callback"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/share_to_douyin_with_shareid_no_callback"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/set_default_hashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_default_title"
+                android:visibility="gone"/>
+            <EditText
+                android:id="@+id/set_default_hashtag1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/second_default_topic"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/media_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media_path"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/set_default_hashtag"
+                android:visibility="gone"/>
+
+
+            <Button
+                android:id="@+id/clear_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear"
+                android:layout_marginRight="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_text"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
