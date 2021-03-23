@@ -69,9 +69,6 @@ public interface TikTokOpenApi {
 
     String getSdkVersion();
 
-
-
-
-
+    boolean isSupportLiteAuthorize();
 
 }

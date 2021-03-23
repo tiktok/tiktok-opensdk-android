@@ -123,6 +123,16 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return BuildConfig.SDK_OVERSEA_VERSION;
     }
 
+    @Override
+    public boolean isSupportLiteAuthorize() {
+        for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+            if (checkapi.isAppSupportAPI(ParamKeyConstants.REQUIRED_API_VERSION.AUTHORIZE_FOR_TIKTOK_LITE)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean sendWebAuthRequest(Authorization.Request request, Class cla) {
         return authImpl.authorizeWeb(cla, request);
     }

@@ -16,4 +16,6 @@ public interface IAPPCheckHelper {
     String getPackageName();
 
     String getRemoteAuthEntryActivity();
+
+    boolean isAppSupportAPI(int requiredApi);
 }
