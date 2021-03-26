@@ -52,7 +52,6 @@ class UserInfoActivity: Activity() {
                     NetworkManager().getUserInfo(
                             it,
                             if (isBOE && BuildConfig.CLIENT_KEY_BOE.isNotEmpty()) BuildConfig.CLIENT_KEY_BOE else BuildConfig.CLIENT_KEY,
-                            if (isBOE && BuildConfig.CLIENT_SECRET_BOE.isNotEmpty()) BuildConfig.CLIENT_SECRET_BOE else BuildConfig.CLIENT_SECRET,
                             isBOE,
                             this,
                             object : IUserApiBack {

@@ -2,8 +2,8 @@ package com.bytedance.sdk.account;
 
 import android.app.Application;
 
-import com.bytedance.sdk.open.tiktok.TikTokConfig;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 
 
 /**
@@ -16,10 +16,7 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        TikTokConfig config = TikTokConfig.builder()
-                .clientKey(BuildConfig.CLIENT_KEY)
-                .build();
-
-        TikTokOpenApiFactory.init(config);
+        String clientKey = BuildConfig.CLIENT_KEY;
+        TikTokOpenApiFactory.init(new TikTokOpenConfig(clientKey));
     }
 }

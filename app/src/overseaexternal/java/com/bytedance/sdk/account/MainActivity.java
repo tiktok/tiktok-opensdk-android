@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -88,6 +90,17 @@ public class MainActivity extends AppCompatActivity {
         tikTokOpenApi = TikTokOpenApiFactory.create(this);
 
 
+        findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
+
+            if (tikTokOpenApi == null) {
+                Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+
+            sendAuth(getString(R.string.user_info_basic_scope));
+        });
+
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +130,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private String appendToScope(String scope, String newScope) {
+        if (scope.isEmpty()) {
+            return newScope;
+        }
+        scope += "," + newScope;
+        return scope;
+    }
+
+    private boolean sendAuth(String scope) {
+        Authorization.Request request = new Authorization.Request();
+        request.scope = scope;                      // Permissions for user authorization
+        request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        return tikTokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
     private  void createTikTokImplApi(int targetApp) {

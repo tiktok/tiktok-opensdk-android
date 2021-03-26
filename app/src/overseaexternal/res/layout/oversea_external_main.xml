@@ -4,88 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="15dp"
+    android:layout_marginLeft="15dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/go_to_system_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="@string/open_system_photo"
-        android:layout_marginTop="100dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/share_to_tiktok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_marginTop="130dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/share_to_douyin_with_shareid_no_callback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme_with_shareid_no_callbacK"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/go_to_selected_auth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auth_selected"
+                android:layout_marginTop="20dp" />
 
-    <Button
-        android:id="@+id/microbutton"
-        android:layout_width="wrap_content"
-        android:text="分享携带小程序"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/user_basic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/basic"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp" />
 
-    <Button
-        android:id="@+id/share_to_douyin_with_shareid_callback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to_aweme_with_shareid_callback"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/share_to_douyin_with_shareid_no_callback"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:layout_marginTop="30dp"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/set_default_hashtag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/set_default_title"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/go_to_system_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/open_system_photo"
+                android:layout_marginTop="20dp" />
 
-    <EditText
-        android:id="@+id/set_default_hashtag1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="第二个默认话题"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/share_to_tiktok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/go_to_system_picture"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/share_to_douyin_with_shareid_no_callback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme_with_shareid_no_callbacK"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/microbutton"
+                android:layout_width="wrap_content"
+                android:text="@string/sharing_mini_prog"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/share_to_douyin_with_shareid_callback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_to_aweme_with_shareid_callback"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/share_to_douyin_with_shareid_no_callback"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/set_default_hashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_default_title"
+                android:visibility="gone"/>
+            <EditText
+                android:id="@+id/set_default_hashtag1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/second_default_topic"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/media_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/media_path"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/set_default_hashtag"
+                android:visibility="gone"/>
 
 
-    <EditText
-        android:id="@+id/media_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/media_path"
-        android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/set_default_hashtag"
-        android:visibility="gone"/>
+            <Button
+                android:id="@+id/clear_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear"
+                android:layout_marginRight="20dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/media_text"
+                android:visibility="gone"/>
 
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/clear_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"
-        android:layout_marginRight="20dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/media_text"
-        android:visibility="gone"/>
+    </ScrollView>
 
 
 </LinearLayout>

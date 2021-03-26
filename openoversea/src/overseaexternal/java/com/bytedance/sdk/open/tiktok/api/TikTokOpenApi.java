@@ -2,12 +2,30 @@ package com.bytedance.sdk.open.tiktok.api;
 
 import android.content.Intent;
 
+import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 
 public interface TikTokOpenApi {
 
+    /**
+     * send request to authorize. If tiktok does not support authorization, it will get authorization through wap
+     *
+     * @param request
+     * @return
+     */
+    boolean authorize(Authorization.Request request);
+
+    boolean authorizeWeb(Authorization.Request request);
+
+    boolean authorizeWeb(Authorization.Request request, Class cla);
+
+    /**
+     * check if the application supports authorization
+     * @return
+     */
+    boolean isAppSupportAuthorization();
 
     /**
      * share image/video
@@ -47,5 +65,7 @@ public interface TikTokOpenApi {
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
 
     boolean isAppInstalled();
+
+    String getSdkVersion();
 
 }

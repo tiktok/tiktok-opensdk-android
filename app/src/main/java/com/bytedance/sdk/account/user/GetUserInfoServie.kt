@@ -13,9 +13,8 @@ import retrofit2.http.Query
  */
 interface GetUserInfoServie {
 
-    @GET("/oauth/access_token/")
-    fun getAccessToken(@Query("client_key")clientKey: String, @Query("client_secret")clientSecret: String,
-                       @Query("code")code: String, @Query("grant_type")grantType: String): Call<AccessTokenResponse>
+    @GET("demoapp/callback/")
+    fun getAccessToken(@Query("code")code: String, @Query("client_key")clientKey: String): Call<AccessTokenResponse>
 
     @GET("/oauth/userinfo/")
     fun getUserInfo(@Query("access_token")accessToken: String,
