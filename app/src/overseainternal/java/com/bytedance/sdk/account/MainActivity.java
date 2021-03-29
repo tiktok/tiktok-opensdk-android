@@ -101,21 +101,11 @@ public class MainActivity extends AppCompatActivity {
         boeTiktokOpenConfig = new TikTokOpenConfig(BuildConfig.CLIENT_KEY_BOE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 设置状态栏透明
+            // Set the status bar to be transparent
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
-
-        findViewById(R.id.go_to_auth).setOnClickListener(v -> {
-            if (tiktokOpenApi == null) {
-                Toast.makeText(getApplication(), getString(R.string.tiktok_open_api_not_instantiated), Toast.LENGTH_SHORT)
-                        .show();
-                return;
-            }
-            // If Tiktok is not installed locally or the version of Tiktok is too low, it will directly call the web page for authorization.
-            sendAuth();
-        });
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
 
@@ -126,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String scope = "";
-            if (((ToggleButton)findViewById(R.id.user_info_toggle)).isChecked()) {
-                scope = getString(R.string.user_info_scope);
-            }
 
             if (((ToggleButton)findViewById(R.id.music_collection_toggle)).isChecked()) {
                 scope = appendToScope(scope, getString(R.string.music_collection_scope));
@@ -245,18 +232,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean sendAuth(String scope) {
         Authorization.Request request = new Authorization.Request();
-        request.scope = scope;
-        request.state = "ww";
-        return tiktokOpenApi.authorize(request);
-    }
-
-    private boolean sendAuth() {
-        Authorization.Request request = new Authorization.Request();
-        request.scope = "user_info,music.collection";                            // Required permissions for user authorization
-//        request.optionalScope1 = mOptionalScope2;     // Optional permissions during user authorization (selected by default)
-//        request.optionalScope0 = mOptionalScope1;    // Optional permissions during user authorization (not selected by default)
-        request.state = "ww";                                   // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
-        return tiktokOpenApi.authorize(request);               // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
+        request.scope = scope;                      // Permissions for user authorization
+        request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        return tiktokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
     @Override

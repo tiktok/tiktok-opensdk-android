@@ -1,26 +1,19 @@
 package com.bytedance.sdk.open.tiktok;
 
-import android.content.Context;
+import android.app.Activity;
 import android.text.TextUtils;
 
+import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl;
 
 public class TikTokOpenApiFactory {
 
-    private static TikTokConfig sConfig;
+    private static TikTokOpenConfig sConfig;
 
     public static boolean init(TikTokOpenConfig config) {
         if (config != null && !TextUtils.isEmpty(config.clientKey)) {
-            sConfig = TikTokConfig.builder().clientKey(config.clientKey).build();
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean init(TikTokConfig config) {
-        if (config != null && !TextUtils.isEmpty(config.getClientKey())) {
             sConfig = config;
             return true;
         }
@@ -30,14 +23,15 @@ public class TikTokOpenApiFactory {
     /**
      * 创建 TTOpenApi
      *
-     * @param context
+     * @param activity
      * @return
      */
-    public static TikTokOpenApi create(Context context) {
+    public static TikTokOpenApi create(Activity activity) {
         if (sConfig == null) {
             return null;
         }
-        ShareImpl share = new ShareImpl(context, sConfig.getClientKey());
-        return new TikTokOpenApiImpl(context, share);
+        ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
+        AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
+        return new TikTokOpenApiImpl(activity, auth, share);
     }
 }
