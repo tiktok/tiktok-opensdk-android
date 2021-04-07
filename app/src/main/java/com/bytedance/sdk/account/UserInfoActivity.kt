@@ -116,17 +116,17 @@ class UserInfoActivity: Activity() {
             val myUri: Uri? = data?.data
             val cursor = contentResolver.query(myUri!!, null, null, null, null);
 
-            cursor?.let {
-                cursor.moveToFirst()
-                val idx: Int = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)
-                val path = cursor.getString(idx)
-                val extension = path.substring(path.lastIndexOf("."));
-                cursor.close()
+            myUri?.let {uri ->
+                cursor?.let {
+                    cursor.moveToFirst()
+                    val idx: Int = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA)
+                    val path = cursor.getString(idx)
+                    val extension = path.substring(path.lastIndexOf("."));
+                    cursor.close()
 
-                myUri?.let {
                     try {
-                        val input = contentResolver.openInputStream(it)
-                        input?.let {inputStream ->
+                        val input = contentResolver.openInputStream(uri)
+                        input?.let { inputStream ->
                             val file = File(getExternalFilesDir(null), "/audioData")
                             file.mkdirs()
                             val output: OutputStream = FileOutputStream(getExternalFilesDir(null).toString() + "/audioData/my_sound" + extension)
@@ -146,34 +146,34 @@ class UserInfoActivity: Activity() {
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-                }
 
-                val myFile = File(getExternalFilesDir(null).toString() + "/audioData/my_sound" + extension)
+                    val myFile = File(getExternalFilesDir(null).toString() + "/audioData/my_sound" + extension)
 
-                // create RequestBody instance from file
-                val requestFile: RequestBody = RequestBody.create(
-                        MediaType.parse("audio/*"),
-                        myFile
-                )
+                    // create RequestBody instance from file
+                    val requestFile: RequestBody = RequestBody.create(
+                            MediaType.parse("audio/*"),
+                            myFile
+                    )
 
-                // MultipartBody.Part is used to send also the actual file name
-                val body = MultipartBody.Part.createFormData("sound_file", myFile.name, requestFile)
-                intent.getStringExtra(MainActivity.CODE_KEY)?.let {
-                    val sharedPreferences = getSharedPreferences (SHARE_PREFS, android.content.Context.MODE_PRIVATE)
-                    val isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false)
-                    NetworkManager().uploadSound(accessToken,
-                            openId,
-                            isBOE,
-                            body,
-                            object : UploadSoundApiCallback {
-                                override fun onResult(success: Boolean, errorMsg: String, errorCode: Int?) {
-                                    if (success) {
-                                        uploadResult.text = String.format("Upload Successful, status code: %d",errorCode)
-                                    } else {
-                                        uploadResult.text = String.format("Upload Failed, status code: %d, error message: %s",errorCode, errorMsg)
+                    // MultipartBody.Part is used to send also the actual file name
+                    val body = MultipartBody.Part.createFormData("sound_file", myFile.name, requestFile)
+                    intent.getStringExtra(MainActivity.CODE_KEY)?.let {
+                        val sharedPreferences = getSharedPreferences(SHARE_PREFS, android.content.Context.MODE_PRIVATE)
+                        val isBOE = sharedPreferences.getBoolean(IS_ENVIRONMENT_BOE, false)
+                        NetworkManager().uploadSound(accessToken,
+                                openId,
+                                isBOE,
+                                body,
+                                object : UploadSoundApiCallback {
+                                    override fun onResult(success: Boolean, errorMsg: String, errorCode: Int?) {
+                                        if (success) {
+                                            uploadResult.text = String.format("Upload Successful, status code: %d", errorCode)
+                                        } else {
+                                            uploadResult.text = String.format("Upload Failed, status code: %d, error message: %s", errorCode, errorMsg)
+                                        }
                                     }
-                                }
-                            })
+                                })
+                    }
                 }
             }
         }
