@@ -46,6 +46,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String CODE_KEY = "code";
+    public static final String SHARE_SOUND = "share_sound";
     public static final String SHARE_PREFS = "SharePrefs";
     public static final String IS_ENVIRONMENT_BOE = "environment";
 
