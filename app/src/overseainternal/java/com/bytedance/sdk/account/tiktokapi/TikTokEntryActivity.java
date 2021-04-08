@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
+import com.bytedance.sdk.account.R;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
@@ -52,6 +53,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
                 intent = new Intent(this, UserInfoActivity.class);
                 intent.putExtra(MainActivity.CODE_KEY, response.authCode);
+                intent.putExtra(MainActivity.SHARE_SOUND, response.grantedPermissions.contains(getString(R.string.share_sound_create_scope)));
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Authorization Failed, errorCode: " + response.errorCode + " Message: "+ response.errorMsg,
