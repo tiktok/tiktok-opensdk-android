@@ -17,10 +17,6 @@ public interface TikTokOpenApi {
      */
     boolean authorize(Authorization.Request request);
 
-    boolean authorizeWeb(Authorization.Request request);
-
-    boolean authorizeWeb(Authorization.Request request, Class cla);
-
     /**
      * check if the application supports authorization
      * @return

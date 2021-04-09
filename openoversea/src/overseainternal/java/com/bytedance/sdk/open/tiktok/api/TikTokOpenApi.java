@@ -16,9 +16,6 @@ public interface TikTokOpenApi {
      */
     boolean authorize(Authorization.Request request);
 
-    boolean authorizeWeb(Authorization.Request request);
-
-
     /**
      * check if the application supports authorization
      * @return
@@ -61,9 +58,6 @@ public interface TikTokOpenApi {
      * @return
      */
     boolean handleIntent(Intent intent, IApiEventHandler eventHandler);
-
-
-    boolean authorizeWeb(Authorization.Request request, Class cla);
 
     boolean isAppInstalled();
 

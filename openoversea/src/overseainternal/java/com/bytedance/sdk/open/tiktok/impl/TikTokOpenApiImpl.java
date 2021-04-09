@@ -2,7 +2,9 @@ package com.bytedance.sdk.open.tiktok.impl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 
 import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
@@ -20,7 +22,6 @@ import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +50,9 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     private static final String LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity"; // 请求授权的结果回调Activity入口
     private static final String REMOTE_SHARE_ACTIVITY = "share.SystemShareActivity"; // 分享的Activity入口
+    private static final String US_CONTRY_CODE = "US";
+    private static final String MUSICALLY_PACKAGE = "com.zhiliaoapp.musically";
+    private static final String TIKTOK_PACKAGE = "com.ss.android.ugc.trill";
 
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
@@ -103,12 +107,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean authorizeWeb(Authorization.Request request, Class cla) {
-        return sendWebAuthRequest(request, cla);
-
-    }
-
-    @Override
     public boolean isAppInstalled() {
         for (IAPPCheckHelper checkapi : mAuthcheckApis) {
             if (checkapi.isAppInstalled()) {
@@ -131,10 +129,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             }
         }
         return false;
-    }
-
-    private boolean sendWebAuthRequest(Authorization.Request request, Class cla) {
-        return authImpl.authorizeWeb(cla, request);
     }
 
     @Override
@@ -164,13 +158,15 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         if (appHasInstalled != null) {
             return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         } else {
-            return sendWebAuthRequest(request);
+            TelephonyManager tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+            String countryCodeValue = tm.getNetworkCountryIso();
+            if (countryCodeValue.equals(US_CONTRY_CODE)) {
+                launchPlayStore(MUSICALLY_PACKAGE);
+            } else {
+                launchPlayStore(TIKTOK_PACKAGE);
+            }
+            return true;
         }
-    }
-
-    @Override
-    public boolean authorizeWeb(Authorization.Request request) {
-        return sendWebAuthRequest(request);
     }
 
     @Override
@@ -191,11 +187,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     @Override
     public boolean share(ShareRequest request) {
         return share(request.getShareRequest());
-    }
-
-    private boolean sendWebAuthRequest(Authorization.Request request) {
-        return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
-
     }
 
     private IAPPCheckHelper getSupportApiAppInfo(int type) {
@@ -220,4 +211,10 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return null;
     }
 
+    private void launchPlayStore(String packageName) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(
+                "https://play.google.com/store/apps/details?id="+packageName));
+        mContext.startActivity(intent);
+    }
 }

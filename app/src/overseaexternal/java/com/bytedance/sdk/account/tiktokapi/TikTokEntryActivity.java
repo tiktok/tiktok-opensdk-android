@@ -45,7 +45,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
         if (resp instanceof Authorization.Response) {
             Authorization.Response response = (Authorization.Response) resp;
             Intent intent = null;
-            if (resp.isSuccess()) {
+            if (resp.isSuccess() && response.state.equals("ww")) {
 
                 Toast.makeText(this, "Authorization is successful, granted permissions: " + response.grantedPermissions,
                         Toast.LENGTH_LONG).show();
