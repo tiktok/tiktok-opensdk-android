@@ -18,6 +18,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -27,13 +28,13 @@ android {
     productFlavors {
         overseaexternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
+            buildConfigField "String", "CLIENT_KEY", '"awrf01sgkui9j26b"'
             buildConfigField "String", "CLIENT_KEY_BOE", '""'
         }
 
         overseainternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"aw5xg3s3dti97c39"'
+            buildConfigField "String", "CLIENT_KEY", '"awt8hduec705n1uv"'
             buildConfigField "String", "CLIENT_KEY_BOE", '"awo2m7w19ica6k85"'
         }
 
