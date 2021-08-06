@@ -54,6 +54,5 @@ dependencies {
     annotationProcessor "com.google.auto.value:auto-value:1.7.4"
 }
 
-apply plugin: 'com.jfrog.bintray'
 apply from: '../upload_all.gradle'
 apply from: '../mvn_publish.gradle'

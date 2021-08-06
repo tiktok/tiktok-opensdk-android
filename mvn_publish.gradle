@@ -3,6 +3,15 @@ apply plugin: 'digital.wup.android-maven-publish'
 def mavenPublications = []
 
 publishing {
+    repositories {
+        maven {
+            url = ARTIFACT_VERSION_EXTERNAL.endsWith('SNAPSHOT') ? REPOSITORY_SNAPSHOT_EXTERNAL : REPOSITORY_EXTERNAL
+            credentials {
+                username = EXTERNAL_USERNAME
+                password = EXTERNAL_PASSWORD
+            }
+        }
+    }
     publications {
         if (project.plugins.hasPlugin("com.android.library")) {
             android.libraryVariants.all { variant ->
@@ -63,34 +72,6 @@ publishing {
                     }
                 }
             }
-        }
-    }
-}
-
-bintray {
-    user = 'adminByteDance'
-    key = '28d174551141db323784d7237f2922ce3e308350'
-    // The publications registered here will get published via bintrayUpload
-    // 这里的publications字段，注册的就是上面的publication名字，是数组，每次gradle bintrayUpload都会把这里配置的所有publication给发布到bintray中
-    publications = ['OverseaexternalAAR']
-    override = false
-    pkg {
-        // organization,各自申请的地址
-        userOrg = 'aweme-open-sdk-team'
-        // 这里就是我们的目标bintray repo，比如G项目目前对外的是public
-        repo = 'public'
-        // 这个似乎影响不大，bintray上显示的名字
-        name = 'AwemeOpenSDK'
-        description = "AwemeOpenSDK"
-        // license和下面的vcsUrl一定要配置，否则会失败
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://bintray.com/beta/#/aweme-open-sdk-team/public/AwemeOpenSDK'
-        // 这个需要为true
-        publish = true
-        publicDownloadNumbers = true
-        dryRun = false
-        version {
-            name = ARTIFACT_VERSION_EXTERNAL
         }
     }
 }
