@@ -27,6 +27,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE};
 
     Button mShareToDouyin;
+    Button mSystemShare;
 
     EditText mMediaPathList;
 
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 v -> ActivityCompat.requestPermissions(MainActivity.this, mPermissionList, 100));
 
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
+        mSystemShare = findViewById(R.id.system_share);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mSetDefaultHashTag1 = findViewById(R.id.set_default_hashtag1);
         mMediaPathList = findViewById(R.id.media_text);
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mShareToDouyin.setOnClickListener( v -> share(currentShareType));
+        mSystemShare.setOnClickListener( v -> systemShare(currentShareType));
     }
 
     @Override
@@ -255,19 +259,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            mUri.clear();
+            StringBuilder uriPaths = new StringBuilder();
             switch (requestCode) {
                 case PHOTO_REQUEST_GALLERY:
-                    Uri uri = data.getData();
-                    mUri.add(uri);
+                    if(data.getClipData() != null && data.getClipData().getItemCount() > 0) {
+                        int count = data.getClipData().getItemCount();
+                        for(int i = 0; i < count; i++) {
+                            Uri uri = data.getClipData().getItemAt(i).getUri();
+                            mUri.add(uri);
+                            uriPaths.append(uri.getPath()).append("\n");
+                        }
+                    } else if(data.getData() != null) {
+                        Uri uri = data.getData();
+                        mUri.add(uri);
+                        uriPaths.append(uri.getPath());
+                    }
+                    mMediaPathList.setText(uriPaths.toString());
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag1.setVisibility(View.VISIBLE);
-                    mMediaPathList.setText(mMediaPathList.getText().append("\n").append(uri.getPath()));
                     mShareToDouyin.setVisibility(View.VISIBLE);
+                    mSystemShare.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
 
                     break;
@@ -283,24 +301,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void openSystemGallery() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
         builder.setMessage(R.string.add_photo_video)
-                .setNegativeButton(R.string.video, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        currentShareType = Share.VIDEO;
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("video/*");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-                    }
+                .setNegativeButton(R.string.video, (dialog, which) -> {
+                    currentShareType = Share.VIDEO;
+                    intent.setType("video/*");
+                    startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                 })
                 .setPositiveButton(R.string.image, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         currentShareType = Share.IMAGE;
-                        Intent intent = new Intent(Intent.ACTION_PICK);
                         intent.setType("image/*");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                     }
                 });
@@ -397,7 +412,11 @@ public class MainActivity extends AppCompatActivity {
                         for (int i=0; i<mUri.size(); i++) {
                             String filePath = UriUtil.convertUriToPath(MainActivity.this,mUri.get(i));;
                             try {
-                                is = new BufferedInputStream(new FileInputStream(filePath));
+                                if(filePath == null) {
+                                    is = getContentResolver().openInputStream(mUri.get(i));
+                                } else {
+                                    is = new BufferedInputStream(new FileInputStream(filePath));
+                                }
 
                                 File file = new File(getExternalFilesDir(null), "/videoData");
                                 file.mkdirs();
@@ -446,5 +465,36 @@ public class MainActivity extends AppCompatActivity {
 
         Thread t = new Thread(r);
         t.start();
+    }
+
+    private void systemShare(int shareType) {
+
+        if(mUri.size() <= 0)
+            return;
+
+        Intent shareIntent = new Intent();
+
+        switch (shareType) {
+            case Share.IMAGE:
+                shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, mUri);
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, "Share images to.."));
+                break;
+            case Share.VIDEO:
+                shareIntent.setType("video/*");
+                if(mUri.size() == 1) {
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, mUri.get(0));
+                    startActivity(Intent.createChooser(shareIntent, "Share video to.."));
+                } else {
+                    shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                    shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+                    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, mUri);
+                    shareIntent.setType("video/mp4");
+                    startActivity(Intent.createChooser(shareIntent, "Share videos to.."));
+                }
+                break;
+        }
     }
 }
