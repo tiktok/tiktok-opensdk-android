@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     int currentShareType;
 
-    private ArrayList<String> mUri = new ArrayList<>();
+    private ArrayList<Uri> mUri = new ArrayList<>();
     private TikTokOpenConfig prodTiktokOpenConfig;
     private TikTokOpenConfig boeTiktokOpenConfig;
 
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case PHOTO_REQUEST_GALLERY:
                     Uri uri = data.getData();
-                    mUri.add(UriUtil.convertUriToPath(this,uri));
+                    mUri.add(uri);
                     mMediaPathList.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag.setVisibility(View.VISIBLE);
                     mSetDefaultHashTag1.setVisibility(View.VISIBLE);
@@ -340,11 +340,22 @@ public class MainActivity extends AppCompatActivity {
                     case Share.IMAGE:
                         ArrayList<String> images = new ArrayList<>();
                         for (int i=0; i<mUri.size(); i++) {
-                            String filePath = mUri.get(i);
+                            String filePath = UriUtil.convertUriToPath(MainActivity.this,mUri.get(i));
                             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                             File path = new File(getExternalFilesDir(null), "/imageData");
                             path.mkdirs();
                             File file = new File(path, i + ".png");
+
+                            if(bitmap == null) {
+                                try {
+                                    InputStream ims = getContentResolver().openInputStream(mUri.get(i));
+                                    BitmapFactory.Options opts = new BitmapFactory.Options();
+                                    opts.inScaled = true;
+                                    bitmap = BitmapFactory.decodeStream(ims);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
                             FileOutputStream out = null;
                             try {
@@ -356,6 +367,8 @@ public class MainActivity extends AppCompatActivity {
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -382,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
                         InputStream is = null;
                         ByteArrayOutputStream out = null;
                         for (int i=0; i<mUri.size(); i++) {
-                            String filePath = mUri.get(i);
+                            String filePath = UriUtil.convertUriToPath(MainActivity.this,mUri.get(i));;
                             try {
                                 is = new BufferedInputStream(new FileInputStream(filePath));
 
