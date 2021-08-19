@@ -70,8 +70,6 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
             } else {
                 Toast.makeText(this, "Sharing Failed, errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
             }
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
             finish();
         }
 
