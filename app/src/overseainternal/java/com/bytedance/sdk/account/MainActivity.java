@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mSetDefaultHashTag;
     EditText mSetDefaultHashTag1;
+
+    LinearLayout mAutoAttachAnchorToggleField;
+    LinearLayout mExtraField;
+    LinearLayout mAnchorSourceTypeField;
+
+    EditText mSetExtra;
+    EditText mSetAnchorSourceType;
+    ToggleButton mAutoAttachAnchorToggle;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -165,11 +174,27 @@ public class MainActivity extends AppCompatActivity {
         mSetDefaultHashTag1 = findViewById(R.id.set_default_hashtag1);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
+        mExtraField = findViewById(R.id.extra_field);
+        mAnchorSourceTypeField = findViewById(R.id.anchor_source_field);
+        mSetExtra = findViewById(R.id.extra_edit_text);
+        mSetAnchorSourceType = findViewById(R.id.anchor_source_edit_text);
+        mAutoAttachAnchorToggleField = findViewById(R.id.anchor_auto_attach_toggle_field);
+        mAutoAttachAnchorToggle = findViewById(R.id.auto_attach_anchor_toggle);
 
 
         mClearMedia.setOnClickListener( v -> {
             mUri.clear();
             mMediaPathList.setText("");
+        });
+
+        mAutoAttachAnchorToggle.setOnCheckedChangeListener((v, checked) -> {
+            if (checked) {
+                mExtraField.setVisibility(View.VISIBLE);
+                mAnchorSourceTypeField.setVisibility(View.VISIBLE);
+            } else {
+                mExtraField.setVisibility(View.GONE);
+                mAnchorSourceTypeField.setVisibility(View.GONE);
+            }
         });
 
         mShareToDouyin.setOnClickListener( v -> share(currentShareType));
@@ -287,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mSystemShare.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
+                    mAutoAttachAnchorToggleField.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -343,14 +369,28 @@ public class MainActivity extends AppCompatActivity {
             hashtags.add(mSetDefaultHashTag.getText().toString());
         }
 
+        String openPlatformExtra = null;
+        if (mAutoAttachAnchorToggle.isChecked() && !TextUtils.isEmpty(mSetExtra.getText())) {
+            openPlatformExtra = mSetExtra.getText().toString();
+        }
+
+        String anchorSourceType = null;
+        if (mAutoAttachAnchorToggle.isChecked() && !TextUtils.isEmpty(mSetAnchorSourceType.getText())) {
+            anchorSourceType = mSetAnchorSourceType.getText().toString();
+        }
+
         Handler handler = new Handler();
+        String finalAnchorSourceType = anchorSourceType;
+        String finalOpenPlatformExtra = openPlatformExtra;
         Runnable r = new Runnable()
         {
             @Override
             public void run()
             {
                 ShareRequest.Builder requestBuilder = ShareRequest.builder()
-                        .hashtags(hashtags);
+                        .hashtags(hashtags)
+                        .anchorSourceType(finalAnchorSourceType)
+                        .extra(finalOpenPlatformExtra);
                 switch (shareType) {
                     case Share.IMAGE:
                         ArrayList<String> images = new ArrayList<>();

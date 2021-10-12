@@ -40,6 +40,8 @@ public class ShareRequest {
         private List<String> mediaPaths;
         private MediaType mediaType;
         private List<String> hashtags;
+        private String extra;
+        private String anchorSourceType;
 
         private Builder() {}
 
@@ -67,6 +69,24 @@ public class ShareRequest {
          */
         public Builder hashtags(List<String> hashtags) {
             this.hashtags = hashtags;
+            return this;
+        }
+
+        /**
+         * @param extra extra information to pass to client in a serialized json format {"hello": "world"}
+         * @return Builder builder instance
+         */
+        public Builder extra(String extra) {
+            this.extra = extra;
+            return this;
+        }
+
+        /**
+         * @param anchorSourceType used for anchor auto selection, specifying the source of anchor
+         * @return Builder builder instance
+         */
+        public Builder anchorSourceType(String anchorSourceType) {
+            this.anchorSourceType = anchorSourceType;
             return this;
         }
 
@@ -101,6 +121,8 @@ public class ShareRequest {
             MediaContent mediaContent = new MediaContent();
             mediaContent.mMediaObject = mediaObject;
             shareReq.mMediaContent = mediaContent;
+            shareReq.mExtra = extra;
+            shareReq.mAnchorSourceType = anchorSourceType;
 
             if (hashtags != null) {
                 shareReq.mHashTagList = new ArrayList<>(hashtags);

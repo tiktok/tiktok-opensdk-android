@@ -37,6 +37,9 @@ public class Share {
 
         public String mState;
 
+        public String mExtra;
+        public String mAnchorSourceType;
+
         public Request() {
             super();
         }

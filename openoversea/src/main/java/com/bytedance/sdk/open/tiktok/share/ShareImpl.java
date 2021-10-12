@@ -62,6 +62,10 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
 
+            // TODO: Add keys to BaseParams
+            bundle.putString("extra", request.mExtra);
+            bundle.putString("anchor_source_type", request.mAnchorSourceType);
+
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
             intent.setComponent(componentName);

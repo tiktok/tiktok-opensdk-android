@@ -39,4 +39,7 @@
 
     <string name="share_to_aweme">Share to TikTok</string>
     <string name="open_system_share">Open System Share</string>
+    <string name="extra">extra:</string>
+    <string name="anchor_source_type">anchor_source_type:</string>
+    <string name="is_auto_attach_anchor">Auto Attach Anchor?</string>
 </resources>
