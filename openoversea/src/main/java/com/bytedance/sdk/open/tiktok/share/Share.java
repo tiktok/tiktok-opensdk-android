@@ -13,6 +13,8 @@ import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Share {
 
@@ -39,6 +41,10 @@ public class Share {
 
         public String mExtra;
         public String mAnchorSourceType;
+
+        // Allow developers to include extra share options such as enable/disable certain actions
+        // in the creation flow
+        public HashMap<String, Integer> extraShareOptions;
 
         public Request() {
             super();

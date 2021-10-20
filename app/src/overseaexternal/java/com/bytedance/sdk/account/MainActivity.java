@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -27,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
     EditText mSetDefaultHashTag2;
     Button mSystemShare;
+
+    TextView mExtraShareOptionText;
+    TextView mVideoKitDisableMusicText;
+    ToggleButton mVideoKitDisableMusicToggle;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -116,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         mSystemShare = findViewById(R.id.system_share);
         mMediaPathList = findViewById(R.id.media_text);
         mClearMedia = findViewById(R.id.clear_media);
+        mExtraShareOptionText = findViewById(R.id.share_options);
+        mVideoKitDisableMusicText = findViewById(R.id.share_disable_music_option);
+        mVideoKitDisableMusicToggle = findViewById(R.id.share_disable_music_option_toggle);
 
         mClearMedia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
                     mShareToDouyin.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
                     mSystemShare.setVisibility(View.VISIBLE);
+                    mExtraShareOptionText.setVisibility(View.VISIBLE);
+                    mVideoKitDisableMusicText.setVisibility(View.VISIBLE);
+                    mVideoKitDisableMusicToggle.setVisibility(View.VISIBLE);
 
                     break;
             }
@@ -265,6 +277,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 ShareRequest.Builder requestBuilder = ShareRequest.builder()
                         .hashtags(hashtags);
+                if (mVideoKitDisableMusicToggle.isChecked()) {
+                    requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                }
                 switch (shareType) {
                     case Share.IMAGE:
                         ArrayList<String> images = new ArrayList<>();

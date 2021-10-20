@@ -36,6 +36,7 @@ import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -88,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
     EditText mSetExtra;
     EditText mSetAnchorSourceType;
     ToggleButton mAutoAttachAnchorToggle;
+
+    TextView mExtraShareOptionText;
+    TextView mVideoKitDisableMusicText;
+    ToggleButton mVideoKitDisableMusicToggle;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -180,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
         mSetAnchorSourceType = findViewById(R.id.anchor_source_edit_text);
         mAutoAttachAnchorToggleField = findViewById(R.id.anchor_auto_attach_toggle_field);
         mAutoAttachAnchorToggle = findViewById(R.id.auto_attach_anchor_toggle);
+        mExtraShareOptionText = findViewById(R.id.share_options);
+        mVideoKitDisableMusicText = findViewById(R.id.share_disable_music_option);
+        mVideoKitDisableMusicToggle = findViewById(R.id.share_disable_music_option_toggle);
 
 
         mClearMedia.setOnClickListener( v -> {
@@ -313,6 +321,9 @@ public class MainActivity extends AppCompatActivity {
                     mSystemShare.setVisibility(View.VISIBLE);
                     mClearMedia.setVisibility(View.VISIBLE);
                     mAutoAttachAnchorToggleField.setVisibility(View.VISIBLE);
+                    mExtraShareOptionText.setVisibility(View.VISIBLE);
+                    mVideoKitDisableMusicText.setVisibility(View.VISIBLE);
+                    mVideoKitDisableMusicToggle.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -391,6 +402,9 @@ public class MainActivity extends AppCompatActivity {
                         .hashtags(hashtags)
                         .anchorSourceType(finalAnchorSourceType)
                         .extra(finalOpenPlatformExtra);
+                if (mVideoKitDisableMusicToggle.isChecked()) {
+                    requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                }
                 switch (shareType) {
                     case Share.IMAGE:
                         ArrayList<String> images = new ArrayList<>();

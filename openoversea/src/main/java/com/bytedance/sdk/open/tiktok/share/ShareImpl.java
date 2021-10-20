@@ -62,9 +62,9 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
             bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
 
-            // TODO: Add keys to BaseParams
-            bundle.putString("extra", request.mExtra);
-            bundle.putString("anchor_source_type", request.mAnchorSourceType);
+            bundle.putString(ParamKeyConstants.ShareParams.OPENPLATFORM_EXTRA, request.mExtra);
+            bundle.putString(ParamKeyConstants.ShareParams.ANCHOR_SOURCE_TYPE, request.mAnchorSourceType);
+            bundle.putSerializable(ParamKeyConstants.ShareParams.EXTRA_SHARE_OPTIONS, request.extraShareOptions);
 
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
@@ -72,12 +72,10 @@ public class ShareImpl {
             intent.putExtras(bundle);
 
 
-            if (mContext instanceof Activity) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            } else {
+            if (!(mContext instanceof Activity)) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             try {
                 mContext.startActivity(intent);
                 return true;

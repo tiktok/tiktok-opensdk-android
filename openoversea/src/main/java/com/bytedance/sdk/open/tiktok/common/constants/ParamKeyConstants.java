@@ -96,6 +96,9 @@ public interface ParamKeyConstants {
 
         String SHARE_ANCHOR_INFO = "_aweme_open_sdk_params_anchor_info";
 
+        String OPENPLATFORM_EXTRA = "extra";
+        String ANCHOR_SOURCE_TYPE = "anchor_source_type";
+        String EXTRA_SHARE_OPTIONS = "_aweme_open_sdk_extra_share_options";
     }
 
     interface BaseParams {
@@ -203,6 +206,13 @@ public interface ParamKeyConstants {
          * base open sdk version
          */
         String VERSION = "1";
+    }
+
+    /**
+     * Key of extra share options
+     * */
+    interface ShareOptions {
+        String TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION = "tiktok_videokit_disable_music_selection";
     }
 
 

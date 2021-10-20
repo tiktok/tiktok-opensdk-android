@@ -7,6 +7,7 @@ import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.base.VideoObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ public class ShareRequest {
         private List<String> hashtags;
         private String extra;
         private String anchorSourceType;
+        private final HashMap<String, Integer> extraShareOptions = new HashMap<String, Integer>();
 
         private Builder() {}
 
@@ -90,6 +92,17 @@ public class ShareRequest {
             return this;
         }
 
+
+        /**
+         * @param key used for populating extra share options
+         * @param value used for populating extra share options
+         * @return Builder builder instance
+         * */
+        public Builder putExtraShareOptions(String key, Integer value) {
+            this.extraShareOptions.put(key, value);
+            return this;
+        }
+
         /** @return Immutable ShareRequest instance */
         public ShareRequest build() {
             if (mediaType == null) {
@@ -123,6 +136,7 @@ public class ShareRequest {
             shareReq.mMediaContent = mediaContent;
             shareReq.mExtra = extra;
             shareReq.mAnchorSourceType = anchorSourceType;
+            shareReq.extraShareOptions = extraShareOptions;
 
             if (hashtags != null) {
                 shareReq.mHashTagList = new ArrayList<>(hashtags);
