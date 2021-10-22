@@ -134,7 +134,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     @Override
     public boolean isAppSupportAuthorization() {
-        return getSupportApiAppInfo(API_TYPE_SHARE) != null;
+        return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
     }
 
     @Override
