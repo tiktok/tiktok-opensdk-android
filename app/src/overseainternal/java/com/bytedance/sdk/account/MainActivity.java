@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         mSetAnchorSourceType = findViewById(R.id.anchor_source_edit_text);
         mAutoAttachAnchorToggleField = findViewById(R.id.anchor_auto_attach_toggle_field);
         mAutoAttachAnchorToggle = findViewById(R.id.auto_attach_anchor_toggle);
-        mExtraShareOptionText = findViewById(R.id.share_options);
+        mExtraShareOptionText = findViewById(R.id.internal_share_options);
         mVideoKitDisableMusicText = findViewById(R.id.share_disable_music_option);
         mVideoKitDisableMusicToggle = findViewById(R.id.share_disable_music_option_toggle);
 
