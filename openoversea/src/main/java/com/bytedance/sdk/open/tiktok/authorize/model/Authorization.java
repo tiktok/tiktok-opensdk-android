@@ -21,6 +21,8 @@ public class Authorization {
 
         public String optionalScope1;
 
+        public Boolean throughWebOnly;
+
         public String getClientKey() {
             return clientKey;
         }

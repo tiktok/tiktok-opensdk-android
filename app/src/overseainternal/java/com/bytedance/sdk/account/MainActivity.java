@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mExtraShareOptionText;
     TextView mVideoKitDisableMusicText;
     ToggleButton mVideoKitDisableMusicToggle;
+    CheckBox mAuthUsingWebOnlyCheckBox;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
 
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                 return;
             }
-            sendAuth(scope);
+            sendAuth(scope, mAuthUsingWebOnlyCheckBox.isChecked());
         });
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(
@@ -268,10 +271,11 @@ public class MainActivity extends AppCompatActivity {
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
-    private boolean sendAuth(String scope) {
+    private boolean sendAuth(String scope, Boolean throughWebOnly) {
         Authorization.Request request = new Authorization.Request();
         request.scope = scope;                      // Permissions for user authorization
         request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        request.throughWebOnly = throughWebOnly;    // Used to determine whether open web authorization only
         return tiktokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 

@@ -156,7 +156,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     public boolean authorize(Authorization.Request request) {
         IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
-        if (appHasInstalled != null) {
+        if (appHasInstalled != null && request.throughWebOnly != true) {
             return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         } else {
             return sendWebAuthRequest(request);
