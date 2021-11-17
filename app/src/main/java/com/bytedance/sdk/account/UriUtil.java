@@ -83,7 +83,10 @@ public class UriUtil {
         Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                int index = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                if (index >= 0) {
+                    path = cursor.getString(index);
+                }
             }
 
             cursor.close();
