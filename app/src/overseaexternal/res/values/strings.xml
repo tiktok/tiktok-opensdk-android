@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
     <string name="tiktok_open_api_not_instantiated">TikTok open api not instantiated</string>
     <string name="auth_selected">Auth for scopes below</string>
     <string name="auth">Authorization</string>
