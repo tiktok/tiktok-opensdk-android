@@ -49,6 +49,8 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     private static final String RES_STRING = "string";
     protected static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
 
+    private static final String USER_CANCEL_AUTH = "User cancelled the Authorization";
+
 
     int OP_ERROR_NO_CONNECTION = -12;
     int OP_ERROR_CONNECT_TIMEOUT = -13;
@@ -165,7 +167,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
     @Override
     public void onBackPressed() {
-        redirectToClientApp("", CommonConstants.BaseErrorCode.ERROR_CANCEL);
+        redirectToClientApp(CommonConstants.BaseErrorCode.ERROR_CANCEL, USER_CANCEL_AUTH);
     }
 
     public final void handleRequestIntent() {
@@ -203,8 +205,8 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
 
 
-    private void redirectToClientApp(String code, int errorCode) {
-        redirectToClientApp(code, null, errorCode);
+    private void redirectToClientApp(int errorCode, String errorMsg) {
+        redirectToClientApp("", null, errorCode, errorMsg);
     }
 
     /**
@@ -214,11 +216,12 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
      * @param state
      * @param errorCode
      */
-    private void redirectToClientApp(String code, String state, int errorCode) {
+    private void redirectToClientApp(String code, String state, int errorCode, String errorMsg) {
         Authorization.Response response = new Authorization.Response();
         response.authCode = code;
         response.errorCode = errorCode;
         response.state = state;
+        response.errorMsg = errorMsg;
         sendInnerResponse(mAuthRequest, response);
         finish();
     }
@@ -366,29 +369,41 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         }
     }
 
+    private void parseErrorAndRedirectToClient(Uri uri) {
+        String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
+        String errorMsgStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_MESSAGE);
+        int errorCode = CommonConstants.BaseErrorCode.ERROR_UNKNOW;
+        if (!TextUtils.isEmpty(errorCodeStr)) {
+            try {
+                errorCode = Integer.parseInt(errorCodeStr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        redirectToClientApp(errorCode, errorMsgStr);
+    }
+
     private boolean handleRedirect(String url) {
         if (TextUtils.isEmpty(url)) {
             return false;
         }
+        Uri uri = Uri.parse(url);
         Authorization.Request argument = mAuthRequest;
+        // Check for "Something went wrong" page
+        if (url.startsWith("https://" + getDomain() + "/platform/oauth/connect") &&
+                uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE) != null
+                && uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_MESSAGE) != null) {
+            parseErrorAndRedirectToClient(uri);
+            return false;
+        }
         if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
             return false;
         }
-        Uri uri = Uri.parse(url);
         String code = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_CODE);
         String state = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_STATE);
         String grantedPermissions = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
-            String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
-            int errorCode = CommonConstants.BaseErrorCode.ERROR_UNKNOW;
-            if (!TextUtils.isEmpty(errorCodeStr)) {
-                try {
-                    errorCode = Integer.parseInt(errorCodeStr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            redirectToClientApp("", errorCode);
+            parseErrorAndRedirectToClient(uri);
             return false;
         }
         redirectToClientApp(code, state, grantedPermissions, CommonConstants.BaseErrorCode.OK);
@@ -425,7 +440,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     }
 
     protected void onCancel(int errCode) {
-        redirectToClientApp("", errCode);
+        redirectToClientApp(errCode, USER_CANCEL_AUTH);
     }
 
 
