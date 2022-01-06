@@ -389,13 +389,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         }
         Uri uri = Uri.parse(url);
         Authorization.Request argument = mAuthRequest;
-        // Check for "Something went wrong" page
-        if (url.startsWith("https://" + getDomain() + "/platform/oauth/connect") &&
-                uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE) != null
-                && uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_MESSAGE) != null) {
-            parseErrorAndRedirectToClient(uri);
-            return false;
-        }
         if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
             return false;
         }

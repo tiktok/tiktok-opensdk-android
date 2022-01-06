@@ -190,7 +190,7 @@ public interface ParamKeyConstants {
         String SCHEMA_HTTPS = "https";
         String REDIRECT_QUERY_CODE = "code";
         String REDIRECT_QUERY_STATE = "state";
-        String REDIRECT_QUERY_ERROR_CODE = "error_code";
+        String REDIRECT_QUERY_ERROR_CODE = "errCode";
         String REDIRECT_QUERY_ERROR_MESSAGE = "error";
         String REDIRECT_QUERY_SCOPE = "scopes";
         String QUERY_ENCRIPTION_PACKAGE = "app_identity";
