@@ -39,6 +39,12 @@
             android:id="@+id/uploadSound"
             android:text="Browse sound" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:text="Return" />
+
     </LinearLayout>
 
     <LinearLayout

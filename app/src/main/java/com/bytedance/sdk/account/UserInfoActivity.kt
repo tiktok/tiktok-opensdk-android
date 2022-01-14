@@ -54,6 +54,10 @@ class UserInfoActivity: Activity() {
         findViewById(R.id.uploadResult)
     }
 
+    val backBtn by lazy<Button> {
+        findViewById(R.id.back)
+    }
+
     lateinit var accessToken: String;
     lateinit var openId: String;
 
@@ -107,6 +111,10 @@ class UserInfoActivity: Activity() {
             intent.type = "audio/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(intent, 1)
+        }
+
+        backBtn.setOnClickListener {
+            finish()
         }
     }
 
