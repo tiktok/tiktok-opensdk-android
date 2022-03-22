@@ -31,7 +31,6 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TikTokOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
-        mCancelImg.setColorFilter(Color.BLACK);
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
     }
 
