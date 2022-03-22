@@ -54,7 +54,8 @@ public class WebViewHelper {
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs))
                 .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_ENCRIPTION_PACKAGE, Md5Utils.hexDigest(request.getCallerPackage()))
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_PLATFORM, "android");
+                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_PLATFORM, "android")
+                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_ACCEPT_LANGUAGE, request.language);
 
         return builder.build().toString();
     }

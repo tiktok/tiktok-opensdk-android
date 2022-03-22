@@ -71,6 +71,8 @@ public interface ParamKeyConstants {
          */
         String WAP_REQUESETED_ORIENTATION = "wap_requested_orientation";
 
+        String LANGUAGE = "language";
+
     }
 
     interface ShareParams {
@@ -191,10 +193,11 @@ public interface ParamKeyConstants {
         String REDIRECT_QUERY_CODE = "code";
         String REDIRECT_QUERY_STATE = "state";
         String REDIRECT_QUERY_ERROR_CODE = "errCode";
-        String REDIRECT_QUERY_ERROR_MESSAGE = "error";
+        String REDIRECT_QUERY_ERROR_MESSAGE = "error_string";
         String REDIRECT_QUERY_SCOPE = "scopes";
         String QUERY_ENCRIPTION_PACKAGE = "app_identity";
         String QUERY_PLATFORM = "device_platform";
+        String QUERY_ACCEPT_LANGUAGE = "accept_language";
     }
 
 

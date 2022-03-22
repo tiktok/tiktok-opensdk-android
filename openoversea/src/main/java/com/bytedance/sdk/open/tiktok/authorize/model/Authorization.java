@@ -23,6 +23,8 @@ public class Authorization {
 
         public Boolean throughWebOnly;
 
+        public String language;
+
         public String getClientKey() {
             return clientKey;
         }
@@ -49,6 +51,7 @@ public class Authorization {
             this.scope = bundle.getString(ParamKeyConstants.AuthParams.SCOPE);
             this.optionalScope0 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0);
             this.optionalScope1 = bundle.getString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1);
+            this.language = bundle.getString(ParamKeyConstants.AuthParams.LANGUAGE);
         }
 
         @Override
@@ -60,6 +63,7 @@ public class Authorization {
             bundle.putString(ParamKeyConstants.AuthParams.SCOPE, scope);
             bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE0, optionalScope0);
             bundle.putString(ParamKeyConstants.AuthParams.OPTIONAL_SCOPE1, optionalScope1);
+            bundle.putString(ParamKeyConstants.AuthParams.LANGUAGE, language);
         }
     }
 
