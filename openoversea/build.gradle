@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
@@ -48,11 +49,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.annotation:annotation:1.2.0'
     compileOnly 'com.google.code.gson:gson:2.2.4'
 
     api "com.google.auto.value:auto-value-annotations:1.7.4"
     annotationProcessor "com.google.auto.value:auto-value:1.7.4"
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply from: '../upload_all.gradle'
 apply from: '../mvn_publish.gradle'
+repositories {
+    mavenCentral()
+}
