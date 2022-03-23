@@ -26,6 +26,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.R;
@@ -126,7 +127,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     private static final int MSG_LOADING_TIME_OUT = 100;
 
     private Context mContext;
-    protected ImageView mCancelImg;
+    protected TextView mCancelBtn;
 
 
     @Override
@@ -274,8 +275,8 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         // cancle button
         mHeaderView = findViewById(R.id.open_header_view);
 
-        mCancelImg = findViewById(R.id.cancel);
-        mCancelImg.setOnClickListener(new View.OnClickListener() {
+        mCancelBtn = findViewById(R.id.cancel);
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancel(CommonConstants.BaseErrorCode.ERROR_CANCEL);
