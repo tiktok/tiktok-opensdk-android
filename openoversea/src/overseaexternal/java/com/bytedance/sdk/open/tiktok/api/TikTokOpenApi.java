@@ -8,7 +8,6 @@ import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 
 public interface TikTokOpenApi {
-
     /**
      * send request to authorize. If tiktok does not support authorization, it will get authorization through wap
      *
@@ -64,4 +63,6 @@ public interface TikTokOpenApi {
 
     String getSdkVersion();
 
+    @Nullable
+    IApiEventHandler getApiHandler();
 }

@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,9 @@ import androidx.core.content.FileProvider;
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
+import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
+import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -55,7 +59,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IApiEventHandler {
 
     public static final String CODE_KEY = "code";
     public static final String SHARE_SOUND = "share_sound";
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
         mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
@@ -248,6 +252,18 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onReq(BaseReq req) {
+        Log.d("sharesdk", "hello");
+    }
+
+    public void onResp(BaseResp resp) {
+        Log.d("sharesdk", "hello");
+    }
+
+    public void onErrorIntent(Intent intent) {
+        Log.d("sharesdk", "hello");
+    }
+
     private String appendToScope(String scope, String newScope) {
         if (scope.isEmpty()) {
             return newScope;
@@ -258,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initClientKey(boolean isProd) {
         TikTokOpenApiFactory.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
     }
 
     private void updatePreferences(boolean isBOE) {

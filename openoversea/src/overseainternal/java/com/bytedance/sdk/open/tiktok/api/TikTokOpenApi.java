@@ -2,6 +2,8 @@ package com.bytedance.sdk.open.tiktok.api;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
+
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
@@ -65,4 +67,6 @@ public interface TikTokOpenApi {
 
     boolean isSupportLiteAuthorize();
 
+    @Nullable
+    IApiEventHandler getApiHandler();
 }

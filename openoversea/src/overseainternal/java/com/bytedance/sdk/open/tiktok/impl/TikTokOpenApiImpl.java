@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.Nullable;
+
 import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
@@ -38,7 +40,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     private Context mContext;
     private final IAPPCheckHelper[] mAuthcheckApis;
     private final IAPPCheckHelper[] mSharecheckApis;
-
+    @Nullable private IApiEventHandler apiHandler;
 
     private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
 
@@ -58,10 +60,11 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    public TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
+    public TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl, @Nullable IApiEventHandler apiHandler) {
         this.mContext = context;
         this.shareImpl = shareImpl;
         this.authImpl = authImpl;
+        this.apiHandler = apiHandler;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
         handlerMap.put(TYPE_SHARE_HANDLER, new ShareDataHandler());
         mAuthcheckApis = new IAPPCheckHelper[]{
@@ -130,6 +133,12 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             }
         }
         return false;
+    }
+
+    @Nullable
+    @Override
+    public IApiEventHandler getApiHandler() {
+        return apiHandler;
     }
 
     @Override

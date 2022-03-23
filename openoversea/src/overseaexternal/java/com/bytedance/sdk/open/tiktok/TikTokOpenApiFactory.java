@@ -19,7 +19,7 @@ public class TikTokOpenApiFactory {
         }
         return false;
     }
-
+    private static TikTokOpenApiImpl sharedApiImpl;
     /**
      * 创建 TTOpenApi
      *

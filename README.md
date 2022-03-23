@@ -9,3 +9,5 @@
 ## Publish
 
 Please follow the instructions [here](https://bytedance.feishu.cn/docs/doccnIVScHWfdpGNaayhv2gG7vd#).
+To publish internal (for Bytedance partners) and external (external partners) aar, follow this [link](https://bytedance.feishu.cn/docs/doccnabOaizRNv1cbXJ74qWoE8c)
+
