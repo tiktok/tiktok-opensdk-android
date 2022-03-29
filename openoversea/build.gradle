@@ -45,16 +45,41 @@ android {
         overseainternal { java.srcDirs = ['src/overseainternal/java', 'src/overseainternal/java/'] }
         overseaexternal { java.srcDirs = ['src/overseaexternal/java', 'src/overseaexternal/java/'] }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // [optional] use AndroidJUnitRunner as the default test instrumentation runner
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.test:monitor:1.4.0'
+    implementation 'androidx.test.ext:junit:1.1.3'
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation "androidx.test:runner:1.4.0"
+    androidTestImplementation "androidx.test:rules:1.4.0"
+    // Optional -- UI testing with Espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    // Optional -- UI testing with UI Automator
+//    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
+    // Optional -- UI testing with Compose
+//    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+
     compileOnly 'com.google.code.gson:gson:2.2.4'
 
     api "com.google.auto.value:auto-value-annotations:1.7.4"
     annotationProcessor "com.google.auto.value:auto-value:1.7.4"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 

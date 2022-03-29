@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.Nullable;
+
 import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
@@ -164,6 +166,12 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     @Override
     public String getSdkVersion() {
         return BuildConfig.SDK_OVERSEA_VERSION;
+    }
+
+    @Nullable
+    @Override
+    public IApiEventHandler getApiHandler() {
+        return null;
     }
 
     @Override
