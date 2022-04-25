@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     TextView mExtraShareOptionText;
     TextView mVideoKitDisableMusicText;
     ToggleButton mVideoKitDisableMusicToggle;
-    CheckBox mAuthUsingWebOnlyCheckBox;
 
 
     static final int PHOTO_REQUEST_GALLERY = 10;
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            sendAuth(getString(R.string.user_info_basic_scope), mAuthUsingWebOnlyCheckBox.isChecked());
+            sendAuth(getString(R.string.user_info_basic_scope));
         });
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(new View.OnClickListener() {
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
         mShareToDouyin = findViewById(R.id.share_to_tiktok);
         mSetDefaultHashTag = findViewById(R.id.set_default_hashtag);
         mSetDefaultHashTag2 = findViewById(R.id.set_default_hashtag1);
@@ -156,11 +154,10 @@ public class MainActivity extends AppCompatActivity {
         return scope;
     }
 
-    private boolean sendAuth(String scope, boolean throughWebOnly) {
+    private boolean sendAuth(String scope) {
         Authorization.Request request = new Authorization.Request();
         request.scope = scope;                      // Permissions for user authorization
         request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
-        request.throughWebOnly = throughWebOnly;    // Used to determine whether open web authorization only
         return tikTokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 

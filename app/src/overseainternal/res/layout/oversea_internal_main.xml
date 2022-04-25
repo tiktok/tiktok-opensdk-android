@@ -41,12 +41,6 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/auth_selected" />
 
-                <CheckBox
-                    android:id="@+id/auth_use_web_checkBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Through Web Only" />
             </LinearLayout>
 
             <LinearLayout
