@@ -65,6 +65,7 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.ShareParams.OPENPLATFORM_EXTRA, request.mExtra);
             bundle.putString(ParamKeyConstants.ShareParams.ANCHOR_SOURCE_TYPE, request.mAnchorSourceType);
             bundle.putSerializable(ParamKeyConstants.ShareParams.EXTRA_SHARE_OPTIONS, request.extraShareOptions);
+            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_FORMAT, request.mShareFormat.getValue());
 
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
