@@ -43,6 +43,7 @@ public class ShareRequest {
         private List<String> hashtags;
         private String extra;
         private String anchorSourceType;
+        private Share.Format shareFormat = Share.Format.DEFAULT;
         private final HashMap<String, Integer> extraShareOptions = new HashMap<String, Integer>();
 
         private Builder() {}
@@ -91,7 +92,10 @@ public class ShareRequest {
             this.anchorSourceType = anchorSourceType;
             return this;
         }
-
+        public Builder shareFormat(Share.Format format) {
+            this.shareFormat = format;
+            return this;
+        }
 
         /**
          * @param key used for populating extra share options
@@ -137,7 +141,7 @@ public class ShareRequest {
             shareReq.mExtra = extra;
             shareReq.mAnchorSourceType = anchorSourceType;
             shareReq.extraShareOptions = extraShareOptions;
-
+            shareReq.mShareFormat = this.shareFormat;
             if (hashtags != null) {
                 shareReq.mHashTagList = new ArrayList<>(hashtags);
             }

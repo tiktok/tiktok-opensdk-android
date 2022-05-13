@@ -21,13 +21,24 @@ public class Share {
     private static final String TAG = "Aweme.OpenSDK.Share";
     public static final int VIDEO = 0;
     public static final int IMAGE = 1;
+    public enum Format {
+        DEFAULT(0),
+        GREEN_SCREEN(1);
+        private final int value;
 
+        Format(int i) {
+            this.value = i;
+        }
+        public int getValue() {
+            return value;
+        }
+    }
     public static class Request extends BaseReq {
 
         public int mTargetSceneType = 0;
 
         public ArrayList<String> mHashTagList;
-
+        public Format mShareFormat;
         public MediaContent mMediaContent;
         public MicroAppInfo mMicroAppInfo;
 
@@ -73,6 +84,14 @@ public class Share {
             this.mMediaContent = MediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = MicroAppInfo.unserialize(bundle);
             this.mAnchorInfo = AnchorObject.unserialize(bundle);
+            int shareFormatValue = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_FORMAT);
+            switch (shareFormatValue) {
+                case 1: {
+                    this.mShareFormat = Format.GREEN_SCREEN;
+                } break;
+                default:
+                    this.mShareFormat = Format.DEFAULT;
+            }
         }
 
         @SuppressLint("MissingSuperCall")
@@ -101,6 +120,7 @@ public class Share {
                     mAnchorInfo.serialize(bundle);
                 }
             }
+            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_FORMAT, mShareFormat.value);
         }
 
 
