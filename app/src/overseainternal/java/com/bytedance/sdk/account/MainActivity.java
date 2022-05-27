@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
     TextView mVideoKitDisableMusicText;
     ToggleButton mVideoKitDisableMusicToggle;
 
+    View greenScreenSetting;
+    ToggleButton mGreenScreenToggle;
 
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
@@ -189,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
         mExtraShareOptionText = findViewById(R.id.internal_share_options);
         mVideoKitDisableMusicText = findViewById(R.id.share_disable_music_option);
         mVideoKitDisableMusicToggle = findViewById(R.id.share_disable_music_option_toggle);
-
+        mGreenScreenToggle = findViewById(R.id.greenscreen_toggle);
+        greenScreenSetting = findViewById(R.id.greenscreen_setting);
 
         mClearMedia.setOnClickListener( v -> {
             mUri.clear();
@@ -325,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     mExtraShareOptionText.setVisibility(View.VISIBLE);
                     mVideoKitDisableMusicText.setVisibility(View.VISIBLE);
                     mVideoKitDisableMusicToggle.setVisibility(View.VISIBLE);
+                    greenScreenSetting.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -405,6 +409,9 @@ public class MainActivity extends AppCompatActivity {
                         .extra(finalOpenPlatformExtra);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
                     requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                }
+                if (mGreenScreenToggle.isChecked()) {
+                    requestBuilder.shareFormat(Share.Format.GREEN_SCREEN);
                 }
                 switch (shareType) {
                     case Share.IMAGE:
