@@ -168,7 +168,11 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
     @Override
     public void onBackPressed() {
-        redirectToClientApp(CommonConstants.BaseErrorCode.ERROR_CANCEL, USER_CANCEL_AUTH);
+        if (mContentWebView.canGoBack()) {
+            mContentWebView.goBack();
+        } else {
+            redirectToClientApp(CommonConstants.BaseErrorCode.ERROR_CANCEL, USER_CANCEL_AUTH);
+        }
     }
 
     public final void handleRequestIntent() {
