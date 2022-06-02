@@ -14,7 +14,6 @@ import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Share {
 
@@ -67,7 +66,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return CommonConstants.ModeType.SHARE_CONTENT_TO_TT;
+            return CommonConstants.TIKTOK.SHARE_REQUEST;
         }
 
         @SuppressLint("MissingSuperCall")
@@ -151,7 +150,7 @@ public class Share {
 
         @Override
         public int getType() {
-            return CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP;
+            return CommonConstants.TIKTOK.SHARE_RESPONSE;
         }
 
         @SuppressLint("MissingSuperCall")

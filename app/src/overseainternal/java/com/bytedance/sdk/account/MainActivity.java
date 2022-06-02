@@ -129,8 +129,6 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-//        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
-//        mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{

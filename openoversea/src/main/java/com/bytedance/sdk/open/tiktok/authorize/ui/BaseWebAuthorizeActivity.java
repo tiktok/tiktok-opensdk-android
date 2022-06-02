@@ -24,7 +24,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -171,7 +170,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         if (mContentWebView.canGoBack()) {
             mContentWebView.goBack();
         } else {
-            redirectToClientApp(CommonConstants.BaseErrorCode.ERROR_CANCEL, USER_CANCEL_AUTH);
+            redirectToClientApp(CommonConstants.BaseError.ERROR_CANCEL, USER_CANCEL_AUTH);
         }
     }
 
@@ -283,7 +282,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel(CommonConstants.BaseErrorCode.ERROR_CANCEL);
+                onCancel(CommonConstants.BaseError.ERROR_CANCEL);
             }
         });
         setContainerViewBgColor();
@@ -377,7 +376,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     private void parseErrorAndRedirectToClient(Uri uri) {
         String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
         String errorMsgStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_MESSAGE);
-        int errorCode = CommonConstants.BaseErrorCode.ERROR_UNKNOW;
+        int errorCode = CommonConstants.BaseError.ERROR_UNKNOWN;
         if (!TextUtils.isEmpty(errorCodeStr)) {
             try {
                 errorCode = Integer.parseInt(errorCodeStr);
@@ -404,7 +403,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             parseErrorAndRedirectToClient(uri);
             return false;
         }
-        redirectToClientApp(code, state, grantedPermissions, CommonConstants.BaseErrorCode.OK);
+        redirectToClientApp(code, state, grantedPermissions, CommonConstants.BaseError.OK);
         return true;
     }
 

@@ -43,7 +43,7 @@ public class ShareRequest {
         private List<String> hashtags;
         private String extra;
         private String anchorSourceType;
-        private Share.Format shareFormat;
+        private Share.Format shareFormat = Share.Format.DEFAULT;
         private final HashMap<String, Integer> extraShareOptions = new HashMap<String, Integer>();
 
         private Builder() {}

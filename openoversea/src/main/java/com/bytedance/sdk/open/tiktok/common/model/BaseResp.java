@@ -33,7 +33,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == CommonConstants.BaseErrorCode.ERROR_CANCEL;
+        return errorCode == CommonConstants.BaseError.ERROR_CANCEL;
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == CommonConstants.BaseErrorCode.OK;
+        return errorCode == CommonConstants.BaseError.OK;
     }
 
     /**

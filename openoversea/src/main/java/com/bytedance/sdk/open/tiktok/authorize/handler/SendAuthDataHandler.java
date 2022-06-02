@@ -17,7 +17,7 @@ public class SendAuthDataHandler implements IDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == CommonConstants.ModeType.SEND_AUTH_REQUEST) {
+        if (type == CommonConstants.TIKTOK.AUTH_REQUEST) {
             Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
                 // deal with white space
@@ -35,7 +35,7 @@ public class SendAuthDataHandler implements IDataHandler {
             } else {
                 return false;
             }
-        } else if (type == CommonConstants.ModeType.SEND_AUTH_RESPONSE) {
+        } else if (type == CommonConstants.TIKTOK.AUTH_RESPONSE) {
             Authorization.Response response = new Authorization.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

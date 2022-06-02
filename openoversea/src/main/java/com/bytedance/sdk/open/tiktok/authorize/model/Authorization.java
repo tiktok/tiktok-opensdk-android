@@ -37,7 +37,7 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return CommonConstants.ModeType.SEND_AUTH_REQUEST;
+            return CommonConstants.TIKTOK.AUTH_REQUEST;
         }
 
         @Override
@@ -80,7 +80,7 @@ public class Authorization {
 
         @Override
         public int getType() {
-            return CommonConstants.ModeType.SEND_AUTH_RESPONSE;
+            return CommonConstants.TIKTOK.AUTH_RESPONSE;
         }
 
         @Override

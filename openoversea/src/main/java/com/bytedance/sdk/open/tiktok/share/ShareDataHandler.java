@@ -15,7 +15,7 @@ public class ShareDataHandler implements IDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == CommonConstants.ModeType.SHARE_CONTENT_TO_TT) {
+        if (type == CommonConstants.TIKTOK.SHARE_REQUEST) {
             Share.Request request = new Share.Request(bundle);
             if (request.checkArgs()) {
                 eventHandler.onReq(request);
@@ -23,7 +23,7 @@ public class ShareDataHandler implements IDataHandler {
             } else {
                 return false;
             }
-        } else if (type == CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP) {
+        } else if (type == CommonConstants.TIKTOK.SHARE_RESPONSE) {
             Share.Response response = new Share.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

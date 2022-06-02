@@ -2,9 +2,7 @@ package com.bytedance.sdk.open.tiktok.impl;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 
 import androidx.annotation.Nullable;
 
@@ -99,11 +97,11 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//分享使用的
         }
         switch (type) {
-            case CommonConstants.ModeType.SEND_AUTH_REQUEST:
-            case CommonConstants.ModeType.SEND_AUTH_RESPONSE:
+            case CommonConstants.TIKTOK.AUTH_REQUEST:
+            case CommonConstants.TIKTOK.AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case CommonConstants.ModeType.SHARE_CONTENT_TO_TT:
-            case CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
+            case CommonConstants.TIKTOK.SHARE_REQUEST:
+            case CommonConstants.TIKTOK.SHARE_RESPONSE:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
