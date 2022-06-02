@@ -98,8 +98,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
     TextView mExtraShareOptionText;
     TextView mVideoKitDisableMusicText;
     ToggleButton mVideoKitDisableMusicToggle;
-    CheckBox mAuthUsingWebOnlyCheckBox;
 
+    View greenScreenSetting;
+    ToggleButton mGreenScreenToggle;
 
     static final int PHOTO_REQUEST_GALLERY = 10;
     static final int SET_SCOPE_REQUEST = 11;
@@ -128,8 +129,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
-        mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
+//        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
+//        mAuthUsingWebOnlyCheckBox = findViewById(R.id.auth_use_web_checkBox);
+        tiktokOpenApi = TikTokOpenApiFactory.create(this);
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
 
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                         .show();
                 return;
             }
-            sendAuth(scope, mAuthUsingWebOnlyCheckBox.isChecked());
+            sendAuth(scope);
         });
 
         findViewById(R.id.go_to_system_picture).setOnClickListener(
@@ -195,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
         mExtraShareOptionText = findViewById(R.id.internal_share_options);
         mVideoKitDisableMusicText = findViewById(R.id.share_disable_music_option);
         mVideoKitDisableMusicToggle = findViewById(R.id.share_disable_music_option_toggle);
-
+        mGreenScreenToggle = findViewById(R.id.greenscreen_toggle);
+        greenScreenSetting = findViewById(R.id.greenscreen_setting);
 
         mClearMedia.setOnClickListener( v -> {
             mUri.clear();
@@ -287,11 +290,10 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
         tiktokOpenApi = TikTokOpenApiFactory.create(this);
     }
 
-    private boolean sendAuth(String scope, Boolean throughWebOnly) {
+    private boolean sendAuth(String scope) {
         Authorization.Request request = new Authorization.Request();
         request.scope = scope;                      // Permissions for user authorization
         request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
-        request.throughWebOnly = throughWebOnly;    // Used to determine whether open web authorization only
         return tiktokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
@@ -344,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                     mExtraShareOptionText.setVisibility(View.VISIBLE);
                     mVideoKitDisableMusicText.setVisibility(View.VISIBLE);
                     mVideoKitDisableMusicToggle.setVisibility(View.VISIBLE);
+                    greenScreenSetting.setVisibility(View.VISIBLE);
 
                     break;
 
@@ -424,6 +427,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                         .extra(finalOpenPlatformExtra);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
                     requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                }
+                if (mGreenScreenToggle.isChecked()) {
+                    requestBuilder.shareFormat(Share.Format.GREEN_SCREEN);
                 }
                 switch (shareType) {
                     case Share.IMAGE:

@@ -46,4 +46,6 @@
     <string name="is_auto_attach_anchor">Auto Attach Anchor?</string>
     <string name="extra_share_config">Extra Share Config</string>
     <string name="disable_music_selection">Disable Music Selection</string>
+
+    <string name="green_screen_text">Use Green Screen Format</string>
 </resources>
