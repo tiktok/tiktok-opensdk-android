@@ -53,7 +53,10 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, ParamKeyConstants.SdkVersion.VERSION);
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
+                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok" + "." + "TikTokShareResponseActivity");
+            }
+            if (localEntry != null) {
+                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." +localEntry);
             }
 
             if (request.extras != null) {
