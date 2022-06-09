@@ -52,7 +52,9 @@ public class ShareImpl {
             bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
             bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, ParamKeyConstants.SdkVersion.VERSION);
-            if (TextUtils.isEmpty(request.callerLocalEntry)) {
+            if (request.callerLocalEntry != null && !TextUtils.isEmpty(request.callerLocalEntry)) {
+                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, request.callerLocalEntry);
+            } else  if (localEntry != null) {
                 bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." + localEntry);
             }
 
