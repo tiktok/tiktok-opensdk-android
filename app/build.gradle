@@ -14,6 +14,25 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        def propsFile = file('/Users/bytedance/Documents/android/keystore/keystore.properties')
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        debug {
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+        }
+
+        release {
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

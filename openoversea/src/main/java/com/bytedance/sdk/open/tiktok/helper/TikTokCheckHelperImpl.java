@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.tiktok.helper;
 import android.content.Context;
 
 import com.bytedance.sdk.open.tiktok.base.BaseCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 
 public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
 
@@ -13,7 +13,7 @@ public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
 
     @Override
     protected int getAuthRequestApi() {
-        return ParamKeyConstants.REQUIRED_API_VERSION.AUTH_REQUIRE_API;
+        return Keys.API.AUTH_REQUIRE_API;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class TikTokCheckHelperImpl extends BaseCheckHelperImpl {
     @Override
     public boolean isShareSupportFileProvider() {
         return  isAppSupportAPI(getPackageName(), getRemoteAuthEntryActivity(),
-                ParamKeyConstants.REQUIRED_API_VERSION.SHARE_SUPPORT_FILEPROVIDER);
+                Keys.API.SHARE_SUPPORT_FILEPROVIDER);
     }
 
     @Override

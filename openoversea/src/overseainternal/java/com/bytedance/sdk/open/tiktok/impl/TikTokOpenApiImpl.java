@@ -6,12 +6,12 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.base.IAPPCheckHelper;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
@@ -92,16 +92,16 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             return false;
         }
 
-        int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);//授权使用的
+        int type = bundle.getInt(Keys.Base.TYPE);//授权使用的
         if (type == 0) {
-            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);//分享使用的
+            type = bundle.getInt(Keys.Share.TYPE);//分享使用的
         }
         switch (type) {
-            case CommonConstants.TIKTOK.AUTH_REQUEST:
-            case CommonConstants.TIKTOK.AUTH_RESPONSE:
+            case Constants.TIKTOK.AUTH_REQUEST:
+            case Constants.TIKTOK.AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case CommonConstants.TIKTOK.SHARE_REQUEST:
-            case CommonConstants.TIKTOK.SHARE_RESPONSE:
+            case Constants.TIKTOK.SHARE_REQUEST:
+            case Constants.TIKTOK.SHARE_RESPONSE:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
@@ -126,7 +126,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     @Override
     public boolean isSupportLiteAuthorize() {
         for (IAPPCheckHelper checkapi : mAuthcheckApis) {
-            if (checkapi.isAppSupportAPI(ParamKeyConstants.REQUIRED_API_VERSION.AUTHORIZE_FOR_TIKTOK_LITE)) {
+            if (checkapi.isAppSupportAPI(Keys.API.AUTHORIZE_FOR_TIKTOK_LITE)) {
                 return true;
             }
         }

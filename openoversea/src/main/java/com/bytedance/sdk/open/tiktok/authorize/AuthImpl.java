@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.utils.AppUtil;
 
 public class AuthImpl {
@@ -28,8 +28,8 @@ public class AuthImpl {
         } else {
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mActivity.getPackageName());
+            bundle.putString(Keys.Auth.CLIENT_KEY, mClientKey);
+            bundle.putString(Keys.Base.CALLER_PKG, mActivity.getPackageName());
             Intent intent = new Intent(mActivity, clazz);
             intent.putExtras(bundle);
 
@@ -60,21 +60,21 @@ public class AuthImpl {
         } else {
             Bundle bundle = new Bundle();
             req.toBundle(bundle);
-            bundle.putString(ParamKeyConstants.AuthParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_PKG, mActivity.getPackageName());
+            bundle.putString(Keys.Auth.CLIENT_KEY, mClientKey);
+            bundle.putString(Keys.Base.CALLER_PKG, mActivity.getPackageName());
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, AppUtil.buildComponentClassName(mActivity.getPackageName(), localEntry));
+                bundle.putString(Keys.Base.FROM_ENTRY, AppUtil.buildComponentClassName(mActivity.getPackageName(), localEntry));
             }
 
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, sdkName);
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
 
             try {
-                mActivity.startActivityForResult(intent, ParamKeyConstants.AUTH_REQUEST_CODE);
+                mActivity.startActivityForResult(intent, Keys.AUTH_REQUEST_CODE);
                 return true;
             } catch (Exception e) {
                 return false;

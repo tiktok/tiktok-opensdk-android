@@ -7,7 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 
 
 public class AppUtil {
@@ -26,17 +26,17 @@ public class AppUtil {
      */
     public static int getPlatformSDKVersion(Context context,String platformPackageName, String remoteRequestEntry) {
         if ( context== null || TextUtils.isEmpty(platformPackageName)) {
-            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
+            return Keys.SDK_VERSION_ERROR;
         }
         try {
             ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
             ActivityInfo appInfo = context.getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
             if (appInfo != null && appInfo.metaData != null) {
-                return appInfo.metaData.getInt(ParamKeyConstants.META_PLATFORM_SDK_VERSION, ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR);
+                return appInfo.metaData.getInt(Keys.SDK_VERSION_KEY, Keys.SDK_VERSION_ERROR);
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
+        return Keys.SDK_VERSION_ERROR;
     }
 }

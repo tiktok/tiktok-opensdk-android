@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.tiktok.share;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 
@@ -15,7 +15,7 @@ public class ShareDataHandler implements IDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == CommonConstants.TIKTOK.SHARE_REQUEST) {
+        if (type == Constants.TIKTOK.SHARE_REQUEST) {
             Share.Request request = new Share.Request(bundle);
             if (request.checkArgs()) {
                 eventHandler.onReq(request);
@@ -23,7 +23,7 @@ public class ShareDataHandler implements IDataHandler {
             } else {
                 return false;
             }
-        } else if (type == CommonConstants.TIKTOK.SHARE_RESPONSE) {
+        } else if (type == Constants.TIKTOK.SHARE_RESPONSE) {
             Share.Response response = new Share.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

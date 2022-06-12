@@ -7,7 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.utils.AppUtil;
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils;
 
@@ -30,7 +30,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     @Override
     public boolean isAppSupportShare() {
-        return  isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API);
+        return  isAppSupportShareApi(getPackageName(), getRemoteAuthEntryActivity(), Keys.API.MIN_SDK_NEW_VERSION_API);
     }
 
     /**
@@ -68,18 +68,18 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
     public int getPlatformSDKVersion(String platformPackageName, String remoteRequestEntry) {
         if (mContext == null || TextUtils.isEmpty(platformPackageName)) {
-            return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
+            return Keys.SDK_VERSION_ERROR;
         }
         try {
             ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
             ActivityInfo appInfo = mContext.getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
             if (appInfo != null && appInfo.metaData != null) {
-                return appInfo.metaData.getInt(ParamKeyConstants.META_PLATFORM_SDK_VERSION, ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR);
+                return appInfo.metaData.getInt(Keys.SDK_VERSION_KEY, Keys.SDK_VERSION_ERROR);
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return ParamKeyConstants.META_PLATFORM_SDK_VERSION_ERROR;
+        return Keys.SDK_VERSION_ERROR;
     }
 
     /**

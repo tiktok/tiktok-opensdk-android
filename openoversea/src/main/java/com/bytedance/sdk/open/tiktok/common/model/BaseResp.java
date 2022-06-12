@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.tiktok.common.model;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 
 
 
@@ -33,7 +33,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isCancel() {
-        return errorCode == CommonConstants.BaseError.ERROR_CANCEL;
+        return errorCode == Constants.BaseError.ERROR_CANCEL;
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class BaseResp {
      * @return
      */
     public boolean isSuccess() {
-        return errorCode == CommonConstants.BaseError.OK;
+        return errorCode == Constants.BaseError.OK;
     }
 
     /**
@@ -61,15 +61,15 @@ public abstract class BaseResp {
     }
 
     public void toBundle(Bundle bundle) {
-        bundle.putInt(ParamKeyConstants.BaseParams.ERROR_CODE, errorCode);
-        bundle.putString(ParamKeyConstants.BaseParams.ERROR_MSG, errorMsg);
-        bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
-        bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
+        bundle.putInt(Keys.Base.ERROR_CODE, errorCode);
+        bundle.putString(Keys.Base.ERROR_MSG, errorMsg);
+        bundle.putInt(Keys.Base.TYPE, getType());
+        bundle.putBundle(Keys.Base.EXTRA, extras);
     }
 
     public void fromBundle(Bundle bundle) {
-        this.errorCode = bundle.getInt(ParamKeyConstants.BaseParams.ERROR_CODE);
-        this.errorMsg = bundle.getString(ParamKeyConstants.BaseParams.ERROR_MSG);
-        this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA);
+        this.errorCode = bundle.getInt(Keys.Base.ERROR_CODE);
+        this.errorMsg = bundle.getString(Keys.Base.ERROR_MSG);
+        this.extras = bundle.getBundle(Keys.Base.EXTRA);
     }
 }

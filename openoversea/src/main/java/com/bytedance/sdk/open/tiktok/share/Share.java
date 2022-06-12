@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.base.AnchorObject;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.base.MicroAppInfo;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 
@@ -66,24 +66,24 @@ public class Share {
 
         @Override
         public int getType() {
-            return CommonConstants.TIKTOK.SHARE_REQUEST;
+            return Constants.TIKTOK.SHARE_REQUEST;
         }
 
         @SuppressLint("MissingSuperCall")
         @Override
         public void fromBundle(Bundle bundle) {
             super.fromBundle(bundle);
-            this.mCallerPackage = bundle.getString(ParamKeyConstants.ShareParams.CALLER_PKG);
-            this.callerLocalEntry = bundle.getString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY);
-            this.mState = bundle.getString(ParamKeyConstants.ShareParams.STATE);
-            this.mClientKey = bundle.getString(ParamKeyConstants.ShareParams.CLIENT_KEY);
+            this.mCallerPackage = bundle.getString(Keys.Share.CALLER_PKG);
+            this.callerLocalEntry = bundle.getString(Keys.Share.CALLER_LOCAL_ENTRY);
+            this.mState = bundle.getString(Keys.Share.STATE);
+            this.mClientKey = bundle.getString(Keys.Share.CLIENT_KEY);
             this.mTargetSceneType =
-                    bundle.getInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, ParamKeyConstants.TargetSceneType.LANDPAGE_SCENE_DEFAULT);
-            this.mHashTagList = bundle.getStringArrayList(ParamKeyConstants.ShareParams.SHARE_HASHTAG_LIST);
+                    bundle.getInt(Keys.Share.SHARE_TARGET_SCENE, Keys.Scene.LANDPAGE_SCENE_DEFAULT);
+            this.mHashTagList = bundle.getStringArrayList(Keys.Share.SHARE_HASHTAG_LIST);
             this.mMediaContent = MediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = MicroAppInfo.unserialize(bundle);
             this.mAnchorInfo = AnchorObject.unserialize(bundle);
-            int shareFormatValue = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_FORMAT);
+            int shareFormatValue = bundle.getInt(Keys.Share.SHARE_FORMAT);
             switch (shareFormatValue) {
                 case 1: {
                     this.mShareFormat = Format.GREEN_SCREEN;
@@ -97,16 +97,16 @@ public class Share {
         @Override
         public void toBundle(Bundle bundle) {
             super.toBundle(bundle);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, callerLocalEntry);
-            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mCallerPackage);
-            bundle.putString(ParamKeyConstants.ShareParams.STATE, mState);
+            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, callerLocalEntry);
+            bundle.putString(Keys.Share.CLIENT_KEY, mClientKey);
+            bundle.putString(Keys.Share.CALLER_PKG, mCallerPackage);
+            bundle.putString(Keys.Share.STATE, mState);
 
             bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent));
-            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_TARGET_SCENE, mTargetSceneType);
+            bundle.putInt(Keys.Share.SHARE_TARGET_SCENE, mTargetSceneType);
             if (mHashTagList != null && mHashTagList.size() > 0) {
-                bundle.putString(ParamKeyConstants.ShareParams.SHARE_DEFAULT_HASHTAG, mHashTagList.get(0)); // 兼容旧版本aweme
-                bundle.putStringArrayList(ParamKeyConstants.ShareParams.SHARE_HASHTAG_LIST, mHashTagList);
+                bundle.putString(Keys.Share.SHARE_DEFAULT_HASHTAG, mHashTagList.get(0)); // 兼容旧版本aweme
+                bundle.putStringArrayList(Keys.Share.SHARE_HASHTAG_LIST, mHashTagList);
             }
 
             // 670 add micro app
@@ -119,7 +119,7 @@ public class Share {
                     mAnchorInfo.serialize(bundle);
                 }
             }
-            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_FORMAT, mShareFormat.value);
+            bundle.putInt(Keys.Share.SHARE_FORMAT, mShareFormat.value);
         }
 
 
@@ -150,29 +150,29 @@ public class Share {
 
         @Override
         public int getType() {
-            return CommonConstants.TIKTOK.SHARE_RESPONSE;
+            return Constants.TIKTOK.SHARE_RESPONSE;
         }
 
         @SuppressLint("MissingSuperCall")
         @Override
         public void fromBundle(Bundle bundle) {
-            this.errorCode = bundle.getInt(ParamKeyConstants.ShareParams.ERROR_CODE);
-            this.errorMsg = bundle.getString(ParamKeyConstants.ShareParams.ERROR_MSG);
-            this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA); // EXTRAS 复用老base
-            this.state = bundle.getString(ParamKeyConstants.ShareParams.STATE);
-            this.subErrorCode = bundle.getInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE, -1000); // set default value
+            this.errorCode = bundle.getInt(Keys.Share.ERROR_CODE);
+            this.errorMsg = bundle.getString(Keys.Base.ERROR_MSG);
+            this.extras = bundle.getBundle(Keys.Base.EXTRA); // EXTRAS 复用老base
+            this.state = bundle.getString(Keys.Share.STATE);
+            this.subErrorCode = bundle.getInt(Keys.Share.SHARE_SUB_ERROR_CODE, -1000); // set default value
 
         }
 
         @SuppressLint("MissingSuperCall")
         @Override
         public void toBundle(Bundle bundle) {
-            bundle.putInt(ParamKeyConstants.ShareParams.ERROR_CODE, errorCode);
-            bundle.putString(ParamKeyConstants.ShareParams.ERROR_MSG, errorMsg);
-            bundle.putInt(ParamKeyConstants.ShareParams.TYPE, getType());
-            bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras); // EXTRAS 复用老base
-            bundle.putString(ParamKeyConstants.ShareParams.STATE, state);
-            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_SUB_ERROR_CODE, subErrorCode);
+            bundle.putInt(Keys.Share.ERROR_CODE, errorCode);
+            bundle.putString(Keys.Base.ERROR_MSG, errorMsg);
+            bundle.putInt(Keys.Share.TYPE, getType());
+            bundle.putBundle(Keys.Base.EXTRA, extras); // EXTRAS 复用老base
+            bundle.putString(Keys.Share.STATE, state);
+            bundle.putInt(Keys.Share.SHARE_SUB_ERROR_CODE, subErrorCode);
 
         }
     }

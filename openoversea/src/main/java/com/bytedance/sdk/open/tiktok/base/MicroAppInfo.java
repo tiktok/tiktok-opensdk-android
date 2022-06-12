@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.tiktok.base;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
@@ -30,7 +30,7 @@ public class MicroAppInfo {
 
         Gson gson = new Gson();
         String result = gson.toJson(this);
-        sendBundle.putString(ParamKeyConstants.ShareParams.SHARE_MICROAPP_INFO, result);
+        sendBundle.putString(Keys.Share.SHARE_MICROAPP_INFO, result);
     }
 
     public static MicroAppInfo unserialize(Bundle clientBundle) {
@@ -38,7 +38,7 @@ public class MicroAppInfo {
             return null;
         }
 
-        String info = clientBundle.getString(ParamKeyConstants.ShareParams.SHARE_MICROAPP_INFO);
+        String info = clientBundle.getString(Keys.Share.SHARE_MICROAPP_INFO);
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson microGson = new Gson();

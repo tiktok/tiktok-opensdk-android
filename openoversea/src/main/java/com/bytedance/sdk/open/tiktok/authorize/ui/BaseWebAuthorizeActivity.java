@@ -27,11 +27,11 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.R;
 import com.bytedance.sdk.open.tiktok.authorize.WebViewHelper;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
@@ -144,7 +144,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     public void onReq(BaseReq req) {
         if (req instanceof Authorization.Request) {
             mAuthRequest = (Authorization.Request) req;
-            mAuthRequest.redirectUri = "https://" + getDomain() + ParamKeyConstants.REDIRECT_URL_PATH;
+            mAuthRequest.redirectUri = "https://" + getDomain() + Keys.REDIRECT_URL_PATH;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
@@ -170,7 +170,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         if (mContentWebView.canGoBack()) {
             mContentWebView.goBack();
         } else {
-            redirectToClientApp(CommonConstants.BaseError.ERROR_CANCEL, USER_CANCEL_AUTH);
+            redirectToClientApp(Constants.BaseError.ERROR_CANCEL, USER_CANCEL_AUTH);
         }
     }
 
@@ -282,7 +282,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCancel(CommonConstants.BaseError.ERROR_CANCEL);
+                onCancel(Constants.BaseError.ERROR_CANCEL);
             }
         });
         setContainerViewBgColor();
@@ -374,9 +374,9 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     }
 
     private void parseErrorAndRedirectToClient(Uri uri) {
-        String errorCodeStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_CODE);
-        String errorMsgStr = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_ERROR_MESSAGE);
-        int errorCode = CommonConstants.BaseError.ERROR_UNKNOWN;
+        String errorCodeStr = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_CODE);
+        String errorMsgStr = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_MESSAGE);
+        int errorCode = Constants.BaseError.ERROR_UNKNOWN;
         if (!TextUtils.isEmpty(errorCodeStr)) {
             try {
                 errorCode = Integer.parseInt(errorCodeStr);
@@ -396,14 +396,14 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
             return false;
         }
-        String code = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_CODE);
-        String state = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_STATE);
-        String grantedPermissions = uri.getQueryParameter(ParamKeyConstants.WebViewConstants.REDIRECT_QUERY_SCOPE);
+        String code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE);
+        String state = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_STATE);
+        String grantedPermissions = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_SCOPE);
         if (TextUtils.isEmpty(code)) {
             parseErrorAndRedirectToClient(uri);
             return false;
         }
-        redirectToClientApp(code, state, grantedPermissions, CommonConstants.BaseError.OK);
+        redirectToClientApp(code, state, grantedPermissions, Constants.BaseError.OK);
         return true;
     }
 

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 
 import java.util.ArrayList;
 
@@ -44,8 +44,8 @@ public class MediaContent {
                 mediaContent.mMediaObject.serialize(bundle);
 
                 // adapt to old version
-                ArrayList<String> imagePath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_IMAGE_PATH);
-                ArrayList<String> videoPath = bundle.getStringArrayList(ParamKeyConstants.AWEME_EXTRA_MEDIA_MESSAGE_VIDEO_PATH);
+                ArrayList<String> imagePath = bundle.getStringArrayList(Keys.IMAGE_PATH);
+                ArrayList<String> videoPath = bundle.getStringArrayList(Keys.VIDEO_PATH);
                 if (videoPath != null && videoPath.size() != 0) {
                     className = "com.ss.android.ugc.aweme.opensdk.share.base.TikTokVideoObject";
                 }

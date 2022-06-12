@@ -38,7 +38,7 @@ import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
@@ -424,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                         .anchorSourceType(finalAnchorSourceType)
                         .extra(finalOpenPlatformExtra);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
-                    requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                    requestBuilder.putExtraShareOptions(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
                 }
                 if (mGreenScreenToggle.isChecked()) {
                     requestBuilder.shareFormat(Share.Format.GREEN_SCREEN);

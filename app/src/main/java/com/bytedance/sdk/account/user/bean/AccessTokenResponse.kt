@@ -8,4 +8,4 @@ import com.google.gson.annotations.SerializedName
  * since: 2019/4/3
  */
 data class AccessTokenResponse(@SerializedName("message")var message: String,
-                               @SerializedName("data")var data: AccessTokenInfo)
+                               @SerializedName("data")var data: AccessTokenInfo2)

@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.tiktok.authorize.handler;
 
 import android.os.Bundle;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
@@ -17,7 +17,7 @@ public class SendAuthDataHandler implements IDataHandler {
         if (bundle == null || eventHandler == null) {
             return false;
         }
-        if (type == CommonConstants.TIKTOK.AUTH_REQUEST) {
+        if (type == Constants.TIKTOK.AUTH_REQUEST) {
             Authorization.Request request = new Authorization.Request(bundle);
             if (request.checkArgs()) {
                 // deal with white space
@@ -35,7 +35,7 @@ public class SendAuthDataHandler implements IDataHandler {
             } else {
                 return false;
             }
-        } else if (type == CommonConstants.TIKTOK.AUTH_RESPONSE) {
+        } else if (type == Constants.TIKTOK.AUTH_RESPONSE) {
             Authorization.Response response = new Authorization.Response(bundle);
             if (response.checkArgs()) {
                 eventHandler.onResp(response);

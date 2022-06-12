@@ -16,3 +16,10 @@ data class AccessTokenInfo(@SerializedName("access_token")var accessToken: Strin
                            @SerializedName("captcha")var captcha: String,
                            @SerializedName("description")var description: String,
                            @SerializedName("error_code")var errorCode: Int)
+
+data class AccessTokenInfo2(@SerializedName("open_id")var openid: String,
+                            @SerializedName("scope")var scope: String,
+                            @SerializedName("access_token")var accessToken: String,
+                            @SerializedName("expires_in")var expiresIn: Long,
+                            @SerializedName("refresh_token")var refreshToken: String,
+                            @SerializedName("refresh_expires_in")var refreshExpiresIn: Long)

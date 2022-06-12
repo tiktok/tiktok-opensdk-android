@@ -29,7 +29,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
@@ -279,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 ShareRequest.Builder requestBuilder = ShareRequest.builder()
                         .hashtags(hashtags);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
-                    requestBuilder.putExtraShareOptions(ParamKeyConstants.ShareOptions.TIKTOK_VIDEOKIT_DISABLE_MUSIC_SELECTION, 1);
+                    requestBuilder.putExtraShareOptions(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
                 }
                 switch (shareType) {
                     case Share.IMAGE:

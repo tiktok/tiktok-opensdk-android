@@ -18,10 +18,9 @@ import retrofit2.Response
  */
 class NetworkManager {
 
-
     fun getUserInfo(code: String, clientKey: String, isBoe: Boolean?, activity: Activity, listener: IUserApiBack) {
         val userInfoApi = NetUtils.createApi(GetUserInfoServie::class.java, isBoe)
-        userInfoApi.getAccessToken(code, clientKey)
+        userInfoApi.getAccessToken(code, clientKey, "b434f9918f75c314c66e3589f256d8d9", "authorization_code")
                 .enqueue(object : Callback<AccessTokenResponse> {
                     override fun onFailure(call: Call<AccessTokenResponse>, t: Throwable) {
                         listener.onResult(false, t.toString(), null, "", "")

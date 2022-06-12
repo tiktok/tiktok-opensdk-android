@@ -1,6 +1,6 @@
-package com.bytedance.sdk.open.tiktok
+package com.bytedance.sdk.open.tiktok.common.constants
 
-object CommonConstants {
+object Constants {
     object BaseError {
         const val OK = 0
         const val ERROR_UNKNOWN = -1
@@ -63,7 +63,7 @@ object CommonConstants {
         /**
          * Processing photo resources failed
          */
-        const val ARSE_MEDIA_ERROR = 20010
+        const val PARSE_MEDIA_ERROR = 20010
 
         /**
          * Video resolution doesn't meet requirements

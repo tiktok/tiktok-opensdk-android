@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 //import com.bytedance.sdk.account.open.aweme.BuildConfig;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 
 public abstract class BaseReq {
 
@@ -58,17 +58,17 @@ public abstract class BaseReq {
     }
 
     public void toBundle(Bundle bundle) {
-        bundle.putInt(ParamKeyConstants.BaseParams.TYPE, getType());
-        bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, extras);
-        bundle.putString(ParamKeyConstants.BaseParams.FROM_ENTRY, callerLocalEntry);
-        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME);
-        bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION);
+        bundle.putInt(Keys.Base.TYPE, getType());
+        bundle.putBundle(Keys.Base.EXTRA, extras);
+        bundle.putString(Keys.Base.FROM_ENTRY, callerLocalEntry);
+        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME);
+        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION);
     }
 
     public void fromBundle(Bundle bundle) {
-        this.callerPackage = bundle.getString(ParamKeyConstants.BaseParams.CALLER_PKG);
-        this.callerVersion = bundle.getString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_VERSION);
-        this.extras = bundle.getBundle(ParamKeyConstants.BaseParams.EXTRA);
-        this.callerLocalEntry = bundle.getString(ParamKeyConstants.BaseParams.FROM_ENTRY);
+        this.callerPackage = bundle.getString(Keys.Base.CALLER_PKG);
+        this.callerVersion = bundle.getString(Keys.Base.CALLER_BASE_OPEN_VERSION);
+        this.extras = bundle.getBundle(Keys.Base.EXTRA);
+        this.callerLocalEntry = bundle.getString(Keys.Base.FROM_ENTRY);
     }
 }

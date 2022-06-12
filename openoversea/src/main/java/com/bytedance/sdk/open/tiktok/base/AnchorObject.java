@@ -3,7 +3,7 @@ package com.bytedance.sdk.open.tiktok.base;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
@@ -48,7 +48,7 @@ public class AnchorObject {
 
         Gson gson = new Gson();
         String result = gson.toJson(this);
-        sendBundle.putString(ParamKeyConstants.ShareParams.SHARE_ANCHOR_INFO, result);
+        sendBundle.putString(Keys.Share.SHARE_ANCHOR_INFO, result);
     }
 
     public static AnchorObject unserialize(Bundle clientBundle) {
@@ -56,7 +56,7 @@ public class AnchorObject {
             return null;
         }
 
-        String info = clientBundle.getString(ParamKeyConstants.ShareParams.SHARE_ANCHOR_INFO);
+        String info = clientBundle.getString(Keys.Share.SHARE_ANCHOR_INFO);
         try {
             if (!TextUtils.isEmpty(info)) {
                 Gson gson = new Gson();

@@ -13,7 +13,6 @@ import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.base.IAPPCheckHelper;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
@@ -91,7 +90,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
         int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);
         if (type == 0) {
-            type = bundle.getInt(ParamKeyConstants.ShareParams.TYPE);
+            type = bundle.getInt(Keys.Share.TYPE);
         }
         switch (type) {
             case CommonConstants.ModeType.SEND_AUTH_REQUEST:

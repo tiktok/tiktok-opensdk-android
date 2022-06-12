@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.utils.Md5Utils;
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils;
 
@@ -42,20 +42,20 @@ public class WebViewHelper {
         }
         List<String> signs = SignatureUtils.getMd5Signs(context, request.getCallerPackage());
         Uri.Builder builder = new Uri.Builder()
-                .scheme(ParamKeyConstants.WebViewConstants.SCHEMA_HTTPS)
+                .scheme(Keys.Web.SCHEMA_HTTPS)
                 .authority(host)
                 .path(path)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_RESPONSE_TYPE, ParamKeyConstants.WebViewConstants.VALUE_RESPONSE_TYPE_CODE)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_REDIRECT_URI, request.redirectUri)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_CLIENT_KEY, request.getClientKey())
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_STATE, request.state)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_FROM, ParamKeyConstants.WebViewConstants.VALUE_FROM_OPENSDK)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SCOPE, request.scope)
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs))
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_ENCRIPTION_PACKAGE, Md5Utils.hexDigest(request.getCallerPackage()))
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_PLATFORM, "android")
-                .appendQueryParameter(ParamKeyConstants.WebViewConstants.QUERY_ACCEPT_LANGUAGE, request.language);
+                .appendQueryParameter(Keys.Web.QUERY_RESPONSE_TYPE, Keys.Web.VALUE_RESPONSE_TYPE_CODE)
+                .appendQueryParameter(Keys.Web.QUERY_REDIRECT_URI, request.redirectUri)
+                .appendQueryParameter(Keys.Web.QUERY_CLIENT_KEY, request.getClientKey())
+                .appendQueryParameter(Keys.Web.QUERY_STATE, request.state)
+                .appendQueryParameter(Keys.Web.QUERY_FROM, Keys.Web.VALUE_FROM_OPENSDK)
+                .appendQueryParameter(Keys.Web.QUERY_SCOPE, request.scope)
+                .appendQueryParameter(Keys.Web.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
+                .appendQueryParameter(Keys.Web.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs))
+                .appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, Md5Utils.hexDigest(request.getCallerPackage()))
+                .appendQueryParameter(Keys.Web.QUERY_PLATFORM, "android")
+                .appendQueryParameter(Keys.Web.QUERY_ACCEPT_LANGUAGE, request.language);
 
         return builder.build().toString();
     }

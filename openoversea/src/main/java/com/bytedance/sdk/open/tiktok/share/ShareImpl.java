@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.common.constants.ParamKeyConstants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.utils.AppUtil;
 
@@ -46,29 +46,29 @@ public class ShareImpl {
             Bundle bundle = new Bundle();
 
             if (AppUtil.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
-                    >= ParamKeyConstants.REQUIRED_API_VERSION.MIN_SDK_NEW_VERSION_API) {
+                    >= Keys.API.MIN_SDK_NEW_VERSION_API) {
                 request.toBundle(bundle);
             }
-            bundle.putString(ParamKeyConstants.ShareParams.CLIENT_KEY, mClientKey);
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_PKG, mContext.getPackageName());
-            bundle.putString(ParamKeyConstants.ShareParams.CALLER_SDK_VERSION, ParamKeyConstants.SdkVersion.VERSION);
+            bundle.putString(Keys.Share.CLIENT_KEY, mClientKey);
+            bundle.putString(Keys.Share.CALLER_PKG, mContext.getPackageName());
+            bundle.putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION);
 
             if (TextUtils.isEmpty(request.callerLocalEntry)) {
-                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok" + "." + "TikTokShareResponseActivity");
+                bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok" + "." + "TikTokShareResponseActivity");
 
-//                bundle.putString(ParamKeyConstants.ShareParams.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." +localEntry);
+//                bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, mContext.getPackageName() + "." +localEntry);
             }
 
             if (request.extras != null) {
-                bundle.putBundle(ParamKeyConstants.BaseParams.EXTRA, request.extras);
+                bundle.putBundle(Keys.Base.EXTRA, request.extras);
             }
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_NAME, sdkName);
-            bundle.putString(ParamKeyConstants.BaseParams.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, sdkName);
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
 
-            bundle.putString(ParamKeyConstants.ShareParams.OPENPLATFORM_EXTRA, request.mExtra);
-            bundle.putString(ParamKeyConstants.ShareParams.ANCHOR_SOURCE_TYPE, request.mAnchorSourceType);
-            bundle.putSerializable(ParamKeyConstants.ShareParams.EXTRA_SHARE_OPTIONS, request.extraShareOptions);
-            bundle.putInt(ParamKeyConstants.ShareParams.SHARE_FORMAT, request.mShareFormat.getValue());
+            bundle.putString(Keys.Share.OPENPLATFORM_EXTRA, request.mExtra);
+            bundle.putString(Keys.Share.ANCHOR_SOURCE_TYPE, request.mAnchorSourceType);
+            bundle.putSerializable(Keys.Share.EXTRA_SHARE_OPTIONS, request.extraShareOptions);
+            bundle.putInt(Keys.Share.SHARE_FORMAT, request.mShareFormat.getValue());
 
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(remotePackageName, buildComponentClassName(remotePackageName, remoteRequestEntry));
