@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
-import com.bytedance.sdk.open.tiktok.utils.AppUtil;
+import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils;
 
 /**
@@ -50,7 +50,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
 
         Intent intent = new Intent();
-        ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
+        ComponentName componentName = new ComponentName(platformPackageName, AppUtils.Companion.componentClassName(platformPackageName, remoteRequestEntry));
         intent.setComponent(componentName);
         ActivityInfo activityInfo = intent.resolveActivityInfo(mContext.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY);
         int platformSdkVersion = getPlatformSDKVersion(platformPackageName, remoteRequestEntry);
@@ -71,7 +71,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
             return Keys.SDK_VERSION_ERROR;
         }
         try {
-            ComponentName componentName = new ComponentName(platformPackageName, AppUtil.buildComponentClassName(platformPackageName, remoteRequestEntry));
+            ComponentName componentName = new ComponentName(platformPackageName, AppUtils.Companion.componentClassName(platformPackageName, remoteRequestEntry));
             ActivityInfo appInfo = mContext.getPackageManager().getActivityInfo(componentName, PackageManager.GET_META_DATA);
             if (appInfo != null && appInfo.metaData != null) {
                 return appInfo.metaData.getInt(Keys.SDK_VERSION_KEY, Keys.SDK_VERSION_ERROR);

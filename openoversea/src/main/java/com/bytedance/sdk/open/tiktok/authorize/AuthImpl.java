@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
-import com.bytedance.sdk.open.tiktok.utils.AppUtil;
+import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 
 public class AuthImpl {
     private Activity mActivity;
@@ -63,13 +63,13 @@ public class AuthImpl {
             bundle.putString(Keys.Auth.CLIENT_KEY, mClientKey);
             bundle.putString(Keys.Base.CALLER_PKG, mActivity.getPackageName());
             if (TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(Keys.Base.FROM_ENTRY, AppUtil.buildComponentClassName(mActivity.getPackageName(), localEntry));
+                bundle.putString(Keys.Base.FROM_ENTRY, AppUtils.Companion.componentClassName(mActivity.getPackageName(), localEntry));
             }
 
             bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, sdkName);
             bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion);
             Intent intent = new Intent();
-            ComponentName componentName = new ComponentName(packageName, AppUtil.buildComponentClassName(packageName, remoteRequestEntry));
+            ComponentName componentName = new ComponentName(packageName, AppUtils.Companion.componentClassName(packageName, remoteRequestEntry));
             intent.setComponent(componentName);
             intent.putExtras(bundle);
 

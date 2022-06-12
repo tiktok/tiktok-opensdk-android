@@ -9,7 +9,7 @@ import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
-import com.bytedance.sdk.open.tiktok.utils.AppUtil;
+import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class ShareImpl {
             // packages
             Bundle bundle = new Bundle();
 
-            if (AppUtil.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
+            if (AppUtils.Companion.getPlatformSDKVersion(mContext, remotePackageName,remotePlatformEntryName)
                     >= Keys.API.MIN_SDK_NEW_VERSION_API) {
                 request.toBundle(bundle);
             }

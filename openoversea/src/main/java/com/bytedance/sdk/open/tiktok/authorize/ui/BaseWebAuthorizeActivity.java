@@ -35,7 +35,7 @@ import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
-import com.bytedance.sdk.open.tiktok.utils.AppUtil;
+import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils;
 
 
@@ -256,7 +256,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             Bundle bundle = new Bundle();
             resp.toBundle(bundle);
             String platformPackageName = mContext.getPackageName();
-            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? AppUtil.buildComponentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
+            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? AppUtils.Companion.componentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
             intent.setComponent(componentName);
