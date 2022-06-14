@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 
-class AppUtils {
+sealed class AppUtils {
     companion object {
         fun componentClassName(packageName: String, classPath: String): String {
             return "$packageName.$classPath"

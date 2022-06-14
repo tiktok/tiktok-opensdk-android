@@ -25,7 +25,7 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
     @Override
     public boolean isAppSupportAuthorization() {
         return  isAppSupportAuthApi()
-                && SignatureUtils.validateSign(mContext, getPackageName(), getSignature());
+                && SignatureUtils.Companion.validateSign(mContext, getPackageName(), getSignature());
     }
 
     @Override
@@ -50,7 +50,8 @@ abstract public class BaseCheckHelperImpl implements IAPPCheckHelper {
 
 
         Intent intent = new Intent();
-        ComponentName componentName = new ComponentName(platformPackageName, AppUtils.Companion.componentClassName(platformPackageName, remoteRequestEntry));
+        String className = AppUtils.Companion.componentClassName(platformPackageName, remoteRequestEntry);
+        ComponentName componentName = new ComponentName(platformPackageName, className);
         intent.setComponent(componentName);
         ActivityInfo activityInfo = intent.resolveActivityInfo(mContext.getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY);
         int platformSdkVersion = getPlatformSDKVersion(platformPackageName, remoteRequestEntry);

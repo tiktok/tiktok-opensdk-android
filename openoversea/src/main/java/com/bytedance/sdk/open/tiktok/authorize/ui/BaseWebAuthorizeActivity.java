@@ -342,7 +342,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
                 stopLoading();
                 // loading  success
                 if (mLastErrorCode == 0 && !isShowNetworkError) {
-                    OpenUtils.setViewVisibility(mContentWebView, View.VISIBLE);
+                    OpenUtils.Companion.setViewVisibility(mContentWebView, View.VISIBLE);
                 }
 
 
@@ -429,11 +429,11 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
 
     protected void startLoading() {
-        OpenUtils.setViewVisibility(mLoadingLayout, View.VISIBLE);
+        OpenUtils.Companion.setViewVisibility(mLoadingLayout, View.VISIBLE);
     }
 
     protected void stopLoading() {
-        OpenUtils.setViewVisibility(mLoadingLayout, View.GONE);
+        OpenUtils.Companion.setViewVisibility(mLoadingLayout, View.GONE);
     }
 
     protected void onCancel(int errCode) {

@@ -40,7 +40,7 @@ public class WebViewHelper {
                 optionalScope.append(optionalScope0s[i] + ",0");
             }
         }
-        List<String> signs = SignatureUtils.getMd5Signs(context, request.getCallerPackage());
+        List<String> signs = SignatureUtils.Companion.getMd5Signs(context, request.getCallerPackage());
         Uri.Builder builder = new Uri.Builder()
                 .scheme(Keys.Web.SCHEMA_HTTPS)
                 .authority(host)
@@ -52,8 +52,8 @@ public class WebViewHelper {
                 .appendQueryParameter(Keys.Web.QUERY_FROM, Keys.Web.VALUE_FROM_OPENSDK)
                 .appendQueryParameter(Keys.Web.QUERY_SCOPE, request.scope)
                 .appendQueryParameter(Keys.Web.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-                .appendQueryParameter(Keys.Web.QUERY_SIGNATURE, SignatureUtils.packageSignature(signs))
-                .appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, Md5Utils.hexDigest(request.getCallerPackage()))
+                .appendQueryParameter(Keys.Web.QUERY_SIGNATURE, SignatureUtils.Companion.packageSignature(signs))
+                .appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, Md5Utils.Companion.hexDigest(request.getCallerPackage()))
                 .appendQueryParameter(Keys.Web.QUERY_PLATFORM, "android")
                 .appendQueryParameter(Keys.Web.QUERY_ACCEPT_LANGUAGE, request.language);
 

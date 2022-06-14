@@ -31,7 +31,7 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ttOpenApi = TikTokOpenApiFactory.create(this);
         super.onCreate(savedInstanceState);
-        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT);
+        ViewUtils.Companion.setStatusBarColor(this, Color.TRANSPARENT);
     }
 
     @Override
