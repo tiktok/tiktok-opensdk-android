@@ -1,10 +1,6 @@
 package com.bytedance.sdk.open.tiktok.share;
 
-
-import com.bytedance.sdk.open.tiktok.base.IMediaObject;
-import com.bytedance.sdk.open.tiktok.base.ImageObject;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
-import com.bytedance.sdk.open.tiktok.base.VideoObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,24 +115,17 @@ public class ShareRequest {
 
             Share.Request shareReq = new Share.Request();
 
-            IMediaObject mediaObject;
+            MediaContent mediaContent;
             switch (mediaType) {
                 case IMAGE:
-                    ImageObject imageObject = new ImageObject();
-                    imageObject.mImagePaths = new ArrayList<>(mediaPaths);
-                    mediaObject = imageObject;
+                    mediaContent = new MediaContent(ShareKt.MediaType.IMAGE, new ArrayList<>(mediaPaths));
                     break;
                 case VIDEO:
-                    VideoObject videoObject = new VideoObject();
-                    videoObject.mVideoPaths = new ArrayList<>(mediaPaths);
-                    mediaObject = videoObject;
+                    mediaContent = new MediaContent(ShareKt.MediaType.VIDEO, new ArrayList<>(mediaPaths));
                     break;
                 default:
                     throw new IllegalStateException("Unsupported media type");
             }
-
-            MediaContent mediaContent = new MediaContent();
-            mediaContent.mMediaObject = mediaObject;
             shareReq.mMediaContent = mediaContent;
             shareReq.mExtra = extra;
             shareReq.mAnchorSourceType = anchorSourceType;

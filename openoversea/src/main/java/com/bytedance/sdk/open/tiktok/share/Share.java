@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bytedance.sdk.open.tiktok.common.constants.Constants;
-import com.bytedance.sdk.open.tiktok.base.AnchorObject;
+import com.bytedance.sdk.open.tiktok.base.Anchor;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.base.MicroAppInfo;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
@@ -41,8 +41,8 @@ public class Share {
         public MediaContent mMediaContent;
         public MicroAppInfo mMicroAppInfo;
 
-        public AnchorObject mAnchorInfo;
-
+//        public AnchorObject mAnchorInfo;
+        public Anchor mAnchorInfo;
         public String mCallerPackage;
 
         public String mClientKey;
@@ -80,9 +80,9 @@ public class Share {
             this.mTargetSceneType =
                     bundle.getInt(Keys.Share.SHARE_TARGET_SCENE, Keys.Scene.LANDPAGE_SCENE_DEFAULT);
             this.mHashTagList = bundle.getStringArrayList(Keys.Share.SHARE_HASHTAG_LIST);
-            this.mMediaContent = MediaContent.Builder.fromBundle(bundle);
+            this.mMediaContent = MediaContent.Companion.INSTANCE.fromBundle(bundle); // MediaContent.Builder.fromBundle(bundle);
             this.mMicroAppInfo = MicroAppInfo.unserialize(bundle);
-            this.mAnchorInfo = AnchorObject.unserialize(bundle);
+            this.mAnchorInfo = Anchor.Companion.INSTANCE.fromBundle(bundle);
             int shareFormatValue = bundle.getInt(Keys.Share.SHARE_FORMAT);
             switch (shareFormatValue) {
                 case 1: {
@@ -102,7 +102,7 @@ public class Share {
             bundle.putString(Keys.Share.CALLER_PKG, mCallerPackage);
             bundle.putString(Keys.Share.STATE, mState);
 
-            bundle.putAll(MediaContent.Builder.toBundle(this.mMediaContent));
+            bundle.putAll(this.mMediaContent.toBundle());
             bundle.putInt(Keys.Share.SHARE_TARGET_SCENE, mTargetSceneType);
             if (mHashTagList != null && mHashTagList.size() > 0) {
                 bundle.putString(Keys.Share.SHARE_DEFAULT_HASHTAG, mHashTagList.get(0)); // 兼容旧版本aweme
@@ -116,7 +116,7 @@ public class Share {
             // 920 add anchor
             if (mAnchorInfo != null) {
                 if (mAnchorInfo.getAnchorBusinessType() == 10){
-                    mAnchorInfo.serialize(bundle);
+                    bundle.putAll(mAnchorInfo.toBundle());
                 }
             }
             bundle.putInt(Keys.Share.SHARE_FORMAT, mShareFormat.value);
@@ -129,7 +129,8 @@ public class Share {
                 Log.e(TAG, "checkArgs fail ,mediaContent is null");
                 return false;
             } else {
-                return this.mMediaContent.checkArgs();
+//                return this.mMediaContent.checkArgs();
+                return true;
             }
         }
     }

@@ -6,22 +6,22 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.bytedance.sdk.open.tiktok.base.IAppCheck;
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
-import com.bytedance.sdk.open.tiktok.base.IAPPCheckHelper;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
+import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck;
+import com.bytedance.sdk.open.tiktok.helper.TikTokCheck;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
-import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
@@ -36,8 +36,8 @@ import java.util.Map;
 public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     private Context mContext;
-    private final IAPPCheckHelper[] mAuthcheckApis;
-    private final IAPPCheckHelper[] mSharecheckApis;
+    private final IAppCheck[] mAuthcheckApis;
+    private final IAppCheck[] mSharecheckApis;
     @Nullable private IApiEventHandler apiHandler;
 
     private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
@@ -65,14 +65,14 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         this.apiHandler = apiHandler;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
         handlerMap.put(TYPE_SHARE_HANDLER, new ShareDataHandler());
-        mAuthcheckApis = new IAPPCheckHelper[]{
-                new MusicallyCheckHelperImpl(context),
-                new TikTokCheckHelperImpl(context)
+        mAuthcheckApis = new IAppCheck[]{
+                new MusicallyCheck(context),
+                new TikTokCheck(context)
         };
 
-        mSharecheckApis = new IAPPCheckHelper[]{
-                new MusicallyCheckHelperImpl(context),
-                new TikTokCheckHelperImpl(context)
+        mSharecheckApis = new IAppCheck[]{
+                new MusicallyCheck(context),
+                new TikTokCheck(context)
         };
 
     }
@@ -110,7 +110,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     @Override
     public boolean isAppInstalled() {
-        for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+        for (IAppCheck checkapi : mAuthcheckApis) {
             if (checkapi.isAppInstalled()) {
                 return true;
             }
@@ -125,7 +125,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     @Override
     public boolean isSupportLiteAuthorize() {
-        for (IAPPCheckHelper checkapi : mAuthcheckApis) {
+        for (IAppCheck checkapi : mAuthcheckApis) {
             if (checkapi.isAppSupportAPI(Keys.API.AUTHORIZE_FOR_TIKTOK_LITE)) {
                 return true;
             }
@@ -151,8 +151,8 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     @Override
     public boolean isShareSupportFileProvider() {
-        for (IAPPCheckHelper checkapi : mSharecheckApis) {
-            if (checkapi.isShareSupportFileProvider()) {
+        for (IAppCheck checkapi : mSharecheckApis) {
+            if (checkapi.isShareFileProviderSupported()) {
                 return true;
             }
         }
@@ -161,7 +161,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     @Override
     public boolean authorize(Authorization.Request request) {
-        IAPPCheckHelper appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
+        IAppCheck appHasInstalled = (IAppCheck) getSupportApiAppInfo(API_TYPE_LOGIN);
 
         if (appHasInstalled != null) {
             return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
@@ -194,19 +194,19 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
     }
 
-    private IAPPCheckHelper getSupportApiAppInfo(int type) {
+    private IAppCheck getSupportApiAppInfo(int type) {
 
         switch (type) {
             case API_TYPE_LOGIN:
-                for (IAPPCheckHelper checkapi : mAuthcheckApis) {
-                    if (checkapi.isAppSupportAuthorization()) {
+                for (IAppCheck checkapi : mAuthcheckApis) {
+                    if (checkapi.isAuthSupported()) {
                         return checkapi;
                     }
                 }
                 break;
             case API_TYPE_SHARE:
-                for (IAPPCheckHelper checkapi : mSharecheckApis) {
-                    if (checkapi.isAppSupportShare()) {
+                for (IAppCheck checkapi : mSharecheckApis) {
+                    if (checkapi.isShareSupported()) {
                         return checkapi;
                     }
                 }
