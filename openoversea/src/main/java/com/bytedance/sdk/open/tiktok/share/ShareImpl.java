@@ -36,7 +36,7 @@ public class ShareImpl {
      * @param localEntry         your app's activity name to get result from target app
      * @return
      */
-    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, ShareKt.Request request,String remotePlatformEntryName, String sdkName, String sdkVersion) {
+    public boolean share(String localEntry, String remotePackageName, String remoteRequestEntry, Share.Request request, String remotePlatformEntryName, String sdkName, String sdkVersion) {
         if (TextUtils.isEmpty(remotePackageName) || request == null || mContext == null) {
             return false;
         } else if (!request.validate()) {

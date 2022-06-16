@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.share.ShareKt;
-import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
@@ -48,7 +45,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -158,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean sendAuth(String scope) {
-        Authorization.Request request = new Authorization.Request();
-        request.scope = scope;                      // Permissions for user authorization
-        request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        Auth.Request request = new Auth.Request();
+        request.setScope(scope);                      // Permissions for user authorization
+        request.setState("ww");                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
         return tikTokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
@@ -232,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.video, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        currentShareType = Share.VIDEO;
+                        currentShareType = Share.MediaType.VIDEO.getType();
                         intent.setType("video/*");
                         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                     }
@@ -240,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.image, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        currentShareType = Share.IMAGE;
+                        currentShareType = Share.MediaType.IMAGE.getType();
                         intent.setType("image/*");
                         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                     }
@@ -279,15 +275,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                ShareKt.Request request = new ShareKt.Request();
+                Share.Request request = new Share.Request();
                 request.setHashTagList(hashtags);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
                     HashMap options = new HashMap<String, Integer>();
                     options.put(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
                     request.setExtraShareOptions(options);
                 }
-                switch (shareType) {
-                    case Share.IMAGE:
+                Share.MediaType type = Share.MediaType.Companion.from(shareType);
+                switch (type) {
+                    case IMAGE:
                         ArrayList<String> images = new ArrayList<>();
                         for (int i=0; i<mUri.size(); i++) {
                             String filePath = UriUtil.convertUriToPath(MainActivity.this,mUri.get(i));
@@ -331,12 +328,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                         handler.post(
                                 (Runnable) () -> {
-                                    MediaContent content = new MediaContent(ShareKt.MediaType.IMAGE, images);
+                                    MediaContent content = new MediaContent(Share.MediaType.IMAGE, images);
                                     request.setMediaContent(content);
                                     tikTokOpenApi.share(request);
                                 });
                         break;
-                    case Share.VIDEO:
+                    case VIDEO:
                         ArrayList<String> videos = new ArrayList<>();
                         InputStream is = null;
                         ByteArrayOutputStream out = null;
@@ -382,12 +379,14 @@ public class MainActivity extends AppCompatActivity {
                                 new Runnable() {
                                     public void run()
                                     {
-                                        MediaContent content = new MediaContent(ShareKt.MediaType.VIDEO, videos);
+                                        MediaContent content = new MediaContent(Share.MediaType.VIDEO, videos);
                                         request.setMediaContent(content);
                                         tikTokOpenApi.share(request);
                                     }
                                 });
                         break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + type);
                 }
 
             }
@@ -403,15 +402,15 @@ public class MainActivity extends AppCompatActivity {
             return;
 
         Intent shareIntent = new Intent();
-
-        switch (shareType) {
-            case Share.IMAGE:
+        Share.MediaType type = Share.MediaType.Companion.from(shareType);
+        switch (type) {
+            case IMAGE:
                 shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
                 shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, mUri);
                 shareIntent.setType("image/*");
                 startActivity(Intent.createChooser(shareIntent, "Share images to.."));
                 break;
-            case Share.VIDEO:
+            case VIDEO:
                 shareIntent.setType("video/*");
                 if(mUri.size() == 1) {
                     shareIntent.setAction(Intent.ACTION_SEND);
@@ -425,6 +424,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(Intent.createChooser(shareIntent, "Share videos to.."));
                 }
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + shareType);
         }
     }
 }

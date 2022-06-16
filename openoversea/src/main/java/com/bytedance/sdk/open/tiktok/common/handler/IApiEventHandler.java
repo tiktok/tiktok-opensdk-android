@@ -1,8 +1,7 @@
 package com.bytedance.sdk.open.tiktok.common.handler;
 import android.content.Intent;
 
-import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
-import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
+import com.bytedance.sdk.open.tiktok.common.model.Base;
 
 /**
  * Handle request data and response data
@@ -14,14 +13,14 @@ public interface IApiEventHandler {
      *
      * @param req
      */
-    void onReq(BaseReq req);
+    void onReq(Base.Request req);
 
     /**
      * Handle response data
      *
      * @param resp
      */
-    void onResp(BaseResp resp);
+    void onResp(Base.Response resp);
 
     /**
      * Handle error intent

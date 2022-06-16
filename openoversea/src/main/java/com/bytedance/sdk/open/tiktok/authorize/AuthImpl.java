@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 
@@ -20,14 +20,13 @@ public class AuthImpl {
     }
 
 
-    public boolean authorizeWeb(Class clazz, Authorization.Request req) {
+    public boolean authorizeWeb(Class clazz, Auth.Request req) {
         if (req == null || mActivity == null) {
             return false;
-        } else if (!req.checkArgs()) {
+        } else if (!req.validate()) {
             return false;
         } else {
-            Bundle bundle = new Bundle();
-            req.toBundle(bundle);
+            Bundle bundle = req.toBundle();
             bundle.putString(Keys.Auth.CLIENT_KEY, mClientKey);
             bundle.putString(Keys.Base.CALLER_PKG, mActivity.getPackageName());
             Intent intent = new Intent(mActivity, clazz);
@@ -52,17 +51,16 @@ public class AuthImpl {
      * @param sdkVersion
      * @return
      */
-    public boolean authorizeNative(Authorization.Request req, String packageName, String remoteRequestEntry, String localEntry, String sdkName, String sdkVersion) {
+    public boolean authorizeNative(Auth.Request req, String packageName, String remoteRequestEntry, String localEntry, String sdkName, String sdkVersion) {
         if (TextUtils.isEmpty(packageName) || req == null || mActivity == null) {
             return false;
-        } else if (!req.checkArgs()) {
+        } else if (!req.validate()) {
             return false;
         } else {
-            Bundle bundle = new Bundle();
-            req.toBundle(bundle);
+            Bundle bundle = req.toBundle();
             bundle.putString(Keys.Auth.CLIENT_KEY, mClientKey);
             bundle.putString(Keys.Base.CALLER_PKG, mActivity.getPackageName());
-            if (TextUtils.isEmpty(req.callerLocalEntry)) {
+            if (TextUtils.isEmpty(req.getCallerLocalEntry())) {
                 bundle.putString(Keys.Base.FROM_ENTRY, AppUtils.Companion.componentClassName(mActivity.getPackageName(), localEntry));
             }
 

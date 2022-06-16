@@ -2,8 +2,8 @@ package com.bytedance.sdk.open.tiktok.authorize.handler;
 
 import android.os.Bundle;
 
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 
@@ -18,17 +18,18 @@ public class SendAuthDataHandler implements IDataHandler {
             return false;
         }
         if (type == Constants.TIKTOK.AUTH_REQUEST) {
-            Authorization.Request request = new Authorization.Request(bundle);
-            if (request.checkArgs()) {
+            Auth.Request request = new Auth.Request();
+            request.fromBundle(bundle);
+            if (request.validate()) {
                 // deal with white space
-                if (request.scope != null) {
-                    request.scope = request.scope.replace(" ","");
+                if (request.getScope() != null) {
+                    request.setScope(request.getScope().replace(" ",""));
                 }
-                if (request.optionalScope1 != null) {
-                    request.optionalScope1 = request.optionalScope1.replace(" ", "");
+                if (request.getOptionalScope1() != null) {
+                    request.setOptionalScope1(request.getOptionalScope1().replace(" ", ""));
                 }
-                if (request.optionalScope0 != null) {
-                    request.optionalScope0 = request.optionalScope0.replace(" ", "");
+                if (request.getOptionalScope0() != null) {
+                    request.setOptionalScope0(request.getOptionalScope0().replace(" ", ""));
                 }
                 eventHandler.onReq(request);
                 return true;
@@ -36,8 +37,9 @@ public class SendAuthDataHandler implements IDataHandler {
                 return false;
             }
         } else if (type == Constants.TIKTOK.AUTH_RESPONSE) {
-            Authorization.Response response = new Authorization.Response(bundle);
-            if (response.checkArgs()) {
+            Auth.Response response = new Auth.Response();
+            response.fromBundle(bundle);
+            if (response.validate()) {
                 eventHandler.onResp(response);
                 return true;
             } else {

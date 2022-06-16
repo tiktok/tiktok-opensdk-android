@@ -35,15 +35,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.Anchor;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
-import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
-import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
+import com.bytedance.sdk.open.tiktok.common.model.Base;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
@@ -253,11 +251,11 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
         return true;
     }
 
-    public void onReq(BaseReq req) {
+    public void onReq(Base.Request req) {
         Log.d("sharesdk", "hello");
     }
 
-    public void onResp(BaseResp resp) {
+    public void onResp(Base.Response resp) {
         Log.d("sharesdk", "hello");
     }
 
@@ -289,9 +287,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
     }
 
     private boolean sendAuth(String scope) {
-        Authorization.Request request = new Authorization.Request();
-        request.scope = scope;                      // Permissions for user authorization
-        request.state = "ww";                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
+        Auth.Request request = new Auth.Request();
+        request.setScope(scope);                      // Permissions for user authorization
+        request.setState("ww");                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
         return tiktokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
@@ -365,14 +363,14 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
 
         builder.setMessage(R.string.add_photo_video)
                 .setNegativeButton(R.string.video, (dialog, which) -> {
-                    currentShareType = Share.VIDEO;
+                    currentShareType = Share.MediaType.VIDEO.getType();
                     intent.setType("video/*");
                     startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                 })
                 .setPositiveButton(R.string.image, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        currentShareType = Share.IMAGE;
+                        currentShareType = Share.MediaType.IMAGE.getType();
                         intent.setType("image/*");
                         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
                     }
@@ -419,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             @Override
             public void run()
             {
-                ShareKt.Request request = new ShareKt.Request();
+                Share.Request request = new Share.Request();
                 request.setHashTagList(hashtags);
                 Anchor anchor = new Anchor();
                 anchor.setSourceType(finalAnchorSourceType);
@@ -432,10 +430,11 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                     request.setExtraShareOptions(options);
                 }
                 if (mGreenScreenToggle.isChecked()) {
-                    request.setShareFormat(ShareKt.Format.GREEN_SCREEN);
+                    request.setShareFormat(Share.Format.GREEN_SCREEN);
                 }
-                switch (shareType) {
-                    case Share.IMAGE:
+                Share.MediaType type = Share.MediaType.Companion.from(shareType);
+                switch (type) {
+                    case IMAGE:
                         ArrayList<String> images = new ArrayList<>();
                         for (int i=0; i<mUri.size(); i++) {
                             String filePath = UriUtil.convertUriToPath(MainActivity.this,mUri.get(i));
@@ -481,13 +480,13 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                                 new Runnable() {
                                     public void run()
                                     {
-                                        MediaContent content = new MediaContent(ShareKt.MediaType.IMAGE, images);
+                                        MediaContent content = new MediaContent(Share.MediaType.IMAGE, images);
                                         request.setMediaContent(content);
                                         tiktokOpenApi.share(request);
                                     }
                                 });
                         break;
-                    case Share.VIDEO:
+                    case VIDEO:
                         ArrayList<String> videos = new ArrayList<>();
                         InputStream is = null;
                         ByteArrayOutputStream out = null;
@@ -533,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                                 new Runnable() {
                                     public void run()
                                     {
-                                        MediaContent content = new MediaContent(ShareKt.MediaType.VIDEO, videos);
+                                        MediaContent content = new MediaContent(Share.MediaType.VIDEO, videos);
                                         request.setMediaContent(content);
                                         tiktokOpenApi.share(request);
                                     }
@@ -554,15 +553,15 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             return;
 
         Intent shareIntent = new Intent();
-
-        switch (shareType) {
-            case Share.IMAGE:
+        Share.MediaType type = Share.MediaType.Companion.from(shareType);
+        switch (type) {
+            case IMAGE:
                 shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
                 shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, mUri);
                 shareIntent.setType("image/*");
                 startActivity(Intent.createChooser(shareIntent, "Share images to.."));
                 break;
-            case Share.VIDEO:
+            case VIDEO:
                 shareIntent.setType("video/*");
                 if(mUri.size() == 1) {
                     shareIntent.setAction(Intent.ACTION_SEND);

@@ -27,14 +27,13 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.R;
 import com.bytedance.sdk.open.tiktok.authorize.WebViewHelper;
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
-import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
-import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
+import com.bytedance.sdk.open.tiktok.common.model.Base;
 import com.bytedance.sdk.open.tiktok.utils.AppUtils;
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils;
 
@@ -58,7 +57,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
     protected WebView mContentWebView;
 
-    protected Authorization.Request mAuthRequest;
+    protected Auth.Request mAuthRequest;
     protected AlertDialog mBaseErrorDialog;
 
     /**
@@ -78,7 +77,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
      *
      * @param resp
      */
-    protected abstract void sendInnerResponse(Authorization.Request req, BaseResp resp);
+    protected abstract void sendInnerResponse(Auth.Request req, Base.Response resp);
 
     /**
      * web authorization host
@@ -141,16 +140,16 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     }
 
     @Override
-    public void onReq(BaseReq req) {
-        if (req instanceof Authorization.Request) {
-            mAuthRequest = (Authorization.Request) req;
-            mAuthRequest.redirectUri = "https://" + getDomain() + Keys.REDIRECT_URL_PATH;
+    public void onReq(Base.Request req) {
+        if (req instanceof Auth.Request) {
+            mAuthRequest = (Auth.Request) req;
+            mAuthRequest.setRedirectUri("https://" + getDomain() + Keys.REDIRECT_URL_PATH);;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
 
     @Override
-    public void onResp(BaseResp resp) {
+    public void onResp(Base.Response resp) {
         //empty
     }
 
@@ -176,7 +175,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
     public final void handleRequestIntent() {
 
-        Authorization.Request argument = mAuthRequest;
+        Auth.Request argument = mAuthRequest;
 
         if (argument == null) {
             finish();
@@ -221,11 +220,11 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, int errorCode, String errorMsg) {
-        Authorization.Response response = new Authorization.Response();
-        response.authCode = code;
-        response.errorCode = errorCode;
-        response.state = state;
-        response.errorMsg = errorMsg;
+        Auth.Response response = new Auth.Response();
+        response.setAuthCode(code);
+        response.setErrorCode(errorCode);
+        response.setState(state);
+        response.setErrorMsg(errorMsg);
         sendInnerResponse(mAuthRequest, response);
         finish();
     }
@@ -238,25 +237,24 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
      * @param errorCode
      */
     private void redirectToClientApp(String code, String state, String permissions, int errorCode) {
-        Authorization.Response response = new Authorization.Response();
-        response.authCode = code;
-        response.errorCode = errorCode;
-        response.state = state;
-        response.grantedPermissions = permissions;
+        Auth.Response response = new Auth.Response();
+        response.setAuthCode(code);
+        response.setErrorCode(errorCode);
+        response.setState(state);
+        response.setGrantedPermissions(permissions);
         sendInnerResponse(mAuthRequest, response);
         finish();
     }
 
-    public boolean sendInnerResponse(String localEntry, Authorization.Request req, BaseResp resp) {
+    public boolean sendInnerResponse(String localEntry, Auth.Request req, Base.Response resp) {
         if (resp == null || mContext == null) {
             return false;
-        } else if (!resp.checkArgs()) {
+        } else if (!resp.validate()) {
             return false;
         } else {
-            Bundle bundle = new Bundle();
-            resp.toBundle(bundle);
+            Bundle bundle = resp.toBundle();
             String platformPackageName = mContext.getPackageName();
-            String localResponseEntry = TextUtils.isEmpty(req.callerLocalEntry) ? AppUtils.Companion.componentClassName(platformPackageName, localEntry) : req.callerLocalEntry;
+            String localResponseEntry = TextUtils.isEmpty(req.getCallerLocalEntry()) ? AppUtils.Companion.componentClassName(platformPackageName, localEntry) : req.getCallerLocalEntry();
             Intent intent = new Intent();
             ComponentName componentName = new ComponentName(platformPackageName, localResponseEntry);
             intent.setComponent(componentName);
@@ -392,8 +390,8 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
             return false;
         }
         Uri uri = Uri.parse(url);
-        Authorization.Request argument = mAuthRequest;
-        if (argument == null || argument.redirectUri == null || !url.startsWith(argument.redirectUri)) {
+        Auth.Request argument = mAuthRequest;
+        if (argument == null || argument.getRedirectUri() == null || !url.startsWith(argument.getRedirectUri())) {
             return false;
         }
         String code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE);

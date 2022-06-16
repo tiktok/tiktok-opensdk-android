@@ -42,6 +42,7 @@ class Base {
             get() = if (errorCode != null) { errorCode!! == Constants.BaseError.ERROR_CANCEL }  else false
         val isSuccess: Boolean
             get() = if (errorCode == null) false else errorCode!! == Constants.BaseError.OK
+        abstract fun validate(): Boolean
 
         open fun toBundle(): Bundle {
             return Bundle().apply {

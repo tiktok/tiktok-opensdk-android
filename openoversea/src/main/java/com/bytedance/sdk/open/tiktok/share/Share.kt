@@ -8,7 +8,7 @@ import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.Base
 
-class ShareKt {
+class Share {
     enum class Format(val format: Int) {
         DEFAULT(0),
         GREEN_SCREEN(1);
@@ -23,7 +23,17 @@ class ShareKt {
     }
     enum class MediaType(val type: Int) {
         VIDEO(0),
-        IMAGE(1),
+        IMAGE(1);
+
+        companion object {
+            fun from(value: Int): MediaType {
+                return if (value == 1) {
+                    IMAGE
+                } else  {
+                    VIDEO
+                }
+            }
+        }
     }
     class Request: Base.Request() {
         override var type: Int = Constants.TIKTOK.SHARE_REQUEST
@@ -61,7 +71,7 @@ class ShareKt {
                 }
                 // TODO: chen.wu check to remove micro app info
                 microAppInfo?.let {
-
+                    putAll(it.toBundle())
                 }
                 anchor?.let {
                     if (it.anchorBusinessType == 10) { // TODO: chen.wu check this anchor business type
@@ -80,7 +90,7 @@ class ShareKt {
             targetSceneType = bundle.getInt(Keys.Share.SHARE_TARGET_SCENE)
             hashTagList = bundle.getStringArrayList(Keys.Share.SHARE_HASHTAG_LIST)
             mediaContent = MediaContent.Companion.fromBundle(bundle)
-            // TODO: chen.wu micro app
+            microAppInfo = MicroAppInfo.fromBundle(bundle)
             anchor = Anchor.Companion.fromBundle(bundle)
         }
     }
@@ -89,6 +99,10 @@ class ShareKt {
         override val type: Int = Constants.TIKTOK.SHARE_RESPONSE
         var state: String? = null
         var subErrorCode: Int? = null
+
+        override fun validate(): Boolean {
+            return true
+        }
 
         override fun toBundle(): Bundle {
             var bundle = super.toBundle()

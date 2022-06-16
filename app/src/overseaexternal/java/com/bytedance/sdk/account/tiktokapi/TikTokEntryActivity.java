@@ -8,13 +8,12 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
-import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
-import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
-import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.common.model.Base;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.share.Share;
 
 /**
  * 主要功能：接受授权返回结果的activity
@@ -35,26 +34,25 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
     }
 
     @Override
-    public void onReq(BaseReq req) {
+    public void onReq(Base.Request req) {
 
     }
 
     @Override
-    public void onResp(BaseResp resp) {
+    public void onResp(Base.Response resp) {
         // 授权成功可以获得authCode
-        if (resp instanceof Authorization.Response) {
-            Authorization.Response response = (Authorization.Response) resp;
+        if (resp instanceof Auth.Response) {
+            Auth.Response response = (Auth.Response) resp;
             Intent intent = null;
-            if (resp.isSuccess() && response.state.equals("ww")) {
-
-                Toast.makeText(this, "Authorization is successful, granted permissions: " + response.grantedPermissions,
+            if (resp.isSuccess() && response.getState().equals("ww")) {
+                Toast.makeText(this, "Authorization is successful, granted permissions: " + response.getGrantedPermissions(),
                         Toast.LENGTH_LONG).show();
 
                 intent = new Intent(this, UserInfoActivity.class);
-                intent.putExtra(MainActivity.CODE_KEY, response.authCode);
+                intent.putExtra(MainActivity.CODE_KEY, response.getAuthCode());
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Authorization Failed, errorCode: " + response.errorCode + " Message: "+ response.errorMsg,
+                Toast.makeText(this, "Authorization Failed, errorCode: " + response.getErrorCode() + " Message: "+ response.getErrorMsg(),
                         Toast.LENGTH_LONG).show();
 
             }
@@ -63,10 +61,10 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
                 Toast.makeText(this, "Sharing Successful", Toast.LENGTH_SHORT).show();
-            } else if (response.isCancel()) {
+            } else if (response.isCancelled()) {
                 Toast.makeText(this, "User Cancelled Manually", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Sharing Failed, errorCode:" + response.errorCode + "suberrorcode " + response.subErrorCode, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sharing Failed, errorCode:" + response.getErrorCode() + "suberrorcode " + response.getSubErrorCode(), Toast.LENGTH_SHORT).show();
             }
             finish();
         }

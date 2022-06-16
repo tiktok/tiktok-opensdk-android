@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.IAppCheck;
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
@@ -18,7 +18,7 @@ import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheck;
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
-import com.bytedance.sdk.open.tiktok.share.ShareKt;
+import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
@@ -130,7 +130,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
 
     @Override
-    public boolean share(ShareKt.Request request) {
+    public boolean share(Share.Request request) {
         if (request == null) {
             return false;
         }
@@ -145,7 +145,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean authorize(Authorization.Request request) {
+    public boolean authorize(Auth.Request request) {
         IAppCheck appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
         if (appHasInstalled != null) {
@@ -171,7 +171,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         return getSupportApiAppInfo(API_TYPE_LOGIN) != null;
     }
 
-    private boolean sendWebAuthRequest(Authorization.Request request) {
+    private boolean sendWebAuthRequest(Auth.Request request) {
         return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
 
     }

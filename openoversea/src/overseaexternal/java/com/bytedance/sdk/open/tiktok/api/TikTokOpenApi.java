@@ -4,11 +4,9 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 
-import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.share.ShareKt;
-import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 
 public interface TikTokOpenApi {
     /**
@@ -17,7 +15,7 @@ public interface TikTokOpenApi {
      * @param request
      * @return
      */
-    boolean authorize(Authorization.Request request);
+    boolean authorize(Auth.Request request);
 
     /**
      * check if the application supports authorization
@@ -30,7 +28,7 @@ public interface TikTokOpenApi {
      *
      * @return
      */
-    boolean share(ShareKt.Request request);
+    boolean share(Share.Request request);
 
     /**
      *

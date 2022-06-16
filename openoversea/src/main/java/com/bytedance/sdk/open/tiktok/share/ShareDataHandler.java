@@ -16,16 +16,18 @@ public class ShareDataHandler implements IDataHandler {
             return false;
         }
         if (type == Constants.TIKTOK.SHARE_REQUEST) {
-            Share.Request request = new Share.Request(bundle);
-            if (request.checkArgs()) {
+            Share.Request request = new Share.Request();
+            request.fromBundle(bundle);
+            if (request.validate()) {
                 eventHandler.onReq(request);
                 return true;
             } else {
                 return false;
             }
         } else if (type == Constants.TIKTOK.SHARE_RESPONSE) {
-            Share.Response response = new Share.Response(bundle);
-            if (response.checkArgs()) {
+            Share.Response response = new Share.Response();
+            response.fromBundle(bundle);
+            if (response.validate()) {
                 eventHandler.onResp(response);
                 return true;
             } else {
