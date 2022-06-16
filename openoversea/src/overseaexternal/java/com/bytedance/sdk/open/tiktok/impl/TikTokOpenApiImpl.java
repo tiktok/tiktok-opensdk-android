@@ -2,27 +2,25 @@ package com.bytedance.sdk.open.tiktok.impl;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 
 import androidx.annotation.Nullable;
 
-import com.bytedance.sdk.open.tiktok.CommonConstants;
 import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.base.IAppCheck;
+import com.bytedance.sdk.open.tiktok.common.constants.Constants;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
-import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck;
+import com.bytedance.sdk.open.tiktok.helper.TikTokCheck;
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
-import com.bytedance.sdk.open.tiktok.share.ShareRequest;
+import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
-import com.bytedance.sdk.open.tiktok.helper.MusicallyCheckHelperImpl;
-import com.bytedance.sdk.open.tiktok.helper.TikTokCheckHelperImpl;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
 
 import java.util.HashMap;
@@ -88,16 +86,16 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
             return false;
         }
 
-        int type = bundle.getInt(ParamKeyConstants.BaseParams.TYPE);
+        int type = bundle.getInt(Keys.Base.TYPE);
         if (type == 0) {
             type = bundle.getInt(Keys.Share.TYPE);
         }
         switch (type) {
-            case CommonConstants.ModeType.SEND_AUTH_REQUEST:
-            case CommonConstants.ModeType.SEND_AUTH_RESPONSE:
+            case Constants.TIKTOK.AUTH_REQUEST:
+            case Constants.TIKTOK.AUTH_RESPONSE:
                 return handlerMap.get(TYPE_AUTH_HANDLER).handle(type, bundle, eventHandler);
-            case CommonConstants.ModeType.SHARE_CONTENT_TO_TT:
-            case CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP:
+            case Constants.TIKTOK.SHARE_REQUEST:
+            case Constants.TIKTOK.SHARE_RESPONSE:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
             default:
                 return handlerMap.get(TYPE_SHARE_HANDLER).handle(type, bundle, eventHandler);
@@ -123,7 +121,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     @Override
     public boolean isShareSupportFileProvider() {
         for (IAppCheck checkapi : mSharecheckApis) {
-            if (checkapi.isShareSupportFileProvider()) {
+            if (checkapi.isShareFileProviderSupported()) {
                 return true;
             }
         }
@@ -132,7 +130,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
 
     @Override
-    public boolean share(Share.Request request) {
+    public boolean share(ShareKt.Request request) {
         if (request == null) {
             return false;
         }
@@ -144,11 +142,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         }
 
         return false;
-    }
-
-    @Override
-    public boolean share(ShareRequest request) {
-        return share(request.getShareRequest());
     }
 
     @Override
@@ -188,14 +181,14 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         switch (type) {
             case API_TYPE_LOGIN:
                 for (IAppCheck checkapi : mAuthcheckApis) {
-                    if (checkapi.isAppSupportAuthorization()) {
+                    if (checkapi.isAuthSupported()) {
                         return checkapi;
                     }
                 }
                 break;
             case API_TYPE_SHARE:
                 for (IAppCheck checkapi : mSharecheckApis) {
-                    if (checkapi.isAppSupportShare()) {
+                    if (checkapi.isShareSupported()) {
                         return checkapi;
                     }
                 }

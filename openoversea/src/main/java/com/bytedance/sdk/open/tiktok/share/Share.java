@@ -15,6 +15,7 @@ import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO: chen.wu change it when auth response is migrated and base is replaced with Base in response
 public class Share {
 
     private static final String TAG = "Aweme.OpenSDK.Share";

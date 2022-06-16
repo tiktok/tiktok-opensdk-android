@@ -20,8 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -38,12 +36,14 @@ import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.base.Anchor;
+import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.BaseReq;
 import com.bytedance.sdk.open.tiktok.common.model.BaseResp;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.share.ShareRequest;
+import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
@@ -57,7 +57,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements IApiEventHandler {
 
@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             return;
         }
 
-        List<String> hashtags = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
 
         if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
             hashtags.add(mSetDefaultHashTag.getText().toString());
@@ -419,15 +419,20 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             @Override
             public void run()
             {
-                ShareRequest.Builder requestBuilder = ShareRequest.builder()
-                        .hashtags(hashtags)
-                        .anchorSourceType(finalAnchorSourceType)
-                        .extra(finalOpenPlatformExtra);
+                ShareKt.Request request = new ShareKt.Request();
+                request.setHashTagList(hashtags);
+                Anchor anchor = new Anchor();
+                anchor.setSourceType(finalAnchorSourceType);
+                request.setAnchor(anchor);
+                request.setShareExtra(finalOpenPlatformExtra);
+
                 if (mVideoKitDisableMusicToggle.isChecked()) {
-                    requestBuilder.putExtraShareOptions(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
+                    HashMap options = new HashMap<String, Integer>();
+                    options.put(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
+                    request.setExtraShareOptions(options);
                 }
                 if (mGreenScreenToggle.isChecked()) {
-                    requestBuilder.shareFormat(Share.Format.GREEN_SCREEN);
+                    request.setShareFormat(ShareKt.Format.GREEN_SCREEN);
                 }
                 switch (shareType) {
                     case Share.IMAGE:
@@ -476,10 +481,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                                 new Runnable() {
                                     public void run()
                                     {
-                                        requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
-                                        requestBuilder.mediaPaths(images);
-
-                                        tiktokOpenApi.share(requestBuilder.build());
+                                        MediaContent content = new MediaContent(ShareKt.MediaType.IMAGE, images);
+                                        request.setMediaContent(content);
+                                        tiktokOpenApi.share(request);
                                     }
                                 });
                         break;
@@ -529,10 +533,9 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
                                 new Runnable() {
                                     public void run()
                                     {
-                                        requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
-                                        requestBuilder.mediaPaths(videos);
-
-                                        tiktokOpenApi.share(requestBuilder.build());
+                                        MediaContent content = new MediaContent(ShareKt.MediaType.VIDEO, videos);
+                                        request.setMediaContent(content);
+                                        tiktokOpenApi.share(request);
                                     }
                                 });
                         break;

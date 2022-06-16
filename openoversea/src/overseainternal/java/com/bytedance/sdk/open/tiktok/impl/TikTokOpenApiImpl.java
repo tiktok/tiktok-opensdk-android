@@ -16,10 +16,9 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheck;
-import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
-import com.bytedance.sdk.open.tiktok.share.ShareRequest;
+import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
@@ -171,7 +170,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     @Override
-    public boolean share(Share.Request request) {
+    public boolean share(ShareKt.Request request) {
         if (request == null) {
             return false;
         }
@@ -183,11 +182,6 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         }
 
         return false;
-    }
-
-    @Override
-    public boolean share(ShareRequest request) {
-        return share(request.getShareRequest());
     }
 
     private boolean sendWebAuthRequest(Authorization.Request request) {

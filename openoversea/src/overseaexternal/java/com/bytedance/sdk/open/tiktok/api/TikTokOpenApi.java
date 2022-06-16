@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 
 public interface TikTokOpenApi {
@@ -29,14 +30,7 @@ public interface TikTokOpenApi {
      *
      * @return
      */
-    boolean share(Share.Request request);
-
-    /**
-     * share image/video
-     *
-     * @return
-     */
-    boolean share(ShareRequest request);
+    boolean share(ShareKt.Request request);
 
     /**
      *

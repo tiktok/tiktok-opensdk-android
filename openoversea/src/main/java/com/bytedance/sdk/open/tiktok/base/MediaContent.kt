@@ -32,4 +32,7 @@ class MediaContent(val mediaType: ShareKt.MediaType, val mediaPaths: ArrayList<S
             putStringArrayList(pathKey, mediaPaths)
         }
     }
+    fun validate(): Boolean {
+        return mediaPaths.isNotEmpty()
+    }
 }

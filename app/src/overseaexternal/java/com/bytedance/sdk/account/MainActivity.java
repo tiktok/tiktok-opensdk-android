@@ -29,7 +29,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.authorize.model.Authorization;
+import com.bytedance.sdk.open.tiktok.base.MediaContent;
+import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.share.Share;
+import com.bytedance.sdk.open.tiktok.share.ShareKt;
 import com.bytedance.sdk.open.tiktok.share.ShareRequest;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
@@ -44,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -259,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> hashtags = new ArrayList<>();
+        ArrayList<String> hashtags = new ArrayList<>();
 
         if (!TextUtils.isEmpty(mSetDefaultHashTag.getText())) {
             hashtags.add(mSetDefaultHashTag.getText().toString());
@@ -275,10 +279,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                ShareRequest.Builder requestBuilder = ShareRequest.builder()
-                        .hashtags(hashtags);
+                ShareKt.Request request = new ShareKt.Request();
+                request.setHashTagList(hashtags);
                 if (mVideoKitDisableMusicToggle.isChecked()) {
-                    requestBuilder.putExtraShareOptions(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
+                    HashMap options = new HashMap<String, Integer>();
+                    options.put(Keys.Share.DISABLE_MUSIC_SELECTION, 1);
+                    request.setExtraShareOptions(options);
                 }
                 switch (shareType) {
                     case Share.IMAGE:
@@ -325,10 +331,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         handler.post(
                                 (Runnable) () -> {
-                                    requestBuilder.mediaType(ShareRequest.MediaType.IMAGE);
-                                    requestBuilder.mediaPaths(images);
-
-                                    tikTokOpenApi.share(requestBuilder.build());
+                                    MediaContent content = new MediaContent(ShareKt.MediaType.IMAGE, images);
+                                    request.setMediaContent(content);
+                                    tikTokOpenApi.share(request);
                                 });
                         break;
                     case Share.VIDEO:
@@ -377,10 +382,9 @@ public class MainActivity extends AppCompatActivity {
                                 new Runnable() {
                                     public void run()
                                     {
-                                        requestBuilder.mediaType(ShareRequest.MediaType.VIDEO);
-                                        requestBuilder.mediaPaths(videos);
-
-                                        tikTokOpenApi.share(requestBuilder.build());
+                                        MediaContent content = new MediaContent(ShareKt.MediaType.VIDEO, videos);
+                                        request.setMediaContent(content);
+                                        tikTokOpenApi.share(request);
                                     }
                                 });
                         break;

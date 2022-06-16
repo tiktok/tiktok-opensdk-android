@@ -19,6 +19,7 @@ class Base {
             return Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
                 putBundle(Keys.Base.EXTRA, extras)
+                putString(Keys.Base.CALLER_PKG, callerPackage)
                 putString(Keys.Base.FROM_ENTRY, callerLocalEntry)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
@@ -42,7 +43,7 @@ class Base {
         val isSuccess: Boolean
             get() = if (errorCode == null) false else errorCode!! == Constants.BaseError.OK
 
-        fun toBundle(): Bundle {
+        open fun toBundle(): Bundle {
             return Bundle().apply {
                 putInt(Keys.Base.ERROR_CODE, errorCode)
                 errorMsg?.let { this.putString(Keys.Base.ERROR_MSG, it) }
@@ -50,7 +51,7 @@ class Base {
                 putBundle(Keys.Base.EXTRA, extras)
             }
         }
-        fun fromBundle(bundle: Bundle) {
+        open fun fromBundle(bundle: Bundle) {
             this.errorCode = bundle.getInt(Keys.Base.ERROR_CODE)
             this.errorMsg = bundle.getString(Keys.Base.ERROR_MSG)
             this.extras = bundle.getBundle(Keys.Base.EXTRA)

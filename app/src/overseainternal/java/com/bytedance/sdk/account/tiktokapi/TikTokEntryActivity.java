@@ -61,7 +61,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
             }
             finish();
-        } else if (resp instanceof Share.Response) {
+        } else if (resp instanceof Share.Response) { // TODO: chen.wu change it when auth response is migrated
             Share.Response response = (Share.Response) resp;
             if (response.isSuccess()) {
                 Toast.makeText(this, "Sharing Successful", Toast.LENGTH_SHORT).show();
