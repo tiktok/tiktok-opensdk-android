@@ -77,9 +77,4 @@ public class TikTokWebAuthorizeActivity extends BaseWebAuthorizeActivity {
             mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
     }
-
-    @Override
-    protected String errorCode2Message(int errorCode) {
-        return "";
-    }
 }

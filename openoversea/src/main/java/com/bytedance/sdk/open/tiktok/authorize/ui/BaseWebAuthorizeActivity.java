@@ -27,10 +27,10 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper;
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.R;
-import com.bytedance.sdk.open.tiktok.authorize.WebViewHelper;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.Base;
@@ -43,16 +43,10 @@ import com.bytedance.sdk.open.tiktok.utils.OpenUtils;
  */
 public abstract class BaseWebAuthorizeActivity extends Activity implements IApiEventHandler {
 
-    private static final String RES_ID = "id";
-    private static final String RES_LAYOUT = "layout";
-    private static final String RES_STRING = "string";
     protected static final String WAP_AUTHORIZE_URL = "wap_authorize_url";
-
     private static final String USER_CANCEL_AUTH = "User cancelled the Authorization";
 
-
     int OP_ERROR_NO_CONNECTION = -12;
-    int OP_ERROR_CONNECT_TIMEOUT = -13;
     int OP_ERROR_NETWORK_ERROR = -15;
 
     protected WebView mContentWebView;
@@ -99,14 +93,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
      */
     protected abstract String getDomain();
 
-    /**
-     * errorCode to errorMsg
-     *
-     * @param errorCode
-     * @return
-     */
-    protected abstract String errorCode2Message(int errorCode);
-
 
     protected RelativeLayout mHeaderView;
 
@@ -122,8 +108,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
 
     protected boolean isShowNetworkError = false;
 
-    private static final int MSG_LOADING_TIME_OUT = 100;
-
     private Context mContext;
     protected TextView mCancelBtn;
 
@@ -135,7 +119,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         handleIntent(getIntent(), this);
         setContentView(R.layout.layout_open_web_authorize);
         initView();
-        initActions();
         handleRequestIntent();
     }
 
@@ -188,8 +171,7 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         } else {
             startLoading();
             configWebView();
-            mContentWebView.loadUrl(WebViewHelper.getLoadUrl(this, argument, getHost(), getAuthPath()));
-
+            mContentWebView.loadUrl(WebAuthHelper.Companion.composeLoadUrl(this, argument, getHost(), getAuthPath()));
         }
     }
 
@@ -312,11 +294,6 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-    }
-
-
-    protected void initActions() {
-
     }
 
     public class AuthWebViewClient extends WebViewClient {
