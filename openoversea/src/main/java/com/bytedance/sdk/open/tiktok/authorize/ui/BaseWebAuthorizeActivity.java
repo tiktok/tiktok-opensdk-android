@@ -188,19 +188,10 @@ public abstract class BaseWebAuthorizeActivity extends Activity implements IApiE
     }
 
 
-
-
     private void redirectToClientApp(int errorCode, String errorMsg) {
         redirectToClientApp("", null, errorCode, errorMsg);
     }
 
-    /**
-     * return result to app
-     *
-     * @param code
-     * @param state
-     * @param errorCode
-     */
     private void redirectToClientApp(String code, String state, int errorCode, String errorMsg) {
         Auth.Response response = new Auth.Response();
         response.setAuthCode(code);

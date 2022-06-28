@@ -2,7 +2,7 @@
     package="com.bytedance.sdk.open.tiktok">
 
     <application>
-        <activity android:name="com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity"
+        <activity android:name="com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
     </application>

@@ -21,7 +21,8 @@ import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
-import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
+//import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthorizeActivity;
+import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -185,7 +186,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Auth.Request request) {
-        return authImpl.authorizeWeb(TikTokWebAuthorizeActivity.class, request);
+        return authImpl.authorizeWeb(TikTokWebAuthActivity.class, request);
     }
 
     private IAppCheck getSupportApiAppInfo(int type) {
