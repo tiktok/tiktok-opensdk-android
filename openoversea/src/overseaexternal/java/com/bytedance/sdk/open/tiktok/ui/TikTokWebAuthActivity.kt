@@ -4,14 +4,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth
-import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthorizeActivity
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthActivity
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils.Companion.setStatusBarColor
 
-open class TikTokWebAuthActivity: BaseWebAuthorizeActivity() {
+open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     val AUTH_HOST = "open-api.tiktok.com"
     val DOMAIN = "open-api.tiktok.com"
     val AUTH_PATH = "/platform/oauth/connect/"
@@ -37,9 +37,9 @@ open class TikTokWebAuthActivity: BaseWebAuthorizeActivity() {
             if (resp.extras == null) {
                 resp.extras = Bundle()
             }
-            resp.extras!!.putString(BaseWebAuthorizeActivity.WAP_AUTHORIZE_URL, mContentWebView.getUrl())
+            resp.extras!!.putString("wap_authorize_url", mContentWebView.getUrl())
         }
-        sendInnerResponse(LOCAL_ENTRY_ACTIVITY, req, resp)
+        sendInnerResponse(LOCAL_ENTRY_ACTIVITY, req!!, resp)
     }
 
     override fun getHost(): String? {
@@ -50,7 +50,7 @@ open class TikTokWebAuthActivity: BaseWebAuthorizeActivity() {
         return AUTH_PATH
     }
 
-    override fun getDomain(): String? {
+    override fun getDomain(): String {
         return DOMAIN
     }
 

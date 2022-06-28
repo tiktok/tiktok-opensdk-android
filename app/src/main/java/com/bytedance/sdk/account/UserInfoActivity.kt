@@ -84,9 +84,9 @@ class UserInfoActivity: Activity() {
                             isBOE,
                             this,
                             object : IUserApiBack {
-                                override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?, accessToken: String, openId: String) {
+                                override fun onResult(success: Boolean, errorMsg: String, info: UserInfo?, accessToken: String?, openId: String) {
                                     mLoadingGroup.visibility = View.GONE
-                                    this@UserInfoActivity.accessToken = accessToken
+                                    this@UserInfoActivity.accessToken = accessToken ?: "" // TODO: chen.wu check access token
                                     this@UserInfoActivity.openId = openId
                                     if (success) {
                                         mUserInfoLayout.visibility = View.VISIBLE

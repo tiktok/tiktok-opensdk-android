@@ -6,12 +6,12 @@ import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth
-import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthorizeActivity
+import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils.Companion.setStatusBarColor
 
-open class TikTokWebAuthActivity: BaseWebAuthorizeActivity() {
+open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     val AUTH_HOST = "open-api.tiktok.com"
     val DOMAIN = "open-api.tiktok.com"
     val AUTH_PATH = "/platform/oauth/connect/"
