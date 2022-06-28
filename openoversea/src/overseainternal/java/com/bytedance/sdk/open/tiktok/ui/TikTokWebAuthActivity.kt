@@ -40,23 +40,8 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
         }
         sendInnerResponse(LOCAL_ENTRY_ACTIVITY, req!!, resp)
     }
-
-    override fun getHost(): String {
-        return AUTH_HOST
-    }
-
-    override fun getAuthPath(): String {
-        return AUTH_PATH
-    }
-
-    override fun getDomain(): String {
-        return DOMAIN
-    }
-
-    override fun setContainerViewBgColor() {
-        if (mContainer != null) {
-            mContainer.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        }
-    }
+    override val host = AUTH_HOST
+    override val authPath = AUTH_PATH
+    override val domain = DOMAIN
 
 }

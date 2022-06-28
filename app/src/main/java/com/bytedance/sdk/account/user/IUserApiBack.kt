@@ -9,5 +9,5 @@ import com.bytedance.sdk.account.user.bean.UserInfo
  */
 interface IUserApiBack {
 
-    fun onResult(success: Boolean, errorMsg: String, info: UserInfo?, accessToken: String?, openId: String)
+    fun onResult(success: Boolean, errorMsg: String, info: UserInfo?, accessToken: String?, openId: String?)
 }
