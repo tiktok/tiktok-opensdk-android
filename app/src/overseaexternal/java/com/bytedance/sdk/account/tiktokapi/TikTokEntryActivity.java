@@ -8,11 +8,11 @@ import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.Base;
-import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.share.Share;
 
 /**
@@ -29,7 +29,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ttOpenApi = TikTokOpenApiFactory.create(this);
+        ttOpenApi = TikTokOpenApiFactory.Companion.create(this);
         ttOpenApi.handleIntent(getIntent(), this);
     }
 

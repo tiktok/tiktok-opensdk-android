@@ -18,10 +18,10 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     val DOMAIN = "open-api.tiktok.com"
     val AUTH_PATH = "/platform/oauth/connect/"
 
-    private lateinit var ttOpenApi: TikTokOpenApi
+    private var ttOpenApi: TikTokOpenApi? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ttOpenApi = TikTokOpenApiFactory.create(this)
+        ttOpenApi = TikTokOpenApiFactory.create(this) // TODO: chen.wu handle this, without TikTokOpenApiFactory.init first
         super.onCreate(savedInstanceState)
         setStatusBarColor(this, Color.TRANSPARENT)
     }
@@ -30,7 +30,7 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     }
 
     override fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
-        return ttOpenApi.handleIntent(intent, eventHandler)
+        return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
     }
 
     override fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?) {

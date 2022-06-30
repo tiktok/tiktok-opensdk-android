@@ -27,12 +27,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             // 设置状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        tikTokOpenApi = TikTokOpenApiFactory.create(this);
+        tikTokOpenApi = TikTokOpenApiFactory.Companion.create(this);
 
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tikTokOpenApi = TikTokOpenApiFactory.create(this);
+        tikTokOpenApi = TikTokOpenApiFactory.Companion.create(this);
     }
 
     @Override

@@ -17,6 +17,6 @@ public class CustomApplication extends Application {
         super.onCreate();
 
         String clientKey = BuildConfig.CLIENT_KEY;
-        TikTokOpenApiFactory.init(new TikTokOpenConfig(clientKey));
+        TikTokOpenApiFactory.Companion.init(new TikTokOpenConfig(clientKey));
     }
 }

@@ -16,7 +16,7 @@ public class TikTokOpenApiFactory {
     private static TikTokOpenConfig sConfig;
 
     public static boolean init(TikTokOpenConfig config) {
-        if (config != null && !TextUtils.isEmpty(config.clientKey)) {
+        if (config != null && !TextUtils.isEmpty(config.getClientKey())) {
             sConfig = config;
             return true;
         }
@@ -33,8 +33,8 @@ public class TikTokOpenApiFactory {
         }
         synchronized (TikTokOpenApiFactory.class) {
             if (sharedApiImpl == null) {
-                ShareService share = new ShareService(activity, sConfig.clientKey);
-                AuthService authService = new AuthService(activity, sConfig.clientKey);
+                ShareService share = new ShareService(activity, sConfig.getClientKey());
+                AuthService authService = new AuthService(activity, sConfig.getClientKey());
                 sharedApiImpl = new TikTokOpenApiImpl(activity, authService, share, handler);
             }
             return sharedApiImpl;
