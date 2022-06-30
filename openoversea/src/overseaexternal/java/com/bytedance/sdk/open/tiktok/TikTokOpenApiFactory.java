@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.bytedance.sdk.open.tiktok.authorize.AuthService;
-import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl;
+import com.bytedance.sdk.open.tiktok.share.ShareService;
 
 public class TikTokOpenApiFactory {
 
@@ -30,7 +30,7 @@ public class TikTokOpenApiFactory {
         if (sConfig == null) {
             return null;
         }
-        ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
+        ShareService share = new ShareService(activity, sConfig.clientKey);
         AuthService auth = new AuthService(activity, sConfig.clientKey);
         return new TikTokOpenApiImpl(activity, auth, share);
     }

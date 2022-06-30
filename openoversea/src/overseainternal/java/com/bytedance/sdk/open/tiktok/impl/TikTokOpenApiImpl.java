@@ -17,10 +17,10 @@ import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck;
 import com.bytedance.sdk.open.tiktok.helper.TikTokCheck;
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler;
-import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.share.Share;
 import com.bytedance.sdk.open.tiktok.BuildConfig;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
+import com.bytedance.sdk.open.tiktok.share.ShareService;
 import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthActivity;
 
 import java.util.HashMap;
@@ -41,7 +41,8 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
     private Map<Integer, IDataHandler> handlerMap = new HashMap<>(2);
 
-    private ShareImpl shareImpl;
+//    private ShareImpl shareImpl;
+    private ShareService shareService;
     private AuthService authService;
 
     private static final int API_TYPE_LOGIN = 0;
@@ -56,9 +57,9 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    public TikTokOpenApiImpl(Context context, AuthService authService, ShareImpl shareImpl, @Nullable IApiEventHandler apiHandler) {
+    public TikTokOpenApiImpl(Context context, AuthService authService, ShareService shareService, @Nullable IApiEventHandler apiHandler) {
         this.mContext = context;
-        this.shareImpl = shareImpl;
+        this.shareService = shareService;
         this.authService = authService;
         this.apiHandler = apiHandler;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
@@ -176,7 +177,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
         if (isAppSupportShare()) {
             String remotePackage = getSupportApiAppInfo(API_TYPE_SHARE).getPackageName();
-            return shareImpl.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
+            return shareService.share(LOCAL_ENTRY_ACTIVITY, remotePackage, REMOTE_SHARE_ACTIVITY, request,
                     getSupportApiAppInfo(API_TYPE_SHARE).getRemoteAuthEntryActivity(), BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         }
 

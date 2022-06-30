@@ -113,6 +113,8 @@ class Share {
 
         override fun fromBundle(bundle: Bundle) {
             super.fromBundle(bundle)
+            this.errorCode = bundle.getInt(Keys.Share.ERROR_CODE)
+            this.errorMsg = bundle.getString(Keys.Share.ERROR_MSG)
             state = bundle.getString(Keys.Share.STATE)
             subErrorCode = bundle.getInt(Keys.Share.SHARE_SUB_ERROR_CODE)
         }
