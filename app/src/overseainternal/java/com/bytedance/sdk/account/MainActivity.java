@@ -34,7 +34,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig;
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.Anchor;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
@@ -42,8 +44,6 @@ import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.Base;
 import com.bytedance.sdk.open.tiktok.share.Share;
-import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         sharedPreferences = getSharedPreferences(SHARE_PREFS, Context.MODE_PRIVATE);
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.Companion.create(this);
 
         findViewById(R.id.go_to_selected_auth).setOnClickListener(v ->{
 
@@ -272,8 +272,8 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
     }
 
     private void initClientKey(boolean isProd) {
-        TikTokOpenApiFactory.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
-        tiktokOpenApi = TikTokOpenApiFactory.create(this, this);
+        TikTokOpenApiFactory.Companion.init(isProd ? prodTiktokOpenConfig : boeTiktokOpenConfig);
+        tiktokOpenApi = TikTokOpenApiFactory.Companion.create(this, this);
     }
 
     private void updatePreferences(boolean isBOE) {
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
     }
 
     private  void createTikTokImplApi(int targetApp) {
-        tiktokOpenApi = TikTokOpenApiFactory.create(this);
+        tiktokOpenApi = TikTokOpenApiFactory.Companion.create(this);
     }
 
     private boolean sendAuth(String scope) {

@@ -2,6 +2,8 @@ package com.bytedance.sdk.open.tiktok.share;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import com.bytedance.sdk.open.tiktok.common.constants.Constants;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
@@ -11,7 +13,7 @@ import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler;
  */
 public class ShareDataHandler implements IDataHandler {
     @Override
-    public boolean handle(int type, Bundle bundle, IApiEventHandler eventHandler) {
+    public boolean handle(int type, @Nullable Bundle bundle, @Nullable IApiEventHandler eventHandler) {
         if (bundle == null || eventHandler == null) {
             return false;
         }

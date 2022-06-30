@@ -13,9 +13,9 @@ class TikTokShareResponseActivity : Activity() {
             val type = it.getInt(Keys.Share.TYPE)
             println(type)
         }
-        val api: TikTokOpenApi = TikTokOpenApiFactory.create(this)
-        val handler: IApiEventHandler? = api.apiHandler
-        api.handleIntent(intent, handler)
+        val api: TikTokOpenApi? = TikTokOpenApiFactory.create(this)
+        val handler: IApiEventHandler? = api?.apiHandler
+        api?.handleIntent(intent, handler)
         finish()
         overridePendingTransition(0, 0)
     }

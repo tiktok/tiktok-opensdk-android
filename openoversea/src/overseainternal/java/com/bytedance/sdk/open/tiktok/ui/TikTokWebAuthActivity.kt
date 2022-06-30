@@ -15,8 +15,8 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     val AUTH_HOST = "open-api.tiktok.com"
     val DOMAIN = "open-api.tiktok.com"
     val AUTH_PATH = "/platform/oauth/connect/"
-    private val LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity" // 请求授权的结果回调Activity入口
-    private lateinit var ttOpenApi: TikTokOpenApi
+    private val LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity" // 请求授权的结果回调Activity入口 // TODO: chen.wu remove comment
+    private var ttOpenApi: TikTokOpenApi? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ttOpenApi = TikTokOpenApiFactory.create(this)
@@ -29,7 +29,7 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
     }
 
     override fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
-        return ttOpenApi.handleIntent(intent, eventHandler)
+        return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
     }
     override fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?) {
         if (resp != null && mContentWebView != null) {
