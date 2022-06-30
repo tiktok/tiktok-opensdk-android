@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
-import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
+import com.bytedance.sdk.open.tiktok.authorize.AuthService;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.share.ShareImpl;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
@@ -39,15 +39,10 @@ public class TikTokOpenApiFactory {
         synchronized (TikTokOpenApiFactory.class) {
             if (sharedApiImpl == null) {
                 ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
-                AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
-                sharedApiImpl = new TikTokOpenApiImpl(activity, auth, share, handler);
+                AuthService authService = new AuthService(activity, sConfig.clientKey);
+                sharedApiImpl = new TikTokOpenApiImpl(activity, authService, share, handler);
             }
             return sharedApiImpl;
         }
-//        AuthImpl auth = new AuthImpl(activity, sConfig.clientKey);
-//        ShareImpl share = new ShareImpl(activity, sConfig.clientKey);
-//        return new TikTokOpenApiImpl(activity,auth, share);
     }
-
-
 }

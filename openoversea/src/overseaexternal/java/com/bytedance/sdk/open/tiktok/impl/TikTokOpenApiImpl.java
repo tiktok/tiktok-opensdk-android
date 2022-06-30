@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.bytedance.sdk.open.tiktok.authorize.AuthImpl;
+import com.bytedance.sdk.open.tiktok.authorize.AuthService;
 import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler;
 import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
 import com.bytedance.sdk.open.tiktok.base.IAppCheck;
@@ -37,7 +37,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
 
 
     private ShareImpl shareImpl;
-    private AuthImpl authImpl;
+    private AuthService authService;
 
     private static final int API_TYPE_LOGIN = 0;
     private static final int API_TYPE_SHARE = 1;
@@ -52,10 +52,10 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     private static final int TYPE_AUTH_HANDLER = 1;
     private static final int TYPE_SHARE_HANDLER = 2;
 
-    public TikTokOpenApiImpl(Context context, AuthImpl authImpl, ShareImpl shareImpl) {
+    public TikTokOpenApiImpl(Context context, AuthService authService, ShareImpl shareImpl) {
         this.mContext = context;
         this.shareImpl = shareImpl;
-        this.authImpl = authImpl;
+        this.authService = authService;
         handlerMap.put(TYPE_AUTH_HANDLER, new SendAuthDataHandler());
         handlerMap.put(TYPE_SHARE_HANDLER, new ShareDataHandler());
         mAuthcheckApis = new IAppCheck[]{
@@ -149,7 +149,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
         IAppCheck appHasInstalled = getSupportApiAppInfo(API_TYPE_LOGIN);
 
         if (appHasInstalled != null) {
-            return authImpl.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
+            return authService.authorizeNative(request, appHasInstalled.getPackageName(), appHasInstalled.getRemoteAuthEntryActivity(), LOCAL_ENTRY_ACTIVITY, BuildConfig.SDK_OVERSEA_NAME, BuildConfig.SDK_OVERSEA_VERSION);
         } else {
             return sendWebAuthRequest(request);
         }
@@ -172,7 +172,7 @@ public class TikTokOpenApiImpl implements TikTokOpenApi {
     }
 
     private boolean sendWebAuthRequest(Auth.Request request) {
-        return authImpl.authorizeWeb(TikTokWebAuthActivity.class, request);
+        return authService.authorizeWeb(TikTokWebAuthActivity.class, request);
 
     }
 
