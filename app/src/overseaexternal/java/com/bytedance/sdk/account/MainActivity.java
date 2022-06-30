@@ -29,7 +29,7 @@ import androidx.core.content.FileProvider;
 
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
+import com.bytedance.sdk.open.tiktok.authorize.Auth;
 import com.bytedance.sdk.open.tiktok.base.MediaContent;
 import com.bytedance.sdk.open.tiktok.common.constants.Keys;
 import com.bytedance.sdk.open.tiktok.share.Share;

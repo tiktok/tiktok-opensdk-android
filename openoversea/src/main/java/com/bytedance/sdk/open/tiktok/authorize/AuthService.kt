@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.text.TextUtils
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 

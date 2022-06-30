@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
-import com.bytedance.sdk.open.tiktok.authorize.ui.BaseWebAuthActivity
+import com.bytedance.sdk.open.tiktok.authorize.Auth
+import com.bytedance.sdk.open.tiktok.authorize.BaseWebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils.Companion.setStatusBarColor

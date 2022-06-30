@@ -3,7 +3,6 @@ package com.bytedance.sdk.open.tiktok.authorize
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.utils.Md5Utils.Companion.hexDigest
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.Companion.getMd5Signs

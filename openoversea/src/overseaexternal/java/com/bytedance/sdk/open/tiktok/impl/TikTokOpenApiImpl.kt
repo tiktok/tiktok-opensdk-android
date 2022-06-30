@@ -5,8 +5,8 @@ import android.content.Intent
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
-import com.bytedance.sdk.open.tiktok.authorize.handler.SendAuthDataHandler
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
+import com.bytedance.sdk.open.tiktok.authorize.SendAuthDataHandler
+import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.base.IAppCheck
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys

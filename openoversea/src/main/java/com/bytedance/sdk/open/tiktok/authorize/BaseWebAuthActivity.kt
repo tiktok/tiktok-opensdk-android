@@ -1,9 +1,8 @@
-package com.bytedance.sdk.open.tiktok.authorize.ui
+package com.bytedance.sdk.open.tiktok.authorize
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -26,7 +25,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bytedance.sdk.open.tiktok.R
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.Companion.composeLoadUrl
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
+import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler

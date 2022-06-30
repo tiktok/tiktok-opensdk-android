@@ -1,7 +1,7 @@
 package com.bytedance.sdk.open.tiktok.api
 
 import android.content.Intent
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth
+import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.share.Share
 

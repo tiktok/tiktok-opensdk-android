@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.tiktok.authorize.model
+package com.bytedance.sdk.open.tiktok.authorize
 
 import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.common.constants.Constants

@@ -10,7 +10,7 @@ import com.bytedance.sdk.account.MainActivity;
 import com.bytedance.sdk.account.UserInfoActivity;
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory;
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi;
-import com.bytedance.sdk.open.tiktok.authorize.model.Auth;
+import com.bytedance.sdk.open.tiktok.authorize.Auth;
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler;
 import com.bytedance.sdk.open.tiktok.common.model.Base;
 import com.bytedance.sdk.open.tiktok.share.Share;
