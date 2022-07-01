@@ -23,6 +23,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.R
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.Companion.composeLoadUrl
 import com.bytedance.sdk.open.tiktok.authorize.Auth
@@ -53,9 +54,6 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
     abstract fun isNetworkAvailable(): Boolean
     abstract fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean
     abstract fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?)
-    abstract val host: String
-    abstract val authPath: String
-    abstract val domain: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +66,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
     override fun onReq(req: Base.Request?) {
         if (req is Auth.Request) {
             mAuthRequest = req
-            mAuthRequest!!.redirectUri = "https://$domain${Keys.REDIRECT_URL_PATH}"
+            mAuthRequest!!.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
@@ -92,7 +90,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
             } else {
                 startLoading()
                 mContentWebView.webViewClient = AuthWebViewClient()
-                mContentWebView.loadUrl(composeLoadUrl(this, it, host, authPath)!!)
+                mContentWebView.loadUrl(composeLoadUrl(this, it, BuildConfig.AUTH_HOST, BuildConfig.AUTH_ENDPOINT)!!)
             }
         }
     }

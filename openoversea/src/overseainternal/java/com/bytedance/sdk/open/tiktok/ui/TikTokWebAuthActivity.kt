@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.tiktok.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
@@ -12,10 +13,6 @@ import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils.Companion.setStatusBarColor
 
 open class TikTokWebAuthActivity: BaseWebAuthActivity() {
-    val AUTH_HOST = "open-api.tiktok.com"
-    val DOMAIN = "open-api.tiktok.com"
-    val AUTH_PATH = "/platform/oauth/connect/"
-    private val LOCAL_ENTRY_ACTIVITY = "tiktokapi.TikTokEntryActivity" // 请求授权的结果回调Activity入口 // TODO: chen.wu remove comment
     private var ttOpenApi: TikTokOpenApi? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +35,6 @@ open class TikTokWebAuthActivity: BaseWebAuthActivity() {
             }
             resp.extras!!.putString("wap_authorize_url", mContentWebView.url)
         }
-        sendInnerResponse(LOCAL_ENTRY_ACTIVITY, req!!, resp)
+        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req!!, resp)
     }
-    override val host = AUTH_HOST
-    override val authPath = AUTH_PATH
-    override val domain = DOMAIN
-
 }

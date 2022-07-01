@@ -34,6 +34,8 @@ android {
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
             buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
             buildConfigField "String", "TIKTOK_AUTH_ACTIVITY", "\"$TIKTOK_AUTH_ACTIVITY\""
+            buildConfigField "String", "AUTH_HOST", "\"$AUTH_HOST\""
+            buildConfigField "String", "AUTH_ENDPOINT", "\"$AUTH_ENDPOINT\""
         }
 
         overseaexternal {
@@ -44,6 +46,8 @@ android {
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
             buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
             buildConfigField "String", "TIKTOK_AUTH_ACTIVITY", "\"$TIKTOK_AUTH_ACTIVITY\""
+            buildConfigField "String", "AUTH_HOST", "\"$AUTH_HOST\""
+            buildConfigField "String", "AUTH_ENDPOINT", "\"$AUTH_ENDPOINT\""
         }
     }
 

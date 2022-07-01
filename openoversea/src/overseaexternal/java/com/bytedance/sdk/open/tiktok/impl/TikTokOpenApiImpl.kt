@@ -63,7 +63,7 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
         }
         AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.let {
             val remotePackage = it.packageName
-            val entryComponents = EntryComponent(BuildConfig.DEFAULT_ENTRY_ACTIVITY, remotePackage, BuildConfig.TIKTOK_SHARE_ACTIVITY, it.remoteAuthEntryActivity)
+            val entryComponents = EntryComponent(BuildConfig.DEFAULT_ENTRY_ACTIVITY, remotePackage, BuildConfig.TIKTOK_SHARE_ACTIVITY, BuildConfig.TIKTOK_AUTH_ACTIVITY)
             return shareService.share(request, entryComponents)
         }
         return false
@@ -71,7 +71,7 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
 
     override fun authorize(request: Auth.Request): Boolean {
         AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-             return authService.authorizeNative(request, it.packageName, it.remoteAuthEntryActivity, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+             return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
         }
         return webAuth(request)
     }
