@@ -7,19 +7,16 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.authorize.SendAuthDataHandler
 import com.bytedance.sdk.open.tiktok.authorize.Auth
-import com.bytedance.sdk.open.tiktok.base.IAppCheck
+import com.bytedance.sdk.open.tiktok.authorize.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.helper.AppCheckFactory
-import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck
-import com.bytedance.sdk.open.tiktok.helper.TikTokCheck
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler
 import com.bytedance.sdk.open.tiktok.share.ShareService
-import com.bytedance.sdk.open.tiktok.ui.TikTokWebAuthActivity
 
 class TikTokOpenApiImpl(val context: Context, private val authService: AuthService, private val shareService: ShareService, override val apiHandler: IApiEventHandler? = null): TikTokOpenApi {
     private val handlerMap: MutableMap<Constants.APIType, IDataHandler> = HashMap(2)
@@ -80,6 +77,6 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
     private fun webAuth(request: Auth.Request?): Boolean {
         return if (request == null) {
             false
-        } else authService.authorizeWeb(TikTokWebAuthActivity::class.java, request)
+        } else authService.authorizeWeb(WebAuthActivity::class.java, request)
     }
 }

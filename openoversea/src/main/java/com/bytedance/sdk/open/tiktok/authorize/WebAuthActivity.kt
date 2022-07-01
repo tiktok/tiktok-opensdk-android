@@ -25,42 +25,44 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.R
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.Companion.composeLoadUrl
-import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.Companion.setViewVisibility
+import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
-val USER_CANCEL_AUTH = "User cancelled the Authorization"
-val WAP_AUTHORIZE_URL = "wap_authorize_url"
+private val USER_CANCEL_AUTH = "User cancelled the Authorization"
+private val BACKGROUND_COLOR = "#ffffff"
 
-open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
-    open lateinit var mContentWebView: WebView
-    open lateinit var mContainer: RelativeLayout
-    open var backgroundColor = "#ffffff"
-
+class WebAuthActivity: Activity(), IApiEventHandler {
+    private lateinit var mContentWebView: WebView
+    private lateinit var mContainer: RelativeLayout
     private lateinit var mCancelBtn: TextView
+
     private var mAuthRequest: Auth.Request? = null
     private var mBaseErrorDialog: AlertDialog? = null
     private var mLoadingLayout: FrameLayout? = null
     private var mLastErrorCode = 0
-    protected var mIsExecutingRequest = false
+    private var mIsExecutingRequest = false
     private var mStatusDestroyed = false
     private var isShowNetworkError = false
+    private var ttOpenApi: TikTokOpenApi? = null
 
-    abstract fun isNetworkAvailable(): Boolean
-    abstract fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean
-    abstract fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?)
+    fun isNetworkAvailable(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ttOpenApi = TikTokOpenApiFactory.create(this)
         handleIntent(intent, this)
         setContentView(R.layout.layout_open_web_authorize)
         initView()
         handleRequestIntent()
+        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
     }
 
     override fun onReq(req: Base.Request?) {
@@ -90,6 +92,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
             } else {
                 startLoading()
                 mContentWebView.webViewClient = AuthWebViewClient()
+                // need auth request to be set in onReq
                 mContentWebView.loadUrl(composeLoadUrl(this, it, BuildConfig.AUTH_HOST, BuildConfig.AUTH_ENDPOINT)!!)
             }
         }
@@ -113,7 +116,21 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
         finish()
     }
 
-    fun sendInnerResponse(localEntry: String?, req: Auth.Request, resp: Base.Response?): Boolean {
+    private fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
+        return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
+    }
+
+    private fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?) {
+        if (resp != null && mContentWebView != null) {
+            if (resp.extras == null) {
+                resp.extras = Bundle()
+            }
+            resp.extras!!.putString("wap_authorize_url", mContentWebView.getUrl())
+        }
+        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req!!, resp)
+    }
+
+    private fun sendInnerResponse(localEntry: String?, req: Auth.Request, resp: Base.Response?): Boolean {
         return if (resp == null || !resp.validate()) {
             false
         } else {
@@ -137,7 +154,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
 
     private fun initView() {
         mContainer = findViewById(R.id.open_rl_container)
-        mContainer.setBackgroundColor(Color.parseColor(backgroundColor))
+        mContainer.setBackgroundColor(Color.parseColor(BACKGROUND_COLOR))
         mCancelBtn = findViewById(R.id.cancel)
         mCancelBtn.setOnClickListener { onCancel(Constants.BaseError.ERROR_CANCEL) }
 
@@ -272,7 +289,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
 
     private fun getLoadingView(root: ViewGroup?): View? = LayoutInflater.from(this).inflate(R.layout.layout_open_loading_view, root, false)
 
-    protected fun showSslErrorDialog(handler: SslErrorHandler?, error: SslError) {
+    private fun showSslErrorDialog(handler: SslErrorHandler?, error: SslError) {
         try {
             val builder = AlertDialog.Builder(this)
             val dialog = builder.create()
@@ -301,7 +318,7 @@ open abstract class BaseWebAuthActivity: Activity(), IApiEventHandler {
         isShowNetworkError = true
     }
 
-    protected fun showNetworkErrorDialog(errCode: Int) {
+    private fun showNetworkErrorDialog(errCode: Int) {
         if (mBaseErrorDialog?.isShowing == true) {
             return
         }
