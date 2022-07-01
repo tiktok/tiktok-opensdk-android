@@ -33,6 +33,7 @@ android {
             buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
             buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
+            buildConfigField "String", "TIKTOK_AUTH_ACTIVITY", "\"$TIKTOK_AUTH_ACTIVITY\""
         }
 
         overseaexternal {
@@ -42,6 +43,7 @@ android {
             buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
             buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
+            buildConfigField "String", "TIKTOK_AUTH_ACTIVITY", "\"$TIKTOK_AUTH_ACTIVITY\""
         }
     }
 

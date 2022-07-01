@@ -7,7 +7,8 @@ import android.text.TextUtils
 
 sealed class SignatureUtils {
     companion object {
-        fun validateSign(context: Context?, pkgName: String?, sign: String): Boolean {
+        // validate tiktok or musically app's signature
+        fun validateSign(context: Context?, pkgName: String, sign: String): Boolean {
             if (TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(sign) || context == null) {
                 return false
             }
@@ -20,17 +21,16 @@ sealed class SignatureUtils {
         fun getMd5Signs(context: Context, pkgName: String?): List<String?>? {
             if (TextUtils.isEmpty(pkgName)) {
                 return null
-            } else {
-                val packageInfo: PackageInfo = try {
-                    context.packageManager.getPackageInfo(pkgName!!, PackageManager.GET_SIGNATURES)
-                } catch (ex: PackageManager.NameNotFoundException) {
-                    return null
-                }
-                val signList: List<String?>? = packageInfo.signatures?.map {
-                     Md5Utils.hexDigest(it.toByteArray())
-                }
-                return signList
             }
+            val packageInfo: PackageInfo = try {
+                context.packageManager.getPackageInfo(pkgName!!, PackageManager.GET_SIGNATURES)
+            } catch (ex: PackageManager.NameNotFoundException) {
+                return null
+            }
+            val signList: List<String?>? = packageInfo.signatures?.map {
+                 Md5Utils.hexDigest(it.toByteArray())
+            }
+            return signList
         }
 
         fun packageSignature(signs: List<String?>?): String? {

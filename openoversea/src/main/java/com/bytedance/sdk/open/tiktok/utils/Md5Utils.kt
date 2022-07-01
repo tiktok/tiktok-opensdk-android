@@ -24,7 +24,7 @@ sealed class Md5Utils {
                 val charStr = CharArray(32)
                 var k = 0
                 for (i in hexDigits.indices) {
-                    val b = tmp[i].toInt() // TODO: chen.wu change to Int?
+                    val b = tmp[i].toInt()
                     charStr[k++] = hexDigits[(b ushr 4) and 15]
                     charStr[k++] = hexDigits[(b and 15)]
                 }

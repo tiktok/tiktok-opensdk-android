@@ -10,30 +10,28 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 
 class AuthService(val activity: Activity, val clientKey: String) {
     fun authorizeNative(req: Auth.Request, packageName: String, remoteRequestEntry: String, localEntry: String): Boolean {
-        return if (TextUtils.isEmpty(packageName) || !req.validate()) {
-            false
+        if (TextUtils.isEmpty(packageName) || !req.validate()) {
+            return false
+        }
+        val bundle = req.toBundle()
+        bundle.putString(Keys.Auth.CLIENT_KEY, clientKey)
+        bundle.putString(Keys.Base.CALLER_PKG, activity.packageName)
+        if (!TextUtils.isEmpty(req.callerLocalEntry)) {
+            bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, req.callerLocalEntry!!))
         } else {
-            val bundle = req.toBundle()
-            bundle.putString(Keys.Auth.CLIENT_KEY, clientKey)
-            bundle.putString(Keys.Base.CALLER_PKG, activity.packageName)
-            // TODO: chen.wu check / verify callerLocalEntry yes/no cases
-            if (!TextUtils.isEmpty(req.callerLocalEntry)) {
-                bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, req.callerLocalEntry!!))
-            } else if (localEntry != null) {
-                bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, localEntry))
-            }
-            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
-            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
-            val intent = Intent()
-            val componentName = ComponentName(packageName, componentClassName(packageName, remoteRequestEntry))
-            intent.component = componentName
-            intent.putExtras(bundle)
-            try {
-                activity.startActivityForResult(intent, Keys.AUTH_REQUEST_CODE)
-                true
-            } catch (e: Exception) {
-                false
-            }
+            bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, localEntry))
+        }
+        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
+        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
+        val intent = Intent()
+        val componentName = ComponentName(packageName, componentClassName(packageName, remoteRequestEntry))
+        intent.component = componentName
+        intent.putExtras(bundle)
+        return try {
+            activity.startActivityForResult(intent, Keys.AUTH_REQUEST_CODE)
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 

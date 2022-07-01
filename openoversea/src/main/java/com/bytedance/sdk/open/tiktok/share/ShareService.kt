@@ -9,11 +9,10 @@ import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
+import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.getPlatformSDKVersion
 
 class ShareService(val context: Context, val clientKey: String) {
-    private inline fun buildComponentClassName(classPath: String) = "${BuildConfig.TIKTOK_COMPONENT_PATH}.$classPath"
-
     fun share(request: Share.Request?, entryComponent: EntryComponent): Boolean {
         if (request == null || !request.validate()) {
             return false
@@ -37,7 +36,8 @@ class ShareService(val context: Context, val clientKey: String) {
         bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
 
         val intent = Intent()
-        val componentName = ComponentName(entryComponent.tiktokPackage, buildComponentClassName(entryComponent.tiktokComponent))
+        val componentName = ComponentName(entryComponent.tiktokPackage,
+                AppUtils.componentClassName(BuildConfig.TIKTOK_COMPONENT_PATH, entryComponent.tiktokComponent))
         intent.component = componentName
         intent.putExtras(bundle)
         if (context !is Activity) {

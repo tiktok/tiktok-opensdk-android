@@ -42,7 +42,6 @@ class Share {
         var shareFormat: Format = Format.DEFAULT
         var mediaContent: MediaContent? = null
         var anchor: Anchor? = null
-        var clientKey: String? = null // TODO: chen.wu not used?
         var state: String? = null
         var microAppInfo: MicroAppInfo? = null
         var shareExtra: String? = null
@@ -55,7 +54,6 @@ class Share {
         override fun toBundle(): Bundle {
             val bundle = super.toBundle()
             return bundle.apply {
-                putString(Keys.Share.CLIENT_KEY, clientKey)
                 putString(Keys.Share.CALLER_LOCAL_ENTRY, callerLocalEntry)
                 putString(Keys.Share.CALLER_PKG, callerPackage)
                 putString(Keys.Share.STATE, state)
@@ -88,7 +86,6 @@ class Share {
             super.fromBundle(bundle)
             callerPackage = bundle.getString(Keys.Share.CALLER_PKG)
             callerLocalEntry = bundle.getString(Keys.Share.CALLER_LOCAL_ENTRY)
-            clientKey = bundle.getString(Keys.Share.CLIENT_KEY)
             state = bundle.getString(Keys.Share.STATE)
             bundle.getInt(Keys.Share.SHARE_FORMAT)?.let { shareFormat = Format.from(it) }
             targetSceneType = bundle.getInt(Keys.Share.SHARE_TARGET_SCENE)

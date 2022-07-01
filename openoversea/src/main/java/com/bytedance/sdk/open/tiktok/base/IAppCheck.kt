@@ -1,8 +1,6 @@
 package com.bytedance.sdk.open.tiktok.base
 
 interface IAppCheck {
-    val remoteAuthEntryActivity: String
-
     val isAuthSupported: Boolean
 
     val isShareSupported: Boolean
