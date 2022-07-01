@@ -32,6 +32,7 @@ android {
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME\""
             buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
+            buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
         }
 
         overseaexternal {
@@ -40,6 +41,7 @@ android {
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
             buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
             buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
+            buildConfigField "String", "TIKTOK_COMPONENT_PATH", "\"$TIKTOK_COMPONENT_PATH\""
         }
     }
 
