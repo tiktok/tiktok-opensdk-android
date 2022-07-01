@@ -6,22 +6,18 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.share.Share
 
 interface TikTokOpenApi {
+    val isAuthSupported: Boolean
+    val isShareSupported: Boolean
+    val isAppInstalled: Boolean
+    val isShareFileProviderSupported: Boolean
+    val sdkVersion: String
+
+
+
 
     fun authorize(request: Auth.Request): Boolean
 
-    fun isAppSupportAuthorization(): Boolean
-
     fun share(request: Share.Request): Boolean
 
-    fun isAppSupportShare(): Boolean
-
-    fun isShareSupportFileProvider(): Boolean
-
     fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean
-
-    fun isAppInstalled(): Boolean
-
-    fun getSdkVersion(): String?
-
-    fun getApiHandler(): IApiEventHandler?
 }

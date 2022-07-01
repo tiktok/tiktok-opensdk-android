@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
             return;
         }
 
-        if (!tiktokOpenApi.isShareSupportFileProvider() ||
+        if (!tiktokOpenApi.isShareFileProviderSupported() ||
                 android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
             Toast.makeText(MainActivity.this, "Version does not match", Toast.LENGTH_LONG).show();
             return;

@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if (!tikTokOpenApi.isShareSupportFileProvider() ||
+        if (!tikTokOpenApi.isShareFileProviderSupported() ||
                 android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N) {
             Toast.makeText(MainActivity.this, "Version does not match", Toast.LENGTH_LONG).show();
             return;

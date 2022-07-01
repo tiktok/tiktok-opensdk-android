@@ -207,4 +207,7 @@ object Constants {
          */
         const val SHARE_RESPONSE = 4
     }
+    enum class APIType {
+        AUTH, SHARE
+    }
 }

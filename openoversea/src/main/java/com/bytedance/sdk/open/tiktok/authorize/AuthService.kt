@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.text.TextUtils
+import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 
 class AuthService(val activity: Activity, val clientKey: String) {
-    fun authorizeNative(req: Auth.Request, packageName: String, remoteRequestEntry: String, localEntry: String, sdkName: String?, sdkVersion: String?): Boolean {
+    fun authorizeNative(req: Auth.Request, packageName: String, remoteRequestEntry: String, localEntry: String): Boolean {
         return if (TextUtils.isEmpty(packageName) || !req.validate()) {
             false
         } else {
@@ -21,8 +22,8 @@ class AuthService(val activity: Activity, val clientKey: String) {
             } else if (localEntry != null) {
                 bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, localEntry))
             }
-            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, sdkName)
-            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion)
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
+            bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
             val intent = Intent()
             val componentName = ComponentName(packageName, componentClassName(packageName, remoteRequestEntry))
             intent.component = componentName

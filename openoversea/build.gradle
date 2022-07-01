@@ -23,21 +23,23 @@ android {
         }
     }
 
-    // open sdk分为国内和海外版本
     flavorDimensions "area"
 
     productFlavors {
-        // 国内版
         overseainternal {
             dimension "area"
             buildConfigField "String", "SDK_OVERSEA_VERSION", "\"$ARTIFACT_VERSION\""
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME\""
+            buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
+            buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
         }
 
         overseaexternal {
             dimension "area"
             buildConfigField "String", "SDK_OVERSEA_VERSION", "\"$ARTIFACT_VERSION_EXTERNAL\""
             buildConfigField "String", "SDK_OVERSEA_NAME", "\"$ARTIFACT_NAME_EXTERNAL\""
+            buildConfigField "String", "DEFAULT_ENTRY_ACTIVITY", "\"$DEFAULT_ENTRY_ACTIVITY\""
+            buildConfigField "String", "TIKTOK_SHARE_ACTIVITY", "\"$TIKTOK_SHARE_ACTIVITY\""
         }
     }
 
