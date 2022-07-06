@@ -36,8 +36,8 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.Companion.setViewVisibility
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
-private val USER_CANCEL_AUTH = "User cancelled the Authorization"
-private val BACKGROUND_COLOR = "#ffffff"
+private const val USER_CANCEL_AUTH = "User cancelled the Authorization"
+private const val BACKGROUND_COLOR = "#ffffff"
 
 class WebAuthActivity: Activity(), IApiEventHandler {
     private lateinit var mContentWebView: WebView
@@ -45,13 +45,22 @@ class WebAuthActivity: Activity(), IApiEventHandler {
     private lateinit var mCancelBtn: TextView
 
     private var mAuthRequest: Auth.Request? = null
-    private var mBaseErrorDialog: AlertDialog? = null
+    private lateinit var mBaseErrorDialog: AlertDialog
     private var mLoadingLayout: FrameLayout? = null
     private var mLastErrorCode = 0
     private var mIsExecutingRequest = false
     private var mStatusDestroyed = false
     private var isShowNetworkError = false
     private var ttOpenApi: TikTokOpenApi? = null
+    private var isLoading: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                setViewVisibility(mLoadingLayout, View.VISIBLE)
+            } else {
+                setViewVisibility(mLoadingLayout, View.GONE)
+            }
+        }
 
     fun isNetworkAvailable(): Boolean = true
 
@@ -90,7 +99,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
                 isShowNetworkError = true
                 showNetworkErrorDialog(Constants.AuthError.NETWORK_NO_CONNECTION)
             } else {
-                startLoading()
+                isLoading = true
                 mContentWebView.webViewClient = AuthWebViewClient()
                 // need auth request to be set in onReq
                 mContentWebView.loadUrl(composeLoadUrl(this, it, BuildConfig.AUTH_HOST, BuildConfig.AUTH_ENDPOINT)!!)
@@ -106,13 +115,15 @@ class WebAuthActivity: Activity(), IApiEventHandler {
     }
 
     private fun redirectToClientApp(errorCode: Int, code: String? = null, state: String? = null, permissions: String? = null, errorMsg: String? = null) {
-        val response = Auth.Response()
-        response.authCode = code
-        response.errorCode = errorCode
-        response.state = state
-        response.grantedPermissions = permissions
-        response.errorMsg = errorMsg
-        sendInnerResponse(mAuthRequest, response)
+        mAuthRequest?.let {
+            val response = Auth.Response()
+            response.authCode = code
+            response.errorCode = errorCode
+            response.state = state
+            response.grantedPermissions = permissions
+            response.errorMsg = errorMsg
+            sendInnerResponse(it, response)
+        }
         finish()
     }
 
@@ -120,35 +131,34 @@ class WebAuthActivity: Activity(), IApiEventHandler {
         return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
     }
 
-    private fun sendInnerResponse(req: Auth.Request?, resp: Base.Response?) {
-        if (resp != null && mContentWebView != null) {
+    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response) {
+        if (mContentWebView != null) {
             if (resp.extras == null) {
                 resp.extras = Bundle()
             }
-            resp.extras!!.putString("wap_authorize_url", mContentWebView.getUrl())
+            resp.extras!!.putString("wap_authorize_url", mContentWebView.url)
         }
-        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req!!, resp)
+        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req, resp)
     }
 
-    private fun sendInnerResponse(localEntry: String?, req: Auth.Request, resp: Base.Response?): Boolean {
-        return if (resp == null || !resp.validate()) {
+    private fun sendInnerResponse(localEntry: String, req: Auth.Request, resp: Base.Response): Boolean {
+        if (!resp.validate()) {
+            return false
+        }
+        val bundle = resp.toBundle()
+        val platformPackageName = packageName
+        val localResponseEntry = if (TextUtils.isEmpty(req.callerLocalEntry)) componentClassName(platformPackageName, localEntry) else req.callerLocalEntry!!
+        val intent = Intent()
+        val componentName = ComponentName(platformPackageName, localResponseEntry)
+        intent.component = componentName
+        intent.putExtras(bundle)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        return try {
+            startActivity(intent)
+            true
+        } catch (e: Exception) {
             false
-        } else {
-            val bundle = resp.toBundle()
-            val platformPackageName = packageName
-            val localResponseEntry = if (TextUtils.isEmpty(req.callerLocalEntry)) componentClassName(platformPackageName, localEntry!!) else req.callerLocalEntry!!
-            val intent = Intent()
-            val componentName = ComponentName(platformPackageName, localResponseEntry)
-            intent.component = componentName
-            intent.putExtras(bundle)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            try {
-                startActivity(intent)
-                true
-            } catch (e: Exception) {
-                false
-            }
         }
     }
 
@@ -199,7 +209,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
         override fun onPageFinished(view: WebView, url: String) {
             mIsExecutingRequest = false
             if (mContentWebView.progress == 100) {
-                stopLoading()
+                isLoading = false
                 if (mLastErrorCode == 0 && !isShowNetworkError) {
                     setViewVisibility(mContentWebView, View.VISIBLE)
                 }
@@ -212,7 +222,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             }
             mLastErrorCode = 0
             mIsExecutingRequest = true
-            startLoading()
+            isLoading = true
         }
 
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
@@ -234,7 +244,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             try {
                  errorCodeStr?.apply { errorCode = this.toInt() }
             } catch (e: Exception) {
-                e.printStackTrace()
+                e.printStackTrace() // TODO: chen.wu remove
             }
         }
         redirectToClientApp(errorCode, errorMsg = errorMsgStr)
@@ -267,15 +277,13 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             this.parent?.let {
                 (it as ViewGroup).removeView(this)
             }
-            this.stopLoading()
+            isLoading = false
         }
     }
 
-    private fun startLoading() = setViewVisibility(mLoadingLayout, View.VISIBLE)
-    private fun stopLoading() = setViewVisibility(mLoadingLayout, View.GONE)
     private fun onCancel(errCode: Int) = redirectToClientApp(errCode, errorMsg = USER_CANCEL_AUTH)
 
-    override fun isDestroyed(): Boolean {
+    override fun isDestroyed(): Boolean { // TODO: chen.wu remove this?
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             mStatusDestroyed
         } else {
@@ -319,17 +327,16 @@ class WebAuthActivity: Activity(), IApiEventHandler {
     }
 
     private fun showNetworkErrorDialog(errCode: Int) {
-        if (mBaseErrorDialog?.isShowing == true) {
-            return
-        }
-        if (mBaseErrorDialog == null) {
+        if (!::mBaseErrorDialog.isInitialized) {
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.layout_open_network_error_dialog, null, false)
-            mDialogView.findViewById<View>(R.id.tv_confirm).setOnClickListener { onCancel(errCode) }
             mBaseErrorDialog = AlertDialog.Builder(ContextThemeWrapper(this, android.R.style.Theme_Holo))
                     .setView(mDialogView)
                     .setCancelable(false)
                     .create()
+        } else if (mBaseErrorDialog.isShowing) {
+            return
         }
-        mBaseErrorDialog!!.show()
+        mBaseErrorDialog.findViewById<View>(R.id.tv_confirm).setOnClickListener { onCancel(errCode) }
+        mBaseErrorDialog.show()
     }
 }
