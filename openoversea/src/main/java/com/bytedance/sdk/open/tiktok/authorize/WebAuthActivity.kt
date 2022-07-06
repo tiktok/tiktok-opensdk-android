@@ -62,6 +62,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             }
         }
 
+    // TODO: chen.wu change to connection monitoring https://developer.android.com/training/monitoring-device-state/connectivity-status-type when SDK >= LOLLIPOP
     fun isNetworkAvailable(): Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
