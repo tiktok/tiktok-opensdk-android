@@ -33,16 +33,16 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
     override val isShareFileProviderSupported = (AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.isShareFileProviderSupported ?: false)
 
     override fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
-        if (eventHandler == null) {
+        if (eventHandler == null && apiHandler == null) {
             return false
         }
         if (intent == null) {
-            eventHandler.onErrorIntent(intent)
+            eventHandler?.onErrorIntent(intent)
             return false
         }
         val bundle = intent.extras
         if (bundle == null) {
-            eventHandler.onErrorIntent(intent)
+            eventHandler?.onErrorIntent(intent)
             return false
         }
         var type = bundle.getInt(Keys.Base.TYPE) //授权使用的
@@ -50,21 +50,23 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
             type = bundle.getInt(Keys.Share.TYPE) //分享使用的
         }
         return when (type) {
-            Constants.TIKTOK.AUTH_REQUEST, Constants.TIKTOK.AUTH_RESPONSE -> handlerMap[Constants.APIType.AUTH]!!.handle(type, bundle, eventHandler)
-            Constants.TIKTOK.SHARE_REQUEST, Constants.TIKTOK.SHARE_RESPONSE -> handlerMap[Constants.APIType.SHARE]!!.handle(type, bundle, eventHandler)
+            Constants.TIKTOK.AUTH_REQUEST, Constants.TIKTOK.AUTH_RESPONSE -> handlerMap[Constants.APIType.AUTH]!!.handle(type, bundle, eventHandler ?: apiHandler)
+            Constants.TIKTOK.SHARE_REQUEST, Constants.TIKTOK.SHARE_RESPONSE -> handlerMap[Constants.APIType.SHARE]!!.handle(type, bundle, eventHandler ?: apiHandler)
             else -> handlerMap[Constants.APIType.AUTH]!!.handle(type, bundle, eventHandler) // TODO: chen.wu throw exception?
         }
     }
 
-    override fun authorize(request: Auth.Request?): Boolean {
+    override fun authorize(request: Auth.Request): Boolean {
+        apiHandler?.onReq(request)
         AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-            return authService.authorizeNative(request!!, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+            return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
         }
         return webAuth(request)
     }
 
-    override fun share(request: Share.Request?): Boolean {
-        request?.let { req ->
+    override fun share(request: Share.Request): Boolean {
+        apiHandler?.onReq(request)
+        request.let { req ->
             AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.let { appCheck ->
                 val entryComponents = EntryComponent(BuildConfig.DEFAULT_ENTRY_ACTIVITY, appCheck.packageName,
                         BuildConfig.TIKTOK_SHARE_ACTIVITY, BuildConfig.TIKTOK_AUTH_ACTIVITY)
@@ -74,7 +76,7 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
         return false
     }
 
-    private fun webAuth(request: Auth.Request?): Boolean {
+    private fun webAuth(request: Auth.Request): Boolean {
         return if (request == null) {
             false
         } else authService.authorizeWeb(WebAuthActivity::class.java, request)

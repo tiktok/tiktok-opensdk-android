@@ -8,7 +8,7 @@
 
 <!--        android:launchMode="singleTask"-->
         <activity
-            android:name=".TikTokShareResponseActivity"
+            android:name=".TikTokApiResponseActivity"
             android:taskAffinity="com.bytedance.sdk.open.tiktok"
             android:exported="true"/>
 

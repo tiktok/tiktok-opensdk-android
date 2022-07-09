@@ -12,6 +12,8 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.getPlatformSDKVersion
 
+const val kRefactorResponseHandling = false
+
 class ShareService(val context: Context, val clientKey: String) {
     fun share(request: Share.Request?, entryComponent: EntryComponent): Boolean {
         if (request == null || !request.validate()) {
@@ -27,8 +29,9 @@ class ShareService(val context: Context, val clientKey: String) {
         bundle.putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
         if (!TextUtils.isEmpty(request.callerLocalEntry)) {
             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, request.callerLocalEntry)
-        // TODO: chen.wu try dummy TikTokShareResponseActivity and no need for EntryActivity or localEntry anymore
-        // bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok" + "." + "TikTokShareResponseActivity")
+        } else if (kRefactorResponseHandling) {
+            // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
+             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
         } else {
             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, context.packageName + "." + entryComponent.defaultComponent)
         }

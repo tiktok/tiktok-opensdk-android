@@ -6,7 +6,7 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 
-class TikTokShareResponseActivity : Activity() {
+class TikTokApiResponseActivity : Activity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         intent.extras?.let {

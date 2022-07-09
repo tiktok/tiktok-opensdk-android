@@ -8,6 +8,8 @@ import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
 
+const val kRefactorResponseHandling = false
+
 class AuthService(val activity: Activity, val clientKey: String) {
     fun authorizeNative(req: Auth.Request, packageName: String, remoteRequestEntry: String, localEntry: String): Boolean {
         if (TextUtils.isEmpty(packageName) || !req.validate()) {
@@ -18,6 +20,9 @@ class AuthService(val activity: Activity, val clientKey: String) {
         bundle.putString(Keys.Base.CALLER_PKG, activity.packageName)
         if (!TextUtils.isEmpty(req.callerLocalEntry)) {
             bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, req.callerLocalEntry!!))
+        } else if (kRefactorResponseHandling) {
+            // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok.
+            bundle.putString(Keys.Base.FROM_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
         } else {
             bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, localEntry))
         }

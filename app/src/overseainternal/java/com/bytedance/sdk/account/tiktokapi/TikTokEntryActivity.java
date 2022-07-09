@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+
+import android.util.Log;
 import android.widget.Toast;
 
 import com.bytedance.sdk.account.MainActivity;
@@ -34,7 +36,7 @@ public class TikTokEntryActivity extends Activity implements IApiEventHandler {
 
     @Override
     public void onReq(Base.Request req) {
-
+        Log.d("handler", "on request");
     }
 
     @Override

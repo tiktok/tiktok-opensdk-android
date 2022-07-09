@@ -25,7 +25,7 @@ sealed class ViewUtils {
             }
         }
 
-        fun setStatusBarColor(activity: Activity, color: Int) {
+        fun setStatusBarColor(activity: Activity, color: Int) { // TODO: chen.wu refactor to avoid base 1.0.5
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //use standard mode
                 activity.window.statusBarColor = color
