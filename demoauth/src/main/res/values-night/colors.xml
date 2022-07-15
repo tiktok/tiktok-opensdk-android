@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextReversePrimary">#000000</color>
+    <color name="colorTextTertiary">#80FFFFFF</color>
+    <color name="colorBackgroundPrimary">#000000</color>
+    <color name="colorLineInput">#80FFFFFF</color>
+    <color name="colorLinePrimary">#20161823</color>
+
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="red">#FE2C55</color>
+    <color name="orange">#FFA500</color>
+    <color name="green">#0BE09B</color>
+</resources>
