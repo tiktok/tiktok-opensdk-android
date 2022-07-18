@@ -3,6 +3,7 @@ package com.bytedance.sdk.open.tiktok.authorize
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ComponentName
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -110,8 +111,8 @@ class WebAuthActivity: Activity(), IApiEventHandler {
 
     override fun onPause() {
         super.onPause()
-        mBaseErrorDialog?.let {
-            if (it.isShowing) { it.dismiss() }
+        if (::mBaseErrorDialog.isInitialized && mBaseErrorDialog.isShowing) {
+            mBaseErrorDialog.dismiss()
         }
     }
 
@@ -334,10 +335,12 @@ class WebAuthActivity: Activity(), IApiEventHandler {
                     .setView(mDialogView)
                     .setCancelable(false)
                     .create()
+            mDialogView.findViewById<TextView>(R.id.tv_confirm)?.setOnClickListener {
+                onCancel(errCode)
+            }
         } else if (mBaseErrorDialog.isShowing) {
             return
         }
-        mBaseErrorDialog.findViewById<View>(R.id.tv_confirm).setOnClickListener { onCancel(errCode) }
         mBaseErrorDialog.show()
     }
 }

@@ -1,19 +1,29 @@
 package com.bytedance.sdk.demo.auth
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.*
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
+import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.authorize.Auth
+import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
+import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.google.gson.Gson
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var scopesView: RecyclerView
     private lateinit var authTextView: TextView
     private lateinit var models: List<DataModel>
+    private lateinit var tiktokApi: TikTokOpenApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +44,8 @@ class MainActivity : AppCompatActivity() {
             addAll(initScopes())
             addAll(initEditFields())
         }
+        val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+        TikTokOpenApiFactory.init(tiktokOpenConfig)
     }
 
     private fun authorize() {
@@ -46,8 +58,6 @@ class MainActivity : AppCompatActivity() {
                     model.title.takeIf { model.isOn }?.let { scopes.add(it) }
                 }
                 is EditTextModel -> {
-                    // 1. validate
-                    // 2. parse
                     model.gsonEditText()?.let {
                         val gson = Gson()
                         try {
@@ -69,9 +79,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-//        Log.e("debug", "scopes are: [$scopes]")
-//        Log.e("debug", "additional permissions are: [$additionalPermissions]")
-//        Log.e("debug", "extraInfo are: {$extraInfo}")
+        if (scopes.size == 0) {
+            showAlert("Invalid Scope", "Please select at least one scope.")
+            return
+        }
+         TikTokOpenApiFactory.create(this, this)?.let {
+            tiktokApi = it
+             val request = Auth.Request()
+             request.scope = scopes.joinBy(",")
+             request.state = "ww"
+             it.authorize(request)
+        }
     }
 
     private fun showAlert(title: String, desc: String) {
@@ -83,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initLogo(): LogoModel {
-        return LogoModel()
+        return LogoModel()AppCheckBase.kt
     }
     private fun initHeader(): HeaderModel {
         return HeaderModel("Scope configuration")
@@ -103,5 +121,17 @@ class MainActivity : AppCompatActivity() {
         val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
         val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
         return arrayListOf(additionalPermission, extraInfo)
+    }
+
+    override fun onReq(req: Base.Request?) {
+
+    }
+
+    override fun onResp(resp: Base.Response?) {
+        Log.e("response", resp.toString())
+    }
+
+    override fun onErrorIntent(intent: Intent?) {
+        Log.e("error", "intent is $intent")
     }
 }

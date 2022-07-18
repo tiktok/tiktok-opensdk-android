@@ -15,6 +15,24 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        def propsFile = file('/Users/bytedance/Documents/android/keystore/keystore.properties')
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        debug {
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+        }
+
+        release {
+            keyAlias props['keyAlias']
+            keyPassword props['keyPassword']
+            storeFile file(props['storeFile'])
+            storePassword props['storePassword']
+        }
+    }
 
     buildTypes {
         release {
@@ -29,6 +47,19 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions "area"
+    productFlavors {
+        overseaexternal {
+            dimension "area"
+            buildConfigField "String", "CLIENT_KEY", '"awrf01sgkui9j26b"'
+//            buildConfigField "String", "CLIENT_KEY_BOE", '""'
+        }
+        overseainternal {
+            dimension "area"
+            buildConfigField "String", "CLIENT_KEY", '"awt8hduec705n1uv"'
+//            buildConfigField "String", "CLIENT_KEY_BOE", '"awo2m7w19ica6k85"'
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +69,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    implementation project(path: ':openoversea')
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
