@@ -1,31 +1,85 @@
 package com.bytedance.sdk.demo.auth
 
-import android.content.Context
-import android.media.tv.TvContract
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.*
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     private lateinit var scopesView: RecyclerView
-
+    private lateinit var authTextView: TextView
+    private lateinit var models: List<DataModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         scopesView = findViewById(R.id.recycler_view)
-        scopesView.adapter = ScopeAdapter(initData())
+        initData()
+        scopesView.adapter = ScopeAdapter(models)
         scopesView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun initData(): List<DataModel> {
-        return mutableListOf<DataModel>().apply {
+    private fun initData() {
+        authTextView = findViewById(R.id.auth_button)
+        authTextView.setOnClickListener {
+            this.authorize()
+        }
+        models = mutableListOf<DataModel>().apply {
             add(initLogo())
             add(initHeader())
             addAll(initScopes())
             addAll(initEditFields())
         }
+    }
+
+    private fun authorize() {
+        val scopes = mutableListOf<String>()
+        var additionalPermissions: Array<String>? = null
+        var extraInfo: Map<String, String>? = null
+        for (model in models) {
+            when (model) {
+                is ScopeModel -> {
+                    model.title.takeIf { model.isOn }?.let { scopes.add(it) }
+                }
+                is EditTextModel -> {
+                    // 1. validate
+                    // 2. parse
+                    model.gsonEditText()?.let {
+                        val gson = Gson()
+                        try {
+                            when(model.contentType) {
+                                ContentType.GSON_ARRAY -> {
+                                    gson.fromJson(it, Array<String>::class.java).also { jsonArray ->
+                                        additionalPermissions = jsonArray
+                                    }
+                                }
+                                ContentType.GSON_OBJECT -> {
+                                    (gson.fromJson(it, Map::class.java) as Map<String, String>)?.let { extraInfo = it }
+                                }
+                            }
+                        } catch(e: Exception) {
+                            showAlert("Input Parsing Error", "Parsing ${model.title} failed. It's of invalid format. Please try again.")
+                            return@authorize
+                        }
+                    }
+                }
+            }
+        }
+//        Log.e("debug", "scopes are: [$scopes]")
+//        Log.e("debug", "additional permissions are: [$additionalPermissions]")
+//        Log.e("debug", "extraInfo are: {$extraInfo}")
+    }
+
+    private fun showAlert(title: String, desc: String) {
+        val alertBuilder = AlertDialog.Builder(this)
+        alertBuilder.setTitle(title)
+        alertBuilder.setMessage(desc)
+        alertBuilder.setPositiveButton("OK") { dialog, _ -> dialog.cancel() }
+        alertBuilder.create().show()
     }
 
     private fun initLogo(): LogoModel {
@@ -46,11 +100,8 @@ class MainActivity : AppCompatActivity() {
         return beans
     }
     private fun initEditFields(): List<EditTextModel> {
-        val titles = arrayListOf("Additional Permissions", "Extra Info")
-        val descriptions = arrayListOf("Separated by comma, for example: \"permission1\",\"permission2\"\nGo to TT4D portal for more information",
-                "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information")
-        return titles.zip(descriptions) { title, desc ->
-            EditTextModel(title, desc)
-        }
+        val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
+        val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
+        return arrayListOf(additionalPermission, extraInfo)
     }
 }

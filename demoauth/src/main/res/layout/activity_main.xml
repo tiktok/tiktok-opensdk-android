@@ -32,12 +32,13 @@
             android:layout_width="match_parent"
             android:background="@color/colorLinePrimary" />
 
-        <TextView
-            android:id="@+id/textview"
+        <Button
+            android:id="@+id/auth_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Authorize"
             android:textSize="20dp"
+            android:textAllCaps="false"
             android:textAlignment="center"
             android:textColor="@color/colorTextReversePrimary"
             android:background="@drawable/primary_button_rounded_rectangle"

@@ -1,10 +1,13 @@
 package com.bytedance.sdk.demo.auth
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.CompoundButton.OnCheckedChangeListener
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.ViewType.*
 import com.bytedance.sdk.demo.auth.model.*
@@ -28,23 +31,22 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
+        lateinit var model: ScopeModel
+
         init {
             title = view.findViewById(R.id.title)
             subtitle = view.findViewById(R.id.subtitle)
             toggle = view.findViewById(R.id.toggle)
-            toggle.setOnCheckedChangeListener(object: OnCheckedChangeListener {
-                override fun onCheckedChanged(button: CompoundButton?, checked: Boolean) {
-                    print("changed: ${checked}")
-                }
-            })
         }
     }
     class EditTextViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val title: TextView
         val desc: TextView
+        val editText: EditText
         init {
             title = view.findViewById(R.id.title)
             desc = view.findViewById(R.id.desc)
+            editText = view.findViewById(R.id.edittext)
         }
     }
     class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -54,17 +56,18 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
         }
     }
     class LogoViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val logo: ImageView
+        private val logo: ImageView
         init {
             logo = view.findViewById(R.id.image_view)
         }
     }
+    private var textWatchers = mutableListOf<TextWatcher>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(ViewType.typeFrom(viewType)) {
             SCOPE -> {
-                val view =LayoutInflater.from(parent.context).inflate(R.layout.scope_item_layout, parent, false)
-                ScopeViewHolder(view)
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.scope_item_layout, parent, false)
+                return ScopeViewHolder(view)
             }
             EDIT_TEXT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item_layout, parent, false)
@@ -90,13 +93,30 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
                 (holder as EditTextViewHolder).apply {
                     title.text = model.title
                     desc.text = model.desc
+                    val textWatcher = object: TextWatcher {
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                        override fun afterTextChanged(p0: Editable?) {}
+                        override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
+                            model.editText = text.toString()
+                        }
+                    }
+                    editText.addTextChangedListener(textWatcher)
                 }
             }
             is ScopeModel -> {
-                (holder as ScopeViewHolder).apply {
-                    title.text = model.title
-                    subtitle.text = model.desc
-                    toggle.isChecked = model.isOn
+                (holder as ScopeViewHolder).let {
+                    it.title.text = model.title
+                    it.subtitle.text = model.desc
+                    it.toggle.isChecked = model.isOn
+                    it.model = model
+                    it.toggle.setOnCheckedChangeListener() { _, isOn ->
+                        for (inputModel in this.models) {
+                            if (model == inputModel) {
+                                model.isOn = isOn
+                                break
+                            }
+                        }
+                    }
                 }
             }
             is HeaderModel -> {
@@ -108,6 +128,20 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
         }
     }
 
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        when (holder) {
+            is EditTextViewHolder -> {
+                this.textWatchers.forEach {
+                    holder.editText.removeTextChangedListener(it)
+                }
+            }
+            is ScopeViewHolder -> {
+                holder.toggle.setOnClickListener(null)
+            }
+        }
+    }
+
     override fun getItemCount(): Int = models.size
     override fun getItemViewType(position: Int): Int = models[position].viewType.value
+
 }
