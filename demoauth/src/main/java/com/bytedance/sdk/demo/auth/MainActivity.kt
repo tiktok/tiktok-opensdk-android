@@ -33,6 +33,13 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         scopesView.layoutManager = LinearLayoutManager(this)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (::tiktokApi.isInitialized) {
+            tiktokApi.handleIntent(intent, this)
+        }
+    }
+
     private fun initData() {
         authTextView = findViewById(R.id.auth_button)
         authTextView.setOnClickListener {
@@ -88,6 +95,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
              val request = Auth.Request()
              request.scope = scopes.joinBy(",")
              request.state = "ww"
+             request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
              it.authorize(request)
         }
     }
@@ -101,7 +109,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initLogo(): LogoModel {
-        return LogoModel()AppCheckBase.kt
+        return LogoModel()
     }
     private fun initHeader(): HeaderModel {
         return HeaderModel("Scope configuration")
@@ -123,6 +131,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         return arrayListOf(additionalPermission, extraInfo)
     }
 
+    //  IApiEventHandler
     override fun onReq(req: Base.Request?) {
 
     }
