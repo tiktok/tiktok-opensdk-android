@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.*
+import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
+import com.bytedance.sdk.demo.auth.userinfo.model.AccessTokenInfo
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
@@ -130,6 +132,21 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
         return arrayListOf(additionalPermission, extraInfo)
     }
+    private fun getUserBasicInfo(authCode: String) {
+        UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
+            errorMsg?.let {
+                showAlert("Access Token Error", it)
+                return@getAccessToken
+            }
+
+            UserInfoQuery.getUserInfo(atInfo!!.accessToken, atInfo!!.openid) { userInfo, errorMsg ->
+                errorMsg?.let {
+                    return@getUserInfo showAlert("User Info Error", it)
+                }
+                showAlert("Getting user info succeeded", "Display name: ${userInfo!!.nickName}")
+            }
+        }
+    }
 
     //  IApiEventHandler
     override fun onReq(req: Base.Request?) {
@@ -137,10 +154,16 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     override fun onResp(resp: Base.Response?) {
-        Log.e("response", resp.toString())
+        (resp as Auth.Response)?.let { authRespnose ->
+            if (!authRespnose.authCode.isNullOrEmpty()) {
+                getUserBasicInfo(authRespnose.authCode!!)
+            } else if (authRespnose.errorCode != 0) {
+                showAlert("Error", "Error Code: ${authRespnose.errorCode}\nError message: ${authRespnose.errorMsg}")
+            }
+        }
     }
 
     override fun onErrorIntent(intent: Intent?) {
-        Log.e("error", "intent is $intent")
+
     }
 }

@@ -51,13 +51,13 @@ android {
     productFlavors {
         overseaexternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"awrf01sgkui9j26b"'
-//            buildConfigField "String", "CLIENT_KEY_BOE", '""'
+            buildConfigField "String", "CLIENT_KEY", '"awp9h9mdmo510fct"'
+//            buildConfigField "String", "CLIENT_KEY", '"awrf01sgkui9j26b"'
         }
         overseainternal {
             dimension "area"
-            buildConfigField "String", "CLIENT_KEY", '"awt8hduec705n1uv"'
-//            buildConfigField "String", "CLIENT_KEY_BOE", '"awo2m7w19ica6k85"'
+            buildConfigField "String", "CLIENT_KEY", '"awp9h9mdmo510fct"'
+//            buildConfigField "String", "CLIENT_KEY", '"awt8hduec705n1uv"'
         }
     }
 }
@@ -72,6 +72,12 @@ dependencies {
 
     implementation project(path: ':openoversea')
 
+    //retrofit2 依赖库
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    //Gson 数据解析器依赖库
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //okhttp3 输出网络请求日志依赖库
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
