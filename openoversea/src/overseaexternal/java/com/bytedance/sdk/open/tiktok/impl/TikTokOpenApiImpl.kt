@@ -66,9 +66,11 @@ class TikTokOpenApiImpl(val context: Context, private val authService: AuthServi
         return false
     }
 
-    override fun authorize(request: Auth.Request): Boolean {
-        AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-             return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+    override fun authorize(request: Auth.Request, useWebAuth: Boolean): Boolean {
+        if (!useWebAuth) {
+            AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
+                return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+            }
         }
         return webAuth(request)
     }

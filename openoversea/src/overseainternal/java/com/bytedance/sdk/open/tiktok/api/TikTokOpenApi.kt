@@ -14,7 +14,7 @@ interface TikTokOpenApi {
     val isTikTokLiteAuthSupported: Boolean
     val isShareFileProviderSupported: Boolean
 
-    fun authorize(request: Auth.Request): Boolean
+    fun authorize(request: Auth.Request, useWebAuth: Boolean = false): Boolean
 
     fun share(request: Share.Request): Boolean
 

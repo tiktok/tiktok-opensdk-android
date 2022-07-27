@@ -2,15 +2,15 @@ package com.bytedance.sdk.demo.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.*
 import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
-import com.bytedance.sdk.demo.auth.userinfo.model.AccessTokenInfo
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var authTextView: TextView
     private lateinit var models: List<DataModel>
     private lateinit var tiktokApi: TikTokOpenApi
+    private var webauthOnly: Boolean = false
+    private val isBeta = MutableLiveData(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,9 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         }
         models = mutableListOf<DataModel>().apply {
             add(initLogo())
-            add(initHeader())
+            add(initConfigHeader())
+            addAll(initConfigs())
+            add(initScopeHeader())
             addAll(initScopes())
             addAll(initEditFields())
         }
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         for (model in models) {
             when (model) {
                 is ScopeModel -> {
-                    model.title.takeIf { model.isOn }?.let { scopes.add(it) }
+                    model.title.takeIf { model.isOn.value ?: false }?.let { scopes.add(it) }
                 }
                 is EditTextModel -> {
                     model.gsonEditText()?.let {
@@ -88,6 +92,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
                 }
             }
         }
+
         if (scopes.size == 0) {
             showAlert("Invalid Scope", "Please select at least one scope.")
             return
@@ -98,7 +103,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
              request.scope = scopes.joinBy(",")
              request.state = "ww"
              request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
-             it.authorize(request)
+             it.authorize(request, webauthOnly)
         }
     }
 
@@ -113,9 +118,29 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     private fun initLogo(): LogoModel {
         return LogoModel()
     }
-    private fun initHeader(): HeaderModel {
+    private fun initConfigHeader(): HeaderModel {
+        return HeaderModel("Config")
+    }
+
+    private fun initScopeHeader(): HeaderModel {
         return HeaderModel("Scope configuration")
     }
+
+    private fun initConfigs(): List<ConfigModel> {
+        val webAuth =  MutableLiveData<Boolean>()
+        webAuth.observeForever { isOn ->
+            webauthOnly = isOn
+        }
+        val webAuthModel = ConfigModel("Always in Web", "Always authorize in webview", webAuth)
+
+        val betaMode =  MutableLiveData<Boolean>()
+        betaMode.observeForever { isOn ->
+            isBeta.postValue(isOn)
+        }
+        val betaModeModel = ConfigModel("Beta mode", "Some permissions are only available in Beta mode", betaMode)
+        return arrayListOf(webAuthModel, betaModeModel)
+    }
+
     private fun initScopes(): List<ScopeModel> {
         val scopes = arrayListOf("user.info.basic", "user.info.name", "user.info.phone",
                 "user.info.email", "music.collection", "video.upload", "video.list", "user.ue")
@@ -123,8 +148,15 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
                 "Read username", "Read user phone number", "Read user email address", "Read songs added to your favorites on TikTok",
         "Read user's uploaded videos", "Read your public videos on TikTok", "Read user interests")
         val beans = scopes.zip(descriptions) { scope, desc ->
-            ScopeModel(scope, desc, false)
+            ScopeModel(scope, desc,  MutableLiveData<Boolean>(false))
         }
+        beans[0].isEnabled.postValue(true)
+        isBeta.observeForever { isBeta ->
+            for (i in 1 until beans.size) {
+                beans[i].isEnabled.postValue(isBeta)
+            }
+        }
+
         return beans
     }
     private fun initEditFields(): List<EditTextModel> {

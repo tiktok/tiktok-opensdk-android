@@ -1,7 +1,5 @@
 package com.bytedance.sdk.demo.auth.model
 
-import com.bytedance.sdk.demo.auth.ViewType
-
 enum class ContentType {
     GSON_ARRAY, GSON_OBJECT
 }

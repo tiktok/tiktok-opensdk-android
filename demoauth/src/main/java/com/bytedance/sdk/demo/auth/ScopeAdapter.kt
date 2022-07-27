@@ -6,25 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.CompoundButton.OnCheckedChangeListener
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.bytedance.sdk.demo.auth.ViewType.*
+import com.bytedance.sdk.demo.auth.model.DataModel
 import com.bytedance.sdk.demo.auth.model.*
-
-enum class ViewType(val value: Int) {
-    SCOPE(0), LOGO(1), HEADER(2), EDIT_TEXT(3);
-    companion object {
-        fun typeFrom(value: Int): ViewType {
-            return when (value) {
-                1 -> { LOGO }
-                2 -> { HEADER }
-                3 -> { EDIT_TEXT }
-                else -> { SCOPE }
-            }
-        }
-    }
-}
 
 class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ScopeViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -32,6 +16,18 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
         val subtitle: TextView
         val toggle: ToggleButton
         lateinit var model: ScopeModel
+
+        init {
+            title = view.findViewById(R.id.title)
+            subtitle = view.findViewById(R.id.subtitle)
+            toggle = view.findViewById(R.id.toggle)
+        }
+    }
+    class ConfigViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val title: TextView
+        val subtitle: TextView
+        val toggle: ToggleButton
+        lateinit var model: ConfigModel
 
         init {
             title = view.findViewById(R.id.title)
@@ -65,19 +61,23 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(ViewType.typeFrom(viewType)) {
-            SCOPE -> {
+            ViewType.SCOPE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.scope_item_layout, parent, false)
                 return ScopeViewHolder(view)
             }
-            EDIT_TEXT -> {
+            ViewType.CONFIG -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.scope_item_layout, parent, false)
+                return ConfigViewHolder(view)
+            }
+            ViewType.EDIT_TEXT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item_layout, parent, false)
                 EditTextViewHolder(view)
             }
-            HEADER -> {
+            ViewType.HEADER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.header_item, parent, false)
                 HeaderViewHolder(view)
             }
-            LOGO -> {
+            ViewType.LOGO -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
                 return LogoViewHolder(view)
             }
@@ -107,12 +107,41 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
                 (holder as ScopeViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.toggle.isChecked = model.isOn
+                    it.toggle.isChecked = model.isOn.value == true
+                    it.toggle.isEnabled = (model.isEnabled.value == true)
                     it.model = model
+                    it.model.isOn.observeForever { isOn ->
+                        it.toggle.isChecked = isOn
+                    }
+                    it.model.isEnabled.observeForever { isEnabled ->
+                        it.toggle.isEnabled = isEnabled
+                        if (!isEnabled) {
+                            it.toggle.isChecked = isEnabled
+                        }
+                    }
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
                         for (inputModel in this.models) {
                             if (model == inputModel) {
-                                model.isOn = isOn
+                                model.isOn.postValue(isOn)
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            is ConfigModel -> {
+                (holder as ConfigViewHolder).let {
+                    it.title.text = model.title
+                    it.subtitle.text = model.desc
+                    it.toggle.isChecked = model.isOn.value == true
+                    it.model = model
+                    it.model.isOn.observeForever { isOn ->
+                        it.toggle.isChecked = isOn
+                    }
+                    it.toggle.setOnCheckedChangeListener() { _, isOn ->
+                        for (inputModel in this.models) {
+                            if (model == inputModel) {
+                                model.isOn.postValue(isOn)
                                 break
                             }
                         }

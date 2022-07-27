@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:state_checked="false"
+    <item android:state_checked="false" android:state_enabled="true"
         android:drawable="@drawable/toggle_button_off" /> <!-- pressed -->
-    <item android:state_checked="true"
+    <item android:state_checked="true" android:state_enabled="true"
         android:drawable="@drawable/toggle_button_on" /> <!-- focused -->
+    <item android:state_enabled="false"
+        android:drawable="@drawable/toggle_button_disabled" /> <!-- focused -->
     <!-- default -->
     <item
         android:drawable="@drawable/toggle_button_off" />
