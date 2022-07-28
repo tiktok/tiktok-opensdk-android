@@ -1,5 +1,6 @@
 package com.bytedance.sdk.demo.share
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.widget.Button
@@ -25,7 +26,8 @@ class MainActivity: AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
     private fun share() {
-        print("share")
+        val intent = Intent(this, SelectMediaActivity::class.java)
+        startActivity(intent)
     }
 
     private fun initData() {
