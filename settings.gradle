@@ -1,2 +1,3 @@
 include ':app', ':openoversea'
 include ':demoauth'
+include ':demoshare'
