@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:lines="1"
             android:gravity="center"
-            android:text="Select Media"
+            android:text="Meta Info"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textAlignment="center"
@@ -55,90 +55,45 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/logo_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginHorizontal="16dp"
+        android:layout_height="0dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/nav_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_container">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/thumbup_light"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:layout_marginBottom="48dp">
-        </ImageView>
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:maxLines="4"
-            android:text="Select your media to share"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextPrimary" />
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:maxLines="4"
-            android:text="You may select multiple images or videos to upload to TikTok"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextTertiary"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
+        app:layout_constraintBottom_toTopOf="@id/button_container"  />
 
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingVertical="12dp"
-        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/select_video"
+        <View
+            android:id="@+id/share_divider"
+            android:layout_height="1dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Video"
-            android:textSize="20dp"
-            android:textAllCaps="false"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextReversePrimary"
-            android:background="@drawable/primary_button_rounded_rectangle"
-            android:paddingVertical="12dp"
-            android:layout_marginVertical="8dp"
-            />
+            android:background="@color/colorLinePrimary" />
 
         <Button
-            android:id="@+id/select_image"
+            android:id="@+id/share_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Image"
+            android:text="Publish"
             android:textSize="20dp"
             android:textAllCaps="false"
             android:textAlignment="center"
             android:textColor="@color/colorTextReversePrimary"
             android:background="@drawable/primary_button_rounded_rectangle"
             android:paddingVertical="12dp"
-            android:layout_marginVertical="8dp"/>
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginHorizontal="16dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

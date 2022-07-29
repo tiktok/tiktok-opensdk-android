@@ -35,6 +35,14 @@
             android:exported="true">
         </activity>
 
+        <activity
+            android:name=".ShareActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.bytedance.sdk.account.demo.share"
+            android:exported="true">
+        </activity>
+
     </application>>
 
 </manifest>
