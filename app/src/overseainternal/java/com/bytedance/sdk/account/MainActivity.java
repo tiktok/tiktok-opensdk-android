@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements IApiEventHandler 
         Auth.Request request = new Auth.Request();
         request.setScope(scope);                      // Permissions for user authorization
         request.setState("ww");                       // Used to maintain the status of the request and callback, and bring it back to the third party as it is after the authorization request.
-        return tiktokOpenApi.authorize(request);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
+        return tiktokOpenApi.authorize(request, false);    // Give priority to using the Tiktok app for authorization. If the Tiktok app cannot be authorized due to the version or other reasons, use the wap page authorization
     }
 
     @Override
