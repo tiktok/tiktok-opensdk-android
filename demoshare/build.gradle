@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -29,13 +30,27 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions "area"
+    productFlavors {
+        overseaexternal {
+            dimension "area"
+            buildConfigField "String", "CLIENT_KEY", '"awqtucq4lu0iogcs"'
+            buildConfigField "String", "CLIENT_SECRET", '"4002ec29f0ab60b677c194ce52800dc2"'
+        }
+        overseainternal {
+            dimension "area"
+            buildConfigField "String", "CLIENT_KEY", '"awqtucq4lu0iogcs"'
+            buildConfigField "String", "CLIENT_SECRET", '"4002ec29f0ab60b677c194ce52800dc2"'
+        }
+    }
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

@@ -1,5 +1,7 @@
 package com.bytedance.sdk.demo.share.main
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.model.*
@@ -110,6 +113,13 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
                     it.subtitle.text = model.desc
                     it.editText.setText(model.text.value, TextView.BufferType.EDITABLE)
                     it.editText.hint = model.placeholder
+                    it.editText.addTextChangedListener(object: TextWatcher {
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                        override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
+                            model.text.postValue(text.toString())
+                        }
+                        override fun afterTextChanged(p0: Editable?) {}
+                    })
                     model.isEditable.observeForever { isEditable ->
                         it.editText.isEnabled = isEditable
                         if (!isEditable) {

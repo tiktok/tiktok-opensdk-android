@@ -18,11 +18,13 @@ class SelectMediaActivity: AppCompatActivity() {
     private lateinit var backButton: Button
     private lateinit var selectVideoButton: Button
     private lateinit var selectImageButton: Button
+    private lateinit var shareModel: ShareModel
     private var shareImage: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_media_activity)
+        shareModel = intent.getParcelableExtra<ShareModel>("share_model")!!
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
             finish()
@@ -41,10 +43,14 @@ class SelectMediaActivity: AppCompatActivity() {
                 for (i in 0 until clipData.itemCount) {
                     uris.add(clipData.getItemAt(i).uri.toString())
                 }
+                shareModel.media = uris
+                goToShareActivity()
                 return@onActivityResult
             }
             data?.dataString?.let {
                 uris.add(it)
+                shareModel.media = uris
+                goToShareActivity()
                 return@onActivityResult
             }
         } else {
@@ -69,6 +75,7 @@ class SelectMediaActivity: AppCompatActivity() {
 
     private fun goToShareActivity() {
         val intent = Intent(this, ShareActivity::class.java)
+        intent.putExtra("share_model", shareModel)
         startActivity(intent)
     }
 
