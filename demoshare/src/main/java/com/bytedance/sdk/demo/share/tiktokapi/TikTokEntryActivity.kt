@@ -21,9 +21,9 @@ class TikTokEntryActivity: AppCompatActivity(), IApiEventHandler {
     override fun onResp(resp: Base.Response?) {
         (resp as Share.Response)?.let { shareResponse ->
             if (!shareResponse.isSuccess) {
-                Toast.makeText(this, "error: ${shareResponse.errorMsg}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sharing media failed: ${shareResponse.errorMsg}", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "successfully shared media.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Media sharing was successful.", Toast.LENGTH_SHORT).show()
             }
         }
         finish()

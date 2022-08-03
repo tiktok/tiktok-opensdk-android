@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceActivity
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -66,6 +67,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
             return
         }
         val request = shareModel.toShareRequest()
+        // comment the line below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
         request.callerLocalEntry = "ShareActivity"
         if (!::tiktokOpenAPI.isInitialized) {
             val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
@@ -167,14 +169,18 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
 
     // IApiEventHandler
     override fun onReq(req: Base.Request?) {
-        println("response is ${req}")
     }
 
     override fun onResp(resp: Base.Response?) {
-        println("response is ${resp}")
+        (resp as Share.Response)?.let { shareResponse ->
+            if (shareResponse.isSuccess) {
+                Toast.makeText(this, "Media sharing was successful .", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Sharing media failed: ${shareResponse.errorMsg}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onErrorIntent(intent: Intent?) {
-        println("response is ${intent}")
     }
 }
