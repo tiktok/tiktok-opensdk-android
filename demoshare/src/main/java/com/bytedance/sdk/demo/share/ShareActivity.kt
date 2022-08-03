@@ -1,5 +1,6 @@
 package com.bytedance.sdk.demo.share
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceActivity
 import android.widget.Button
@@ -14,12 +15,21 @@ import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.publish.ShareActivityAdapter
+import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
+import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
+import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.share.Share
 
-class ShareActivity: AppCompatActivity() {
+class ShareActivity: AppCompatActivity(), IApiEventHandler {
+    private lateinit var shareModel: ShareModel
     private lateinit var backButton: Button
     private lateinit var publishButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var models: List<DataModel>
+    private lateinit var tiktokOpenAPI: TikTokOpenApi
+
     private var hashtagString: String = ""
     private var anchorSourceType: String = ""
     private var shareExtra: String = ""
@@ -31,6 +41,8 @@ class ShareActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_activity)
+        shareModel = intent.getParcelableExtra("share_model")!!
+
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener { finish() }
         publishButton = findViewById(R.id.share_button)
@@ -42,8 +54,31 @@ class ShareActivity: AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        if (::tiktokOpenAPI.isInitialized) {
+            tiktokOpenAPI.handleIntent(intent, this)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("on resume")
+    }
+
     private fun publish() {
-        composeShareModel()
+        if (!composeShareModel()) {
+            return
+        }
+        val request = shareModel.toShareRequest()
+//        request.callerLocalEntry = "ShareActivity" //  "MainActivity"
+        if (!::tiktokOpenAPI.isInitialized) {
+            val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+            TikTokOpenApiFactory.init(tiktokOpenConfig)
+            tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)!!
+        }
+
+        tiktokOpenAPI.share(request)
     }
 
     private fun initData() {
@@ -109,23 +144,42 @@ class ShareActivity: AppCompatActivity() {
         return HeaderModel("Share meta info", "Description of the video kit and the features available in the SDK demo app")
     }
 
-    private fun composeShareModel() {
+    private fun composeShareModel(): Boolean {
         val hashtags = ShareUtils.parseHashtags(hashtagString)
-        println("hashtags: ${hashtags}")
-        println("disableMusicSelection: ${disableMusicSelection}, greenScreenFormat: ${greenScreenFormat}, autoAttachAnchor: ${autoAttachAnchor}")
+        shareModel.hashtags = hashtags
+        shareModel.disableMusicSelection = disableMusicSelection
+        shareModel.greenScreenFormat = greenScreenFormat
+        shareModel.autoAttachAnchor = autoAttachAnchor
         val anchorSource = ShareUtils.parseAnchorSourceType(anchorSourceType)
-        var extra: Map<String, String>? = null
+        shareModel.anchorSourceType = anchorSource
+        var extra: Map<String, String>?
         if (shareExtra.isNotEmpty()) {
-            try {
+            return try {
                 extra = ShareUtils.parseJSON(shareExtra)
+                shareModel.shareExtra = extra
+                true
             } catch (ex: Exception) {
                 val alertBuilder = AlertDialog.Builder(this)
                 alertBuilder.setTitle("Invalid Format")
                 alertBuilder.setMessage("Share extra is in invalid JSONObject format")
                 alertBuilder.setPositiveButton("OK") { dialog, _ -> dialog.cancel() }
                 alertBuilder.create().show()
-                return
+                false
             }
         }
+        return true
+    }
+
+    // IApiEventHandler
+    override fun onReq(req: Base.Request?) {
+        println("response is ${req}")
+    }
+
+    override fun onResp(resp: Base.Response?) {
+        println("response is ${resp}")
+    }
+
+    override fun onErrorIntent(intent: Intent?) {
+        println("response is ${intent}")
     }
 }

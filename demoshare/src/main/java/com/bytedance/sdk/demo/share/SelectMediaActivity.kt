@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -24,7 +23,7 @@ class SelectMediaActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_media_activity)
-        shareModel = intent.getParcelableExtra<ShareModel>("share_model")!!
+        shareModel = intent.getParcelableExtra("share_model")!!
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
             finish()
@@ -89,11 +88,13 @@ class SelectMediaActivity: AppCompatActivity() {
 
     private fun selectVideo() {
         shareImage = false
+        shareModel.isImage = false
         requestPermission()
     }
 
     private fun selectImage() {
         shareImage = true
+        shareModel.isImage = true
         requestPermission()
     }
 
