@@ -61,17 +61,12 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("on resume")
-    }
-
     private fun publish() {
         if (!composeShareModel()) {
             return
         }
         val request = shareModel.toShareRequest()
-//        request.callerLocalEntry = "ShareActivity" //  "MainActivity"
+        request.callerLocalEntry = "ShareActivity"
         if (!::tiktokOpenAPI.isInitialized) {
             val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
             TikTokOpenApiFactory.init(tiktokOpenConfig)

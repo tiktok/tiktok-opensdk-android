@@ -18,7 +18,7 @@ class AuthService(val activity: Activity, val clientKey: String) {
         val bundle = req.toBundle()
         bundle.putString(Keys.Auth.CLIENT_KEY, clientKey)
         bundle.putString(Keys.Base.CALLER_PKG, activity.packageName)
-        if (!TextUtils.isEmpty(req.callerLocalEntry)) {
+        if (!req.callerLocalEntry.isNullOrEmpty()) {
             bundle.putString(Keys.Base.FROM_ENTRY, componentClassName(activity.packageName, req.callerLocalEntry!!))
         } else if (kRefactorResponseHandling) {
             // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok.

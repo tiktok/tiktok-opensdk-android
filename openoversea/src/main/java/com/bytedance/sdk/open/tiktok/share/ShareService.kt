@@ -27,13 +27,13 @@ class ShareService(val context: Context, val clientKey: String) {
         bundle.putString(Keys.Share.CLIENT_KEY, clientKey)
         bundle.putString(Keys.Share.CALLER_PKG, context.packageName)
         bundle.putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
-        if (!TextUtils.isEmpty(request.callerLocalEntry)) {
-            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, request.callerLocalEntry)
+        if (!request.callerLocalEntry.isNullOrEmpty()) {
+            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, request.callerLocalEntry!!))
         } else if (kRefactorResponseHandling) {
             // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
              bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
         } else {
-            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, context.packageName + "." + entryComponent.defaultComponent)
+            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, entryComponent.defaultComponent))
         }
         bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
         bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
