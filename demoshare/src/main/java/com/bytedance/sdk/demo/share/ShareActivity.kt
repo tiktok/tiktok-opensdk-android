@@ -31,13 +31,17 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
     private lateinit var models: List<DataModel>
     private lateinit var tiktokOpenAPI: TikTokOpenApi
 
+    private lateinit var autoAttachAnchor: MutableLiveData<Boolean>
+    private lateinit var anchorSourceTypeEnabled: MutableLiveData<Boolean>
+    private lateinit var anchorExtraEnabled: MutableLiveData<Boolean>
+
     private var hashtagString: String = ""
     private var anchorSourceType: String = ""
     private var shareExtra: String = ""
 
     private var disableMusicSelection = false
     private var greenScreenFormat = false
-    private var autoAttachAnchor = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
 
         recyclerView = findViewById(R.id.recycler_view)
         initData()
-        recyclerView.adapter = ShareActivityAdapter(models)
+        recyclerView.adapter = ShareActivityAdapter(this, models)
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
@@ -88,15 +92,6 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         }
     }
 
-    private fun initExtraEditText(): List<EditModel> {
-        val extraContent = MutableLiveData("")
-        extraContent.observeForever {
-            shareExtra = it
-        }
-        val extraEdit = EditModel("Extra", "JSONObject string of information included in Share request", extraContent)
-        return arrayListOf(extraEdit)
-    }
-
     private fun initHashtag(): EditModel {
         val hashtagContent = MutableLiveData("")
         hashtagContent.observeForever {
@@ -106,12 +101,25 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         return hashtagModel
     }
 
+    private fun initExtraEditText(): List<EditModel> {
+        val extraContent = MutableLiveData("")
+        extraContent.observeForever {
+            shareExtra = it
+        }
+        anchorSourceTypeEnabled = MutableLiveData(false)
+        val extraEdit = EditModel("Extra", "JSONObject string of information included in Share request",
+                extraContent, anchorSourceTypeEnabled)
+        return arrayListOf(extraEdit)
+    }
+
     private fun initAnchorEditModel(): EditModel {
         val anchorContent = MutableLiveData("")
         anchorContent.observeForever {
             anchorSourceType = it
         }
-        val anchorEdit = EditModel("Anchor source type", "The types of anchors that will be attached to the video", anchorContent)
+        anchorExtraEnabled = MutableLiveData(false)
+        val anchorEdit = EditModel("Anchor source type", "The types of anchors that will be attached to the video",
+                anchorContent, anchorExtraEnabled)
         return anchorEdit
     }
 
@@ -128,11 +136,16 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         }
         val greenScreen = ToggleModel("Use green-screen format", "Automatically apply green-screen effect", gsOn)
 
-        val anchorOn = MutableLiveData(false)
-        anchorOn.observeForever {
-            autoAttachAnchor = it
+        autoAttachAnchor = MutableLiveData(false)
+        autoAttachAnchor.observeForever { enabled ->
+            if (::anchorSourceTypeEnabled.isInitialized) {
+                anchorSourceTypeEnabled.postValue(enabled)
+            }
+            if (::anchorExtraEnabled.isInitialized) {
+                anchorExtraEnabled.postValue(enabled)
+            }
         }
-        val anchor = ToggleModel("Auto attach anchor", "Automatically attach anchor to the video", anchorOn)
+        val anchor = ToggleModel("Auto attach anchor", "Automatically attach anchor to the video", autoAttachAnchor)
 
         return arrayListOf(disableMusic, greenScreen, anchor)
     }
@@ -146,24 +159,27 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         shareModel.hashtags = hashtags
         shareModel.disableMusicSelection = disableMusicSelection
         shareModel.greenScreenFormat = greenScreenFormat
-        shareModel.autoAttachAnchor = autoAttachAnchor
+        shareModel.autoAttachAnchor = autoAttachAnchor.value ?: false
         val anchorSource = ShareUtils.parseAnchorSourceType(anchorSourceType)
-        shareModel.anchorSourceType = anchorSource
-        var extra: Map<String, String>?
-        if (shareExtra.isNotEmpty()) {
-            return try {
-                extra = ShareUtils.parseJSON(shareExtra)
-                shareModel.shareExtra = extra
-                true
-            } catch (ex: Exception) {
-                val alertBuilder = AlertDialog.Builder(this)
-                alertBuilder.setTitle("Invalid Format")
-                alertBuilder.setMessage("Share extra is in invalid JSONObject format")
-                alertBuilder.setPositiveButton("OK") { dialog, _ -> dialog.cancel() }
-                alertBuilder.create().show()
-                false
+        if (shareModel.autoAttachAnchor) {
+            shareModel.anchorSourceType = anchorSource
+            var extra: Map<String, String>?
+            if (shareExtra.isNotEmpty()) {
+                return try {
+                    extra = ShareUtils.parseJSON(shareExtra)
+                    shareModel.shareExtra = extra
+                    true
+                } catch (ex: Exception) {
+                    val alertBuilder = AlertDialog.Builder(this)
+                    alertBuilder.setTitle("Invalid Format")
+                    alertBuilder.setMessage("Share extra is in invalid JSONObject format")
+                    alertBuilder.setPositiveButton("OK") { dialog, _ -> dialog.cancel() }
+                    alertBuilder.create().show()
+                    false
+                }
             }
         }
+
         return true
     }
 

@@ -1,5 +1,7 @@
 package com.bytedance.sdk.demo.share.publish
 
+import android.content.Context
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -8,12 +10,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.*
 
-class ShareActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter(val context: Context, val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val header: TextView
         val desc: TextView
@@ -63,6 +66,7 @@ class ShareActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Re
             }
         }
     }
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (models.size <= position) {
             return
@@ -100,6 +104,17 @@ class ShareActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Re
                         }
                     }
                     editText.addTextChangedListener(textWatcher)
+                    editText.isEnabled = model.enabled.value ?: false
+                    title.setTextColor(context.getColor(if (editText.isEnabled) R.color.colorTextPrimary else R.color.colorTextTertiary))
+                    model.enabled.observeForever { enabled ->
+                        editText.isEnabled = enabled
+                        if (enabled) {
+                            title.setTextColor(context.getColor(R.color.colorTextPrimary))
+                        } else {
+                            editText.text = null
+                            title.setTextColor(context.getColor(R.color.colorTextTertiary))
+                        }
+                    }
                 }
             }
         }
