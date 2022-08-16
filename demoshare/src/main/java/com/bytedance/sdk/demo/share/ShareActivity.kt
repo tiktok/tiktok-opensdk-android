@@ -76,7 +76,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         if (!::tiktokOpenAPI.isInitialized) {
             val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
             TikTokOpenApiFactory.init(tiktokOpenConfig)
-            tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)!!
+            tiktokOpenAPI = TikTokOpenApiFactory.create(this)!!
         }
 
         tiktokOpenAPI.share(request)

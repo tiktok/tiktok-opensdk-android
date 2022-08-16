@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             showAlert("Invalid Scope", "Please select at least one scope.")
             return
         }
-         TikTokOpenApiFactory.create(this, this)?.let {
+         TikTokOpenApiFactory.create(this)?.let {
             tiktokApi = it
              val request = Auth.Request()
              request.scope = scopes.joinBy(",")

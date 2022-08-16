@@ -36,8 +36,8 @@ sealed class SignatureUtils {
         fun packageSignature(signs: List<String?>?): String? {
             if (signs != null && !signs.isEmpty()) {
                 val sb = StringBuilder()
-                signs.forEach {
-                    sb.append(",").append(it)
+                for (sign in signs) {
+                    sb.append(",").append(sign)
                 }
                 return if (sb.isEmpty()) null else sb.substring(1)
             }
