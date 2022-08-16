@@ -57,7 +57,9 @@ class Share {
                 putString(Keys.Share.CALLER_LOCAL_ENTRY, callerLocalEntry)
                 putString(Keys.Share.CALLER_PKG, callerPackage)
                 putString(Keys.Share.STATE, state)
-                putAll(mediaContent?.toBundle())
+                mediaContent?.apply {
+                    putAll(this.toBundle())
+                }
                 putInt(Keys.Share.SHARE_FORMAT, shareFormat.format)
                 putInt(Keys.Share.SHARE_TARGET_SCENE, targetSceneType)
                 putString(Keys.Share.OPENPLATFORM_EXTRA, shareExtra)

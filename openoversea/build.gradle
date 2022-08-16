@@ -80,6 +80,7 @@ dependencies {
     androidTestImplementation "androidx.test:rules:1.4.0"
     // Optional -- UI testing with Espresso
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    androidTestImplementation 'junit:junit:4.12'
     // Optional -- UI testing with UI Automator
 //    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
     // Optional -- UI testing with Compose
