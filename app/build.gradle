@@ -72,9 +72,9 @@ dependencies {
 
     // for test
     //retrofit2 依赖库
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     //Gson 数据解析器依赖库
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     //okhttp3 输出网络请求日志依赖库
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
