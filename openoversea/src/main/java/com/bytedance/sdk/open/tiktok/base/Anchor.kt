@@ -30,4 +30,14 @@ class Anchor {
             putString(Keys.Share.SHARE_ANCHOR_INFO, Gson().toJson(this@Anchor))
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Anchor) {
+            return false
+        }
+        return anchorBusinessType == other.anchorBusinessType &&
+                anchorTitle == other.anchorTitle &&
+                anchorContent == other.anchorContent &&
+                sourceType == other.sourceType
+    }
 }
