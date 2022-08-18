@@ -19,7 +19,7 @@ sealed class SignatureUtils {
         }
 
         fun getMd5Signs(context: Context, pkgName: String?): List<String?>? {
-            if (TextUtils.isEmpty(pkgName)) {
+            if (pkgName.isNullOrEmpty()) {
                 return null
             }
             val packageInfo: PackageInfo = try {
