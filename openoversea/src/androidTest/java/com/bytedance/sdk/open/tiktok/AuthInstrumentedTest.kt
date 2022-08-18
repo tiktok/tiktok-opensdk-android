@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.tiktok
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -13,10 +12,7 @@ import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
-import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
-import com.bytedance.sdk.open.tiktok.share.Share
-import com.bytedance.sdk.open.tiktok.share.ShareDataHandler
-import com.bytedance.sdk.open.tiktok.share.ShareService
+
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
