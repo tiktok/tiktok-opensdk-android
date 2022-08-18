@@ -1,27 +1,28 @@
 package com.bytedance.sdk.open.tiktok
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.bytedance.sdk.open.tiktok.base.Anchor
 import com.bytedance.sdk.open.tiktok.base.MediaContent
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler
+import com.bytedance.sdk.open.tiktok.share.ShareService
 import com.google.gson.Gson
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.assertThat
 
 @RunWith(AndroidJUnit4::class)
-class ShareTest {
+class ShareInstrumentedTest {
     val hashtag1 = "hashtag1"
     val hashtag2 = "hashtag2"
     val callerLocalEntry = "com.tiktok.MainActivity"
@@ -104,6 +105,21 @@ class ShareTest {
         handler.handle(Constants.TIKTOK.SHARE_RESPONSE, createTestResponse().toBundle(), eventHandler)
         verify(exactly = 1) {
             eventHandler.onResp(allAny())
+        }
+    }
+
+    @Test
+    fun testShareService() {
+        val mockContext = mockk<Context>(relaxed = true)
+        every {
+            mockContext.startActivity(allAny())
+        } returns Unit
+        val shareService = ShareService(mockContext, "client_key")
+        val request = createTestShareRequest()
+        val entryComponent = EntryComponent("defaultComponent", "tiktokPackage", "tiktokComponent",  "tiktokPlatformComponent")
+        shareService.share(request, entryComponent)
+        verify(exactly = 1) {
+            mockContext.startActivity(allAny())
         }
     }
 }
