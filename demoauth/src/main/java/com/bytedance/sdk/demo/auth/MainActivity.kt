@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     private fun authorize() {
         val scopes = mutableListOf<String>()
         var additionalPermissions: Array<String>? = null
-        var extraInfo: Map<String, String>? = null
         for (model in models) {
             when (model) {
                 is ScopeModel -> {
@@ -80,9 +79,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
                                         additionalPermissions = jsonArray
                                     }
                                 }
-                                ContentType.GSON_OBJECT -> {
-                                    (gson.fromJson(it, Map::class.java) as Map<String, String>)?.let { extraInfo = it }
-                                }
+                                ContentType.GSON_OBJECT -> {}
                             }
                         } catch(e: Exception) {
                             showAlert("Input Parsing Error", "Parsing ${model.title} failed. It's of invalid format. Please try again.")
@@ -165,8 +162,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
     private fun initEditFields(): List<EditTextModel> {
         val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"(at most 2)\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
-        val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
-        return arrayListOf(additionalPermission, extraInfo)
+        return arrayListOf(additionalPermission)
     }
     private fun getUserBasicInfo(authCode: String) {
         UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
