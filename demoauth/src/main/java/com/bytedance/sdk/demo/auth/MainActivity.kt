@@ -98,11 +98,15 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             return
         }
          TikTokOpenApiFactory.create(this)?.let {
-            tiktokApi = it
+             tiktokApi = it
              val request = Auth.Request()
              request.scope = scopes.joinBy(",")
              request.state = "ww"
              request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
+             additionalPermissions?.let { permissions ->
+                 if (permissions.isNotEmpty()) request.optionalScope0 = permissions[0]
+                 if (permissions.size > 1) request.optionalScope1 = permissions[1]
+             }
              it.authorize(request, webauthOnly)
         }
     }
@@ -160,7 +164,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         return beans
     }
     private fun initEditFields(): List<EditTextModel> {
-        val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
+        val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"(at most 2)\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
         val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
         return arrayListOf(additionalPermission, extraInfo)
     }
