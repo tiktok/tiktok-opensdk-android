@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             addAll(initConfigs())
             add(initScopeHeader())
             addAll(initScopes())
-            addAll(initEditFields())
         }
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
@@ -63,32 +61,10 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
     private fun authorize() {
         val scopes = mutableListOf<String>()
-        var additionalPermissions: Array<String>? = null
-        var extraInfo: Map<String, String>? = null
         for (model in models) {
             when (model) {
                 is ScopeModel -> {
                     model.title.takeIf { model.isOn.value ?: false }?.let { scopes.add(it) }
-                }
-                is EditTextModel -> {
-                    model.gsonEditText()?.let {
-                        val gson = Gson()
-                        try {
-                            when(model.contentType) {
-                                ContentType.GSON_ARRAY -> {
-                                    gson.fromJson(it, Array<String>::class.java).also { jsonArray ->
-                                        additionalPermissions = jsonArray
-                                    }
-                                }
-                                ContentType.GSON_OBJECT -> {
-                                    (gson.fromJson(it, Map::class.java) as Map<String, String>)?.let { extraInfo = it }
-                                }
-                            }
-                        } catch(e: Exception) {
-                            showAlert("Input Parsing Error", "Parsing ${model.title} failed. It's of invalid format. Please try again.")
-                            return@authorize
-                        }
-                    }
                 }
             }
         }
@@ -159,11 +135,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
         return beans
     }
-    private fun initEditFields(): List<EditTextModel> {
-        val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
-        val extraInfo = EditTextModel("Extra Info", "Paired by comma and separated by comma, for example: \"name1:value1, name2:value2\"\nGo to TT4D portal for more information", ContentType.GSON_OBJECT)
-        return arrayListOf(additionalPermission, extraInfo)
-    }
+
     private fun getUserBasicInfo(authCode: String) {
         UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
             errorMsg?.let {
