@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initScopes(): List<ScopeModel> {
-        val scopes = arrayListOf("user.info.basic", "user.info.name", "user.info.phone",
+        val scopes = arrayListOf("user.info.basic", "user.info.username", "user.info.phone",
                 "user.info.email", "music.collection", "video.upload", "video.list", "user.ue")
         val descriptions = arrayListOf("Read your profile info (avatar, display name)",
                 "Read username", "Read user phone number", "Read user email address", "Read songs added to your favorites on TikTok",
