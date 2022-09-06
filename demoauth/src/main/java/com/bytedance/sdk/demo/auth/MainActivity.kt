@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             addAll(initConfigs())
             add(initScopeHeader())
             addAll(initScopes())
-            addAll(initEditFields())
         }
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
@@ -63,29 +61,10 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
     private fun authorize() {
         val scopes = mutableListOf<String>()
-        var additionalPermissions: Array<String>? = null
         for (model in models) {
             when (model) {
                 is ScopeModel -> {
                     model.title.takeIf { model.isOn.value ?: false }?.let { scopes.add(it) }
-                }
-                is EditTextModel -> {
-                    model.gsonEditText()?.let {
-                        val gson = Gson()
-                        try {
-                            when(model.contentType) {
-                                ContentType.GSON_ARRAY -> {
-                                    gson.fromJson(it, Array<String>::class.java).also { jsonArray ->
-                                        additionalPermissions = jsonArray
-                                    }
-                                }
-                                ContentType.GSON_OBJECT -> {}
-                            }
-                        } catch(e: Exception) {
-                            showAlert("Input Parsing Error", "Parsing ${model.title} failed. It's of invalid format. Please try again.")
-                            return@authorize
-                        }
-                    }
                 }
             }
         }
@@ -143,7 +122,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initScopes(): List<ScopeModel> {
-        val scopes = arrayListOf("user.info.basic", "user.info.name", "user.info.phone",
+        val scopes = arrayListOf("user.info.basic", "user.info.username", "user.info.phone",
                 "user.info.email", "music.collection", "video.upload", "video.list", "user.ue")
         val descriptions = arrayListOf("Read your profile info (avatar, display name)",
                 "Read username", "Read user phone number", "Read user email address", "Read songs added to your favorites on TikTok",
@@ -159,10 +138,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         }
 
         return beans
-    }
-    private fun initEditFields(): List<EditTextModel> {
-        val additionalPermission = EditTextModel("Additional Permissions", "Separated by comma, for example: \"permission1\",\"permission2\"(at most 2)\nGo to TT4D portal for more information", ContentType.GSON_ARRAY)
-        return arrayListOf(additionalPermission)
     }
     private fun getUserBasicInfo(authCode: String) {
         UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
