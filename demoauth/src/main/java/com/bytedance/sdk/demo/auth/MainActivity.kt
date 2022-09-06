@@ -79,10 +79,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
              request.scope = scopes.joinBy(",")
              request.state = "ww"
              request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
-             additionalPermissions?.let { permissions ->
-                 if (permissions.isNotEmpty()) request.optionalScope0 = permissions[0]
-                 if (permissions.size > 1) request.optionalScope1 = permissions[1]
-             }
              it.authorize(request, webauthOnly)
         }
     }
