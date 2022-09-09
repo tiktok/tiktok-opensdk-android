@@ -151,7 +151,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
         val platformPackageName = packageName
         val localResponseEntry = if (TextUtils.isEmpty(req.callerLocalEntry)) componentClassName(platformPackageName, localEntry) else req.callerLocalEntry!!
         val intent = Intent()
-        val componentName = ComponentName(platformPackageName, localResponseEntry)
+        val componentName = ComponentName(platformPackageName, componentClassName(platformPackageName, localResponseEntry))
         intent.component = componentName
         intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

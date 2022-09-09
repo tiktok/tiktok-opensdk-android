@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             return
         }
          TikTokOpenApiFactory.create(this)?.let {
-            tiktokApi = it
+             tiktokApi = it
              val request = Auth.Request()
              request.scope = scopes.joinBy(",")
              request.state = "ww"
@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
         return beans
     }
-
     private fun getUserBasicInfo(authCode: String) {
         UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
             errorMsg?.let {
