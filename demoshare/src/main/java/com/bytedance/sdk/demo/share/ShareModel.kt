@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 
 @Suppress("ParcelCreator")
 @Parcelize
-data class ShareModel(var bundleID: String = "",
+data class ShareModel(var packageName: String = "",
                       var clientKey: String = "",
                       var clientSecret: String = "",
                       var isImage: Boolean = false,
@@ -23,8 +23,10 @@ data class ShareModel(var bundleID: String = "",
                       }
 
 fun ShareModel.toShareRequest(): Share.Request {
-    val request  =Share.Request()
-
+    val request = Share.Request()
+    this.packageName.takeUnless { it.isNullOrEmpty() }?.let {
+        request.callerPackage = it
+    }
     this.hashtags?.let { validHashTags ->
         val mappedHashtags =  ArrayList<String>()
         for (hashtag in validHashTags) {
