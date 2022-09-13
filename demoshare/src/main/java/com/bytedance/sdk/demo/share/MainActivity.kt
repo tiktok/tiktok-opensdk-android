@@ -94,7 +94,7 @@ class MainActivity: AppCompatActivity() {
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel("Custom CS & CK", "Customize your client key and client secret", customization)
+        return ToggleModel("Custom CS & CK", "Customize your client key and package name", customization)
     }
 
     private fun initHeaderModel(): HeaderModel {
