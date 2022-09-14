@@ -9,7 +9,7 @@ class ShareUtils {
             val hashtags = mutableListOf<String>()
             var sb: StringBuilder? = null
             fun collectHashtag() {
-                if ((sb?.length ?: 0) > 0) {
+                if (!sb.isNullOrEmpty()) {
                     hashtags.add(sb.toString())
                 }
             }
@@ -28,7 +28,7 @@ class ShareUtils {
                     }
                 }
             }
-
+            collectHashtag()
             return hashtags
         }
 
