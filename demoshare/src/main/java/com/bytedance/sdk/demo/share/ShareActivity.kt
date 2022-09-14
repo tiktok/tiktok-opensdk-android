@@ -145,7 +145,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
                 anchorExtraEnabled.postValue(enabled)
             }
         }
-        val anchor = ToggleModel("Auto attach anchor", "Automatically attach anchor to the video", autoAttachAnchor)
+        val anchor = ToggleModel("Auto attach anchor", "Automatically attach anchor to the video (Sharing images is not supported)", autoAttachAnchor)
 
         return arrayListOf(disableMusic, greenScreen, anchor)
     }
