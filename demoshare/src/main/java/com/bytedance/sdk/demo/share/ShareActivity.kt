@@ -177,6 +177,8 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
                     alertBuilder.create().show()
                     false
                 }
+            } else {
+                shareModel.shareExtra = null
             }
         }
 
