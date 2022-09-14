@@ -6,6 +6,7 @@ import com.bytedance.sdk.open.tiktok.base.MediaContent
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.share.Share
 import kotlinx.parcelize.Parcelize
+import org.json.JSONObject
 
 @Suppress("ParcelCreator")
 @Parcelize
@@ -45,6 +46,11 @@ fun ShareModel.toShareRequest(): Share.Request {
         val anchor = Anchor()
         anchor.sourceType = anchorSourceType
         request.anchor = anchor
+        try {
+            request.shareExtra = JSONObject(shareExtra).toString()
+        } catch (_: Exception) {
+            request.shareExtra = null
+        }
     }
     val mediaList = ArrayList<String>()
     for (m in media) {
