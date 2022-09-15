@@ -21,7 +21,6 @@ class TikTokOpenApiFactory {
 
         fun create(activity: Activity): TikTokOpenApi? {
             mConfig?.let {
-                Toast.makeText(activity, "service: " + it.clientKey, Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
                 val share = ShareService(activity, it.clientKey)
                 val auth = AuthService(activity, it.clientKey)
                 return TikTokOpenApiImpl(activity, auth, share)

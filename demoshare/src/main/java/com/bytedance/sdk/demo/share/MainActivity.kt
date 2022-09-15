@@ -3,7 +3,6 @@ package com.bytedance.sdk.demo.share
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast // TODO: chen.wu remove
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +48,6 @@ class MainActivity: AppCompatActivity() {
             shareModel.clientSecret = ""
         }
         intent.putExtra("share_model", shareModel)
-        Toast.makeText(this, "CK: " + shareModel.clientKey, Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
         startActivity(intent)
     }
 
