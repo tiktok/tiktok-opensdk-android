@@ -2,7 +2,6 @@ package com.bytedance.sdk.demo.share
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -11,9 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.*
 
-const val BundlIDTitle = "Bundle ID"
+const val PackageNameTitle = "Package Name"
 const val CLientKeyTitle = "Client Key"
-const val ClientSecretTitle = "Client Secret"
 
 class MainActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -36,16 +34,18 @@ class MainActivity: AppCompatActivity() {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
                     (model as HintedTextModel)?.let {
-                        if (it.title == BundlIDTitle) {
-                            shareModel.bundleID = it.text.value ?: ""
+                        if (it.title == PackageNameTitle) {
+                            shareModel.packageName = (it.text.value ?: "").trim()
                         } else if (it.title == CLientKeyTitle) {
-                            shareModel.clientKey = it.text.value ?: ""
-                        } else if (it.title == ClientSecretTitle) {
-                            shareModel.clientSecret = it.text.value ?: ""
+                            shareModel.clientKey = (it.text.value ?: "").trim()
                         }
                     }
                 }
             }
+        } else {
+            shareModel.packageName = ""
+            shareModel.clientKey = ""
+            shareModel.clientSecret = ""
         }
         intent.putExtra("share_model", shareModel)
         startActivity(intent)
@@ -73,7 +73,7 @@ class MainActivity: AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(BundlIDTitle, "Demo app bundle ID", "com.tiktokopen.demonew", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(PackageNameTitle, "Demo app package name", "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
@@ -81,13 +81,12 @@ class MainActivity: AppCompatActivity() {
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
-        val clientSecret = HintedTextModel(ClientSecretTitle, "Demo app client secret from dev portal", "client_secret", clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)
             csEditable.postValue(isEditable)
         }
-        return arrayListOf(bundleId, clientKey, clientSecret)
+        return arrayListOf(bundleId, clientKey)
     }
 
     private fun initCustomClientKeyModel(): ToggleModel {
@@ -95,7 +94,7 @@ class MainActivity: AppCompatActivity() {
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel("Custom CS & CK", "Customize your client key and client secret", customization)
+        return ToggleModel("Custom CS & CK", "Customize your client key and package name", customization)
     }
 
     private fun initHeaderModel(): HeaderModel {

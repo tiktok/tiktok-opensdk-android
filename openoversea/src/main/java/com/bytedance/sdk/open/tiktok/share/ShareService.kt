@@ -25,7 +25,8 @@ class ShareService(val context: Context, val clientKey: String) {
             bundle.putAll(request.toBundle())
         }
         bundle.putString(Keys.Share.CLIENT_KEY, clientKey)
-        bundle.putString(Keys.Share.CALLER_PKG, context.packageName)
+        val callerPackage = if (request.callerPackage.isNullOrEmpty()) context.packageName else request.callerPackage
+        bundle.putString(Keys.Share.CALLER_PKG, callerPackage)
         bundle.putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
         if (!request.callerLocalEntry.isNullOrEmpty()) {
             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, request.callerLocalEntry!!))

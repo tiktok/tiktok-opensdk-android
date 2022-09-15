@@ -73,13 +73,12 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         val request = shareModel.toShareRequest()
         // comment the line below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
         request.callerLocalEntry = "ShareActivity"
-        if (!::tiktokOpenAPI.isInitialized) {
-            val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
-            TikTokOpenApiFactory.init(tiktokOpenConfig)
-            tiktokOpenAPI = TikTokOpenApiFactory.create(this)!!
+        val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey.ifEmpty { BuildConfig.CLIENT_KEY })
+        TikTokOpenApiFactory.init(tiktokOpenConfig)
+        TikTokOpenApiFactory.create(this)?.let {
+            tiktokOpenAPI = it
+            tiktokOpenAPI.share(request)
         }
-
-        tiktokOpenAPI.share(request)
     }
 
     private fun initData() {
