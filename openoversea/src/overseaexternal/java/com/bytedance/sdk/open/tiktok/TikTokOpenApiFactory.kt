@@ -2,6 +2,7 @@ package com.bytedance.sdk.open.tiktok
 
 import android.app.Activity
 import android.text.TextUtils
+import android.widget.Toast
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl
@@ -20,6 +21,7 @@ class TikTokOpenApiFactory {
 
         fun create(activity: Activity): TikTokOpenApi? {
             mConfig?.let {
+                Toast.makeText(activity, "service: " + it.clientKey, Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
                 val share = ShareService(activity, it.clientKey)
                 val auth = AuthService(activity, it.clientKey)
                 return TikTokOpenApiImpl(activity, auth, share)
