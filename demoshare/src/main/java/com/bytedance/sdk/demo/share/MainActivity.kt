@@ -73,7 +73,7 @@ class MainActivity: AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, "Demo app bundle ID", "com.tiktokopen.demonew", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(PackageNameTitle, "Demo app package name", "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
