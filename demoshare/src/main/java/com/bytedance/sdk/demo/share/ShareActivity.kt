@@ -78,7 +78,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
             Toast.makeText(this, "Share: config is not reset", Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
         }
         tiktokOpenAPI = TikTokOpenApiFactory.create(this)!!
-        Toast.makeText(this, "openapi: " + tiktokOpenAPI, Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
+        Toast.makeText(this, "openAPI: " + tiktokOpenAPI.hashCode(), Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
         tiktokOpenAPI.share(request)
     }
 
