@@ -74,8 +74,11 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         // comment the line below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
         request.callerLocalEntry = "ShareActivity"
         val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey.ifEmpty { BuildConfig.CLIENT_KEY })
-        TikTokOpenApiFactory.init(tiktokOpenConfig)
+        if (!TikTokOpenApiFactory.init(tiktokOpenConfig)) {
+            Toast.makeText(this, "Share: config is not reset", Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
+        }
         tiktokOpenAPI = TikTokOpenApiFactory.create(this)!!
+        Toast.makeText(this, "openapi: " + tiktokOpenAPI, Toast.LENGTH_SHORT).show() // TODO: chen.wu remove
         tiktokOpenAPI.share(request)
     }
 
