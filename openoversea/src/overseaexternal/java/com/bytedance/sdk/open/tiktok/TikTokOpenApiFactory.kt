@@ -2,7 +2,6 @@ package com.bytedance.sdk.open.tiktok
 
 import android.app.Activity
 import android.text.TextUtils
-import android.widget.Toast
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl
