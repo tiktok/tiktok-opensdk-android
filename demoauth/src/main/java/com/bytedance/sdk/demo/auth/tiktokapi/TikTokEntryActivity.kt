@@ -19,7 +19,7 @@ class TikTokEntryActivity: Activity(), IApiEventHandler {
     }
 
     override fun onResp(resp: Base.Response?) {
-        (resp as Auth.Response)?.let {
+        (resp as Auth.Response).let {
             if (it.isSuccess) {
                 Toast.makeText(this, "Auth Successful", Toast.LENGTH_SHORT).show()
             } else {

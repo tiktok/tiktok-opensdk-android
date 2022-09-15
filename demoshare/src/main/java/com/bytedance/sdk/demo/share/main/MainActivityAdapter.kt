@@ -62,27 +62,27 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
         return when(ViewType.typeFrom(viewType)) {
             ViewType.LOGO -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
-                return LogoViewHolder(view)
+                LogoViewHolder(view)
             }
             ViewType.HEADER -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.header_item, parent, false)
-                return HeaderViewHolder(view)
+                HeaderViewHolder(view)
             }
             ViewType.TOGGLE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
-                return ToggleViewHolder(view)
+                ToggleViewHolder(view)
             }
             ViewType.INFO -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.info_item, parent, false)
-                return InfoViewHolder(view)
+                InfoViewHolder(view)
             }
             ViewType.HINTED_TEXT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.hinted_item, parent, false)
-                return HintedTextViewHolder(view)
+                HintedTextViewHolder(view)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
-                return ToggleViewHolder(view)
+                ToggleViewHolder(view)
             }
         }
     }
@@ -93,12 +93,12 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
         }
         when(val model = models[position]) {
             is HeaderModel -> {
-                (holder as HeaderViewHolder)?.let {
+                (holder as HeaderViewHolder).let {
                     it.header.text = model.title
                 }
             }
             is ToggleModel -> {
-                (holder as ToggleViewHolder)?.let {
+                (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn.value ?: false
@@ -108,7 +108,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
                 }
             }
             is HintedTextModel -> {
-                (holder as HintedTextViewHolder)?.let {
+                (holder as HintedTextViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.editText.setText(model.text.value, TextView.BufferType.EDITABLE)
@@ -129,7 +129,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
                 }
             }
             is InfoModel -> {
-                (holder as InfoViewHolder)?.let {
+                (holder as InfoViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.info.text = model.info.value ?: ""

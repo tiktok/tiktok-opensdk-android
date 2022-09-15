@@ -35,7 +35,7 @@ class MainActivity: AppCompatActivity() {
         if (customEditable.value == true) {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
-                    (model as HintedTextModel)?.let {
+                    (model as HintedTextModel).let {
                         if (it.title == BundlIDTitle) {
                             shareModel.bundleID = it.text.value ?: ""
                         } else if (it.title == CLientKeyTitle) {

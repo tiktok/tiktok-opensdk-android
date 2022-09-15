@@ -136,17 +136,20 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         return beans
     }
     private fun getUserBasicInfo(authCode: String) {
-        UserInfoQuery.getAccessToken(authCode) { atInfo, errorMsg ->
+        UserInfoQuery.getAccessToken(authCode) { response, errorMsg ->
             errorMsg?.let {
                 showAlert("Access Token Error", it)
                 return@getAccessToken
             }
-
-            UserInfoQuery.getUserInfo(atInfo!!.accessToken, atInfo!!.openid) { userInfo, errorMsg ->
-                errorMsg?.let {
-                    return@getUserInfo showAlert("User Info Error", it)
+            response?.let { accessTokenInfo ->
+                UserInfoQuery.getUserInfo(accessTokenInfo.accessToken, accessTokenInfo.openid) { userInfo, errorMessage ->
+                    errorMessage?.let {
+                        return@getUserInfo showAlert("User Info Error", it)
+                    }
+                    userInfo?.let {
+                        showAlert("Getting user info succeeded", "Display name: ${it.nickName}")
+                    }
                 }
-                showAlert("Getting user info succeeded", "Display name: ${userInfo!!.nickName}")
             }
         }
     }
@@ -157,11 +160,12 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     override fun onResp(resp: Base.Response?) {
-        (resp as Auth.Response)?.let { authRespnose ->
-            if (!authRespnose.authCode.isNullOrEmpty()) {
-                getUserBasicInfo(authRespnose.authCode!!)
-            } else if (authRespnose.errorCode != 0) {
-                showAlert("Error", "Error Code: ${authRespnose.errorCode}\nError message: ${authRespnose.errorMsg}")
+        (resp as Auth.Response).let { authResponse ->
+            val authCode = authResponse.authCode
+            if (!authCode.isNullOrEmpty()) {
+                getUserBasicInfo(authCode)
+            } else if (authResponse.errorCode != 0) {
+                showAlert("Error", "Error Code: ${authResponse.errorCode}\nError message: ${authResponse.errorMsg}")
             }
         }
     }

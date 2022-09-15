@@ -5,25 +5,16 @@ import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
-class Anchor {
+data class Anchor(
     @SerializedName("anchor_business_type")
-    var anchorBusinessType: Int = 0
+    var anchorBusinessType: Int = 0,
     @SerializedName("anchor_title")
-    var anchorTitle: String? = null
+    var anchorTitle: String? = null,
     @SerializedName("anchor_content")
-    var anchorContent: String? = null
+    var anchorContent: String? = null,
     @SerializedName("anchor_source_type")
-    var sourceType: String? = null
-
-    object Companion {
-        fun fromBundle(bundle: Bundle): Anchor? {
-            val gsonString = bundle.getString(Keys.Share.SHARE_ANCHOR_INFO)
-            return gsonString?.let {
-                Gson().fromJson(it, Anchor::class.java)
-            }
-            return null
-        }
-    }
+    var sourceType: String? = null,
+) {
 
     fun toBundle(): Bundle {
         return Bundle().apply {
@@ -31,13 +22,12 @@ class Anchor {
         }
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other !is Anchor) {
-            return false
+    object Companion {
+        fun fromBundle(bundle: Bundle): Anchor? {
+            val gsonString = bundle.getString(Keys.Share.SHARE_ANCHOR_INFO)
+            return gsonString?.let {
+                Gson().fromJson(it, Anchor::class.java)
+            }
         }
-        return anchorBusinessType == other.anchorBusinessType &&
-                anchorTitle == other.anchorTitle &&
-                anchorContent == other.anchorContent &&
-                sourceType == other.sourceType
     }
 }

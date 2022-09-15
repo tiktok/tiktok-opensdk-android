@@ -37,7 +37,7 @@ class SelectMediaActivity: AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == OpenGalleryRequestCode) {
-            var uris = mutableListOf<String>()
+            val uris = mutableListOf<String>()
             data?.clipData?.let { clipData ->
                 for (i in 0 until clipData.itemCount) {
                     uris.add(clipData.getItemAt(i).uri.toString())
