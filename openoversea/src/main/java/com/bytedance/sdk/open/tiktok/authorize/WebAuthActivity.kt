@@ -3,7 +3,6 @@ package com.bytedance.sdk.open.tiktok.authorize
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ComponentName
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
@@ -28,17 +27,14 @@ import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.R
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
-import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.Companion.composeLoadUrl
+import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.composeLoadUrl
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
-import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
-import com.bytedance.sdk.open.tiktok.utils.OpenUtils.Companion.setViewVisibility
+import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
+import com.bytedance.sdk.open.tiktok.utils.OpenUtils.setViewVisibility
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils
-
-private const val USER_CANCEL_AUTH = "User cancelled the Authorization"
-private const val BACKGROUND_COLOR = "#ffffff"
 
 class WebAuthActivity: Activity(), IApiEventHandler {
     private lateinit var mContentWebView: WebView
@@ -134,12 +130,9 @@ class WebAuthActivity: Activity(), IApiEventHandler {
     }
 
     private fun sendInnerResponse(req: Auth.Request, resp: Base.Response) {
-        if (mContentWebView != null) {
-            if (resp.extras == null) {
-                resp.extras = Bundle()
-            }
-            resp.extras!!.putString("wap_authorize_url", mContentWebView.url)
-        }
+        val bundle = resp.extras ?: Bundle()
+        bundle.putString("wap_authorize_url", mContentWebView.url)
+        resp.extras = bundle
         sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req, resp)
     }
 
@@ -176,7 +169,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             mLoadingLayout?.addView(it)
         }
         initWebView()
-        (mContentWebView.parent as? ViewGroup)?.let { it.removeView(mContentWebView) }
+        (mContentWebView.parent as? ViewGroup)?.removeView(mContentWebView)
         (mContentWebView.layoutParams as RelativeLayout.LayoutParams).let {
             it.addRule(RelativeLayout.BELOW, R.id.open_header_view)
             mContentWebView.layoutParams = it
@@ -342,5 +335,10 @@ class WebAuthActivity: Activity(), IApiEventHandler {
             return
         }
         mBaseErrorDialog.show()
+    }
+
+    companion object {
+        private const val USER_CANCEL_AUTH = "User cancelled the Authorization"
+        private const val BACKGROUND_COLOR = "#ffffff"
     }
 }

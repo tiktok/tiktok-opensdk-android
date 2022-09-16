@@ -89,7 +89,7 @@ class Share {
             callerPackage = bundle.getString(Keys.Share.CALLER_PKG)
             callerLocalEntry = bundle.getString(Keys.Share.CALLER_LOCAL_ENTRY)
             state = bundle.getString(Keys.Share.STATE)
-            bundle.getInt(Keys.Share.SHARE_FORMAT)?.let { shareFormat = Format.from(it) }
+            bundle.getInt(Keys.Share.SHARE_FORMAT).let { shareFormat = Format.from(it) }
             targetSceneType = bundle.getInt(Keys.Share.SHARE_TARGET_SCENE)
             shareExtra = bundle.getString(Keys.Share.OPENPLATFORM_EXTRA)
             (bundle.getSerializable(Keys.Share.EXTRA_SHARE_OPTIONS) as HashMap<String, Any>?).let { extraShareOptions = it }
@@ -110,9 +110,9 @@ class Share {
         }
 
         override fun toBundle(): Bundle {
-            var bundle = super.toBundle()
+            val bundle = super.toBundle()
             subErrorCode?.let { bundle.putInt(Keys.Share.SHARE_SUB_ERROR_CODE, it) }
-            state?.let {bundle.putString(Keys.Share.STATE, it) }
+            state?.let { bundle.putString(Keys.Share.STATE, it) }
             return bundle
         }
 

@@ -8,8 +8,8 @@ import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
-import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
-import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.Companion.validateSign
+import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
+import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.validateSign
 
 abstract class AppCheckBase(open val context: Context): IAppCheck {
     override val isAuthSupported: Boolean
@@ -29,7 +29,7 @@ abstract class AppCheckBase(open val context: Context): IAppCheck {
     }
 
     open fun isAppSupportAPI(platformPackageName: String, remoteRequestEntry: String, requiredApi: Int): Boolean {
-        if (context == null || TextUtils.isEmpty(platformPackageName)) {
+        if (TextUtils.isEmpty(platformPackageName)) {
             return false
         }
         val intent = Intent()

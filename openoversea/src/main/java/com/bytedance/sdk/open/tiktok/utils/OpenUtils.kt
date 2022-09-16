@@ -2,17 +2,15 @@ package com.bytedance.sdk.open.tiktok.utils
 
 import android.view.View
 
-sealed class OpenUtils {
-    companion object {
-        fun setViewVisibility(v: View?, visiable: Int) {
-            if (v == null || v.visibility == visiable || !visibilityValid(visiable)) {
-                return
-            }
-            v.visibility = visiable
+object OpenUtils {
+    fun setViewVisibility(v: View?, visible: Int) {
+        if (v == null || v.visibility == visible || !visibilityValid(visible)) {
+            return
         }
+        v.visibility = visible
+    }
 
-        private fun visibilityValid(visiable: Int): Boolean {
-            return visiable == View.VISIBLE || visiable == View.GONE || visiable == View.INVISIBLE
-        }
+    private fun visibilityValid(visible: Int): Boolean {
+        return visible == View.VISIBLE || visible == View.GONE || visible == View.INVISIBLE
     }
 }

@@ -11,7 +11,7 @@ import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.*
 
 const val PackageNameTitle = "Package Name"
-const val CLientKeyTitle = "Client Key"
+const val ClientKeyTitle = "Client Key"
 
 class MainActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -33,10 +33,10 @@ class MainActivity: AppCompatActivity() {
         if (customEditable.value == true) {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
-                    (model as HintedTextModel)?.let {
+                    (model as HintedTextModel).let {
                         if (it.title == PackageNameTitle) {
                             shareModel.packageName = (it.text.value ?: "").trim()
-                        } else if (it.title == CLientKeyTitle) {
+                        } else if (it.title == ClientKeyTitle) {
                             shareModel.clientKey = (it.text.value ?: "").trim()
                         }
                     }
@@ -77,7 +77,7 @@ class MainActivity: AppCompatActivity() {
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
-        val clientKey = HintedTextModel(CLientKeyTitle, "Demo app client key from dev portal", "client_key", clientKeyText, ckEditable)
+        val clientKey = HintedTextModel(ClientKeyTitle, "Demo app client key from dev portal", "client_key", clientKeyText, ckEditable)
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)

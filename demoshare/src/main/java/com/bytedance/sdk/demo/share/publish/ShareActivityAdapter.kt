@@ -73,7 +73,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
         }
         when(val model = models[position]) {
             is HeaderModel -> {
-                (holder as HeaderViewHolder)?.let {
+                (holder as HeaderViewHolder).let {
                     it.header.text = model.title
                     model.desc?.let { desc ->
                         it.desc.text = desc
@@ -82,7 +82,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
                 }
             }
             is ToggleModel -> {
-                (holder as ToggleViewHolder)?.let {
+                (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn.value ?: false

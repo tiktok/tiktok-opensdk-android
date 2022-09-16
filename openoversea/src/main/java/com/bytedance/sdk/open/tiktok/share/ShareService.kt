@@ -10,7 +10,7 @@ import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
-import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.getPlatformSDKVersion
+import com.bytedance.sdk.open.tiktok.utils.AppUtils.getPlatformSDKVersion
 
 const val kRefactorResponseHandling = false
 

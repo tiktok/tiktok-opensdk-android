@@ -162,7 +162,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
         val anchorSource = ShareUtils.parseAnchorSourceType(anchorSourceType)
         if (shareModel.autoAttachAnchor) {
             shareModel.anchorSourceType = anchorSource
-            var extra: Map<String, String>?
+            val extra: Map<String, String>?
             if (shareExtra.isNotEmpty()) {
                 return try {
                     extra = ShareUtils.parseJSON(shareExtra)
@@ -189,7 +189,7 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
     }
 
     override fun onResp(resp: Base.Response?) {
-        (resp as Share.Response)?.let { shareResponse ->
+        (resp as Share.Response).let { shareResponse ->
             if (shareResponse.isSuccess) {
                 Toast.makeText(this, "Media sharing was successful .", Toast.LENGTH_SHORT).show()
             } else {

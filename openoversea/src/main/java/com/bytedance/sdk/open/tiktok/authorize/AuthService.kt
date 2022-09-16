@@ -6,7 +6,7 @@ import android.content.Intent
 import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.utils.AppUtils.Companion.componentClassName
+import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 
 const val kRefactorResponseHandling = false
 

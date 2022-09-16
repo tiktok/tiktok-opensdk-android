@@ -39,7 +39,7 @@ class ShareUtils {
             }
         }
 
-        fun parseJSON(jsonString: String): Map<String, String>? {
+        fun parseJSON(jsonString: String): Map<String, String> {
             var json = jsonString
             if (!jsonString.startsWith("{")) {
                 json = "{$json"
@@ -48,10 +48,9 @@ class ShareUtils {
                 json = "$json}"
             }
             val gson = Gson()
-            (gson.fromJson(json, Map::class.java) as Map<String, String>)?.let {
+            (gson.fromJson(json, Map::class.java) as Map<String, String>).let {
                 return it
             }
-            return null
         }
     }
 }

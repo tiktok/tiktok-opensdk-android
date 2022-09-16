@@ -18,7 +18,7 @@ class Md5UtilTests {
     fun testMd5() {
         var md5Digest = ""
         for (i in 0 until testCases.size) {
-            md5Digest = Md5Utils.Companion.hexDigest(testCases[i])!!
+            md5Digest = Md5Utils.hexDigest(testCases[i])!!
             Assert.assertEquals(verifyCases[i], md5Digest)
         }
     }

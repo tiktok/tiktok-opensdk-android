@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.share.Share
 
-class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<String>) {
+data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<String>) {
     object Companion {
         const val identifier = "_dyobject_identifier_" // TODO: chen.wu remove?
 
@@ -18,6 +18,7 @@ class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<Str
             return null
         }
     }
+
     fun toBundle(): Bundle {
         val className = when(mediaType) {
             Share.MediaType.IMAGE -> "com.ss.android.ugc.aweme.opensdk.share.base.TikTokImageObject"
