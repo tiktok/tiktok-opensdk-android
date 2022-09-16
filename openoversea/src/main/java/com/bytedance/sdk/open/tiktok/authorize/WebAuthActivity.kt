@@ -36,7 +36,7 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.setViewVisibility
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
-class WebAuthActivity: Activity(), IApiEventHandler {
+class WebAuthActivity : Activity(), IApiEventHandler {
     private lateinit var mContentWebView: WebView
     private lateinit var mContainer: RelativeLayout
     private lateinit var mCancelBtn: TextView
@@ -237,7 +237,7 @@ class WebAuthActivity: Activity(), IApiEventHandler {
         var errorCode = Constants.BaseError.ERROR_UNKNOWN
         if (!TextUtils.isEmpty(errorCodeStr)) {
             try {
-                 errorCodeStr?.apply { errorCode = this.toInt() }
+                errorCodeStr?.apply { errorCode = this.toInt() }
             } catch (e: Exception) {
                 e.printStackTrace() // TODO: chen.wu remove
             }
@@ -325,9 +325,9 @@ class WebAuthActivity: Activity(), IApiEventHandler {
         if (!::mBaseErrorDialog.isInitialized) {
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.layout_open_network_error_dialog, null, false)
             mBaseErrorDialog = AlertDialog.Builder(ContextThemeWrapper(this, android.R.style.Theme_Holo))
-                    .setView(mDialogView)
-                    .setCancelable(false)
-                    .create()
+                .setView(mDialogView)
+                .setCancelable(false)
+                .create()
             mDialogView.findViewById<TextView>(R.id.tv_confirm)?.setOnClickListener {
                 onCancel(errCode)
             }

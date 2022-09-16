@@ -29,13 +29,13 @@ class Share {
             fun from(value: Int): MediaType {
                 return if (value == 1) {
                     IMAGE
-                } else  {
+                } else {
                     VIDEO
                 }
             }
         }
     }
-    class Request: Base.Request() {
+    class Request : Base.Request() {
         override var type: Int = Constants.TIKTOK.SHARE_REQUEST
         var targetSceneType: Int = 0 // TODO: chen.wu make it enum?
         var hashTagList: ArrayList<String>? = null
@@ -81,7 +81,6 @@ class Share {
                     }
                     putString(Keys.Share.ANCHOR_SOURCE_TYPE, sourceType)
                 }
-
             }
         }
         override fun fromBundle(bundle: Bundle) {
@@ -100,7 +99,7 @@ class Share {
         }
     }
 
-    class Response: Base.Response() {
+    class Response : Base.Response() {
         override val type: Int = Constants.TIKTOK.SHARE_RESPONSE
         var state: String? = null
         var subErrorCode: Int? = null

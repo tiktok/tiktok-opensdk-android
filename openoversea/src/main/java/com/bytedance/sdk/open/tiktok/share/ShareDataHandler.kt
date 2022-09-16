@@ -5,7 +5,7 @@ import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler
 
-class ShareDataHandler: IDataHandler {
+class ShareDataHandler : IDataHandler {
     override fun handle(type: Int, bundle: Bundle?, eventHandler: IApiEventHandler?): Boolean {
         if (bundle == null || eventHandler == null) {
             return false

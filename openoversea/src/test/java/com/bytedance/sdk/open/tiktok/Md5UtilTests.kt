@@ -8,12 +8,13 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class Md5UtilTests {
-    private val testCases = arrayListOf("test", "1234567890", "test with spaces",  "\$peCi@l %^&*()<>:}{'/ ")
+    private val testCases = arrayListOf("test", "1234567890", "test with spaces", "\$peCi@l %^&*()<>:}{'/ ")
     private val verifyCases = arrayListOf(
-            "098f6bcd4621d373cade4e832627b4f6",
-            "e807f1fcf82d132f9bb018ca6738a19f",
-            "7e457361ad0ce5929afd179909589c10",
-            "9f22af6f204f90cdb3bb47590f69aa06")
+        "098f6bcd4621d373cade4e832627b4f6",
+        "e807f1fcf82d132f9bb018ca6738a19f",
+        "7e457361ad0ce5929afd179909589c10",
+        "9f22af6f204f90cdb3bb47590f69aa06"
+    )
     @Test
     fun testMd5() {
         var md5Digest = ""

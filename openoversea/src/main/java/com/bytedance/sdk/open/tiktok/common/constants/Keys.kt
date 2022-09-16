@@ -12,7 +12,7 @@ object Keys {
     const val VERSION = "1"
 
     object Base {
-        const val TYPE = "_bytedance_params_type";
+        const val TYPE = "_bytedance_params_type"
         const val EXTRA = "_bytedance_params_extra"
         const val ERROR_CODE = "_bytedance_params_error_code"
         const val ERROR_MSG = "_bytedance_params_error_msg"
@@ -81,11 +81,11 @@ object Keys {
         const val AUTH_REQUIRE_API = 1
         // sharing
         const val SHARE_REQUIRED_MIN_VERSION = 2
-        //adapt to old version because of changing api name
+        // adapt to old version because of changing api name
         const val MIN_SDK_NEW_VERSION_API = 3
-        //skipping 4 as Tiktok repo already was using version 4
+        // skipping 4 as Tiktok repo already was using version 4
         const val SHARE_SUPPORT_FILEPROVIDER = 5
-        //Special for Lite Authorize
+        // Special for Lite Authorize
         const val AUTHORIZE_FOR_TIKTOK_LITE = 6
     }
     object Scene { // TODO: chen.wu remove? not used?
@@ -93,5 +93,4 @@ object Keys {
         const val LANDPAGE_SCENE_EDIT = 1
         const val LANDPAGE_SCENE_CUT = 2
     }
-
 }

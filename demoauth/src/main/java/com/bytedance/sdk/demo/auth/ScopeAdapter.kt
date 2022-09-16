@@ -5,13 +5,21 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
+import com.bytedance.sdk.demo.auth.model.ConfigModel
 import com.bytedance.sdk.demo.auth.model.DataModel
-import com.bytedance.sdk.demo.auth.model.*
+import com.bytedance.sdk.demo.auth.model.EditTextModel
+import com.bytedance.sdk.demo.auth.model.HeaderModel
+import com.bytedance.sdk.demo.auth.model.LogoModel
+import com.bytedance.sdk.demo.auth.model.ScopeModel
+import com.bytedance.sdk.demo.auth.model.ViewType
 
-class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    class ScopeViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class ScopeAdapter(private val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    class ScopeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
@@ -23,7 +31,7 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
             toggle = view.findViewById(R.id.toggle)
         }
     }
-    class ConfigViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ConfigViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
@@ -35,7 +43,7 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
             toggle = view.findViewById(R.id.toggle)
         }
     }
-    class EditTextViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val desc: TextView
         val editText: EditText
@@ -45,13 +53,13 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
             editText = view.findViewById(R.id.edittext)
         }
     }
-    class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView
         init {
             header = view.findViewById(R.id.header)
         }
     }
-    class LogoViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class LogoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val logo: ImageView
         init {
             logo = view.findViewById(R.id.image_view)
@@ -60,7 +68,7 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
     private var textWatchers = mutableListOf<TextWatcher>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(ViewType.typeFrom(viewType)) {
+        return when (ViewType.typeFrom(viewType)) {
             ViewType.SCOPE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.scope_item_layout, parent, false)
                 return ScopeViewHolder(view)
@@ -88,12 +96,12 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
         if (models.size <= position) {
             return
         }
-        when(val model = models[position]) {
-            is EditTextModel ->  {
+        when (val model = models[position]) {
+            is EditTextModel -> {
                 (holder as EditTextViewHolder).apply {
                     title.text = model.title
                     desc.text = model.desc
-                    val textWatcher = object: TextWatcher {
+                    val textWatcher = object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun afterTextChanged(p0: Editable?) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
@@ -172,5 +180,4 @@ class ScopeAdapter(private val models: List<DataModel>): RecyclerView.Adapter<Re
 
     override fun getItemCount(): Int = models.size
     override fun getItemViewType(position: Int): Int = models[position].viewType.value
-
 }

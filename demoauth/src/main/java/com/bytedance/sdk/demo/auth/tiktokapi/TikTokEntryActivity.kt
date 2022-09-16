@@ -9,7 +9,7 @@ import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 
-class TikTokEntryActivity: Activity(), IApiEventHandler {
+class TikTokEntryActivity : Activity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TikTokOpenApiFactory.create(this)?.handleIntent(intent, this)

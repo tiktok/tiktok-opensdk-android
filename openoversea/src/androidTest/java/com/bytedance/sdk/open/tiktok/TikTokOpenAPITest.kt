@@ -14,18 +14,23 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl
 import com.bytedance.sdk.open.tiktok.share.ShareService
-import io.mockk.*
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.junit.Assert.*
+import io.mockk.mockk
+import io.mockk.spyk
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class TikTokOpenAPITests {
-    private val testCases = arrayListOf(0, Constants.TIKTOK.AUTH_REQUEST, Constants.TIKTOK.AUTH_RESPONSE,
-        Constants.TIKTOK.SHARE_REQUEST, Constants.TIKTOK.SHARE_RESPONSE, 5)
+class TikTokOpenAPITest {
+    private val testCases = arrayListOf(
+        0, Constants.TIKTOK.AUTH_REQUEST, Constants.TIKTOK.AUTH_RESPONSE,
+        Constants.TIKTOK.SHARE_REQUEST, Constants.TIKTOK.SHARE_RESPONSE, 5
+    )
     @MockK
     lateinit var intent: Intent
     @MockK
@@ -50,7 +55,7 @@ class TikTokOpenAPITests {
             mockContext.startActivity(allAny())
         } returns Unit
         val shareService = ShareService(mockContext, "client_key")
-        val eventHandler = spyk<IApiEventHandler>(object: IApiEventHandler {
+        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
             override fun onReq(req: Base.Request?) {}
             override fun onResp(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
@@ -114,7 +119,7 @@ class TikTokOpenAPITests {
         val shareService = ShareService(mockContext, "client_key")
         val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
         val bundle: Bundle? = intent.extras
-        val eventHandler = spyk<IApiEventHandler>(object: IApiEventHandler {
+        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
             override fun onReq(req: Base.Request?) {}
             override fun onResp(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
@@ -123,13 +128,16 @@ class TikTokOpenAPITests {
         val sendAuthDataHandler: SendAuthDataHandler? = SendAuthDataHandler()
         for (type in testCases) {
             if (type == Constants.TIKTOK.AUTH_REQUEST || type == Constants.TIKTOK.AUTH_RESPONSE) {
-                assertEquals(tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-                    sendAuthDataHandler?.handle(type, bundle, eventHandler))
+                assertEquals(
+                    tikTokOpenApiImpl.handleIntent(intent, eventHandler),
+                    sendAuthDataHandler?.handle(type, bundle, eventHandler)
+                )
             } else {
-                assertEquals(tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-                    sendAuthDataHandler?.handle(type, bundle, eventHandler))
+                assertEquals(
+                    tikTokOpenApiImpl.handleIntent(intent, eventHandler),
+                    sendAuthDataHandler?.handle(type, bundle, eventHandler)
+                )
             }
         }
     }
 }
-

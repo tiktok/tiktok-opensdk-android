@@ -2,7 +2,6 @@ package com.bytedance.sdk.demo.share
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceActivity
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
@@ -23,7 +21,7 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.share.Share
 
-class ShareActivity: AppCompatActivity(), IApiEventHandler {
+class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var shareModel: ShareModel
     private lateinit var backButton: Button
     private lateinit var publishButton: Button
@@ -41,7 +39,6 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
 
     private var disableMusicSelection = false
     private var greenScreenFormat = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +103,10 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
             shareExtra = it
         }
         anchorSourceTypeEnabled = MutableLiveData(false)
-        val extraEdit = EditModel("Extra", "JSONObject string of information included in Share request",
-                extraContent, anchorSourceTypeEnabled)
+        val extraEdit = EditModel(
+            "Extra", "JSONObject string of information included in Share request",
+            extraContent, anchorSourceTypeEnabled
+        )
         return arrayListOf(extraEdit)
     }
 
@@ -117,8 +116,10 @@ class ShareActivity: AppCompatActivity(), IApiEventHandler {
             anchorSourceType = it
         }
         anchorExtraEnabled = MutableLiveData(false)
-        val anchorEdit = EditModel("Anchor source type", "The types of anchors that will be attached to the video",
-                anchorContent, anchorExtraEnabled)
+        val anchorEdit = EditModel(
+            "Anchor source type", "The types of anchors that will be attached to the video",
+            anchorContent, anchorExtraEnabled
+        )
         return anchorEdit
     }
 

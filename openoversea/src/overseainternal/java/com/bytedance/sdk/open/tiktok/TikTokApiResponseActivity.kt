@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 
 class TikTokApiResponseActivity : Activity() {
     public override fun onCreate(savedInstanceState: Bundle?) {

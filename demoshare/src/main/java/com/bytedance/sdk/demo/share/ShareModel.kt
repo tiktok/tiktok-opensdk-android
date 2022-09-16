@@ -10,18 +10,19 @@ import org.json.JSONObject
 
 @Suppress("ParcelCreator")
 @Parcelize
-data class ShareModel(var packageName: String = "",
-                      var clientKey: String = "",
-                      var clientSecret: String = "",
-                      var isImage: Boolean = false,
-                      var media: List<String> = arrayListOf(),
-                      var hashtags: List<String>? = null,
-                      var disableMusicSelection: Boolean = false,
-                      var greenScreenFormat: Boolean = false,
-                      var autoAttachAnchor: Boolean = false,
-                      var anchorSourceType: String? = null,
-                      var shareExtra: Map<String, String>? = null): Parcelable {
-                      }
+data class ShareModel(
+    var packageName: String = "",
+    var clientKey: String = "",
+    var clientSecret: String = "",
+    var isImage: Boolean = false,
+    var media: List<String> = arrayListOf(),
+    var hashtags: List<String>? = null,
+    var disableMusicSelection: Boolean = false,
+    var greenScreenFormat: Boolean = false,
+    var autoAttachAnchor: Boolean = false,
+    var anchorSourceType: String? = null,
+    var shareExtra: Map<String, String>? = null
+) : Parcelable
 
 fun ShareModel.toShareRequest(): Share.Request {
     val request = Share.Request()
@@ -29,7 +30,7 @@ fun ShareModel.toShareRequest(): Share.Request {
         request.callerPackage = it
     }
     this.hashtags?.let { validHashTags ->
-        val mappedHashtags =  ArrayList<String>()
+        val mappedHashtags = ArrayList<String>()
         for (hashtag in validHashTags) {
             mappedHashtags.add(hashtag)
         }

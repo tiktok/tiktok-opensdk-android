@@ -9,7 +9,7 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.share.Share
 
-class TikTokEntryActivity: AppCompatActivity(), IApiEventHandler {
+class TikTokEntryActivity : AppCompatActivity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         TikTokOpenApiFactory.create(this)?.handleIntent(intent, this)

@@ -11,7 +11,7 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.validateSign
 
-abstract class AppCheckBase(open val context: Context): IAppCheck {
+abstract class AppCheckBase(open val context: Context) : IAppCheck {
     override val isAuthSupported: Boolean
         get() = (isAppInstalled && validateSign(context, packageName, signature))
 
@@ -19,7 +19,7 @@ abstract class AppCheckBase(open val context: Context): IAppCheck {
         get() = isAppSupportAPI(Keys.API.MIN_SDK_NEW_VERSION_API)
 
     override val isAppInstalled: Boolean
-        get() = isAppSupportAPI(Keys.API.AUTH_REQUIRE_API);
+        get() = isAppSupportAPI(Keys.API.AUTH_REQUIRE_API)
 
     override val isShareFileProviderSupported: Boolean
         get() = isAppSupportAPI(packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, Keys.API.SHARE_SUPPORT_FILEPROVIDER)

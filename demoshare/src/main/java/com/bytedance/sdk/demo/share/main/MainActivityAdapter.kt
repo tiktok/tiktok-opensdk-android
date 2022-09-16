@@ -9,13 +9,18 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
-import com.bytedance.sdk.demo.share.model.*
+import com.bytedance.sdk.demo.share.model.DataModel
+import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.HintedTextModel
+import com.bytedance.sdk.demo.share.model.InfoModel
+import com.bytedance.sdk.demo.share.model.LogoModel
+import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.ViewType
 
-class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    class ToggleViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
@@ -25,13 +30,13 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
             toggle = view.findViewById(R.id.toggle)
         }
     }
-    class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView
         init {
             header = view.findViewById(R.id.header)
         }
     }
-    class InfoViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class InfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val info: TextView
@@ -41,7 +46,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
             info = view.findViewById(R.id.info)
         }
     }
-    class HintedTextViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class HintedTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val editText: EditText
@@ -51,7 +56,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
             editText = view.findViewById(R.id.edit_text)
         }
     }
-    class LogoViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class LogoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val logo: ImageView
         init {
             logo = view.findViewById(R.id.image_view)
@@ -59,7 +64,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(ViewType.typeFrom(viewType)) {
+        return when (ViewType.typeFrom(viewType)) {
             ViewType.LOGO -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
                 LogoViewHolder(view)
@@ -91,7 +96,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
         if (models.size <= position) {
             return
         }
-        when(val model = models[position]) {
+        when (val model = models[position]) {
             is HeaderModel -> {
                 (holder as HeaderViewHolder).let {
                     it.header.text = model.title
@@ -113,7 +118,7 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
                     it.subtitle.text = model.desc
                     it.editText.setText(model.text.value, TextView.BufferType.EDITABLE)
                     it.editText.hint = model.placeholder
-                    it.editText.addTextChangedListener(object: TextWatcher {
+                    it.editText.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
                             model.text.postValue(text.toString())
@@ -138,7 +143,6 @@ class MainActivityAdapter(val models: List<DataModel>): RecyclerView.Adapter<Rec
             is LogoModel -> {
             }
             else -> {
-
             }
         }
     }

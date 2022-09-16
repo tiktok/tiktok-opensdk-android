@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
@@ -21,7 +20,8 @@ class ShareService(val context: Context, val clientKey: String) {
         }
         val bundle = Bundle()
         if (getPlatformSDKVersion(context, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent)
-                >= Keys.API.MIN_SDK_NEW_VERSION_API) {
+            >= Keys.API.MIN_SDK_NEW_VERSION_API
+        ) {
             bundle.putAll(request.toBundle())
         }
         bundle.putString(Keys.Share.CLIENT_KEY, clientKey)
@@ -32,7 +32,7 @@ class ShareService(val context: Context, val clientKey: String) {
             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, request.callerLocalEntry!!))
         } else if (kRefactorResponseHandling) {
             // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
-             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
+            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
         } else {
             bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, entryComponent.defaultComponent))
         }
@@ -40,8 +40,10 @@ class ShareService(val context: Context, val clientKey: String) {
         bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
 
         val intent = Intent()
-        val componentName = ComponentName(entryComponent.tiktokPackage,
-                AppUtils.componentClassName(BuildConfig.TIKTOK_COMPONENT_PATH, entryComponent.tiktokComponent))
+        val componentName = ComponentName(
+            entryComponent.tiktokPackage,
+            AppUtils.componentClassName(BuildConfig.TIKTOK_COMPONENT_PATH, entryComponent.tiktokComponent)
+        )
         intent.component = componentName
         intent.putExtras(bundle)
         if (context !is Activity) {

@@ -27,7 +27,7 @@ object SignatureUtils {
             return null
         }
         val signList: List<String?>? = packageInfo.signatures?.map {
-             Md5Utils.hexDigest(it.toByteArray())
+            Md5Utils.hexDigest(it.toByteArray())
         }
         return signList
     }

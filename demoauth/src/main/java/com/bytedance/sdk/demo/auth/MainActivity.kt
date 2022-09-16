@@ -8,7 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bytedance.sdk.demo.auth.model.*
+import com.bytedance.sdk.demo.auth.model.ConfigModel
+import com.bytedance.sdk.demo.auth.model.DataModel
+import com.bytedance.sdk.demo.auth.model.HeaderModel
+import com.bytedance.sdk.demo.auth.model.LogoModel
+import com.bytedance.sdk.demo.auth.model.ScopeModel
 import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
@@ -16,8 +20,6 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
-import com.google.gson.Gson
-
 
 class MainActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var scopesView: RecyclerView
@@ -73,13 +75,13 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             showAlert("Invalid Scope", "Please select at least one scope.")
             return
         }
-         TikTokOpenApiFactory.create(this)?.let {
-             tiktokApi = it
-             val request = Auth.Request()
-             request.scope = scopes.joinBy(",")
-             request.state = "ww"
-             request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
-             it.authorize(request, webauthOnly)
+        TikTokOpenApiFactory.create(this)?.let {
+            tiktokApi = it
+            val request = Auth.Request()
+            request.scope = scopes.joinBy(",")
+            request.state = "ww"
+            request.callerLocalEntry = "MainActivity" // using the caller activity as the handler
+            it.authorize(request, webauthOnly)
         }
     }
 
@@ -103,13 +105,13 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initConfigs(): List<ConfigModel> {
-        val webAuth =  MutableLiveData<Boolean>()
+        val webAuth = MutableLiveData<Boolean>()
         webAuth.observeForever { isOn ->
             webauthOnly = isOn
         }
         val webAuthModel = ConfigModel("Always in Web", "Always authorize in webview", webAuth)
 
-        val betaMode =  MutableLiveData<Boolean>()
+        val betaMode = MutableLiveData<Boolean>()
         betaMode.observeForever { isOn ->
             isBeta.postValue(isOn)
         }
@@ -118,13 +120,17 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initScopes(): List<ScopeModel> {
-        val scopes = arrayListOf("user.info.basic", "user.info.username", "user.info.phone",
-                "user.info.email", "music.collection", "video.upload", "video.list", "user.ue")
-        val descriptions = arrayListOf("Read your profile info (avatar, display name)",
-                "Read username", "Read user phone number", "Read user email address", "Read songs added to your favorites on TikTok",
-        "Read user's uploaded videos", "Read your public videos on TikTok", "Read user interests")
+        val scopes = arrayListOf(
+            "user.info.basic", "user.info.username", "user.info.phone",
+            "user.info.email", "music.collection", "video.upload", "video.list", "user.ue"
+        )
+        val descriptions = arrayListOf(
+            "Read your profile info (avatar, display name)",
+            "Read username", "Read user phone number", "Read user email address", "Read songs added to your favorites on TikTok",
+            "Read user's uploaded videos", "Read your public videos on TikTok", "Read user interests"
+        )
         val beans = scopes.zip(descriptions) { scope, desc ->
-            ScopeModel(scope, desc,  MutableLiveData<Boolean>(false))
+            ScopeModel(scope, desc, MutableLiveData<Boolean>(false))
         }
         beans[0].isEnabled.postValue(true)
         isBeta.observeForever { isBeta ->
@@ -156,7 +162,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
     //  IApiEventHandler
     override fun onReq(req: Base.Request?) {
-
     }
 
     override fun onResp(resp: Base.Response?) {
@@ -171,6 +176,5 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     override fun onErrorIntent(intent: Intent?) {
-
     }
 }
