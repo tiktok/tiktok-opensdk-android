@@ -20,11 +20,11 @@ data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayLis
     }
 
     fun toBundle(): Bundle {
-        val className = when(mediaType) {
+        val className = when (mediaType) {
             Share.MediaType.IMAGE -> "com.ss.android.ugc.aweme.opensdk.share.base.TikTokImageObject"
             Share.MediaType.VIDEO -> "com.ss.android.ugc.aweme.opensdk.share.base.TikTokVideoObject"
         }
-        val pathKey = when(mediaType) {
+        val pathKey = when (mediaType) {
             Share.MediaType.IMAGE -> Keys.IMAGE_PATH
             Share.MediaType.VIDEO -> Keys.VIDEO_PATH
         }

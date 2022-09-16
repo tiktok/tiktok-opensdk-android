@@ -12,7 +12,6 @@ import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
-
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -85,7 +84,7 @@ class AuthInstrumentedTest {
     fun testAuthDataHandler() {
         val handler = SendAuthDataHandler()
         val bundle = createTestRequestBundle()
-        val eventHandler = spyk<IApiEventHandler>(object: IApiEventHandler {
+        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
             override fun onReq(req: Base.Request?) {}
             override fun onResp(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
@@ -108,7 +107,7 @@ class AuthInstrumentedTest {
         } returns Unit
         val authService = AuthService(mockActivity, "client_key")
         val request = createTestAuthRequest()
-        authService.authorizeNative(request,  "packageName", "remoteRequestEntry", "localEntry")
+        authService.authorizeNative(request, "packageName", "remoteRequestEntry", "localEntry")
         verify(exactly = 1) {
             mockActivity.startActivityForResult(allAny(), Keys.AUTH_REQUEST_CODE)
         }

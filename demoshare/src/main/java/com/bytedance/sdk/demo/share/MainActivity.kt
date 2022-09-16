@@ -8,12 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
-import com.bytedance.sdk.demo.share.model.*
 
 const val PackageNameTitle = "Package Name"
 const val ClientKeyTitle = "Client Key"
 
-class MainActivity: AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var models: List<DataModel>
     private lateinit var shareButton: Button
@@ -29,7 +28,7 @@ class MainActivity: AppCompatActivity() {
     }
     private fun share() {
         val intent = Intent(this, SelectMediaActivity::class.java)
-        val shareModel = ShareModel("", BuildConfig.CLIENT_KEY , BuildConfig.CLIENT_SECRET)
+        val shareModel = ShareModel("", BuildConfig.CLIENT_KEY, BuildConfig.CLIENT_SECRET)
         if (customEditable.value == true) {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
@@ -104,5 +103,4 @@ class MainActivity: AppCompatActivity() {
     private fun initLogoModel(): LogoModel {
         return LogoModel()
     }
-
 }

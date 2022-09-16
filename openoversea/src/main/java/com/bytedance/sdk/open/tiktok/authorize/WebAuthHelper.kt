@@ -24,17 +24,17 @@ object WebAuthHelper {
 
         val signs = getMd5Signs(context, request.callerPackage)
         val builder = Uri.Builder()
-                .scheme(Keys.Web.SCHEMA_HTTPS)
-                .authority(host)
-                .path(path)
-                .appendQueryParameter(Keys.Web.QUERY_RESPONSE_TYPE, Keys.Web.VALUE_RESPONSE_TYPE_CODE)
-                .appendQueryParameter(Keys.Web.QUERY_FROM, Keys.Web.VALUE_FROM_OPENSDK)
-                .appendQueryParameter(Keys.Web.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-                .appendQueryParameter(Keys.Web.QUERY_PLATFORM, "android")
+            .scheme(Keys.Web.SCHEMA_HTTPS)
+            .authority(host)
+            .path(path)
+            .appendQueryParameter(Keys.Web.QUERY_RESPONSE_TYPE, Keys.Web.VALUE_RESPONSE_TYPE_CODE)
+            .appendQueryParameter(Keys.Web.QUERY_FROM, Keys.Web.VALUE_FROM_OPENSDK)
+            .appendQueryParameter(Keys.Web.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
+            .appendQueryParameter(Keys.Web.QUERY_PLATFORM, "android")
 
         packageSignature(signs)?.let { builder.appendQueryParameter(Keys.Web.QUERY_SIGNATURE, it) }
         request.redirectUri?.let { builder.appendQueryParameter(Keys.Web.QUERY_REDIRECT_URI, it) }
-        request.clientKey?.let { builder.appendQueryParameter(Keys.Web.QUERY_CLIENT_KEY, it)}
+        request.clientKey?.let { builder.appendQueryParameter(Keys.Web.QUERY_CLIENT_KEY, it) }
         request.state?.let { builder.appendQueryParameter(Keys.Web.QUERY_STATE, it) }
         request.scope?.let { builder.appendQueryParameter(Keys.Web.QUERY_SCOPE, it) }
         request.callerPackage?.let { builder.appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, hexDigest(it)) }

@@ -14,10 +14,14 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
-import com.bytedance.sdk.demo.share.model.*
+import com.bytedance.sdk.demo.share.model.DataModel
+import com.bytedance.sdk.demo.share.model.EditModel
+import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter(val context: Context, val models: List<DataModel>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    class HeaderViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView
         val desc: TextView
         init {
@@ -25,7 +29,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
             desc = view.findViewById(R.id.desc)
         }
     }
-    class ToggleViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
@@ -35,7 +39,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
             toggle = view.findViewById(R.id.toggle)
         }
     }
-    class EditTextViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val desc: TextView
         val editText: EditText
@@ -71,7 +75,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
         if (models.size <= position) {
             return
         }
-        when(val model = models[position]) {
+        when (val model = models[position]) {
             is HeaderModel -> {
                 (holder as HeaderViewHolder).let {
                     it.header.text = model.title
@@ -91,12 +95,12 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>): R
                     }
                 }
             }
-            is EditModel ->  {
+            is EditModel -> {
                 (holder as EditTextViewHolder).apply {
                     title.text = model.title
                     desc.text = model.desc
 
-                    val textWatcher = object: TextWatcher {
+                    val textWatcher = object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun afterTextChanged(p0: Editable?) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {

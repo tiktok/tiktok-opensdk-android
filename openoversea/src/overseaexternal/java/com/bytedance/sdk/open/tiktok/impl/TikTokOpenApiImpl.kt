@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.authorize.SendAuthDataHandler
-import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
@@ -18,7 +18,7 @@ import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareDataHandler
 import com.bytedance.sdk.open.tiktok.share.ShareService
 
-class TikTokOpenApiImpl(val context: Context, private val authService: AuthService, private val shareService: ShareService): TikTokOpenApi {
+class TikTokOpenApiImpl(val context: Context, private val authService: AuthService, private val shareService: ShareService) : TikTokOpenApi {
     private val handlerMap: MutableMap<Constants.APIType, IDataHandler> = HashMap(2)
     init {
         handlerMap[Constants.APIType.AUTH] = SendAuthDataHandler()

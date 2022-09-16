@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 const val SystemAlbumPermissionRequestCode = 101
 const val OpenGalleryRequestCode = 102
 
-class SelectMediaActivity: AppCompatActivity() {
+class SelectMediaActivity : AppCompatActivity() {
     private lateinit var backButton: Button
     private lateinit var selectVideoButton: Button
     private lateinit var selectImageButton: Button
@@ -89,7 +89,7 @@ class SelectMediaActivity: AppCompatActivity() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET
-        intent.type = if (shareImage)  "image/*" else  "video/*"
+        intent.type = if (shareImage) "image/*" else "video/*"
         startActivityForResult(intent, OpenGalleryRequestCode)
     }
 
@@ -107,8 +107,9 @@ class SelectMediaActivity: AppCompatActivity() {
 
     private fun requestPermission() {
         val mPermissionList = arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
         ActivityCompat.requestPermissions(this, mPermissionList, SystemAlbumPermissionRequestCode)
     }
 }
