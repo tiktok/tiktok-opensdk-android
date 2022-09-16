@@ -34,6 +34,13 @@ class SelectMediaActivity: AppCompatActivity() {
         selectImageButton.setOnClickListener { selectImage() }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.getParcelableExtra<ShareModel>("share_model")?.let {
+            shareModel = it
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == OpenGalleryRequestCode) {

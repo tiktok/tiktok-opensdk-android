@@ -6,10 +6,11 @@ import com.bytedance.sdk.open.tiktok.base.MediaContent
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.share.Share
 import kotlinx.parcelize.Parcelize
+import org.json.JSONObject
 
 @Suppress("ParcelCreator")
 @Parcelize
-data class ShareModel(var bundleID: String = "",
+data class ShareModel(var packageName: String = "",
                       var clientKey: String = "",
                       var clientSecret: String = "",
                       var isImage: Boolean = false,
@@ -23,8 +24,10 @@ data class ShareModel(var bundleID: String = "",
                       }
 
 fun ShareModel.toShareRequest(): Share.Request {
-    val request  =Share.Request()
-
+    val request = Share.Request()
+    this.packageName.takeUnless { it.isNullOrEmpty() }?.let {
+        request.callerPackage = it
+    }
     this.hashtags?.let { validHashTags ->
         val mappedHashtags =  ArrayList<String>()
         for (hashtag in validHashTags) {
@@ -45,6 +48,11 @@ fun ShareModel.toShareRequest(): Share.Request {
         val anchor = Anchor()
         anchor.sourceType = anchorSourceType
         request.anchor = anchor
+        try {
+            request.shareExtra = JSONObject(shareExtra).toString()
+        } catch (_: Exception) {
+            request.shareExtra = null
+        }
     }
     val mediaList = ArrayList<String>()
     for (m in media) {
