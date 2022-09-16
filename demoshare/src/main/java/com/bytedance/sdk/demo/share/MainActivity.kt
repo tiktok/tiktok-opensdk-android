@@ -8,6 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
+import com.bytedance.sdk.demo.share.model.DataModel
+import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.HintedTextModel
+import com.bytedance.sdk.demo.share.model.InfoModel
+import com.bytedance.sdk.demo.share.model.LogoModel
+import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.ViewType
 
 const val PackageNameTitle = "Package Name"
 const val ClientKeyTitle = "Client Key"

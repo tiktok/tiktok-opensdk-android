@@ -2,6 +2,11 @@ package com.bytedance.sdk.demo.auth.userinfo
 
 import android.util.Log
 import com.bytedance.sdk.demo.auth.BuildConfig
+import com.bytedance.sdk.demo.auth.userinfo.model.AccessTokenInfo
+import com.bytedance.sdk.demo.auth.userinfo.model.AccessTokenResponse
+import com.bytedance.sdk.demo.auth.userinfo.model.GetUserInfoService
+import com.bytedance.sdk.demo.auth.userinfo.model.UserInfo
+import com.bytedance.sdk.demo.auth.userinfo.model.UserInfoResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

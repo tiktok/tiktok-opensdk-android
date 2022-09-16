@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bytedance.sdk.demo.auth.model.ConfigModel
+import com.bytedance.sdk.demo.auth.model.DataModel
+import com.bytedance.sdk.demo.auth.model.HeaderModel
+import com.bytedance.sdk.demo.auth.model.LogoModel
+import com.bytedance.sdk.demo.auth.model.ScopeModel
 import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
