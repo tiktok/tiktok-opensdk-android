@@ -20,7 +20,7 @@ class TikTokOpenApiFactory {
 
         fun create(activity: Activity): TikTokOpenApi {
             if (mConfig == null) {
-                throw Exception("Please init the config first before creating api")
+                throw Exception("Please init TikTokOpenApiFactory first before creating api")
             }
             checkNotNull(mConfig).let {
                 val share = ShareService(activity, it.clientKey)

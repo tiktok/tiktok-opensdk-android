@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val tikTokOpenApi: TikTokOpenApi
 ) : ViewModel() {
+
+    @SuppressWarnings("unchecked")
     class Factory(val tikTokOpenApi: TikTokOpenApi) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel(tikTokOpenApi) as T
