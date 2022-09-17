@@ -23,12 +23,11 @@ class TikTokOpenApiFactory {
             if (sConfig == null) {
                 throw Exception("Please init TikTokOpenApiFactory first before creating api")
             }
-            checkNotNull(sConfig)?.let {
+            checkNotNull(sConfig).let {
                 val shareService = ShareService(activity, it.clientKey)
                 val authService = AuthService(activity, it.clientKey)
                 return TikTokOpenApiImpl(activity, authService, shareService, handler)
             }
-            return null
         }
     }
 }
