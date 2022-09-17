@@ -12,7 +12,7 @@ import com.bytedance.sdk.open.tiktok.common.model.Base
 class TikTokEntryActivity : Activity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TikTokOpenApiFactory.create(this)?.handleIntent(intent, this)
+        TikTokOpenApiFactory.create(this).handleIntent(intent, this)
     }
 
     override fun onReq(req: Base.Request?) {

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.bytedance.sdk.demo.auth"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -45,21 +45,21 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.code.gson:gson:2.9.0'
-
     implementation project(path: ':openoversea')
 
-    //retrofit2 依赖库
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    //Gson 数据解析器依赖库
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    //okhttp3 输出网络请求日志依赖库
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.activity:activity-ktx:1.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.code.gson:gson:2.9.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
