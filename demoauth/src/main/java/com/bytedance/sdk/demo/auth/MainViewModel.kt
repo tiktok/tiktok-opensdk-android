@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val tikTokOpenApi: TikTokOpenApi
-): ViewModel() {
-    class Factory(val tikTokOpenApi: TikTokOpenApi): ViewModelProvider.Factory {
+) : ViewModel() {
+    class Factory(val tikTokOpenApi: TikTokOpenApi) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel(tikTokOpenApi) as T
         }
@@ -46,15 +46,15 @@ class MainViewModel(
             val titleRes: Int,
             @StringRes
             val descriptionRes: Int,
-        ): ViewEffect()
+        ) : ViewEffect()
         data class ShowAlertWithResponseError(
             @StringRes
             val titleRes: Int,
             val description: String,
-        ): ViewEffect()
+        ) : ViewEffect()
         data class GettingUserInfoSuccess(
             val displayName: String
-        ): ViewEffect()
+        ) : ViewEffect()
     }
 
     private val _viewEffect: Channel<ViewEffect> = Channel()
@@ -148,5 +148,4 @@ class MainViewModel(
             _viewEffect.send(effect)
         }
     }
-
 }

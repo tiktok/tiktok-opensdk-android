@@ -1,7 +1,6 @@
 package com.bytedance.sdk.open.tiktok
 
 import android.app.Activity
-import android.content.Context
 import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.AuthService

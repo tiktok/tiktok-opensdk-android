@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
             }
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
-                recyclerAdapter.notifyDataSetChanged();
+                recyclerAdapter.notifyDataSetChanged()
             }
         }
     }
