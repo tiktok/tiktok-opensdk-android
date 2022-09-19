@@ -19,13 +19,15 @@ class TikTokOpenApiFactory {
             return false
         }
 
-        fun create(activity: Activity, handler: IApiEventHandler? = null): TikTokOpenApi? {
-            sConfig?.let {
+        fun create(activity: Activity, handler: IApiEventHandler? = null): TikTokOpenApi {
+            if (sConfig == null) {
+                throw Exception("Please init TikTokOpenApiFactory first before creating api")
+            }
+            checkNotNull(sConfig).let {
                 val shareService = ShareService(activity, it.clientKey)
                 val authService = AuthService(activity, it.clientKey)
                 return TikTokOpenApiImpl(activity, authService, shareService, handler)
             }
-            return null
         }
     }
 }
