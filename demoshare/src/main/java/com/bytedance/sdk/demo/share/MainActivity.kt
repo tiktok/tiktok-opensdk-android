@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
-        val clientSecretKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_secret_key), "client_secret_key", clientSecretText, csEditable)
+        val clientSecretKey = HintedTextModel(ClientSecretKeyTitle, getString(R.string.demo_app_client_secret_key), "client_secret_key", clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)
