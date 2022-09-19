@@ -98,15 +98,15 @@ class MainActivity : AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), getString(R.string.demo_app_placeholder_package_name), hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
-        val clientKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_key), "client_key", clientKeyText, ckEditable)
+        val clientKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_key), getString(R.string.demo_app_placeholder_client_key), clientKeyText, ckEditable)
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
-        val clientSecretKey = HintedTextModel(ClientSecretKeyTitle, getString(R.string.demo_app_client_secret_key), "client_secret_key", clientSecretText, csEditable)
+        val clientSecretKey = HintedTextModel(ClientSecretKeyTitle, getString(R.string.demo_app_client_secret_key), getString(R.string.demo_app_placeholder_client_secret_key), clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)
@@ -120,11 +120,11 @@ class MainActivity : AppCompatActivity() {
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel("Custom CS & CK", "Customize your client key and package name", customization)
+        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
     }
 
     private fun initHeaderModel(): HeaderModel {
-        return HeaderModel("Base App Info")
+        return HeaderModel(getString(R.string.demo_app_base_app_info))
     }
 
     private fun initLogoModel(): LogoModel {
