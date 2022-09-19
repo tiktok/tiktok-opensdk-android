@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initInfoText(): InfoModel {
+        getString(R.string.check_if_app_installed, getString(R.string. tiktok_app_name))
         val entryComponent = EntryComponent(
             com.bytedance.sdk.open.tiktok.BuildConfig.DEFAULT_ENTRY_ACTIVITY,
             MusicallyCheck(this).packageName, com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_SHARE_ACTIVITY,
@@ -84,12 +85,13 @@ class MainActivity : AppCompatActivity() {
         )
         return if (AppUtils.getPlatformSDKVersion(this, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent) >= Keys.API.MIN_SDK_NEW_VERSION_API) {
             InfoModel(
-                getString(R.string.target_app_installed), getString(R.string.check_if) + " " + getString(R.string.tiktok_app_name) + " " + getString(R.string.installed),
+                getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string. tiktok_app_name)),
                 MutableLiveData(getString(R.string.installed))
             )
+
         } else {
             InfoModel(
-                getString(R.string.target_app_installed), getString(R.string.check_if) + getString(R.string.tiktok_app_name) + getString(R.string.installed),
+                getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string. tiktok_app_name)),
                 MutableLiveData(getString(R.string.uninstalled))
             )
         }
