@@ -6,7 +6,7 @@ TikTok Android OpenSDK is a gradle project to seamlessly work with native TikTok
 There will more features to help partners, developers and TikTok user experience.
 
 ## Get Started
-You should confirm that your project has a Minimum API level of 16: Android 4.1 (Jelly Bean) or higher.
+You should confirm that your project has a Minimum API level of 21: Android 5.0 (Lollipop) or higher.
 
 ### Step 1: Configure TikTok App Settings for Android
 Use the [Developer Portal](https://developers.tiktok.com/login/) to apply for Android `client_key` and `client_secret` access. Upon application approval, the Developer Portal will provide access to these keys.
