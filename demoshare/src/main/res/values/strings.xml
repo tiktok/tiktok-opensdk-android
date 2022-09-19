@@ -11,7 +11,6 @@
     <string name="demo_app_base_app_info">Base App Info</string>
     <string name="demo_app_info_customize">Customize Parameters</string>
     <string name="demo_app_desc_customize">Customize client Key and Package Name</string>
-    <string name="demo_app_placeholder_package_name">com.bytedance.sdk.demo.share</string>
     <string name="demo_app_placeholder_client_key">Client Key</string>
     <string name="demo_app_placeholder_client_secret_key">Client Secret Key</string>
 </resources>

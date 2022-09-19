@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), getString(R.string.demo_app_placeholder_package_name), hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
