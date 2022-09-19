@@ -1,6 +1,6 @@
 # TikTok OpenSDK for Android
 
-## TikTok OpenSDK Features
+## Introduction
 
 TikTok Android OpenSDK is a gradle project to seamlessly work with native TikTok app on functions such as authorization and video/image sharing. 
 There will more features to help partners, developers and TikTok user experience.
