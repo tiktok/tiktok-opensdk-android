@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">demoshare</string>
+    <string name="app_name" translatable="false">demoshare</string>
+    <string name="target_app_installed" translatable="false">Target app installed</string>
+    <string name="installed" translatable="false">Installed</string>
+    <string name="uninstalled" translatable="false">Uninstalled</string>
+    <string name="tiktok_app_name" translatable="false">TikTok</string>
+    <string name="check_if" translatable="false">Check if</string>
+    <string name="demo_app_package_name" translatable="false">Demo App Package Name</string>
+    <string name="demo_app_client_key" translatable="false">Demo App Client Key</string>
+    <string name="demo_app_client_secret_key" translatable="false">Demo App Client Secret Key</string>
 </resources>

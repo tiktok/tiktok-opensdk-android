@@ -16,8 +16,14 @@ import com.bytedance.sdk.demo.share.model.LogoModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
+import com.bytedance.sdk.open.tiktok.common.constants.Keys
+import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
+import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck
+import com.bytedance.sdk.open.tiktok.utils.AppUtils
+
 const val PackageNameTitle = "Package Name"
 const val ClientKeyTitle = "Client Key"
+const val ClientSecretKeyTitle = "Client Secret Key"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -72,27 +78,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initInfoText(): InfoModel {
-        val info = MutableLiveData("Yes")
-        return InfoModel("Target app installed", "Check if TikTok app is installed", info)
+        val entryComponent = EntryComponent(
+            com.bytedance.sdk.open.tiktok.BuildConfig.DEFAULT_ENTRY_ACTIVITY,
+            MusicallyCheck(this).packageName, com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_SHARE_ACTIVITY,
+            com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_AUTH_ACTIVITY
+        )
+        return if (AppUtils.getPlatformSDKVersion(this, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent) >= Keys.API.MIN_SDK_NEW_VERSION_API) {
+            InfoModel(
+                getString(R.string.target_app_installed), getString(R.string.check_if) + " " + getString(R.string.tiktok_app_name) + " " + getString(R.string.installed),
+                MutableLiveData(getString(R.string.installed))
+            )
+        } else {
+            InfoModel(
+                getString(R.string.target_app_installed), getString(R.string.check_if) + getString(R.string.tiktok_app_name) + getString(R.string.installed),
+                MutableLiveData(getString(R.string.uninstalled))
+            )
+        }
     }
 
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, "Demo app package name", "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
-        val clientKey = HintedTextModel(ClientKeyTitle, "Demo app client key from dev portal", "client_key", clientKeyText, ckEditable)
+        val clientKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_key), "client_key", clientKeyText, ckEditable)
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
+        val clientSecretKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_secret_key), "client_secret_key", clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)
             csEditable.postValue(isEditable)
         }
-        return arrayListOf(bundleId, clientKey)
+        return arrayListOf(bundleId, clientKey, clientSecretKey)
     }
 
     private fun initCustomClientKeyModel(): ToggleModel {
