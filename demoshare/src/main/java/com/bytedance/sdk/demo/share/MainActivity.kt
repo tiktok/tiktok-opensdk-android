@@ -15,7 +15,6 @@ import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
-
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck
