@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.bytedance.ies.ugc.aweme:opensdk-oversea-external:0.2.1.1'
 }
 ```
+TODO: update package name and version number
 
 3. Edit your Application
 
