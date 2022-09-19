@@ -20,10 +20,6 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 
-const val PackageNameTitle = "Package Name"
-const val ClientKeyTitle = "Client Key"
-const val ClientSecretKeyTitle = "Client Secret Key"
-
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var models: List<DataModel>
@@ -45,10 +41,12 @@ class MainActivity : AppCompatActivity() {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
                     (model as HintedTextModel).let {
-                        if (it.title == PackageNameTitle) {
+                        if (it.title == getString(R.string.demo_app_title_package)) {
                             shareModel.packageName = (it.text.value ?: "").trim()
-                        } else if (it.title == ClientKeyTitle) {
+                        } else if (it.title == getString(R.string.demo_app_title_client_key)) {
                             shareModel.clientKey = (it.text.value ?: "").trim()
+                        } else if (it.title == getString(R.string.demo_app_title_client_secret_key)) {
+                            shareModel.clientSecret = (it.text.value ?: "").trim()
                         }
                     }
                 }
@@ -98,15 +96,15 @@ class MainActivity : AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, getString(R.string.demo_app_package_name), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(getString(R.string.demo_app_title_package), getString(R.string.demo_app, getString(R.string.demo_app_title_package)), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
-        val clientKey = HintedTextModel(ClientKeyTitle, getString(R.string.demo_app_client_key), getString(R.string.demo_app_placeholder_client_key), clientKeyText, ckEditable)
+        val clientKey = HintedTextModel(getString(R.string.demo_app_title_client_key), getString(R.string.demo_app, getString(R.string.demo_app_title_client_key)), getString(R.string.demo_app_placeholder_client_key), clientKeyText, ckEditable)
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
-        val clientSecretKey = HintedTextModel(ClientSecretKeyTitle, getString(R.string.demo_app_client_secret_key), getString(R.string.demo_app_placeholder_client_secret_key), clientSecretText, csEditable)
+        val clientSecretKey = HintedTextModel(getString(R.string.demo_app_title_client_secret_key), getString(R.string.demo_app, getString(R.string.demo_app_title_client_secret_key)), getString(R.string.demo_app_placeholder_client_secret_key), clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)

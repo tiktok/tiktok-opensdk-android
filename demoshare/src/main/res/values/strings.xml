@@ -5,6 +5,10 @@
     <string name="uninstalled">Uninstalled</string>
     <string name="tiktok_app_name">TikTok</string>
     <string name="check_if_app_installed">Check if %s installed</string>
+    <string name="demo_app">Demo App %s</string>
+    <string name="demo_app_title_package">Package Name</string>
+    <string name="demo_app_title_client_key">Client Key</string>
+    <string name="demo_app_title_client_secret_key">Client Secret Key</string>
     <string name="demo_app_package_name">Demo App Package Name</string>
     <string name="demo_app_client_key">Demo App Client Key</string>
     <string name="demo_app_client_secret_key">Demo App Client Secret Key</string>
