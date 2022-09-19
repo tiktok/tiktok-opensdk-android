@@ -30,12 +30,11 @@ dependencies {
 
 First you need to initialize TikTokOpenApiFactory by using client key in your custom Application.
 ```kotlin
-@Override
-public void onCreate() {
-    super.onCreate();
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState);
     String clientKey = "[CLIENT_KEY]";
-    TikTokOpenConfig tiktokOpenConfig = new TikTokOpenConfig(clientKey);
-    TikTokOpenApiFactory.init(new TikTokOpenConfig(tiktokOpenConfig));
+    val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+    TikTokOpenApiFactory.init(tiktokOpenConfig)
 }
 ```
 
