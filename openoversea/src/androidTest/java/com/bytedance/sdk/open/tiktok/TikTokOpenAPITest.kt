@@ -125,17 +125,17 @@ class TikTokOpenAPITest {
             override fun onErrorIntent(intent: Intent?) {}
         })
 
-        val sendAuthDataHandler: SendAuthDataHandler? = SendAuthDataHandler()
+        val sendAuthDataHandler = SendAuthDataHandler()
         for (type in testCases) {
             if (type == Constants.TIKTOK.AUTH_REQUEST || type == Constants.TIKTOK.AUTH_RESPONSE) {
                 assertEquals(
                     tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-                    sendAuthDataHandler?.handle(type, bundle, eventHandler)
+                    sendAuthDataHandler.handle(type, bundle, eventHandler)
                 )
             } else {
                 assertEquals(
                     tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-                    sendAuthDataHandler?.handle(type, bundle, eventHandler)
+                    sendAuthDataHandler.handle(type, bundle, eventHandler)
                 )
             }
         }

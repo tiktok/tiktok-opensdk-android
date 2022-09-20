@@ -11,8 +11,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-val CLIENT_SECRET = "28cd717c25d74a38c00dc87301523448"
 object UserInfoQuery {
+    private const val CLIENT_SECRET = "28cd717c25d74a38c00dc87301523448"
 
     fun getAccessToken(authCode: String, callback: ((response: AccessTokenInfo?, errorMessage: String?) -> Unit)) {
         val accessTokenApi = NetworkUtils.createApi(GetUserInfoService::class.java)
