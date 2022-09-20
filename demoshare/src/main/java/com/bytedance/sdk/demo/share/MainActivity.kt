@@ -78,8 +78,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initInfoText(): InfoModel {
-        val entryComponent = EntryComponent(DEFAULT_ENTRY_ACTIVITY, MusicallyCheck(this).packageName,
-            TIKTOK_SHARE_ACTIVITY, TIKTOK_AUTH_ACTIVITY)
+        val entryComponent = EntryComponent(
+            DEFAULT_ENTRY_ACTIVITY, MusicallyCheck(this).packageName,
+            TIKTOK_SHARE_ACTIVITY, TIKTOK_AUTH_ACTIVITY
+        )
         return if (AppUtils.getPlatformSDKVersion(this, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent) >= Keys.API.MIN_SDK_NEW_VERSION_API) {
             InfoModel(
                 getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string.tiktok_app_name)),
