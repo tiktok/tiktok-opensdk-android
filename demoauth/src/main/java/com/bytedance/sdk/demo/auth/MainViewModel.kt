@@ -1,6 +1,5 @@
 package com.bytedance.sdk.demo.auth
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -99,7 +98,6 @@ class MainViewModel(
         scopeStates[scopeType]?.let {
             if (it.isEditable) {
                 scopeStates[scopeType] = it.copy(isOn = isOn)
-
             } else {
                 sendViewEffect(ViewEffect.ShowGeneralAlert(R.string.invalid_scope_auth, R.string.invalid_scope_auth_desc))
                 scopeStates[scopeType] = it.copy(isOn = !isOn)
