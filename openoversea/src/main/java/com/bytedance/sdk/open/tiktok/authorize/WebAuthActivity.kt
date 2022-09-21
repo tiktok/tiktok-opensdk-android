@@ -72,7 +72,7 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
     }
 
-    override fun onRequest(req: Base.Request?) {
+    override fun onRequest(req: Base.Request) {
         if (req is Auth.Request) {
             mAuthRequest = req
             mAuthRequest?.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
@@ -80,7 +80,7 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         }
     }
 
-    override fun onResponse(resp: Base.Response?) = Unit
+    override fun onResponse(resp: Base.Response) = Unit
     override fun onErrorIntent(intent: Intent?) = Unit
 
     override fun onBackPressed() {
@@ -125,20 +125,17 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         finish()
     }
 
-    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response) {
-        val bundle = resp.extras ?: Bundle()
-        bundle.putString("wap_authorize_url", mContentWebView.url)
-        resp.extras = bundle
-        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req, resp)
-    }
-
-    private fun sendInnerResponse(localEntry: String, req: Auth.Request, resp: Base.Response): Boolean {
+    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response): Boolean {
         if (!resp.validate()) {
             return false
         }
+        val extras = resp.extras ?: Bundle()
+        extras.putString("wap_authorize_url", mContentWebView.url)
+        resp.extras = extras
         val bundle = resp.toBundle()
         val platformPackageName = packageName
-        val localResponseEntry = if (TextUtils.isEmpty(req.callerLocalEntry)) componentClassName(platformPackageName, localEntry) else req.callerLocalEntry!!
+        val callerLocalEntry = req.callerLocalEntry
+        val localResponseEntry = if (callerLocalEntry.isNullOrEmpty()) componentClassName(platformPackageName, BuildConfig.DEFAULT_ENTRY_ACTIVITY) else callerLocalEntry
         val intent = Intent()
         val componentName = ComponentName(platformPackageName, componentClassName(platformPackageName, localResponseEntry))
         intent.component = componentName

@@ -37,7 +37,7 @@ class AuthService(val context: Context, val clientKey: String) {
         }
     }
 
-    fun authorizeWeb(clazz: Class<*>, req: Auth.Request): Boolean {
+    fun authorizeWeb(req: Auth.Request): Boolean {
         return if (!req.validate()) {
             false
         } else {
@@ -45,7 +45,7 @@ class AuthService(val context: Context, val clientKey: String) {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Base.CALLER_PKG, context.packageName)
             }
-            val intent = Intent(context, clazz).apply {
+            val intent = Intent(context, WebAuthActivity::class.java).apply {
                 putExtras(bundle)
             }
             try {

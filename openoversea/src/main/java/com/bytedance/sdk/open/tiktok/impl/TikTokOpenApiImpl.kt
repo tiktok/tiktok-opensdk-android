@@ -7,7 +7,6 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.authorize.SendAuthDataHandler
-import com.bytedance.sdk.open.tiktok.authorize.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
@@ -75,6 +74,6 @@ open class TikTokOpenApiImpl(
     }
 
     private fun webAuth(request: Auth.Request): Boolean {
-        return authService.authorizeWeb(WebAuthActivity::class.java, request)
+        return authService.authorizeWeb(request)
     }
 }
