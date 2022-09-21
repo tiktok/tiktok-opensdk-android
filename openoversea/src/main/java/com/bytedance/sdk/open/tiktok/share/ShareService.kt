@@ -11,8 +11,6 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.getPlatformSDKVersion
 
-const val kRefactorResponseHandling = false
-
 class ShareService(val context: Context, val clientKey: String) {
     fun share(request: Share.Request?, entryComponent: EntryComponent): Boolean {
         if (request == null || !request.validate()) {
@@ -29,14 +27,13 @@ class ShareService(val context: Context, val clientKey: String) {
             putString(Keys.Share.CALLER_PKG, callerPackage)
             putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
             val callerLocalEntry = request.callerLocalEntry
-            if (!callerLocalEntry.isNullOrEmpty()) {
-                putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, callerLocalEntry))
-            } else if (kRefactorResponseHandling) {
-                // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
-                putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
-            } else {
-                putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, entryComponent.defaultComponent))
-            }
+            putString(
+                Keys.Share.CALLER_LOCAL_ENTRY,
+                AppUtils.componentClassName(
+                    context.packageName,
+                    if (!callerLocalEntry.isNullOrEmpty()) callerLocalEntry else entryComponent.defaultComponent
+                )
+            )
             putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
             putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
         }

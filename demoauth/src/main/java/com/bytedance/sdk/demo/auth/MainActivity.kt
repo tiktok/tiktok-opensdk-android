@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
 
     private fun showAlert(title: String, desc: String) {
         AlertDialog
-            .Builder(applicationContext)
+            .Builder(this)
             .setTitle(title)
             .setMessage(desc)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }

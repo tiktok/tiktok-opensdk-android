@@ -17,11 +17,7 @@ class AuthService(val context: Context, val clientKey: String) {
             putString(Keys.Auth.CLIENT_KEY, clientKey)
             putString(Keys.Base.CALLER_PKG, context.packageName)
             val callerLocalEntry = req.callerLocalEntry
-            if (!callerLocalEntry.isNullOrEmpty()) {
-                putString(Keys.Base.FROM_ENTRY, componentClassName(context.packageName, callerLocalEntry))
-            } else {
-                putString(Keys.Base.FROM_ENTRY, componentClassName(context.packageName, localEntry))
-            }
+            putString(Keys.Base.FROM_ENTRY, componentClassName(context.packageName, if (!callerLocalEntry.isNullOrEmpty()) callerLocalEntry else localEntry))
             putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
             putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
         }

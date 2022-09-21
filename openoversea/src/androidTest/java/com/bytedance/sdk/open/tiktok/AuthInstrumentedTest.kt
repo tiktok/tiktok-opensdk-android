@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
-import com.bytedance.sdk.open.tiktok.authorize.SendAuthDataHandler
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys

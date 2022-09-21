@@ -12,7 +12,6 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.share.Share
-import com.bytedance.sdk.open.tiktok.share.ShareDataHandler
 import com.bytedance.sdk.open.tiktok.share.ShareService
 import com.google.gson.Gson
 import io.mockk.every
