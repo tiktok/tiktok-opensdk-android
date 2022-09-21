@@ -56,8 +56,8 @@ class TikTokOpenAPITest {
         } returns Unit
         val shareService = ShareService(mockContext, "client_key")
         val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onReq(req: Base.Request?) {}
-            override fun onResp(resp: Base.Response?) {}
+            override fun onRequest(req: Base.Request?) {}
+            override fun onResponse(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
         })
 
@@ -120,8 +120,8 @@ class TikTokOpenAPITest {
         val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
         val bundle: Bundle? = intent.extras
         val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onReq(req: Base.Request?) {}
-            override fun onResp(resp: Base.Response?) {}
+            override fun onRequest(req: Base.Request?) {}
+            override fun onResponse(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
         })
 

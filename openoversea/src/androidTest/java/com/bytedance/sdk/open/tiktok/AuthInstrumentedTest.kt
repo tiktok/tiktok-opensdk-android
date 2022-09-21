@@ -85,17 +85,17 @@ class AuthInstrumentedTest {
         val handler = SendAuthDataHandler()
         val bundle = createTestRequestBundle()
         val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onReq(req: Base.Request?) {}
-            override fun onResp(resp: Base.Response?) {}
+            override fun onRequest(req: Base.Request?) {}
+            override fun onResponse(resp: Base.Response?) {}
             override fun onErrorIntent(intent: Intent?) {}
         })
         handler.handle(Constants.TIKTOK.AUTH_REQUEST, bundle, eventHandler)
         verify(exactly = 1) {
-            eventHandler.onReq(allAny())
+            eventHandler.onRequest(allAny())
         }
         handler.handle(Constants.TIKTOK.AUTH_RESPONSE, createTestResponse().toBundle(), eventHandler)
         verify(exactly = 1) {
-            eventHandler.onResp(allAny())
+            eventHandler.onResponse(allAny())
         }
     }
 

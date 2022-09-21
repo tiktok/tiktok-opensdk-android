@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         if (::tiktokApi.isInitialized) {
-            tiktokApi.handleIntent(intent, this)
+            tiktokApi.handleIntent(intent)
         }
     }
 
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         }
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
-        tiktokApi = TikTokOpenApiFactory.create(this)
+        tiktokApi = TikTokOpenApiFactory.create(this, this)
         viewModel = ViewModelProvider(this, MainViewModel.Factory(tiktokApi)).get(MainViewModel::class.java)
         viewModel.viewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
@@ -105,28 +105,32 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun showAlert(title: String, desc: String) {
-        val alertBuilder = AlertDialog.Builder(this)
-        alertBuilder.setTitle(title)
-        alertBuilder.setMessage(desc)
-        alertBuilder.setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
-        alertBuilder.create().show()
+        AlertDialog
+            .Builder(applicationContext)
+            .setTitle(title)
+            .setMessage(desc)
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
+            .create().show()
     }
 
     //  IApiEventHandler
-    override fun onReq(req: Base.Request?) {
-    }
-
-    override fun onResp(resp: Base.Response?) {
-        (resp as Auth.Response).let { authResponse ->
-            val authCode = authResponse.authCode
-            if (!authCode.isNullOrEmpty()) {
-                viewModel.getUserBasicInfo(authCode)
-            } else if (authResponse.errorCode != 0) {
-                showAlert(getString(R.string.error), getString(R.string.error_code_with_message, authResponse.errorCode, authResponse.errorMsg))
+    override fun onResponse(resp: Base.Response) {
+        if (resp is Auth.Response) {
+            with(resp) {
+                val authCode = authCode
+                if (!authCode.isNullOrEmpty()) {
+                    viewModel.getUserBasicInfo(authCode)
+                } else if (errorCode != 0) {
+                    showAlert(
+                        getString(R.string.error),
+                        getString(
+                            R.string.error_code_with_message,
+                            errorCode,
+                            errorMsg
+                        )
+                    )
+                }
             }
         }
-    }
-
-    override fun onErrorIntent(intent: Intent?) {
     }
 }

@@ -18,38 +18,40 @@ class ShareService(val context: Context, val clientKey: String) {
         if (request == null || !request.validate()) {
             return false
         }
-        val bundle = Bundle()
-        if (getPlatformSDKVersion(context, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent)
-            >= Keys.API.MIN_SDK_NEW_VERSION_API
-        ) {
-            bundle.putAll(request.toBundle())
+        val bundle = Bundle().apply {
+            if (getPlatformSDKVersion(context, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent)
+                >= Keys.API.MIN_SDK_NEW_VERSION_API
+            ) {
+                putAll(request.toBundle())
+            }
+            putString(Keys.Share.CLIENT_KEY, clientKey)
+            val callerPackage = if (request.callerPackage.isNullOrEmpty()) context.packageName else request.callerPackage
+            putString(Keys.Share.CALLER_PKG, callerPackage)
+            putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
+            val callerLocalEntry = request.callerLocalEntry
+            if (!callerLocalEntry.isNullOrEmpty()) {
+                putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, callerLocalEntry))
+            } else if (kRefactorResponseHandling) {
+                // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
+                putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
+            } else {
+                putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, entryComponent.defaultComponent))
+            }
+            putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
+            putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
         }
-        bundle.putString(Keys.Share.CLIENT_KEY, clientKey)
-        val callerPackage = if (request.callerPackage.isNullOrEmpty()) context.packageName else request.callerPackage
-        bundle.putString(Keys.Share.CALLER_PKG, callerPackage)
-        bundle.putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
-        if (!request.callerLocalEntry.isNullOrEmpty()) {
-            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, request.callerLocalEntry!!))
-        } else if (kRefactorResponseHandling) {
-            // TODO: chen.wu TikTokApiResponseActivity to avoid EntryActivity or localEntry to handle the api response from TikTok
-            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, "com.bytedance.sdk.open.tiktok.TikTokApiResponseActivity")
-        } else {
-            bundle.putString(Keys.Share.CALLER_LOCAL_ENTRY, AppUtils.componentClassName(context.packageName, entryComponent.defaultComponent))
-        }
-        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
-        bundle.putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
 
-        val intent = Intent()
-        val componentName = ComponentName(
-            entryComponent.tiktokPackage,
-            AppUtils.componentClassName(BuildConfig.TIKTOK_COMPONENT_PATH, entryComponent.tiktokComponent)
-        )
-        intent.component = componentName
-        intent.putExtras(bundle)
-        if (context !is Activity) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val intent = Intent().apply {
+            component = ComponentName(
+                entryComponent.tiktokPackage,
+                AppUtils.componentClassName(BuildConfig.TIKTOK_COMPONENT_PATH, entryComponent.tiktokComponent)
+            )
+            putExtras(bundle)
+            if (context !is Activity) {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return try {
             context.startActivity(intent)
             true

@@ -23,4 +23,7 @@
     <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
     <string name="invalid_scope">Invalid scope</string>
     <string name="invalid_scope_description">Please select at least one scope</string>
+    <string name="auth_success">Auth Successful</string>
+    <string name="auth_error">Auth error: %1$s</string>
+    <string name="intent_error">Intent error</string>
 </resources>

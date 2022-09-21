@@ -40,6 +40,7 @@ class WebAuthActivity : Activity(), IApiEventHandler {
     private lateinit var mContentWebView: WebView
     private lateinit var mContainer: RelativeLayout
     private lateinit var mCancelBtn: TextView
+    private lateinit var ttOpenApi: TikTokOpenApi
 
     private var mAuthRequest: Auth.Request? = null
     private lateinit var mBaseErrorDialog: AlertDialog
@@ -48,7 +49,6 @@ class WebAuthActivity : Activity(), IApiEventHandler {
     private var mIsExecutingRequest = false
     private var mStatusDestroyed = false
     private var isShowNetworkError = false
-    private var ttOpenApi: TikTokOpenApi? = null
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -64,24 +64,24 @@ class WebAuthActivity : Activity(), IApiEventHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ttOpenApi = TikTokOpenApiFactory.create(this)
-        handleIntent(intent, this)
+        ttOpenApi = TikTokOpenApiFactory.create(this, this)
+        ttOpenApi.handleIntent(intent)
         setContentView(R.layout.layout_open_web_authorize)
         initView()
         handleRequestIntent()
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
     }
 
-    override fun onReq(req: Base.Request?) {
+    override fun onRequest(req: Base.Request?) {
         if (req is Auth.Request) {
             mAuthRequest = req
-            mAuthRequest!!.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
+            mAuthRequest?.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
     }
 
-    override fun onResp(resp: Base.Response?) {}
-    override fun onErrorIntent(intent: Intent?) {}
+    override fun onResponse(resp: Base.Response?) = Unit
+    override fun onErrorIntent(intent: Intent?) = Unit
 
     override fun onBackPressed() {
         if (mContentWebView.canGoBack()) {
@@ -123,10 +123,6 @@ class WebAuthActivity : Activity(), IApiEventHandler {
             sendInnerResponse(it, response)
         }
         finish()
-    }
-
-    private fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
-        return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
     }
 
     private fun sendInnerResponse(req: Auth.Request, resp: Base.Response) {
@@ -251,7 +247,8 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         }
         val uri = Uri.parse(url)
         val argument = mAuthRequest
-        if (argument?.redirectUri == null || !url.startsWith(argument.redirectUri!!)) {
+        val redirectUrl = argument?.redirectUri
+        if (redirectUrl == null || !url.startsWith(redirectUrl)) {
             return false
         }
         val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE)

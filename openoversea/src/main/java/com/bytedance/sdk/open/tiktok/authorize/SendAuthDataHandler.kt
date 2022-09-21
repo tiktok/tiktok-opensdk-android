@@ -6,10 +6,7 @@ import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.handler.IDataHandler
 
 class SendAuthDataHandler : IDataHandler {
-    override fun handle(type: Int, bundle: Bundle?, eventHandler: IApiEventHandler?): Boolean {
-        if (bundle == null || eventHandler == null) {
-            return false
-        }
+    override fun handle(type: Int, bundle: Bundle, eventHandler: IApiEventHandler): Boolean {
         return when (type) {
             Constants.TIKTOK.AUTH_REQUEST -> {
                 val request = Auth.Request()
@@ -19,7 +16,7 @@ class SendAuthDataHandler : IDataHandler {
                     request.scope = request.scope?.replace(" ", "")
                     request.optionalScope1 = request.optionalScope1?.replace(" ", "")
                     request.optionalScope0 = request.optionalScope0?.replace(" ", "")
-                    eventHandler.onReq(request)
+                    eventHandler.onRequest(request)
                     true
                 } else {
                     false
@@ -29,7 +26,7 @@ class SendAuthDataHandler : IDataHandler {
                 val response = Auth.Response()
                 response.fromBundle(bundle)
                 if (response.validate()) {
-                    eventHandler.onResp(response)
+                    eventHandler.onResponse(response)
                     true
                 } else {
                     false

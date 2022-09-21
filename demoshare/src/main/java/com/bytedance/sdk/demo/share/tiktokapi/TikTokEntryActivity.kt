@@ -12,18 +12,21 @@ import com.bytedance.sdk.open.tiktok.share.Share
 class TikTokEntryActivity : AppCompatActivity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TikTokOpenApiFactory.create(this)?.handleIntent(intent, this)
+        TikTokOpenApiFactory.create(this, this).handleIntent(intent)
     }
 
-    override fun onReq(req: Base.Request?) {
-    }
-
-    override fun onResp(resp: Base.Response?) {
-        (resp as Share.Response).let { shareResponse ->
-            if (!shareResponse.isSuccess) {
-                Toast.makeText(this, "Sharing media failed: ${shareResponse.errorMsg}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Media sharing was successful.", Toast.LENGTH_SHORT).show()
+    override fun onResponse(resp: Base.Response) {
+        if (resp is Share.Response) {
+            with(resp) {
+                if (!isSuccess) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Sharing media failed: $errorMsg",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(applicationContext, "Media sharing was successful.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         finish()
