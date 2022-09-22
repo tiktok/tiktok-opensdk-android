@@ -26,4 +26,6 @@
     <string name="auth_success">Auth Successful</string>
     <string name="auth_error">Auth error: %1$s</string>
     <string name="intent_error">Intent error</string>
+    <string name="invalid_scope_auth">Unable to Change the Scope</string>
+    <string name="invalid_scope_auth_desc">Not Allowed to Change this Scope</string>
 </resources>

@@ -7,7 +7,8 @@ data class ScopeModel(
     @StringRes
     val descRes: Int,
     val isOn: Boolean,
-    val isEnabled: Boolean
+    val isEnabled: Boolean,
+    val isEditable: Boolean
 ) : DataModel {
     override val viewType = ViewType.SCOPE
 }
