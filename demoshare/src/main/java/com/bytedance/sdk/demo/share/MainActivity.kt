@@ -15,9 +15,13 @@ import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
-
-const val PackageNameTitle = "Package Name"
-const val ClientKeyTitle = "Client Key"
+import com.bytedance.sdk.open.tiktok.BuildConfig.DEFAULT_ENTRY_ACTIVITY
+import com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_AUTH_ACTIVITY
+import com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_SHARE_ACTIVITY
+import com.bytedance.sdk.open.tiktok.common.constants.Keys
+import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
+import com.bytedance.sdk.open.tiktok.helper.MusicallyCheck
+import com.bytedance.sdk.open.tiktok.utils.AppUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -40,10 +44,12 @@ class MainActivity : AppCompatActivity() {
             for (model in models) {
                 if (model.viewType == ViewType.HINTED_TEXT) {
                     (model as HintedTextModel).let {
-                        if (it.title == PackageNameTitle) {
+                        if (it.title == getString(R.string.demo_app_title_package)) {
                             shareModel.packageName = (it.text.value ?: "").trim()
-                        } else if (it.title == ClientKeyTitle) {
+                        } else if (it.title == getString(R.string.demo_app_title_client_key)) {
                             shareModel.clientKey = (it.text.value ?: "").trim()
+                        } else if (it.title == getString(R.string.demo_app_title_client_secret_key)) {
+                            shareModel.clientSecret = (it.text.value ?: "").trim()
                         }
                     }
                 }
@@ -72,27 +78,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initInfoText(): InfoModel {
-        val info = MutableLiveData("Yes")
-        return InfoModel("Target app installed", "Check if TikTok app is installed", info)
+        val entryComponent = EntryComponent(
+            DEFAULT_ENTRY_ACTIVITY, MusicallyCheck(this).packageName,
+            TIKTOK_SHARE_ACTIVITY, TIKTOK_AUTH_ACTIVITY
+        )
+        return if (AppUtils.getPlatformSDKVersion(this, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent) >= Keys.API.MIN_SDK_NEW_VERSION_API) {
+            InfoModel(
+                getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string.tiktok_app_name)),
+                MutableLiveData(getString(R.string.installed))
+            )
+        } else {
+            InfoModel(
+                getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string.tiktok_app_name)),
+                MutableLiveData(getString(R.string.uninstalled))
+            )
+        }
     }
 
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(PackageNameTitle, "Demo app package name", "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(getString(R.string.demo_app_title_package), getString(R.string.demo_app, getString(R.string.demo_app_title_package)), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
-        val clientKey = HintedTextModel(ClientKeyTitle, "Demo app client key from dev portal", "client_key", clientKeyText, ckEditable)
+        val clientKey = HintedTextModel(getString(R.string.demo_app_title_client_key), getString(R.string.demo_app, getString(R.string.demo_app_title_client_key)), getString(R.string.demo_app_placeholder_client_key), clientKeyText, ckEditable)
 
         val clientSecretText = MutableLiveData("")
         val csEditable = MutableLiveData(false)
+        val clientSecretKey = HintedTextModel(getString(R.string.demo_app_title_client_secret_key), getString(R.string.demo_app, getString(R.string.demo_app_title_client_secret_key)), getString(R.string.demo_app_placeholder_client_secret_key), clientSecretText, csEditable)
         customEditable.observeForever { isEditable ->
             bundleIdEditable.postValue(isEditable)
             ckEditable.postValue(isEditable)
             csEditable.postValue(isEditable)
         }
-        return arrayListOf(bundleId, clientKey)
+        return arrayListOf(bundleId, clientKey, clientSecretKey)
     }
 
     private fun initCustomClientKeyModel(): ToggleModel {
@@ -100,11 +120,11 @@ class MainActivity : AppCompatActivity() {
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel("Custom CS & CK", "Customize your client key and package name", customization)
+        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
     }
 
     private fun initHeaderModel(): HeaderModel {
-        return HeaderModel("Base App Info")
+        return HeaderModel(getString(R.string.demo_app_base_app_info))
     }
 
     private fun initLogoModel(): LogoModel {
