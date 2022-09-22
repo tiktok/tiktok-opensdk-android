@@ -31,14 +31,14 @@ class MainViewModel(
         val webAuthEnabled: Boolean = false,
         val betaEnabled: Boolean = false,
         val scopeStates: LinkedHashMap<ScopeType, ScopeModel> = linkedMapOf(
-            ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, true),
-            ScopeType.USER_INFO_USERNAME to ScopeModel(ScopeType.USER_INFO_USERNAME, R.string.user_name_scope_description, false, false),
-            ScopeType.USER_INFO_PHONE to ScopeModel(ScopeType.USER_INFO_PHONE, R.string.phone_scope_description, false, false),
-            ScopeType.USER_INFO_EMAIL to ScopeModel(ScopeType.USER_INFO_EMAIL, R.string.email_scope_description, false, false),
-            ScopeType.MUSIC_COLLECTION to ScopeModel(ScopeType.MUSIC_COLLECTION, R.string.music_scope_description, false, false),
-            ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, false),
-            ScopeType.VIDEO_LIST to ScopeModel(ScopeType.VIDEO_LIST, R.string.video_list_scope_description, false, false),
-            ScopeType.USER_INTEREST to ScopeModel(ScopeType.USER_INTEREST, R.string.user_interest_scope_description, false, false),
+            ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, true, false),
+            ScopeType.USER_INFO_USERNAME to ScopeModel(ScopeType.USER_INFO_USERNAME, R.string.user_name_scope_description, false, false, true),
+            ScopeType.USER_INFO_PHONE to ScopeModel(ScopeType.USER_INFO_PHONE, R.string.phone_scope_description, false, false, true),
+            ScopeType.USER_INFO_EMAIL to ScopeModel(ScopeType.USER_INFO_EMAIL, R.string.email_scope_description, false, false, true),
+            ScopeType.MUSIC_COLLECTION to ScopeModel(ScopeType.MUSIC_COLLECTION, R.string.music_scope_description, false, false, true),
+            ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, false, true),
+            ScopeType.VIDEO_LIST to ScopeModel(ScopeType.VIDEO_LIST, R.string.video_list_scope_description, false, false, true),
+            ScopeType.USER_INTEREST to ScopeModel(ScopeType.USER_INTEREST, R.string.user_interest_scope_description, false, false, true),
         )
     )
 
@@ -96,7 +96,12 @@ class MainViewModel(
         val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
         val scopeStates = currentStateValue.scopeStates
         scopeStates[scopeType]?.let {
-            scopeStates[scopeType] = it.copy(isOn = isOn)
+            if (it.isEditable) {
+                scopeStates[scopeType] = it.copy(isOn = isOn)
+            } else {
+                sendViewEffect(ViewEffect.ShowGeneralAlert(R.string.invalid_scope_auth, R.string.invalid_scope_auth_desc))
+                scopeStates[scopeType] = it.copy(isOn = !isOn)
+            }
             _viewState.value = currentStateValue.copy(
                 scopeStates = scopeStates,
             )
