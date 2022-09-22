@@ -1,23 +1,25 @@
 package com.bytedance.sdk.open.tiktok
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.test.platform.app.InstrumentationRegistry
+import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthActivity
-import com.bytedance.sdk.open.tiktok.common.constants.Constants
+import com.bytedance.sdk.open.tiktok.common.constants.Constants.TIKTOK.AUTH_RESPONSE
+import com.bytedance.sdk.open.tiktok.common.constants.Constants.TIKTOK.SHARE_RESPONSE
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl
+import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl.Companion.INVALID_TYPE_VALUE
+import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.spyk
+import io.mockk.verify
 import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,117 +27,83 @@ import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
 class TikTokOpenAPITest {
-    private val testCases = arrayListOf(
-        0, Constants.TIKTOK.AUTH_REQUEST, Constants.TIKTOK.AUTH_RESPONSE,
-        Constants.TIKTOK.SHARE_REQUEST, Constants.TIKTOK.SHARE_RESPONSE, 5
-    )
     @MockK
     lateinit var intent: Intent
     @MockK
     lateinit var context: Context
 
+    @MockK
+    lateinit var authService: AuthService
+
+    @MockK
+    lateinit var shareService: ShareService
+
+    private val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
+        override fun onRequest(req: Base.Request) {}
+        override fun onResponse(resp: Base.Response) {}
+        override fun onErrorIntent(intent: Intent?) {}
+    })
+
+    private lateinit var tikTokOpenApiImpl: TikTokOpenApiImpl
+
     @Before
     fun setUp() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         intent = Intent(context, WebAuthActivity::class.java)
+        authService = AuthService(context, "client_key")
+        shareService = ShareService(context, "client_key")
+        tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService, eventHandler)
     }
 
     @Test
     fun testHandleIntentWhenIntentIsNull() {
-        context = InstrumentationRegistry.getInstrumentation().targetContext
-        val mockActivity = mockk<Activity>(relaxed = true)
-        every {
-            mockActivity.startActivityForResult(allAny(), Keys.AUTH_REQUEST_CODE)
-        } returns Unit
-        val authService = AuthService(mockActivity, "client_key")
-        val mockContext = mockk<Context>(relaxed = true)
-        every {
-            mockContext.startActivity(allAny())
-        } returns Unit
-        val shareService = ShareService(mockContext, "client_key")
-        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onRequest(req: Base.Request) {}
-            override fun onResponse(resp: Base.Response) {}
-            override fun onErrorIntent(intent: Intent?) {}
-        })
-
-        val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
-
-        assertFalse(tikTokOpenApiImpl.handleIntent(null, eventHandler))
-    }
-
-    @Test
-    fun testHandleIntentWhenEventHandlerIsNull() {
-        context = InstrumentationRegistry.getInstrumentation().targetContext
-        val mockActivity = mockk<Activity>(relaxed = true)
-        every {
-            mockActivity.startActivityForResult(allAny(), Keys.AUTH_REQUEST_CODE)
-        } returns Unit
-        val authService = AuthService(mockActivity, "client_key")
-        val mockContext = mockk<Context>(relaxed = true)
-        every {
-            mockContext.startActivity(allAny())
-        } returns Unit
-        val shareService = ShareService(mockContext, "client_key")
-
-        val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
-
-        assertFalse(tikTokOpenApiImpl.handleIntent(intent, null))
+        assertFalse(tikTokOpenApiImpl.handleIntent(null))
     }
 
     @Test
     fun testHandleIntentWhenBundleIsNull() {
-        context = InstrumentationRegistry.getInstrumentation().targetContext
-        val mockActivity = mockk<Activity>(relaxed = true)
-        every {
-            mockActivity.startActivityForResult(allAny(), Keys.AUTH_REQUEST_CODE)
-        } returns Unit
-        val authService = AuthService(mockActivity, "client_key")
-        val mockContext = mockk<Context>(relaxed = true)
-        every {
-            mockContext.startActivity(allAny())
-        } returns Unit
-        val shareService = ShareService(mockContext, "client_key")
-
-        val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
         intent.replaceExtras(null)
-        assertFalse(tikTokOpenApiImpl.handleIntent(intent, null))
+        assertFalse(tikTokOpenApiImpl.handleIntent(intent))
     }
 
     @Test
-    fun testHandleIntent() {
-        context = InstrumentationRegistry.getInstrumentation().targetContext
-        val mockActivity = mockk<Activity>(relaxed = true)
-        every {
-            mockActivity.startActivityForResult(allAny(), Keys.AUTH_REQUEST_CODE)
-        } returns Unit
-        val authService = AuthService(mockActivity, "client_key")
-        val mockContext = mockk<Context>(relaxed = true)
-        every {
-            mockContext.startActivity(allAny())
-        } returns Unit
-        val shareService = ShareService(mockContext, "client_key")
-        val tikTokOpenApiImpl = TikTokOpenApiImpl(context, authService, shareService)
-        val bundle: Bundle? = intent.extras
-        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onRequest(req: Base.Request) {}
-            override fun onResponse(resp: Base.Response) {}
-            override fun onErrorIntent(intent: Intent?) {}
-        })
+    fun testHandleAuthResponseIntent() {
+        intent.putExtra(Keys.Base.TYPE, AUTH_RESPONSE)
+        assertTrue(tikTokOpenApiImpl.handleIntent(intent))
+        verify(exactly = 1) {
+            eventHandler.onResponse(any<Auth.Response>())
+        }
+    }
 
-//        val sendAuthDataHandler = SendAuthDataHandler()
-//        for (type in testCases) {
-//            if (type == Constants.TIKTOK.AUTH_REQUEST || type == Constants.TIKTOK.AUTH_RESPONSE) {
-//                assertEquals(
-//                    tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-//                    sendAuthDataHandler.handle(type, bundle, eventHandler)
-//                )
-//            } else {
-//                assertEquals(
-//                    tikTokOpenApiImpl.handleIntent(intent, eventHandler),
-//                    sendAuthDataHandler.handle(type, bundle, eventHandler)
-//                )
-//            }
-//        }
+    @Test
+    fun testHandleShareResponseIntent() {
+        intent.putExtra(Keys.Base.TYPE, SHARE_RESPONSE)
+        assertTrue(tikTokOpenApiImpl.handleIntent(intent))
+        verify(exactly = 1) {
+            eventHandler.onResponse(any<Share.Response>())
+        }
+    }
+
+    @Test
+    fun testHandleShareResponseFromShareTypeKeyIntent() {
+        intent.putExtra(Keys.Base.TYPE, INVALID_TYPE_VALUE)
+        intent.putExtra(Keys.Share.TYPE, SHARE_RESPONSE)
+        assertTrue(tikTokOpenApiImpl.handleIntent(intent))
+        verify(exactly = 1) {
+            eventHandler.onResponse(any<Share.Response>())
+        }
+    }
+
+    @Test
+    fun testHandleInvalidResponseTypeFromBaseKeyIntent() {
+        intent.putExtra(Keys.Base.TYPE, 100)
+        assertFalse(tikTokOpenApiImpl.handleIntent(intent))
+    }
+
+    @Test
+    fun testHandleInvalidResponseTypeFromShareKeyIntent() {
+        intent.putExtra(Keys.Base.TYPE, INVALID_TYPE_VALUE)
+        intent.putExtra(Keys.Share.TYPE, 100)
+        assertFalse(tikTokOpenApiImpl.handleIntent(intent))
     }
 }

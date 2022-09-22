@@ -1,22 +1,16 @@
 package com.bytedance.sdk.open.tiktok
 
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.base.Anchor
 import com.bytedance.sdk.open.tiktok.base.MediaContent
-import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
-import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.spyk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -24,14 +18,14 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ShareInstrumentedTest {
-    val hashtag1 = "hashtag1"
-    val hashtag2 = "hashtag2"
-    val callerLocalEntry = "com.tiktok.MainActivity"
-    val callerPackage = "caller_package"
-    val state = "ready"
-    val shareExtra = "share_extra"
-    val extraShareOption: HashMap<String, Any> = hashMapOf(Pair("option1", "value1"), Pair("option2", "value2"))
-    val mediaList = arrayListOf("media_url1", "media_url2")
+    private val hashtag1 = "hashtag1"
+    private val hashtag2 = "hashtag2"
+    private val callerLocalEntry = "com.tiktok.MainActivity"
+    private val callerPackage = "caller_package"
+    private val state = "ready"
+    private val shareExtra = "share_extra"
+    private val extraShareOption: HashMap<String, Any> = hashMapOf(Pair("option1", "value1"), Pair("option2", "value2"))
+    private val mediaList = arrayListOf("media_url1", "media_url2")
 
     private fun createTestAnchor(): Anchor {
         return Anchor().apply {
@@ -59,18 +53,6 @@ class ShareInstrumentedTest {
         return shareRequest
     }
 
-    private fun createTestRequestBundle(): Bundle {
-        return createTestShareRequest().toBundle()
-    }
-
-    private fun createTestResponse(): Share.Response {
-        return Share.Response().apply {
-            errorCode = 1002
-            errorMsg = "mock error message"
-            state = "error"
-        }
-    }
-
     @Test
     fun testShare() {
         val shareRequest = createTestShareRequest()
@@ -88,25 +70,6 @@ class ShareInstrumentedTest {
         val parsedAnchor = Gson().fromJson(bundle.getString(Keys.Share.SHARE_ANCHOR_INFO), Anchor::class.java)
         assertEquals(parsedAnchor, shareRequest.anchor)
         assertEquals(bundle.getInt(Keys.Share.SHARE_TARGET_SCENE), Keys.Scene.LANDPAGE_SCENE_CUT)
-    }
-
-    @Test
-    fun testShareDataHandler() {
-        val handler = ShareDataHandler()
-        val bundle = createTestRequestBundle()
-        val eventHandler = spyk<IApiEventHandler>(object : IApiEventHandler {
-            override fun onRequest(req: Base.Request?) {}
-            override fun onResponse(resp: Base.Response?) {}
-            override fun onErrorIntent(intent: Intent?) {}
-        })
-        handler.handle(Constants.TIKTOK.SHARE_REQUEST, bundle, eventHandler)
-        verify(exactly = 1) {
-            eventHandler.onRequest(allAny())
-        }
-        handler.handle(Constants.TIKTOK.SHARE_RESPONSE, createTestResponse().toBundle(), eventHandler)
-        verify(exactly = 1) {
-            eventHandler.onResponse(allAny())
-        }
     }
 
     @Test

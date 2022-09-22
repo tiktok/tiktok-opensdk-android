@@ -37,31 +37,20 @@ open class TikTokOpenApiImpl(
             return false
         }
         var type = bundle.getInt(Keys.Base.TYPE)
-        if (type == 0) {
+        if (type == INVALID_TYPE_VALUE) {
             type = bundle.getInt(Keys.Share.TYPE)
         }
-        return when (type) {
-            Constants.TIKTOK.AUTH_RESPONSE -> {
-                val response = Auth.Response()
-                response.fromBundle(bundle)
-                return if (response.validate()) {
-                    apiEventHandler.onResponse(response)
-                    true
-                } else {
-                    false
-                }
-            }
-            Constants.TIKTOK.SHARE_RESPONSE -> {
-                val response = Share.Response()
-                response.fromBundle(bundle)
-                return if (response.validate()) {
-                    apiEventHandler.onResponse(response)
-                    true
-                } else {
-                    false
-                }
-            }
-            else -> false
+        val response = when (type) {
+            Constants.TIKTOK.AUTH_RESPONSE -> Auth.Response()
+            Constants.TIKTOK.SHARE_RESPONSE -> Share.Response()
+            else -> null
+        } ?: return false
+        response.fromBundle(bundle)
+        return if (response.validate()) {
+            apiEventHandler.onResponse(response)
+            true
+        } else {
+            false
         }
     }
 
@@ -92,5 +81,9 @@ open class TikTokOpenApiImpl(
 
     private fun webAuth(request: Auth.Request): Boolean {
         return authService.authorizeWeb(request)
+    }
+
+    companion object {
+        const val INVALID_TYPE_VALUE = 0
     }
 }

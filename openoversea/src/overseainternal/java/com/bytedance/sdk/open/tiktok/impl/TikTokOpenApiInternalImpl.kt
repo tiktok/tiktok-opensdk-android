@@ -21,6 +21,5 @@ class TikTokOpenApiInternalImpl(
     apiHandler,
 ),
     TikTokOpenApiInternal {
-
     override val isTikTokLiteAuthSupported = (AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.isAppSupportAPI(Keys.API.AUTHORIZE_FOR_TIKTOK_LITE) ?: false)
 }
