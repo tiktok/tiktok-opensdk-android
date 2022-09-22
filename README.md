@@ -1,22 +1,82 @@
-# TikTok Developer SDK
-## Capabilities
-1. Share
+# TikTok OpenSDK for Android
 
-## Branch Management
-> Use the `develop` branch for development and testing
-> Merge to the `master` branch after a release
+## Introduction
 
-## Publish
+TikTok Android OpenSDK is a gradle project to seamlessly work with native TikTok app on functions such as authorization and video/image sharing.
+There will more features to help partners, developers and TikTok user experience.
 
-Please follow the instructions [here](https://bytedance.feishu.cn/docs/doccnIVScHWfdpGNaayhv2gG7vd#).
-To publish internal (for Bytedance partners) and external (external partners) aar, follow this [link](https://bytedance.feishu.cn/docs/doccnabOaizRNv1cbXJ74qWoE8c)
+## Get Started
+You should confirm that your project has a Minimum API level of 21: Android 5.0 (Lollipop) or higher.
 
-## Response Handling
-`IApiEventHandler` is used to handle the response from TiKTok, i.e. `onResponse` and `onErrorIntent`.
-1. [3rd party app] create TikTokOpenApi, optionally with `IApiEventHandler`
-2. [3rd party app] call authenticate or share methods on TikTokOpenApi 
-3. [3rd party app] in a custom local entry activity or a default `tiktok.TikTokEntryActivity`, create a second `TikTokOpenApi` and call `handleIntent` method on it and provide another `IApiEventHandler`
-4. [SDK] the 2nd `TikTokOpenApi` gets the intent and compose a response object and call `onResp` method on the provided `IApiEventHandler` to complete the flow
+### Step 1: Configure TikTok App Settings for Android
+Use the [Developer Portal](https://developers.tiktok.com/login/) to apply for Android `client_key` and `client_secret` access. Upon application approval, the Developer Portal will provide access to these keys.
 
-Note that,
-The first IApiEventHandler created in the MainActivity was never used, to handle the response.
+### Step 2: Install the SDK and Setup Android Project
+1. In Project window, switch to `Android` view tab and open Gradle Scripts > build.gradle (Project). Then add the following repository in the repositories{} section. For example:
+```gradle
+repositories {
+    maven { url "https://artifact.bytedance.com/repository/AwemeOpenSDK" }
+}
+```
+
+2. Open Gradle Scripts > build.gradle (Module: app) and add the following implementation statement to the dependencies{} section: {TODO: update location and version}
+```gradle
+dependencies {
+    implementation 'com.bytedance.ies.ugc.aweme:opensdk-oversea-external:0.2.1.1'
+}
+```
+TODO: update package name and version number
+
+3. Edit your Application
+
+First you need to initialize TikTokOpenApiFactory by using client key in your custom Application.
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState);
+    String clientKey = "[CLIENT_KEY]";
+    val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+    TikTokOpenApiFactory.init(tiktokOpenConfig)
+}
+```
+
+4. Edit Your Manifest
+
+Open the `/app/manifest/AndroidManifest.xml` file.
+Register `TikTokEntryActivity` for receiving callbacks in Manifest. If you have customized an activity to receive callbacks, you may skip this step.
+```xml
+// If you have customized activity to receive callbacks, you can skip the step
+<activity
+    android:name=".tiktokapi.TikTokEntryActivity"
+    android:exported="true">
+</activity>
+```
+
+> Note:
+Due to changes in Android 11 regarding package visibility, when impementing Tiktok SDK for devices targeting Android 11 and higher, add the following to the Android Manifest file:
+```xml
+<queries>
+    <package android:name="com.zhiliaoapp.musically" />
+    <package android:name="com.ss.android.ugc.trill" />
+</queries>
+```
+Sync your project and get the latest version of SDK package.
+At this point, you should already set up the basic development environment.
+
+## Contribution (remove?)
+
+Please check [Contributing](CONTRIBUTING.md) for more details.
+
+## Code of Conduct (remove?)
+
+Please check [Code of Conduct](CODE_OF_CONDUCT.md) for more details.
+
+## Security
+
+If you discover a potential security issue in this project, or think you may
+have discovered a security issue, we ask that you notify Bytedance Security via our [security center](https://security.bytedance.com/src) or [vulnerability reporting email](sec@bytedance.com).
+
+Please do **not** create a public GitHub issue.
+
+## License
+
+This project is licensed under the [Apache-2.0 License](LICENSE).
