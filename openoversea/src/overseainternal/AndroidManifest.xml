@@ -6,11 +6,5 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="behind"/>
 
-<!--        android:launchMode="singleTask"-->
-        <activity
-            android:name=".TikTokApiResponseActivity"
-            android:taskAffinity="com.bytedance.sdk.open.tiktok"
-            android:exported="true"/>
-
     </application>
 </manifest>
