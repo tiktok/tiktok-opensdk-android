@@ -2,7 +2,6 @@ package com.bytedance.sdk.open.tiktok.api
 
 import android.content.Intent
 import com.bytedance.sdk.open.tiktok.authorize.Auth
-import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.share.Share
 
 interface TikTokOpenApi {
@@ -16,5 +15,5 @@ interface TikTokOpenApi {
 
     fun share(request: Share.Request): Boolean
 
-    fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean
+    fun handleIntent(intent: Intent?): Boolean
 }

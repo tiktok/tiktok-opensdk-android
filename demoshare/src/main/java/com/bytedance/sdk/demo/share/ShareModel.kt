@@ -26,7 +26,7 @@ data class ShareModel(
 
 fun ShareModel.toShareRequest(): Share.Request {
     val request = Share.Request()
-    this.packageName.takeUnless { it.isNullOrEmpty() }?.let {
+    this.packageName.takeUnless { it.isEmpty() }?.let {
         request.callerPackage = it
     }
     this.hashtags?.let { validHashTags ->

@@ -25,30 +25,26 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.R
-import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.composeLoadUrl
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.setViewVisibility
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
-class WebAuthActivity : Activity(), IApiEventHandler {
+class WebAuthActivity : Activity() {
     private lateinit var mContentWebView: WebView
     private lateinit var mContainer: RelativeLayout
     private lateinit var mCancelBtn: TextView
 
-    private var mAuthRequest: Auth.Request? = null
+    private var mAuthRequest: Auth.Request = Auth.Request()
     private lateinit var mBaseErrorDialog: AlertDialog
     private var mLoadingLayout: FrameLayout? = null
     private var mLastErrorCode = 0
     private var mIsExecutingRequest = false
     private var mStatusDestroyed = false
     private var isShowNetworkError = false
-    private var ttOpenApi: TikTokOpenApi? = null
     private var isLoading: Boolean = false
         set(value) {
             field = value
@@ -64,24 +60,16 @@ class WebAuthActivity : Activity(), IApiEventHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ttOpenApi = TikTokOpenApiFactory.create(this)
-        handleIntent(intent, this)
         setContentView(R.layout.layout_open_web_authorize)
         initView()
+        intent.extras?.let {
+            mAuthRequest.fromBundle(it)
+        }
+        mAuthRequest.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         handleRequestIntent()
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
     }
-
-    override fun onReq(req: Base.Request?) {
-        if (req is Auth.Request) {
-            mAuthRequest = req
-            mAuthRequest!!.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-    }
-
-    override fun onResp(resp: Base.Response?) {}
-    override fun onErrorIntent(intent: Intent?) {}
 
     override fun onBackPressed() {
         if (mContentWebView.canGoBack()) {
@@ -92,7 +80,7 @@ class WebAuthActivity : Activity(), IApiEventHandler {
     }
 
     private fun handleRequestIntent() {
-        mAuthRequest?.let {
+        mAuthRequest.let {
             if (!isNetworkAvailable()) {
                 isShowNetworkError = true
                 showNetworkErrorDialog(Constants.AuthError.NETWORK_NO_CONNECTION)
@@ -113,7 +101,7 @@ class WebAuthActivity : Activity(), IApiEventHandler {
     }
 
     private fun redirectToClientApp(errorCode: Int, code: String? = null, state: String? = null, permissions: String? = null, errorMsg: String? = null) {
-        mAuthRequest?.let {
+        mAuthRequest.let {
             val response = Auth.Response()
             response.authCode = code
             response.errorCode = errorCode
@@ -125,24 +113,17 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         finish()
     }
 
-    private fun handleIntent(intent: Intent?, eventHandler: IApiEventHandler?): Boolean {
-        return ttOpenApi?.handleIntent(intent, eventHandler) ?: false
-    }
-
-    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response) {
-        val bundle = resp.extras ?: Bundle()
-        bundle.putString("wap_authorize_url", mContentWebView.url)
-        resp.extras = bundle
-        sendInnerResponse(BuildConfig.DEFAULT_ENTRY_ACTIVITY, req, resp)
-    }
-
-    private fun sendInnerResponse(localEntry: String, req: Auth.Request, resp: Base.Response): Boolean {
+    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response): Boolean {
         if (!resp.validate()) {
             return false
         }
+        val extras = resp.extras ?: Bundle()
+        extras.putString("wap_authorize_url", mContentWebView.url)
+        resp.extras = extras
         val bundle = resp.toBundle()
         val platformPackageName = packageName
-        val localResponseEntry = if (TextUtils.isEmpty(req.callerLocalEntry)) componentClassName(platformPackageName, localEntry) else req.callerLocalEntry!!
+        val callerLocalEntry = req.callerLocalEntry
+        val localResponseEntry = if (callerLocalEntry.isNullOrEmpty()) BuildConfig.DEFAULT_ENTRY_ACTIVITY else callerLocalEntry
         val intent = Intent()
         val componentName = ComponentName(platformPackageName, componentClassName(platformPackageName, localResponseEntry))
         intent.component = componentName
@@ -251,7 +232,8 @@ class WebAuthActivity : Activity(), IApiEventHandler {
         }
         val uri = Uri.parse(url)
         val argument = mAuthRequest
-        if (argument?.redirectUri == null || !url.startsWith(argument.redirectUri!!)) {
+        val redirectUrl = argument.redirectUri
+        if (redirectUrl == null || !url.startsWith(redirectUrl)) {
             return false
         }
         val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE)

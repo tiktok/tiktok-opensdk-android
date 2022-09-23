@@ -1,16 +1,18 @@
 package com.bytedance.sdk.open.tiktok
 
-import android.app.Activity
+import android.content.Context
 import android.text.TextUtils
-import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.api.TikTokOpenApiInternal
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
-import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiImpl
+import com.bytedance.sdk.open.tiktok.impl.TikTokOpenApiInternalImpl
 import com.bytedance.sdk.open.tiktok.share.ShareService
 
 class TikTokOpenApiFactory {
     companion object {
         private var sConfig: TikTokOpenConfig? = null
+
+        @JvmStatic
         fun init(config: TikTokOpenConfig): Boolean {
             if (!TextUtils.isEmpty(config.clientKey)) {
                 sConfig = config
@@ -19,14 +21,15 @@ class TikTokOpenApiFactory {
             return false
         }
 
-        fun create(activity: Activity, handler: IApiEventHandler? = null): TikTokOpenApi {
+        @JvmStatic
+        fun create(context: Context, handler: IApiEventHandler): TikTokOpenApiInternal {
             if (sConfig == null) {
                 throw Exception("Please init TikTokOpenApiFactory first before creating api")
             }
             checkNotNull(sConfig).let {
-                val shareService = ShareService(activity, it.clientKey)
-                val authService = AuthService(activity, it.clientKey)
-                return TikTokOpenApiImpl(activity, authService, shareService, handler)
+                val shareService = ShareService(context, it.clientKey)
+                val authService = AuthService(context, it.clientKey)
+                return TikTokOpenApiInternalImpl(context, authService, shareService, handler)
             }
         }
     }

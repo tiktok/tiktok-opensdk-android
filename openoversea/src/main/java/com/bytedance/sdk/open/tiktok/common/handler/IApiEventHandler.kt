@@ -4,9 +4,9 @@ import android.content.Intent
 import com.bytedance.sdk.open.tiktok.common.model.Base
 
 interface IApiEventHandler {
-    fun onReq(req: Base.Request?)
+    fun onRequest(req: Base.Request) = Unit
 
-    fun onResp(resp: Base.Response?)
+    fun onResponse(resp: Base.Response) = Unit
 
-    fun onErrorIntent(intent: Intent?)
+    fun onErrorIntent(intent: Intent?) = Unit
 }

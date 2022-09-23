@@ -59,7 +59,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (::tiktokOpenAPI.isInitialized) {
-            tiktokOpenAPI.handleIntent(intent, this)
+            tiktokOpenAPI.handleIntent(intent)
         }
     }
 
@@ -69,10 +69,10 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         }
         val request = shareModel.toShareRequest()
         // comment the line below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
-        request.callerLocalEntry = "ShareActivity"
+        request.callerLocalEntry = this::class.simpleName
         val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey.ifEmpty { BuildConfig.CLIENT_KEY })
         TikTokOpenApiFactory.init(tiktokOpenConfig)
-        TikTokOpenApiFactory.create(this)?.let {
+        TikTokOpenApiFactory.create(this, this).let {
             tiktokOpenAPI = it
             tiktokOpenAPI.share(request)
         }
@@ -186,19 +186,20 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     // IApiEventHandler
-    override fun onReq(req: Base.Request?) {
-    }
-
-    override fun onResp(resp: Base.Response?) {
-        (resp as Share.Response).let { shareResponse ->
-            if (shareResponse.isSuccess) {
-                Toast.makeText(this, "Media sharing was successful .", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Sharing media failed: ${shareResponse.errorMsg}", Toast.LENGTH_SHORT).show()
+    override fun onResponse(resp: Base.Response) {
+        if (resp is Share.Response) {
+            with(resp) {
+                if (isSuccess) {
+                    Toast.makeText(applicationContext, "Media sharing was successful .", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Sharing media failed: $errorMsg",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
-    }
-
-    override fun onErrorIntent(intent: Intent?) {
     }
 }

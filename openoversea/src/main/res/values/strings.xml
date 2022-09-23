@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <resources>
-    <string name="aweme_loading">Loading...</string>
+    <string name="aweme_loading">Loading…</string>
     <string name="aweme_open_ssl_error">Certificate error</string>
     <string name="aweme_open_ssl_untrusted">Certificate not trusted</string>
     <string name="aweme_open_ssl_expired">Certificate expired</string>
