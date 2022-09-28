@@ -123,10 +123,11 @@ class MainViewModel(
             sendViewEffect(ViewEffect.ShowGeneralAlert(R.string.invalid_scope, R.string.invalid_scope_description))
             return
         }
-        val request = Auth.Request()
-        request.scope = enabledScopes.joinBy(",")
-        request.state = "ww"
-        request.callerLocalEntry = callerLocalEntry
+        val request = Auth.Request(
+            scope = enabledScopes.joinBy(","),
+            state = "ww",
+            localEntry = callerLocalEntry,
+        )
         tikTokOpenApi.authorize(request, webAuthEnabled)
     }
 

@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.net.http.SslError
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.ContextThemeWrapper
@@ -29,16 +28,15 @@ import com.bytedance.sdk.open.tiktok.authorize.WebAuthHelper.composeLoadUrl
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.Base
-import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.setViewVisibility
 import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
-class WebAuthActivity : Activity() {
+internal class WebAuthActivity : Activity() {
     private lateinit var mContentWebView: WebView
     private lateinit var mContainer: RelativeLayout
     private lateinit var mCancelBtn: TextView
 
-    private var mAuthRequest: Auth.Request = Auth.Request()
+    private lateinit var webAuthRequest: WebAuthRequest
     private lateinit var mBaseErrorDialog: AlertDialog
     private var mLoadingLayout: FrameLayout? = null
     private var mLastErrorCode = 0
@@ -62,10 +60,14 @@ class WebAuthActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_open_web_authorize)
         initView()
-        intent.extras?.let {
-            mAuthRequest.fromBundle(it)
+        val bundle = intent.extras
+        val webAuthRequestFromBundle = bundle?.toWebAuthRequest()
+        // invalid request
+        if (webAuthRequestFromBundle == null) {
+            finish()
+            return
         }
-        mAuthRequest.redirectUri = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
+        webAuthRequest = webAuthRequestFromBundle
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         handleRequestIntent()
         ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
@@ -80,7 +82,7 @@ class WebAuthActivity : Activity() {
     }
 
     private fun handleRequestIntent() {
-        mAuthRequest.let {
+        webAuthRequest.let {
             if (!isNetworkAvailable()) {
                 isShowNetworkError = true
                 showNetworkErrorDialog(Constants.AuthError.NETWORK_NO_CONNECTION)
@@ -88,7 +90,7 @@ class WebAuthActivity : Activity() {
                 isLoading = true
                 mContentWebView.webViewClient = AuthWebViewClient()
                 // need auth request to be set in onReq
-                mContentWebView.loadUrl(composeLoadUrl(this, it, BuildConfig.AUTH_HOST, BuildConfig.AUTH_ENDPOINT)!!)
+                mContentWebView.loadUrl(composeLoadUrl(this, REDIRECT_URL, webAuthRequest))
             }
         }
     }
@@ -101,31 +103,23 @@ class WebAuthActivity : Activity() {
     }
 
     private fun redirectToClientApp(errorCode: Int, code: String? = null, state: String? = null, permissions: String? = null, errorMsg: String? = null) {
-        mAuthRequest.let {
-            val response = Auth.Response()
-            response.authCode = code
-            response.errorCode = errorCode
-            response.state = state
-            response.grantedPermissions = permissions
-            response.errorMsg = errorMsg
-            sendInnerResponse(it, response)
-        }
+        val response = Auth.Response()
+        response.authCode = code
+        response.errorCode = errorCode
+        response.state = state
+        response.grantedPermissions = permissions
+        response.errorMsg = errorMsg
+        sendInnerResponse(webAuthRequest, response)
         finish()
     }
 
-    private fun sendInnerResponse(req: Auth.Request, resp: Base.Response): Boolean {
-        if (!resp.validate()) {
-            return false
-        }
+    private fun sendInnerResponse(webAuthRequest: WebAuthRequest, resp: Base.Response): Boolean {
         val extras = resp.extras ?: Bundle()
         extras.putString("wap_authorize_url", mContentWebView.url)
         resp.extras = extras
         val bundle = resp.toBundle()
-        val platformPackageName = packageName
-        val callerLocalEntry = req.callerLocalEntry
-        val localResponseEntry = if (callerLocalEntry.isNullOrEmpty()) BuildConfig.DEFAULT_ENTRY_ACTIVITY else callerLocalEntry
         val intent = Intent()
-        val componentName = ComponentName(platformPackageName, componentClassName(platformPackageName, localResponseEntry))
+        val componentName = ComponentName(webAuthRequest.callerPackageName, webAuthRequest.fromEntry)
         intent.component = componentName
         intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -231,9 +225,7 @@ class WebAuthActivity : Activity() {
             return false
         }
         val uri = Uri.parse(url)
-        val argument = mAuthRequest
-        val redirectUrl = argument.redirectUri
-        if (redirectUrl == null || !url.startsWith(redirectUrl)) {
+        if (!url.startsWith(REDIRECT_URL)) {
             return false
         }
         val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE)
@@ -259,18 +251,6 @@ class WebAuthActivity : Activity() {
     }
 
     private fun onCancel(errCode: Int) = redirectToClientApp(errCode, errorMsg = USER_CANCEL_AUTH)
-
-    override fun isDestroyed(): Boolean { // TODO: chen.wu remove this?
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            mStatusDestroyed
-        } else {
-            try {
-                super.isDestroyed()
-            } catch (ignore: Throwable) {
-                mStatusDestroyed
-            }
-        }
-    }
 
     private fun getLoadingView(root: ViewGroup?): View? = LayoutInflater.from(this).inflate(R.layout.layout_open_loading_view, root, false)
 
@@ -322,5 +302,7 @@ class WebAuthActivity : Activity() {
     companion object {
         private const val USER_CANCEL_AUTH = "User cancelled the Authorization"
         private const val BACKGROUND_COLOR = "#ffffff"
+
+        private const val REDIRECT_URL = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
     }
 }

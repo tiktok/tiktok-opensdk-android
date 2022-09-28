@@ -4,52 +4,55 @@ import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
+import com.bytedance.sdk.open.tiktok.utils.AppUtils
 
 class Base {
     abstract class Request {
-        abstract val type: Int
-        var extras: Bundle? = null
-        var callerPackage: String? = null
-        var callerVersion: String? = null
-        var callerLocalEntry: String? = null
+        internal abstract val type: Int
 
-        abstract fun validate(): Boolean
+        internal open val localEntry: String? = null
 
-        open fun toBundle(): Bundle {
+        internal abstract fun validate(): Boolean
+
+        open fun toBundle(): Bundle = Bundle()
+
+        internal open fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String?): Bundle {
             return Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
-                putBundle(Keys.Base.EXTRA, extras)
-                putString(Keys.Base.CALLER_PKG, callerPackage)
-                putString(Keys.Base.FROM_ENTRY, callerLocalEntry)
+//                putBundle(Keys.Base.EXTRA, extras)
+                putString(Keys.Base.CALLER_PKG, callerPackageName)
                 putString(Keys.Base.CALLER_BASE_OPEN_VERSION, callerVersion)
+                putString(
+                    Keys.Base.FROM_ENTRY,
+                    AppUtils.componentClassName(
+                        packageName = callerPackageName,
+                        classPath = localEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
+                    )
+                )
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
+                putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
+                putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
             }
-        }
-        open fun fromBundle(bundle: Bundle) {
-            this.callerLocalEntry = bundle.getString(Keys.Base.FROM_ENTRY)
-            this.callerPackage = bundle.getString(Keys.Base.CALLER_PKG)
-            this.callerVersion = bundle.getString(Keys.Base.CALLER_BASE_OPEN_VERSION)
-            this.extras = bundle.getBundle(Keys.Base.EXTRA)
         }
     }
 
     abstract class Response {
-        var errorCode: Int = 0
-        var errorMsg: String? = null
-        var extras: Bundle? = null
         abstract val type: Int
-        val isCancelled: Boolean
-            get() = errorCode == Constants.BaseError.ERROR_CANCEL
+        abstract val errorCode: Int
+        abstract val errorMsg: String?
+        abstract val extras: Bundle?
+
         val isSuccess: Boolean
             get() = errorCode == Constants.BaseError.OK
-        abstract fun validate(): Boolean
+
+        open fun validate(): Boolean = true
 
         open fun toBundle(): Bundle =
             Bundle().apply {
+                putInt(Keys.Base.TYPE, type)
                 putInt(Keys.Base.ERROR_CODE, errorCode)
                 errorMsg?.let { this.putString(Keys.Base.ERROR_MSG, it) }
-                putInt(Keys.Base.TYPE, type)
                 putBundle(Keys.Base.EXTRA, extras)
             }
 

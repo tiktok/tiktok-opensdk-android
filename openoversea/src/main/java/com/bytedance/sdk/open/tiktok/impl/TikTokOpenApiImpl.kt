@@ -14,7 +14,7 @@ import com.bytedance.sdk.open.tiktok.helper.AppCheckFactory
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
 
-open class TikTokOpenApiImpl(
+internal open class TikTokOpenApiImpl(
     private val context: Context,
     private val authService: AuthService,
     private val shareService: ShareService,
@@ -55,16 +55,19 @@ open class TikTokOpenApiImpl(
     }
 
     override fun authorize(request: Auth.Request, useWebAuth: Boolean): Boolean {
-        request.scope = request.scope?.replace(" ", "")
-        request.optionalScope1 = request.optionalScope1?.replace(" ", "")
-        request.optionalScope0 = request.optionalScope0?.replace(" ", "")
-        apiEventHandler.onRequest(request)
+        val internalRequest = request.copy(
+            scope = request.scope.replace(" ", ""),
+            optionalScope0 = request.optionalScope0?.replace(" ", ""),
+            optionalScope1 = request.optionalScope1?.replace(" ", ""),
+
+        )
+        apiEventHandler.onRequest(internalRequest)
         if (!useWebAuth) {
             AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-                return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+                return authService.authorizeNative(internalRequest, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY)
             }
         }
-        return webAuth(request)
+        return webAuth(internalRequest)
     }
 
     override fun share(request: Share.Request): Boolean {

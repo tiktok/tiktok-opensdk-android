@@ -54,8 +54,8 @@ class Share {
         override fun toBundle(): Bundle {
             val bundle = super.toBundle()
             return bundle.apply {
-                putString(Keys.Share.CALLER_LOCAL_ENTRY, callerLocalEntry)
-                putString(Keys.Share.CALLER_PKG, callerPackage)
+//                putString(Keys.Share.CALLER_LOCAL_ENTRY, callerLocalEntry)
+//                putString(Keys.Share.CALLER_PKG, callerPackage)
                 putString(Keys.Share.STATE, state)
                 mediaContent?.apply {
                     putAll(this.toBundle())
@@ -82,20 +82,6 @@ class Share {
                     putString(Keys.Share.ANCHOR_SOURCE_TYPE, sourceType)
                 }
             }
-        }
-        override fun fromBundle(bundle: Bundle) {
-            super.fromBundle(bundle)
-            callerPackage = bundle.getString(Keys.Share.CALLER_PKG)
-            callerLocalEntry = bundle.getString(Keys.Share.CALLER_LOCAL_ENTRY)
-            state = bundle.getString(Keys.Share.STATE)
-            bundle.getInt(Keys.Share.SHARE_FORMAT).let { shareFormat = Format.from(it) }
-            targetSceneType = bundle.getInt(Keys.Share.SHARE_TARGET_SCENE)
-            shareExtra = bundle.getString(Keys.Share.OPENPLATFORM_EXTRA)
-            (bundle.getSerializable(Keys.Share.EXTRA_SHARE_OPTIONS) as HashMap<String, Any>?).let { extraShareOptions = it }
-            hashTagList = bundle.getStringArrayList(Keys.Share.SHARE_HASHTAG_LIST)
-            mediaContent = MediaContent.Companion.fromBundle(bundle)
-            microAppInfo = MicroAppInfo.fromBundle(bundle)
-            anchor = Anchor.Companion.fromBundle(bundle)
         }
     }
 
