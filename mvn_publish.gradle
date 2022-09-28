@@ -7,8 +7,8 @@ publishing {
         maven {
             url = ARTIFACT_VERSION_EXTERNAL.endsWith('SNAPSHOT') ? REPOSITORY_SNAPSHOT_EXTERNAL : REPOSITORY_EXTERNAL
             credentials {
-                username = findProperty("EXTERNAL_USERNAME") ?: ""
-                password = findProperty("EXTERNAL_PASSWORD") ?: ""
+                username = findProperty("EXTERNAL_USERNAME") ?: ''
+                password = findProperty("EXTERNAL_PASSWORD") ?: ''
             }
         }
     }
