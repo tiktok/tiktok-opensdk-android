@@ -9,12 +9,11 @@ uploadArchives {
         if (flavorname.toLowerCase().contains("internal") || project.name.toLowerCase().contains("common")) {
             repositories {
                 mavenDeployer {
-
                     repository(url: REPOSITORY) {
-                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                        authentication(userName: findProperty("INTERNAL_USERNAME") ?: "", password: findProperty("INTERNAL_PASSWORD") ?: "")
                     }
                     snapshotRepository(url: REPOSITORY_SNAPSHOT) {
-                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                        authentication(userName: findProperty("INTERNAL_USERNAME") ?: "", password: findProperty("INTERNAL_PASSWORD") ?: "")
                     }
                     addFilter("aar-src") { artifact, file ->
                         artifact.name == 'aar-src' || artifact.name == 'aar'
