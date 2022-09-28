@@ -1,6 +1,8 @@
 apply plugin: 'maven'
 
 def flavorname = ''
+def username = findProperty("INTERNAL_USERNAME") ?: ''
+def password = findProperty("INTERNAL_PASSWORD") ?: ''
 
 uploadArchives {
     android.productFlavors.all { flavor ->
@@ -9,12 +11,11 @@ uploadArchives {
         if (flavorname.toLowerCase().contains("internal") || project.name.toLowerCase().contains("common")) {
             repositories {
                 mavenDeployer {
-
                     repository(url: REPOSITORY) {
-                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                        authentication(userName: username, password: password)
                     }
                     snapshotRepository(url: REPOSITORY_SNAPSHOT) {
-                        authentication(userName: INTERNAL_USERNAME, password: INTERNAL_PASSWORD)
+                        authentication(userName: username, password: password)
                     }
                     addFilter("aar-src") { artifact, file ->
                         artifact.name == 'aar-src' || artifact.name == 'aar'
