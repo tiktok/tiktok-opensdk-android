@@ -3,7 +3,6 @@ package com.bytedance.sdk.open.tiktok.common.constants
 object Keys {
     const val IMAGE_PATH = "AWEME_EXTRA_IMAGE_MESSAGE_PATH"
     const val VIDEO_PATH = "AWEME_EXTRA_VIDEO_MESSAGE_PATH"
-    const val OAUTH_PATH = "/oauth/authorize/" // TODO: chen.wu remove?
     const val REDIRECT_URL_PATH = "/oauth/authorize/callback/"
     const val SDK_VERSION_ERROR = -1
     const val SDK_VERSION_KEY = "BD_PLATFORM_SDK_VERSION"

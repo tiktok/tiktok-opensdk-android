@@ -6,6 +6,7 @@ import com.bytedance.sdk.open.tiktok.BuildConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
+import com.bytedance.sdk.open.tiktok.authorize.toAuthResponse
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
@@ -13,6 +14,7 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.helper.AppCheckFactory
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
+import com.bytedance.sdk.open.tiktok.share.toShareResponse
 
 open class TikTokOpenApiImpl(
     private val context: Context,
@@ -41,38 +43,38 @@ open class TikTokOpenApiImpl(
             type = bundle.getInt(Keys.Share.TYPE)
         }
         val response = when (type) {
-            Constants.TIKTOK.AUTH_RESPONSE -> Auth.Response()
-            Constants.TIKTOK.SHARE_RESPONSE -> Share.Response()
+            Constants.TIKTOK.AUTH_RESPONSE -> bundle.toAuthResponse()
+            Constants.TIKTOK.SHARE_RESPONSE -> bundle.toShareResponse()
             else -> null
         } ?: return false
-        response.fromBundle(bundle)
-        return if (response.validate()) {
-            apiEventHandler.onResponse(response)
-            true
-        } else {
-            false
-        }
+        apiEventHandler.onResponse(response)
+        return true
     }
 
     override fun authorize(request: Auth.Request, useWebAuth: Boolean): Boolean {
-        request.scope = request.scope?.replace(" ", "")
-        request.optionalScope1 = request.optionalScope1?.replace(" ", "")
-        request.optionalScope0 = request.optionalScope0?.replace(" ", "")
-        apiEventHandler.onRequest(request)
+        val internalRequest = request.copy(
+            scope = request.scope.replace(" ", ""),
+            optionalScope0 = request.optionalScope0?.replace(" ", ""),
+            optionalScope1 = request.optionalScope1?.replace(" ", ""),
+
+        )
+        apiEventHandler.onRequest(internalRequest)
         if (!useWebAuth) {
             AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-                return authService.authorizeNative(request, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY, BuildConfig.DEFAULT_ENTRY_ACTIVITY)
+                return authService.authorizeNative(internalRequest, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY)
             }
         }
-        return webAuth(request)
+        return webAuth(internalRequest)
     }
 
     override fun share(request: Share.Request): Boolean {
         apiEventHandler.onRequest(request)
         AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.let {
             val entryComponents = EntryComponent(
-                BuildConfig.DEFAULT_ENTRY_ACTIVITY, it.packageName,
-                BuildConfig.TIKTOK_SHARE_ACTIVITY, BuildConfig.TIKTOK_AUTH_ACTIVITY
+                defaultComponent = BuildConfig.DEFAULT_ENTRY_ACTIVITY,
+                tiktokPackage = it.packageName,
+                tiktokComponent = BuildConfig.TIKTOK_SHARE_ACTIVITY,
+                tiktokPlatformComponent = BuildConfig.TIKTOK_AUTH_ACTIVITY
             )
             return shareService.share(request, entryComponents)
         }

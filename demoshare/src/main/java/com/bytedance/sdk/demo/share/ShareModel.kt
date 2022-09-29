@@ -24,47 +24,38 @@ data class ShareModel(
     var shareExtra: Map<String, String>? = null
 ) : Parcelable
 
-fun ShareModel.toShareRequest(): Share.Request {
-    val request = Share.Request()
-    this.packageName.takeUnless { it.isEmpty() }?.let {
-        request.callerPackage = it
+fun ShareModel.toShareRequest(callerLocalEntry: String?): Share.Request {
+    val mediaList = ArrayList<String>()
+    for (m in media) {
+        mediaList.add(m)
     }
+    val content = MediaContent(if (isImage) Share.MediaType.IMAGE else Share.MediaType.VIDEO, mediaList)
+    var request = Share.Request(mediaContent = content, callerLocalEntry = callerLocalEntry)
     this.hashtags?.let { validHashTags ->
         val mappedHashtags = ArrayList<String>()
         for (hashtag in validHashTags) {
             mappedHashtags.add(hashtag)
         }
-        request.hashTagList = mappedHashtags
+        request = request.copy(hashTagList = mappedHashtags)
     }
 
     if (this.disableMusicSelection) {
         val options: HashMap<String, Any> = HashMap()
         options[Keys.Share.DISABLE_MUSIC_SELECTION] = 1
-        request.extraShareOptions = options
+        request = request.copy(extraShareOptions = options)
     }
     if (this.greenScreenFormat) {
-        request.shareFormat = Share.Format.GREEN_SCREEN
+        request = request.copy(shareFormat = Share.Format.GREEN_SCREEN)
     }
     if (autoAttachAnchor && !anchorSourceType.isNullOrEmpty()) {
         val anchor = Anchor()
         anchor.sourceType = anchorSourceType
-        request.anchor = anchor
-        try {
-            request.shareExtra = JSONObject(shareExtra).toString()
-        } catch (_: Exception) {
-            request.shareExtra = null
+        request = request.copy(anchor = anchor)
+        shareExtra?.let {
+            try {
+                request = request.copy(shareExtra = JSONObject(shareExtra).toString())
+            } catch (_: Exception) { }
         }
-    }
-    val mediaList = ArrayList<String>()
-    for (m in media) {
-        mediaList.add(m)
-    }
-    if (isImage) {
-        val content = MediaContent(Share.MediaType.IMAGE, mediaList)
-        request.mediaContent = content
-    } else {
-        val content = MediaContent(Share.MediaType.VIDEO, mediaList)
-        request.mediaContent = content
     }
 
     return request

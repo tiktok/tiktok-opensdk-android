@@ -1,6 +1,6 @@
 package com.bytedance.sdk.open.tiktok.common.constants
 
-object Constants {
+internal object Constants {
     object BaseError {
         const val OK = 0
         const val ERROR_UNKNOWN = -1
