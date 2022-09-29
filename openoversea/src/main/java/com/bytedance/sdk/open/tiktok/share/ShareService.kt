@@ -11,7 +11,7 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.getPlatformSDKVersion
 
-internal class ShareService(
+class ShareService(
     private val context: Context,
     private val clientKey: String,
     private val callerPackageName: String? = null,

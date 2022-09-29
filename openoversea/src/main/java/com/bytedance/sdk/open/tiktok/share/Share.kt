@@ -41,7 +41,6 @@ class Share {
         override fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String?): Bundle {
             return super.toBundle(callerPackageName = callerPackageName, callerVersion = callerVersion).apply {
                 putString(Keys.Share.CLIENT_KEY, clientKey)
-                putString(Keys.Share.CALLER_LOCAL_ENTRY, localEntry)
                 putString(Keys.Share.CALLER_PKG, callerPackageName)
                 putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
                 putString(Keys.Share.STATE, state)
