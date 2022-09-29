@@ -68,7 +68,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
             return
         }
         // replace `this::class.simpleName` to `null` below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
-        val request = shareModel.toShareRequest(this::class.simpleName)
+        val request = shareModel.toShareRequest(callerLocalEntry = this::class.simpleName)
         val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey.ifEmpty { BuildConfig.CLIENT_KEY })
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         TikTokOpenApiFactory.create(this, this).let {

@@ -29,7 +29,7 @@ class Share {
         val state: String? = null,
         val shareExtra: String? = null,
         val extraShareOptions: HashMap<String, Any>? = null,
-        override val localEntry: String? = null,
+        override val callerLocalEntry: String? = null,
     ) : Base.Request() {
 
         override var type: Int = Constants.TIKTOK.SHARE_REQUEST
@@ -67,7 +67,7 @@ class Share {
                     Keys.Share.CALLER_LOCAL_ENTRY,
                     AppUtils.componentClassName(
                         packageName = callerPackageName,
-                        classPath = localEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
+                        classPath = callerLocalEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
                     )
                 )
             }

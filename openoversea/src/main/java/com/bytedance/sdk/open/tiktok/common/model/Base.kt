@@ -10,7 +10,7 @@ class Base {
     abstract class Request {
         internal abstract val type: Int
 
-        internal open val localEntry: String? = null
+        internal open val callerLocalEntry: String? = null
 
         internal abstract fun validate(): Boolean
 
@@ -27,7 +27,7 @@ class Base {
                     Keys.Base.FROM_ENTRY,
                     AppUtils.componentClassName(
                         packageName = callerPackageName,
-                        classPath = localEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
+                        classPath = callerLocalEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
                     )
                 )
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME)

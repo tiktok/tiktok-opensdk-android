@@ -47,7 +47,7 @@ class ShareInstrumentedTest {
             targetSceneType = Keys.Scene.LANDPAGE_SCENE_CUT,
             shareExtra = shareExtra,
             extraShareOptions = extraShareOptions,
-            localEntry = localEntry
+            callerLocalEntry = localEntry
         )
     }
 

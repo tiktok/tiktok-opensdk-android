@@ -126,7 +126,7 @@ class MainViewModel(
         val request = Auth.Request(
             scope = enabledScopes.joinBy(","),
             state = "ww",
-            localEntry = callerLocalEntry,
+            callerLocalEntry = callerLocalEntry,
         )
         tikTokOpenApi.authorize(request, webAuthEnabled)
     }

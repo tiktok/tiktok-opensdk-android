@@ -24,13 +24,13 @@ data class ShareModel(
     var shareExtra: Map<String, String>? = null
 ) : Parcelable
 
-fun ShareModel.toShareRequest(localEntry: String?): Share.Request {
+fun ShareModel.toShareRequest(callerLocalEntry: String?): Share.Request {
     val mediaList = ArrayList<String>()
     for (m in media) {
         mediaList.add(m)
     }
     val content = MediaContent(if (isImage) Share.MediaType.IMAGE else Share.MediaType.VIDEO, mediaList)
-    var request = Share.Request(mediaContent = content, localEntry = localEntry)
+    var request = Share.Request(mediaContent = content, callerLocalEntry = callerLocalEntry)
     this.hashtags?.let { validHashTags ->
         val mappedHashtags = ArrayList<String>()
         for (hashtag in validHashTags) {

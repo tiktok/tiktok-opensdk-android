@@ -12,7 +12,7 @@ class Auth {
         val optionalScope0: String? = null,
         val optionalScope1: String? = null,
         val language: String? = null,
-        override val localEntry: String? = null,
+        override val callerLocalEntry: String? = null,
     ) : Base.Request() {
         override val type: Int = Constants.TIKTOK.AUTH_REQUEST
 

@@ -34,7 +34,7 @@ class AuthInstrumentedTest {
             optionalScope0 = optionalScope0,
             optionalScope1 = optionalScope1,
             language = language,
-            localEntry = localEntry
+            callerLocalEntry = localEntry
         )
     }
 
