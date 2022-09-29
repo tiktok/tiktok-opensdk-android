@@ -33,8 +33,8 @@ class ShareUtils {
         }
 
         fun parseAnchorSourceType(sourceTypeString: String): String? {
-            val tokens = sourceTypeString.split(" ")
-            return tokens.find {
+            val sourceTypes = sourceTypeString.split(" ")
+            return sourceTypes.find {
                 it.isNotEmpty()
             }
         }
