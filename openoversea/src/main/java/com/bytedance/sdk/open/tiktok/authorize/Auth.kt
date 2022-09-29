@@ -19,7 +19,7 @@ class Auth {
         override fun validate(): Boolean = scope.isNotEmpty() && state.isNotEmpty()
 
         override fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String?): Bundle {
-            return super.toBundle(clientKey, callerPackageName, callerVersion).apply {
+            return super.toBundle(callerPackageName = callerPackageName, callerVersion = callerVersion).apply {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Auth.STATE, state)
                 putString(Keys.Auth.SCOPE, scope)
@@ -34,18 +34,11 @@ class Auth {
         val authCode: String,
         val state: String,
         val grantedPermissions: String,
-        override val errorCode: Int = Constants.BaseError.OK,
-        override val errorMsg: String? = null,
+        override val errorCode: Int,
+        override val errorMsg: String?,
         override val extras: Bundle? = null,
     ) : Base.Response() {
         override val type: Int = Constants.TIKTOK.AUTH_RESPONSE
-
-        override fun fromBundle(bundle: Bundle) {
-            super.fromBundle(bundle)
-            authCode = bundle.getString(Keys.Auth.AUTH_CODE)
-            state = bundle.getString(Keys.Auth.STATE)
-            grantedPermissions = bundle.getString(Keys.Auth.GRANTED_PERMISSION)
-        }
 
         override fun toBundle(): Bundle {
             return super.toBundle().apply {
@@ -54,8 +47,22 @@ class Auth {
                 putString(Keys.Auth.GRANTED_PERMISSION, grantedPermissions)
             }
         }
-
-        fun Bundle.toAuthResponse() =
-            Bundle
     }
+}
+
+internal fun Bundle.toAuthResponse(): Auth.Response {
+    val authCode = getString(Keys.Auth.AUTH_CODE, "")
+    val state = getString(Keys.Auth.STATE, "")
+    val grantedPermissions = getString(Keys.Auth.GRANTED_PERMISSION, "")
+    val errorCode = getInt(Keys.Base.ERROR_CODE)
+    val errorMsg = getString(Keys.Base.ERROR_MSG)
+    val extras = getBundle(Keys.Base.EXTRA)
+    return Auth.Response(
+        authCode = authCode,
+        state = state,
+        grantedPermissions = grantedPermissions,
+        errorCode = errorCode,
+        errorMsg = errorMsg,
+        extras = extras
+    )
 }

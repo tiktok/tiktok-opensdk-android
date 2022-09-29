@@ -7,16 +7,6 @@ import com.bytedance.sdk.open.tiktok.share.Share
 data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<String>) {
     object Companion {
         const val identifier = "_dyobject_identifier_" // TODO: chen.wu remove?
-
-        fun fromBundle(bundle: Bundle): MediaContent? {
-            bundle.getStringArrayList(Keys.IMAGE_PATH)?.let {
-                return MediaContent(Share.MediaType.IMAGE, it)
-            }
-            bundle.getStringArrayList(Keys.VIDEO_PATH)?.let {
-                return MediaContent(Share.MediaType.VIDEO, it)
-            }
-            return null
-        }
     }
 
     fun toBundle(): Bundle {
@@ -33,6 +23,7 @@ data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayLis
             putStringArrayList(pathKey, mediaPaths)
         }
     }
+
     fun validate(): Boolean {
         return mediaPaths.isNotEmpty()
     }

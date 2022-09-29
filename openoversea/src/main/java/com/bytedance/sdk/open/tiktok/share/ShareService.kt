@@ -11,7 +11,11 @@ import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.getPlatformSDKVersion
 
-class ShareService(val context: Context, val clientKey: String) {
+internal class ShareService(
+    private val context: Context,
+    private val clientKey: String,
+    private val callerPackageName: String? = null,
+) {
     fun share(request: Share.Request, entryComponent: EntryComponent): Boolean {
         if (!request.validate()) {
             return false
@@ -20,22 +24,8 @@ class ShareService(val context: Context, val clientKey: String) {
             if (getPlatformSDKVersion(context, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent)
                 >= Keys.API.MIN_SDK_NEW_VERSION_API
             ) {
-                putAll(request.toBundle())
+                putAll(request.toBundle(clientKey = clientKey, callerPackageName = callerPackageName ?: context.packageName))
             }
-            putString(Keys.Share.CLIENT_KEY, clientKey)
-//            val callerPackage = if (request.callerPackage.isNullOrEmpty()) context.packageName else request.callerPackage
-//            putString(Keys.Share.CALLER_PKG, callerPackage)
-//            putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
-//            val callerLocalEntry = request.callerLocalEntry
-//            putString(
-//                Keys.Share.CALLER_LOCAL_ENTRY,
-//                AppUtils.componentClassName(
-//                    context.packageName,
-//                    if (!callerLocalEntry.isNullOrEmpty()) callerLocalEntry else entryComponent.defaultComponent
-//                )
-//            )
-            putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
-            putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
         }
 
         val intent = Intent().apply {

@@ -16,10 +16,11 @@ class Base {
 
         open fun toBundle(): Bundle = Bundle()
 
-        internal open fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String?): Bundle {
+        abstract fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String? = null): Bundle
+
+        internal open fun toBundle(callerPackageName: String, callerVersion: String?): Bundle {
             return Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
-//                putBundle(Keys.Base.EXTRA, extras)
                 putString(Keys.Base.CALLER_PKG, callerPackageName)
                 putString(Keys.Base.CALLER_BASE_OPEN_VERSION, callerVersion)
                 putString(
@@ -46,8 +47,6 @@ class Base {
         val isSuccess: Boolean
             get() = errorCode == Constants.BaseError.OK
 
-        open fun validate(): Boolean = true
-
         open fun toBundle(): Bundle =
             Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
@@ -55,11 +54,5 @@ class Base {
                 errorMsg?.let { this.putString(Keys.Base.ERROR_MSG, it) }
                 putBundle(Keys.Base.EXTRA, extras)
             }
-
-        open fun fromBundle(bundle: Bundle) {
-            this.errorCode = bundle.getInt(Keys.Base.ERROR_CODE)
-            this.errorMsg = bundle.getString(Keys.Base.ERROR_MSG)
-            this.extras = bundle.getBundle(Keys.Base.EXTRA)
-        }
     }
 }

@@ -3,7 +3,6 @@ package com.bytedance.sdk.open.tiktok.authorize
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.text.TextUtils
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 
 internal class AuthService(
@@ -12,8 +11,8 @@ internal class AuthService(
     private val callerPackageName: String? = null,
     private val callerVersion: String? = null,
 ) {
-    internal fun authorizeNative(authRequest: Auth.Request, authorizeAppPackageName: String, authorizeClassPath: String): Boolean {
-        if (TextUtils.isEmpty(authorizeAppPackageName) || !authRequest.validate()) {
+    fun authorizeNative(authRequest: Auth.Request, authorizeAppPackageName: String, authorizeClassPath: String): Boolean {
+        if (authorizeAppPackageName.isEmpty() || !authRequest.validate()) {
             return false
         }
         val bundle = authRequest.toBundle(
@@ -33,7 +32,7 @@ internal class AuthService(
         }
     }
 
-    internal fun authorizeWeb(req: Auth.Request): Boolean {
+    fun authorizeWeb(req: Auth.Request): Boolean {
         return if (!req.validate()) {
             false
         } else {

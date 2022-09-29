@@ -102,21 +102,22 @@ internal class WebAuthActivity : Activity() {
         }
     }
 
-    private fun redirectToClientApp(errorCode: Int, code: String? = null, state: String? = null, permissions: String? = null, errorMsg: String? = null) {
-        val response = Auth.Response()
-        response.authCode = code
-        response.errorCode = errorCode
-        response.state = state
-        response.grantedPermissions = permissions
-        response.errorMsg = errorMsg
+    private fun redirectToClientApp(errorCode: Int, code: String = "", state: String = "", permissions: String = "", errorMsg: String? = null) {
+        val extras = Bundle()
+        extras.putString("wap_authorize_url", mContentWebView.url)
+        val response = Auth.Response(
+            authCode = code,
+            state = state,
+            grantedPermissions = permissions,
+            errorCode = errorCode,
+            errorMsg = errorMsg,
+            extras = extras
+        )
         sendInnerResponse(webAuthRequest, response)
         finish()
     }
 
     private fun sendInnerResponse(webAuthRequest: WebAuthRequest, resp: Base.Response): Boolean {
-        val extras = resp.extras ?: Bundle()
-        extras.putString("wap_authorize_url", mContentWebView.url)
-        resp.extras = extras
         val bundle = resp.toBundle()
         val intent = Intent()
         val componentName = ComponentName(webAuthRequest.callerPackageName, webAuthRequest.fromEntry)
@@ -228,9 +229,9 @@ internal class WebAuthActivity : Activity() {
         if (!url.startsWith(REDIRECT_URL)) {
             return false
         }
-        val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE)
-        val state = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_STATE)
-        val grantedPermissions = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_SCOPE)
+        val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE) ?: ""
+        val state = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_STATE) ?: ""
+        val grantedPermissions = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_SCOPE) ?: ""
         if (TextUtils.isEmpty(code)) {
             parseErrorAndRedirectToClient(uri)
             return false

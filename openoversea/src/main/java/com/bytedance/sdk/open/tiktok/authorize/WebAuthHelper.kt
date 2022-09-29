@@ -9,7 +9,7 @@ import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.getMd5Signs
 import com.bytedance.sdk.open.tiktok.utils.SignatureUtils.packageSignature
 
 internal object WebAuthHelper {
-    internal fun composeLoadUrl(
+    fun composeLoadUrl(
         context: Context,
         redirectUrl: String,
         webAuthRequest: WebAuthRequest,

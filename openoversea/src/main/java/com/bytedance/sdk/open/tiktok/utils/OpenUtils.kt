@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.tiktok.utils
 
 import android.view.View
 
-object OpenUtils {
+internal object OpenUtils {
     fun setViewVisibility(v: View?, visible: Int) {
         if (v == null || v.visibility == visible || !visibilityValid(visible)) {
             return

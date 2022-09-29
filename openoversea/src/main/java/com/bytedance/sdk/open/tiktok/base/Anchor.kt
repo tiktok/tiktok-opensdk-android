@@ -21,13 +21,4 @@ data class Anchor(
             putString(Keys.Share.SHARE_ANCHOR_INFO, Gson().toJson(this@Anchor))
         }
     }
-
-    object Companion {
-        fun fromBundle(bundle: Bundle): Anchor? {
-            val gsonString = bundle.getString(Keys.Share.SHARE_ANCHOR_INFO)
-            return gsonString?.let {
-                Gson().fromJson(it, Anchor::class.java)
-            }
-        }
-    }
 }

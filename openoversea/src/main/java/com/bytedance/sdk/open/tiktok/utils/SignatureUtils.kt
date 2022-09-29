@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.text.TextUtils
 
-object SignatureUtils {
+internal object SignatureUtils {
     // validate tiktok or musically app's signature
     fun validateSign(context: Context?, pkgName: String, sign: String): Boolean {
         if (TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(sign) || context == null) {

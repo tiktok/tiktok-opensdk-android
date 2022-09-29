@@ -2,7 +2,7 @@ package com.bytedance.sdk.open.tiktok.utils
 
 import java.security.MessageDigest
 
-object Md5Utils {
+internal object Md5Utils {
     private val hexDigits = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
 
     fun hexDigest(string: String): String? {
