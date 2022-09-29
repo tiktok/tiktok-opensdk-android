@@ -16,7 +16,7 @@ import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
 import com.bytedance.sdk.open.tiktok.share.toShareResponse
 
-internal open class TikTokOpenApiImpl(
+open class TikTokOpenApiImpl(
     private val context: Context,
     private val authService: AuthService,
     private val shareService: ShareService,
