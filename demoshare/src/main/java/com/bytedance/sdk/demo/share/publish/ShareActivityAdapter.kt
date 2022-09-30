@@ -20,7 +20,10 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var models: List<DataModel> = listOf()
+
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView
         val desc: TextView
@@ -89,9 +92,9 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
                 (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.toggle.isChecked = model.isOn.value ?: false
+                    it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        model.isOn.postValue(isOn)
+                        //onScopeToggle(model.type, isOn)
                     }
                 }
             }
@@ -104,12 +107,13 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun afterTextChanged(p0: Editable?) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            model.text.postValue(text.toString())
+                            model.text = text.toString()
                         }
                     }
                     editText.addTextChangedListener(textWatcher)
-                    editText.isEnabled = model.enabled.value ?: false
+                    editText.isEnabled = model.enabled ?: false
                     title.setTextColor(context.getColor(if (editText.isEnabled) R.color.colorTextPrimary else R.color.colorTextTertiary))
+                    /*
                     model.enabled.observeForever { enabled ->
                         editText.isEnabled = enabled
                         if (enabled) {
@@ -119,9 +123,15 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
                             title.setTextColor(context.getColor(R.color.colorTextTertiary))
                         }
                     }
+
+                     */
                 }
             }
         }
+    }
+
+    fun updateModels(models: List<DataModel>) {
+        this.models = models
     }
 
     override fun getItemCount(): Int = models.size

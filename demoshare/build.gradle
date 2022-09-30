@@ -28,6 +28,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lintOptions {
+        disable 'MissingTranslation'
+        abortOnError false
+        ignoreWarnings true
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -50,6 +55,8 @@ dependencies {
     implementation project(path: ':openoversea')
 
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.google.code.gson:gson:$gson"
