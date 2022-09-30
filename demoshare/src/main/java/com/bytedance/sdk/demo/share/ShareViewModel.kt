@@ -70,6 +70,36 @@ class ShareViewModel(
         tikTokOpenApi.share(request)
     }
 
+    fun updateHashtag(hashtags: String) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
+    fun updateMusicToggle(isOn: Boolean) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
+    fun updateGreenToggle(isOn: Boolean) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
+    fun updateAnchorToggle(isOn: Boolean) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
+    fun updateAnchorText(extra: String) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
+    fun updateExtraText(extra: String) {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+
+    }
+
     private fun toShareRequest(callerLocalEntry: String): Share.Request {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
         val mediaList = ArrayList<String>()

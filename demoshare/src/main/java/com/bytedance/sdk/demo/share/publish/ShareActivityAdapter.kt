@@ -20,7 +20,15 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter(
+    private var hashtagText: (String) -> Unit,
+    private var onMusicToggle: (Boolean) -> Unit,
+    private var onGreenToggle: (Boolean) -> Unit,
+    private var onAnchorToggle: (Boolean) -> Unit,
+    private var anchorText: (String) -> Unit,
+    private var extraText: (String) -> Unit,
+    private val context: Context
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var models: List<DataModel> = listOf()
 
