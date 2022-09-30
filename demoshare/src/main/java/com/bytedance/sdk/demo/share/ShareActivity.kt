@@ -31,7 +31,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var shareViewModel: ShareViewModel
     private lateinit var tiktokOpenAPI: TikTokOpenApi
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_activity)
@@ -67,7 +66,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private fun initData() {
         findViewById<TextView>(R.id.share_button).setOnClickListener {
         }
-
 
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
@@ -146,9 +144,9 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
                         shareModel.shareExtra = extra
                         true
                     } catch (ex: Exception) {
-                        AlertDialog.Builder(this).setTitle(getString(R.string.demo_app_json_format_error_info)).
-                            setMessage(getString(R.string.demo_app_json_format_error_desc)).setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }.
-                            create().show()
+                        AlertDialog.Builder(this).setTitle(getString(R.string.demo_app_json_format_error_info))
+                            .setMessage(getString(R.string.demo_app_json_format_error_desc)).setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
+                            .create().show()
                         false
                     }
                 } else {

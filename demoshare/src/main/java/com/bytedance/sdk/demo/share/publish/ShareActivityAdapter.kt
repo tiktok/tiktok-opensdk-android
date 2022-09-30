@@ -94,7 +94,7 @@ class ShareActivityAdapter(val context: Context) : RecyclerView.Adapter<Recycler
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        //onScopeToggle(model.type, isOn)
+                        // onScopeToggle(model.type, isOn)
                     }
                 }
             }
