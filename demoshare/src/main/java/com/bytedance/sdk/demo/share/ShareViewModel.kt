@@ -82,7 +82,6 @@ class ShareViewModel(
             )
         }
         shareModel.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)
-
     }
 
     fun updateHashtag(hashtags: String) {
