@@ -21,12 +21,12 @@ import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter(
-    private var hashtagText: (String) -> Unit,
+    private var onHashTagTextChange: (String) -> Unit,
     private var onMusicToggle: (Boolean) -> Unit,
     private var onGreenToggle: (Boolean) -> Unit,
     private var onAnchorToggle: (Boolean) -> Unit,
-    private var anchorText: (String) -> Unit,
-    private var extraText: (String) -> Unit,
+    private var onAnchorTextChange: (String) -> Unit,
+    private var onExtraTextChange: (String) -> Unit,
     private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
