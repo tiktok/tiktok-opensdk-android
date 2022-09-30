@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bytedance.sdk.demo.share.ShareModel
+import com.bytedance.sdk.demo.share.ShareUtils
 import com.bytedance.sdk.demo.share.toShareRequest
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import kotlinx.coroutines.channels.Channel
@@ -63,8 +64,25 @@ class ShareViewModel(
     }
 
     fun publish(callerLocalEntry: String) {
+        composeShareModel()
         val request = shareModel.toShareRequest(callerLocalEntry)
         tikTokOpenApi.share(request)
+    }
+
+    private fun composeShareModel() {
+        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        shareModel.hashtags = ShareUtils.parseHashtags(currentStateValue.hashtagContent)
+        shareModel.disableMusicSelection = currentStateValue.musicSelection
+        shareModel.greenScreenFormat = currentStateValue.greenScreen
+        shareModel.autoAttachAnchor = currentStateValue.autoAttachAnchor
+
+        shareModel.anchorSourceType = currentStateValue.anchorSourceType?.let {
+            ShareUtils.parseAnchorSourceType(
+                it
+            )
+        }
+        shareModel.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)
+
     }
 
     fun updateHashtag(hashtags: String) {
