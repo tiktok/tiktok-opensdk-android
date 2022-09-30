@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.bytedance.sdk.demo.share.ShareModel
 import com.bytedance.sdk.demo.share.ShareUtils
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.base.Anchor
@@ -19,13 +20,14 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class ShareViewModel(
-    private val tikTokOpenApi: TikTokOpenApi
+    private val tikTokOpenApi: TikTokOpenApi,
+    private val shareModel: ShareModel
 ) : ViewModel() {
 
     @SuppressWarnings("unchecked")
-    class Factory(val tikTokOpenApi: TikTokOpenApi) : ViewModelProvider.Factory {
+    class Factory(val tikTokOpenApi: TikTokOpenApi, val shareModel: ShareModel) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return ShareViewModel(tikTokOpenApi) as T
+            return ShareViewModel(tikTokOpenApi, shareModel) as T
         }
     }
 
@@ -66,8 +68,45 @@ class ShareViewModel(
     }
 
     fun publish(callerLocalEntry: String) {
+        composeShareModel()
         val request = toShareRequest(callerLocalEntry)
         tikTokOpenApi.share(request)
+    }
+
+    private fun composeShareModel(): Boolean {
+        val currentState = _shareViewState.value
+        if (currentState != null) {
+            shareModel.hashtags = ShareUtils.parseHashtags(currentState.hashtagContent)
+        }
+        if (currentState != null) {
+            shareModel.disableMusicSelection = currentState.musicSelection
+        }
+        if (currentState != null) {
+            shareModel.autoAttachAnchor = currentState.autoAttachAnchor
+        } else {
+            shareModel.autoAttachAnchor = false
+        }
+        val anchorSource = currentState?.anchorSourceType?.let { ShareUtils.parseAnchorSourceType(it) }
+        if (shareModel.autoAttachAnchor) {
+            shareModel.anchorSourceType = anchorSource
+            val extra: Map<String, String>?
+            if (currentState != null) {
+                if (currentState.extraContent.isNotEmpty()) {
+                    return try {
+                        extra = ShareUtils.parseJSON(currentState.extraContent)
+                        shareModel.shareExtra = extra
+                        true
+                    } catch (ex: Exception) {
+                        // alert later
+                        false
+                    }
+                } else {
+                    shareModel.shareExtra = null
+                }
+            }
+        }
+
+        return true
     }
 
     fun updateHashtag(hashtags: String) {

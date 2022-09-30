@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -75,20 +74,19 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         findViewById<TextView>(R.id.share_button).setOnClickListener {
             this.publish()
         }
-
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
-        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI)).get(ShareViewModel::class.java)
+        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel)).get(ShareViewModel::class.java)
         shareViewModel.shareViewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
-                initHeader(),
-                initHashtag(),
-                initMusicToggle(),
-                initGreenScreenToggle(),
-                initAnchorToggle(),
-                initAnchorText(viewState.anchorContent, viewState.anchorExtraEnabled),
-                initExtraText(viewState.extraContent)
+                HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
+                EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc)),
+                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc)),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc)),
+                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc)),
+                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled),
+                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent)
             )
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
@@ -97,75 +95,11 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         }
     }
 
-    private fun initHashtag(): EditModel {
-        return EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc))
-    }
-
-    private fun initExtraText(extraContent: String): EditModel {
-        return EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), extraContent)
-    }
-
-    private fun initAnchorText(anchorContent: String, anchorExtraEnabled: Boolean): EditModel {
-        return EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), anchorContent, anchorExtraEnabled)
-    }
-
-    private fun initMusicToggle(): ToggleModel {
-        return ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc))
-    }
-
-    private fun initGreenScreenToggle(): ToggleModel {
-        return ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc))
-    }
-
-    private fun initAnchorToggle(): ToggleModel {
-        return ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc))
-    }
-
-    private fun initHeader(): HeaderModel {
-        return HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc))
-    }
-
     private fun publish() {
-        composeShareModel()
         shareViewModel.publish(this::class.simpleName.toString())
     }
 
-    private fun composeShareModel(): Boolean {
-        val currentState = shareViewModel.shareViewState.value
-        val hashtags = shareViewModel.shareViewState.value?.let { ShareUtils.parseHashtags(it.hashtagContent) }
-        shareModel.hashtags = hashtags
-        if (currentState != null) {
-            shareModel.disableMusicSelection = currentState.musicSelection
-        }
-        if (currentState != null) {
-            shareModel.autoAttachAnchor = currentState.autoAttachAnchor
-        } else {
-            shareModel.autoAttachAnchor = false
-        }
-        val anchorSource = currentState?.anchorSourceType?.let { ShareUtils.parseAnchorSourceType(it) }
-        if (shareModel.autoAttachAnchor) {
-            shareModel.anchorSourceType = anchorSource
-            val extra: Map<String, String>?
-            if (currentState != null) {
-                if (currentState.extraContent.isNotEmpty()) {
-                    return try {
-                        extra = ShareUtils.parseJSON(currentState.extraContent)
-                        shareModel.shareExtra = extra
-                        true
-                    } catch (ex: Exception) {
-                        AlertDialog.Builder(this).setTitle(getString(R.string.demo_app_json_format_error_info))
-                            .setMessage(getString(R.string.demo_app_json_format_error_desc)).setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
-                            .create().show()
-                        false
-                    }
-                } else {
-                    shareModel.shareExtra = null
-                }
-            }
-        }
 
-        return true
-    }
 
     private fun hashtagText(hashtags: String) {
         shareViewModel.updateHashtag(hashtags)
