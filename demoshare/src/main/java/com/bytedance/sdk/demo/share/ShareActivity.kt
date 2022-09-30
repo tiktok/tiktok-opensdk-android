@@ -42,12 +42,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
-            hashtagText = :: hashtagText,
+            onHashTagTextChange = :: onHashTagTextChange,
             onMusicToggle = :: onMusicToggle,
             onGreenToggle = :: onGreenToggle,
             onAnchorToggle = :: onAnchorToggle,
-            anchorText = :: anchorText,
-            extraText = :: extraText,
+            onAnchorTextChange = :: onAnchorTextChange,
+            onExtraTextChange = :: onExtraTextChange,
             this,
         )
         recyclerView.adapter = recyclerAdapter
@@ -103,7 +103,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.publish(this::class.simpleName.toString())
     }
 
-    private fun hashtagText(hashtags: String) {
+    private fun onHashTagTextChange(hashtags: String) {
         shareViewModel.updateHashtag(hashtags)
     }
 
@@ -119,11 +119,11 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.updateAnchorToggle(isOn)
     }
 
-    private fun anchorText(anchors: String) {
+    private fun onAnchorTextChange(anchors: String) {
         shareViewModel.updateAnchorText(anchors)
     }
 
-    private fun extraText(extra: String) {
+    private fun onExtraTextChange(extra: String) {
         shareViewModel.updateExtraText(extra)
     }
 

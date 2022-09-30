@@ -7,17 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.bytedance.sdk.demo.share.ShareModel
-import com.bytedance.sdk.demo.share.ShareUtils
+import com.bytedance.sdk.demo.share.toShareRequest
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
-import com.bytedance.sdk.open.tiktok.base.Anchor
-import com.bytedance.sdk.open.tiktok.base.MediaContent
-import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.share.Share
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class ShareViewModel(
     private val tikTokOpenApi: TikTokOpenApi,
@@ -68,45 +63,8 @@ class ShareViewModel(
     }
 
     fun publish(callerLocalEntry: String) {
-        composeShareModel()
-        val request = toShareRequest(callerLocalEntry)
+        val request = shareModel.toShareRequest(callerLocalEntry)
         tikTokOpenApi.share(request)
-    }
-
-    private fun composeShareModel(): Boolean {
-        val currentState = _shareViewState.value
-        if (currentState != null) {
-            shareModel.hashtags = ShareUtils.parseHashtags(currentState.hashtagContent)
-        }
-        if (currentState != null) {
-            shareModel.disableMusicSelection = currentState.musicSelection
-        }
-        if (currentState != null) {
-            shareModel.autoAttachAnchor = currentState.autoAttachAnchor
-        } else {
-            shareModel.autoAttachAnchor = false
-        }
-        val anchorSource = currentState?.anchorSourceType?.let { ShareUtils.parseAnchorSourceType(it) }
-        if (shareModel.autoAttachAnchor) {
-            shareModel.anchorSourceType = anchorSource
-            val extra: Map<String, String>?
-            if (currentState != null) {
-                if (currentState.extraContent.isNotEmpty()) {
-                    return try {
-                        extra = ShareUtils.parseJSON(currentState.extraContent)
-                        shareModel.shareExtra = extra
-                        true
-                    } catch (ex: Exception) {
-                        // alert later
-                        false
-                    }
-                } else {
-                    shareModel.shareExtra = null
-                }
-            }
-        }
-
-        return true
     }
 
     fun updateHashtag(hashtags: String) {
@@ -137,46 +95,5 @@ class ShareViewModel(
     fun updateExtraText(extra: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
         _shareViewState.value = currentStateValue.copy(extraContent = extra)
-    }
-
-    private fun toShareRequest(callerLocalEntry: String): Share.Request {
-        val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        val mediaList = ArrayList<String>()
-        for (m in currentStateValue.media) {
-            mediaList.add(m)
-        }
-        val content = MediaContent(if (currentStateValue.isImage) Share.MediaType.IMAGE else Share.MediaType.VIDEO, mediaList)
-        var request = Share.Request(mediaContent = content, callerLocalEntry = callerLocalEntry)
-        val hashtags = ShareUtils.parseHashtags(currentStateValue.hashtagContent)
-        hashtags?.let { validHashTags ->
-            val mappedHashtags = ArrayList<String>()
-            for (hashtag in validHashTags) {
-                mappedHashtags.add(hashtag)
-            }
-            request = request.copy(hashTagList = mappedHashtags)
-        }
-
-        if (currentStateValue.musicSelection) {
-            val options: HashMap<String, Any> = HashMap()
-            options[Keys.Share.DISABLE_MUSIC_SELECTION] = 1
-            request = request.copy(extraShareOptions = options)
-        }
-
-        if (currentStateValue.greenScreen) {
-            request = request.copy(shareFormat = Share.Format.GREEN_SCREEN)
-        }
-
-        if (currentStateValue.autoAttachAnchor && !currentStateValue.anchorSourceType.isNullOrEmpty()) {
-            val anchor = Anchor()
-            anchor.sourceType = currentStateValue.anchorSourceType
-            request = request.copy(anchor = anchor)
-            currentStateValue.extraContent?.let {
-                try {
-                    request = request.copy(shareExtra = JSONObject(currentStateValue.extraContent).toString())
-                } catch (_: Exception) { }
-            }
-        }
-
-        return request
     }
 }
