@@ -191,7 +191,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.updateExtraText(extra)
     }
 
-
     // IApiEventHandler
     override fun onResponse(resp: Base.Response) {
         if (resp is Share.Response) {
