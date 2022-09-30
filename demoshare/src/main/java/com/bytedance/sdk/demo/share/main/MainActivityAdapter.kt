@@ -108,7 +108,7 @@ class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<Re
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn ?: false
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        //model.isOn.postValue(isOn)
+                        // model.isOn.postValue(isOn)
                     }
                 }
             }
