@@ -42,7 +42,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
-            onHashTagTextChange = :: onHashTagTextChange,
+            onHashTagTextChange = shareViewModel:: updateHashtag,
             onMusicToggle = :: onMusicToggle,
             onGreenToggle = :: onGreenToggle,
             onAnchorToggle = :: onAnchorToggle,
