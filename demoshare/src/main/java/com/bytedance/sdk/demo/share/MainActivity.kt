@@ -120,7 +120,8 @@ class MainActivity : AppCompatActivity() {
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
+        // TODO: Change customization into boolean while implementing mainActivityRecyclerView in the share kit
+        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), false)
     }
 
     private fun initHeaderModel(): HeaderModel {
