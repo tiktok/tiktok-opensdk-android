@@ -111,26 +111,32 @@ class ShareViewModel(
 
     fun updateHashtag(hashtags: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(hashtagContent = hashtags)
     }
 
     fun updateMusicToggle(isOn: Boolean) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(musicSelection = isOn)
     }
 
     fun updateGreenToggle(isOn: Boolean) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(greenScreen = isOn)
     }
 
     fun updateAnchorToggle(isOn: Boolean) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(autoAttachAnchor = isOn)
     }
 
     fun updateAnchorText(extra: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(anchorContent = extra)
     }
 
     fun updateExtraText(extra: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
+        _shareViewState.value = currentStateValue.copy(extraContent = extra)
     }
 
     private fun toShareRequest(callerLocalEntry: String): Share.Request {
