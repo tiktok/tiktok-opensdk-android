@@ -78,6 +78,10 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
         shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel)).get(ShareViewModel::class.java)
+
+        if (shareModel == null) {
+            finish()
+        }
         shareViewModel.shareViewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
