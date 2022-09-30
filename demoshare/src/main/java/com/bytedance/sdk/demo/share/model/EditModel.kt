@@ -1,6 +1,6 @@
 package com.bytedance.sdk.demo.share.model
 
-class EditModel(
+data class EditModel(
     val title: String,
     val desc: String,
     var text: String = "",

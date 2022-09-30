@@ -42,7 +42,15 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         publishButton.setOnClickListener { publish() }
 
         recyclerView = findViewById(R.id.recycler_view)
-        recyclerAdapter = ShareActivityAdapter(this)
+        recyclerAdapter = ShareActivityAdapter(
+            hashtagText = :: hashtagText,
+            onMusicToggle = :: onMusicToggle,
+            onGreenToggle = :: onGreenToggle,
+            onAnchorToggle = :: onAnchorToggle,
+            anchorText = :: anchorText,
+            extraText = :: extraText,
+            this,
+        )
         recyclerView.adapter = recyclerAdapter
 
         initData()
@@ -65,6 +73,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
     private fun initData() {
         findViewById<TextView>(R.id.share_button).setOnClickListener {
+            this.publish()
         }
 
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
@@ -157,6 +166,31 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
         return true
     }
+
+    private fun hashtagText(hashtags: String) {
+        shareViewModel.updateHashtag(hashtags)
+    }
+
+    private fun onMusicToggle(isOn: Boolean) {
+        shareViewModel.updateMusicToggle(isOn)
+    }
+
+    private fun onGreenToggle(isOn: Boolean) {
+        shareViewModel.updateGreenToggle(isOn)
+    }
+
+    private fun onAnchorToggle(isOn: Boolean) {
+        shareViewModel.updateAnchorToggle(isOn)
+    }
+
+    private fun anchorText(anchors: String) {
+        shareViewModel.updateAnchorText(anchors)
+    }
+
+    private fun extraText(extra: String) {
+        shareViewModel.updateExtraText(extra)
+    }
+
 
     // IApiEventHandler
     override fun onResponse(resp: Base.Response) {
