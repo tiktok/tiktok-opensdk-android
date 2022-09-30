@@ -99,8 +99,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.publish(this::class.simpleName.toString())
     }
 
-
-
     private fun hashtagText(hashtags: String) {
         shareViewModel.updateHashtag(hashtags)
     }
