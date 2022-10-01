@@ -102,7 +102,7 @@ class ShareActivityAdapter(
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        // onScopeToggle(model.type, isOn)
+                        model.onEditTextChange(isOn)
                     }
                 }
             }
