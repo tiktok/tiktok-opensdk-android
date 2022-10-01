@@ -85,11 +85,11 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
                 EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), onEditTextChange = shareViewModel::updateHashtag),
-                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc)),
-                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc)),
-                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc)),
-                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled, onEditTextChange = shareViewModel::updateHashtag),
-                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent, onEditTextChange = shareViewModel::updateHashtag)
+                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), onEditTextChange = shareViewModel::updateMusicToggle),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), onEditTextChange = shareViewModel::updateGreenToggle),
+                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), onEditTextChange = shareViewModel::updateAnchorToggle),
+                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled, onEditTextChange = shareViewModel::updateAnchorText),
+                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
             )
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
