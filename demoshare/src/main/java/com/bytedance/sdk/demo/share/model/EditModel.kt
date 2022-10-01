@@ -4,7 +4,8 @@ data class EditModel(
     val title: String,
     val desc: String,
     var text: String = "",
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
+    val onEditTextChange: (String) -> Unit
 ) : DataModel {
     override val viewType = ViewType.EDIT_TEXT
 }

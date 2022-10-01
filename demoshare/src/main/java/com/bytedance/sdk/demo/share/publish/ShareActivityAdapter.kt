@@ -107,32 +107,14 @@ class ShareActivityAdapter(
                 }
             }
             is EditModel -> {
-                (holder as EditTextViewHolder).apply {
-                    title.text = model.title
-                    desc.text = model.desc
-
-                    val textWatcher = object : TextWatcher {
+                (holder as EditTextViewHolder).let {
+                    it.editText.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                        override fun afterTextChanged(p0: Editable?) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            model.text = text.toString()
+                            model.onEditTextChange(text.toString())
                         }
-                    }
-                    editText.addTextChangedListener(textWatcher)
-                    editText.isEnabled = model.enabled ?: false
-                    title.setTextColor(context.getColor(if (editText.isEnabled) R.color.colorTextPrimary else R.color.colorTextTertiary))
-                    /*
-                    model.enabled.observeForever { enabled ->
-                        editText.isEnabled = enabled
-                        if (enabled) {
-                            title.setTextColor(context.getColor(R.color.colorTextPrimary))
-                        } else {
-                            editText.text = null
-                            title.setTextColor(context.getColor(R.color.colorTextTertiary))
-                        }
-                    }
-
-                     */
+                        override fun afterTextChanged(p0: Editable?) {}
+                    })
                 }
             }
         }
