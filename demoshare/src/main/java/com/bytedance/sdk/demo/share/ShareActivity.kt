@@ -22,7 +22,7 @@ import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.share.Share
 
 class ShareActivity : AppCompatActivity(), IApiEventHandler {
-    private lateinit var shareModel: ShareModel
+    private var shareModel: ShareModel? = null
     private lateinit var backButton: Button
     private lateinit var publishButton: Button
     private lateinit var recyclerView: RecyclerView
@@ -33,13 +33,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_activity)
-        shareModel = intent.getParcelableExtra("share_model")!!
 
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener { finish() }
         publishButton = findViewById(R.id.share_button)
         publishButton.setOnClickListener { publish() }
-
+        initData()
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
             onHashTagTextChange = shareViewModel:: updateHashtag,
@@ -52,7 +51,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         )
         recyclerView.adapter = recyclerAdapter
 
-        initData()
+
         lifecycleScope.launchWhenCreated {
             shareViewModel.viewEffectFlow.collect {
                 when (it) {
@@ -74,6 +73,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         findViewById<TextView>(R.id.share_button).setOnClickListener {
             this.publish()
         }
+        shareModel = intent.getParcelableExtra("share_model")
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)

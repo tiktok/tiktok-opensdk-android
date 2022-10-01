@@ -17,11 +17,11 @@ import kotlinx.coroutines.launch
 
 class ShareViewModel(
     private val tikTokOpenApi: TikTokOpenApi,
-    private val shareModel: ShareModel
+    private val shareModel: ShareModel?
 ) : ViewModel() {
 
     @SuppressWarnings("unchecked")
-    class Factory(val tikTokOpenApi: TikTokOpenApi, val shareModel: ShareModel) : ViewModelProvider.Factory {
+    class Factory(val tikTokOpenApi: TikTokOpenApi, val shareModel: ShareModel?) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return ShareViewModel(tikTokOpenApi, shareModel) as T
         }
@@ -65,23 +65,25 @@ class ShareViewModel(
 
     fun publish(callerLocalEntry: String) {
         composeShareModel()
-        val request = shareModel.toShareRequest(callerLocalEntry)
-        tikTokOpenApi.share(request)
+        val request = shareModel?.toShareRequest(callerLocalEntry)
+        if (request != null) {
+            tikTokOpenApi.share(request)
+        }
     }
 
     private fun composeShareModel() {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        shareModel.hashtags = ShareUtils.parseHashtags(currentStateValue.hashtagContent)
-        shareModel.disableMusicSelection = currentStateValue.musicSelection
-        shareModel.greenScreenFormat = currentStateValue.greenScreen
-        shareModel.autoAttachAnchor = currentStateValue.autoAttachAnchor
+        shareModel?.hashtags = ShareUtils.parseHashtags(currentStateValue.hashtagContent)
+        shareModel?.disableMusicSelection = currentStateValue.musicSelection
+        shareModel?.greenScreenFormat = currentStateValue.greenScreen
+        shareModel?.autoAttachAnchor = currentStateValue.autoAttachAnchor
 
-        shareModel.anchorSourceType = currentStateValue.anchorSourceType?.let {
+        shareModel?.anchorSourceType = currentStateValue.anchorSourceType?.let {
             ShareUtils.parseAnchorSourceType(
                 it
             )
         }
-        shareModel.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)
+        shareModel?.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)
     }
 
     fun updateHashtag(hashtags: String) {

@@ -108,6 +108,8 @@ class ShareActivityAdapter(
             }
             is EditModel -> {
                 (holder as EditTextViewHolder).let {
+                    it.title.text = model.title
+                    it.desc.text = model.desc
                     it.editText.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
