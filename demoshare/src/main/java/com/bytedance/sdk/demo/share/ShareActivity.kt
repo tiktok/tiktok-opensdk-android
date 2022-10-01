@@ -51,7 +51,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         )
         recyclerView.adapter = recyclerAdapter
 
-
         lifecycleScope.launchWhenCreated {
             shareViewModel.viewEffectFlow.collect {
                 when (it) {
