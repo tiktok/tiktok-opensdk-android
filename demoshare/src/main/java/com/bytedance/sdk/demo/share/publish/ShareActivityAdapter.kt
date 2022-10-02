@@ -19,8 +19,7 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter(
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var models: List<DataModel> = listOf()
 
