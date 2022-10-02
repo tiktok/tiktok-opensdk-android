@@ -16,7 +16,7 @@ import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
-import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.ShareToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -31,7 +31,7 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             desc = view.findViewById(R.id.desc)
         }
     }
-    class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ShareToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val subtitle: TextView
         val toggle: ToggleButton
@@ -60,7 +60,7 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             ViewType.TOGGLE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
-                return ToggleViewHolder(view)
+                return ShareToggleViewHolder(view)
             }
             ViewType.EDIT_TEXT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
@@ -87,8 +87,8 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     }
                 }
             }
-            is ToggleModel -> {
-                (holder as ToggleViewHolder).let {
+            is ShareToggleModel -> {
+                (holder as MainActivityAdapter.ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
