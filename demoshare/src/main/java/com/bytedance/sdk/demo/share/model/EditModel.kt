@@ -3,7 +3,7 @@ package com.bytedance.sdk.demo.share.model
 data class EditModel(
     val title: String,
     val desc: String,
-    var text: String = "",
+    val text: String = "",
     val enabled: Boolean = true,
     val onEditTextChange: (String) -> Unit
 ) : DataModel {
