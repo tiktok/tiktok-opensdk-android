@@ -43,7 +43,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter()
         recyclerView.adapter = recyclerAdapter
-
     }
 
     override fun onNewIntent(intent: Intent?) {

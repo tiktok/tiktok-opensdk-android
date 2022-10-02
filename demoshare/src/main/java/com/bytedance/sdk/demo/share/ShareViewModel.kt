@@ -39,7 +39,6 @@ class ShareViewModel(
         var media: List<String> = arrayListOf(),
     )
 
-
     fun publish(callerLocalEntry: String) {
         composeShareModel()
         val request = shareModel?.toShareRequest(callerLocalEntry)
