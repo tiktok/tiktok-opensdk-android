@@ -82,9 +82,9 @@ class ShareViewModel(
         _shareViewState.value = currentStateValue.copy(autoAttachAnchor = isOn)
     }
 
-    fun updateAnchorText(extra: String) {
+    fun updateAnchorText(anchor: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        _shareViewState.value = currentStateValue.copy(anchorContent = extra)
+        _shareViewState.value = currentStateValue.copy(anchorContent = anchor)
     }
 
     fun updateExtraText(extra: String) {
