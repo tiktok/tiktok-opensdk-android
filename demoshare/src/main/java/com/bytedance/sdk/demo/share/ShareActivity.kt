@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
@@ -45,14 +44,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         recyclerAdapter = ShareActivityAdapter()
         recyclerView.adapter = recyclerAdapter
 
-        lifecycleScope.launchWhenCreated {
-            shareViewModel.viewEffectFlow.collect {
-                when (it) {
-
-                    else -> {}
-                }
-            }
-        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -65,10 +56,14 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private fun initData() {
 
         shareModel = intent.getParcelableExtra("share_model")
+        if (shareModel == null) {
+            finish()
+        }
+
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
-        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel)).get(ShareViewModel::class.java)
+        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(ShareViewModel::class.java)
 
         if (shareModel == null) {
             finish()
