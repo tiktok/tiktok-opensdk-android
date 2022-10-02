@@ -1,6 +1,5 @@
 package com.bytedance.sdk.demo.share.model
 
-
 data class ShareToggleModel(
     val title: String,
     val desc: String,

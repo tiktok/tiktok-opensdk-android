@@ -67,7 +67,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
         if (shareModel == null) {
 
-
             finish()
         }
         shareViewModel.shareViewState.observe(this) { viewState ->
