@@ -88,7 +88,7 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
             }
             is ShareToggleModel -> {
-                (holder as MainActivityAdapter.ToggleViewHolder).let {
+                (holder as ShareToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
