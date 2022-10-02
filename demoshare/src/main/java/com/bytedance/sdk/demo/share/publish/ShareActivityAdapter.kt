@@ -1,6 +1,5 @@
 package com.bytedance.sdk.demo.share.publish
 
-import android.content.Context
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,13 +20,6 @@ import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter(
-    private var onHashTagTextChange: (String) -> Unit,
-    private var onMusicToggle: (Boolean) -> Unit,
-    private var onGreenToggle: (Boolean) -> Unit,
-    private var onAnchorToggle: (Boolean) -> Unit,
-    private var onAnchorTextChange: (String) -> Unit,
-    private var onExtraTextChange: (String) -> Unit,
-    private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var models: List<DataModel> = listOf()
@@ -102,7 +94,7 @@ class ShareActivityAdapter(
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        model.onEditTextChange(isOn)
+                        model.onToggleChange(isOn)
                     }
                 }
             }

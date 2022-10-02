@@ -4,7 +4,7 @@ data class ToggleModel(
     val title: String,
     val desc: String,
     val isOn: Boolean = false,
-    val onEditTextChange: (Boolean) -> Unit
+    val onToggleChange: (Boolean) -> Unit
 ) : DataModel {
     override val viewType = ViewType.TOGGLE
 }
