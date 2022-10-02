@@ -13,7 +13,7 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.HintedTextModel
 import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
-import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.MainToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 import com.bytedance.sdk.open.tiktok.BuildConfig.DEFAULT_ENTRY_ACTIVITY
 import com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_AUTH_ACTIVITY
@@ -115,13 +115,13 @@ class MainActivity : AppCompatActivity() {
         return arrayListOf(bundleId, clientKey, clientSecretKey)
     }
 
-    private fun initCustomClientKeyModel(): ToggleModel {
+    private fun initCustomClientKeyModel(): MainToggleModel {
         val customization = MutableLiveData<Boolean>(false)
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
 
-        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize))
+        return MainToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
     }
 
     private fun initHeaderModel(): HeaderModel {

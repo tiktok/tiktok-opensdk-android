@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
-import com.bytedance.sdk.demo.share.model.ShareToggleModel
+import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.publish.ShareActivityAdapter
 import com.bytedance.sdk.demo.share.tiktokapi.ShareViewModel
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
@@ -73,9 +73,9 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
                 EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), onEditTextChange = shareViewModel::updateHashtag),
-                ShareToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), onToggleChange = shareViewModel::updateMusicToggle),
-                ShareToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), onToggleChange = shareViewModel::updateGreenToggle),
-                ShareToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), onToggleChange = shareViewModel::updateAnchorToggle),
+                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), onToggleChange = shareViewModel::updateMusicToggle),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), onToggleChange = shareViewModel::updateGreenToggle),
+                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), onToggleChange = shareViewModel::updateAnchorToggle),
                 EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled, onEditTextChange = shareViewModel::updateAnchorText),
                 EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
             )
