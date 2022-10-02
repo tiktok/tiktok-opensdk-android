@@ -16,7 +16,7 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.HintedTextModel
 import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
-import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.MainToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -102,16 +102,17 @@ class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<Re
                     it.header.text = model.title
                 }
             }
-            is ToggleModel -> {
+            is MainToggleModel -> {
                 (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.toggle.isChecked = model.isOn ?: false
+                    it.toggle.isChecked = model.isOn.value ?: false
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        // model.isOn.postValue(isOn)
+                        model.isOn.postValue(isOn)
                     }
                 }
             }
+
             is HintedTextModel -> {
                 (holder as HintedTextViewHolder).let {
                     it.title.text = model.title
