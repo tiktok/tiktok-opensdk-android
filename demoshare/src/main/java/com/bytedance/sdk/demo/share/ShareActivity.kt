@@ -3,7 +3,6 @@ package com.bytedance.sdk.demo.share
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +23,7 @@ import com.bytedance.sdk.open.tiktok.share.Share
 class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private var shareModel: ShareModel? = null
     private lateinit var backButton: Button
+    private lateinit var shareButton: Button
     private lateinit var publishButton: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: ShareActivityAdapter
@@ -38,6 +38,8 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         backButton.setOnClickListener { finish() }
         publishButton = findViewById(R.id.share_button)
         publishButton.setOnClickListener { publish() }
+        shareButton = findViewById(R.id.share_button)
+        shareButton.setOnClickListener { this.publish() }
         initData()
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter()
@@ -61,9 +63,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initData() {
-        findViewById<TextView>(R.id.share_button).setOnClickListener {
-            this.publish()
-        }
+
         shareModel = intent.getParcelableExtra("share_model")
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
