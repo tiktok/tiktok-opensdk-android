@@ -55,6 +55,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     private fun initData() {
 
         shareModel = intent.getParcelableExtra("share_model")
+
         if (shareModel == null) {
             finish()
         }
@@ -65,6 +66,8 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(ShareViewModel::class.java)
 
         if (shareModel == null) {
+
+
             finish()
         }
         shareViewModel.shareViewState.observe(this) { viewState ->
