@@ -8,8 +8,6 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 class AuthService(
     private val context: Context,
     private val clientKey: String,
-    private val callerPackageName: String? = null,
-    private val callerVersion: String? = null,
 ) {
     fun authorizeNative(authRequest: Auth.Request, authorizeAppPackageName: String, authorizeClassPath: String): Boolean {
         if (authorizeAppPackageName.isEmpty() || !authRequest.validate()) {
@@ -17,8 +15,6 @@ class AuthService(
         }
         val bundle = authRequest.toBundle(
             clientKey = clientKey,
-            callerPackageName = callerPackageName ?: context.packageName,
-            callerVersion = callerVersion,
         )
         val intent = Intent().apply {
             component = ComponentName(authorizeAppPackageName, componentClassName(authorizeAppPackageName, authorizeClassPath))
@@ -38,8 +34,6 @@ class AuthService(
         } else {
             val bundle = req.toBundle(
                 clientKey = clientKey,
-                callerPackageName = callerPackageName ?: context.packageName,
-                callerVersion = callerVersion,
             )
             val intent = Intent(context, WebAuthActivity::class.java).apply {
                 putExtras(bundle)

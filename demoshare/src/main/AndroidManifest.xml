@@ -44,14 +44,6 @@
             android:taskAffinity="com.bytedance.sdk.demo.share"
             android:exported="true">
         </activity>
-<!--        android:taskAffinity="com.bytedance.sdk.account.demo.share"-->
-
-        <activity
-            android:name=".tiktokapi.TikTokEntryActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.bytedance.sdk.demo.share"
-            android:exported="true">
-        </activity>
 
     </application>
 </manifest>

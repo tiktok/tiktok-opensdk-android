@@ -89,7 +89,6 @@ internal class WebAuthActivity : Activity() {
             } else {
                 isLoading = true
                 mContentWebView.webViewClient = AuthWebViewClient()
-                // need auth request to be set in onReq
                 mContentWebView.loadUrl(composeLoadUrl(this, REDIRECT_URL, webAuthRequest))
             }
         }
@@ -102,9 +101,9 @@ internal class WebAuthActivity : Activity() {
         }
     }
 
-    private fun redirectToClientApp(errorCode: Int, code: String = "", state: String = "", permissions: String = "", errorMsg: String? = null) {
+    private fun redirectToClientApp(errorCode: Int, code: String = "", state: String? = null, permissions: String = "", errorMsg: String? = null) {
         val extras = Bundle()
-        extras.putString("wap_authorize_url", mContentWebView.url)
+        extras.putString(WEB_AUTHORIZE_URL, mContentWebView.url)
         val response = Auth.Response(
             authCode = code,
             state = state,
@@ -120,7 +119,7 @@ internal class WebAuthActivity : Activity() {
     private fun sendInnerResponse(webAuthRequest: WebAuthRequest, resp: Base.Response): Boolean {
         val bundle = resp.toBundle()
         val intent = Intent()
-        val componentName = ComponentName(webAuthRequest.callerPackageName, webAuthRequest.fromEntry)
+        val componentName = ComponentName(webAuthRequest.resultActivityPackageName, webAuthRequest.resultActivityClassPath)
         intent.component = componentName
         intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -230,7 +229,7 @@ internal class WebAuthActivity : Activity() {
             return false
         }
         val code = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_CODE) ?: ""
-        val state = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_STATE) ?: ""
+        val state = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_STATE)
         val grantedPermissions = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_SCOPE) ?: ""
         if (TextUtils.isEmpty(code)) {
             parseErrorAndRedirectToClient(uri)
@@ -303,6 +302,7 @@ internal class WebAuthActivity : Activity() {
     companion object {
         private const val USER_CANCEL_AUTH = "User cancelled the Authorization"
         private const val BACKGROUND_COLOR = "#ffffff"
+        private const val WEB_AUTHORIZE_URL = "wap_authorize_url"
 
         private const val REDIRECT_URL = "https://${BuildConfig.AUTH_HOST}${Keys.REDIRECT_URL_PATH}"
     }

@@ -28,7 +28,7 @@ class TikTokOpenApiFactory {
             }
             checkNotNull(mConfig).let {
                 val share = ShareService(context, it.clientKey)
-                val auth = AuthService(context, it.clientKey, it.callerPackageName, it.callerVersion)
+                val auth = AuthService(context, it.clientKey)
                 return TikTokOpenApiImpl(context, auth, share, handler)
             }
         }

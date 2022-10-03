@@ -7,6 +7,7 @@ import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.authorize.AuthService
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils
 import io.mockk.every
 import io.mockk.mockk
@@ -23,36 +24,25 @@ class AuthInstrumentedTest {
     private val optionalScope0 = "optionalScope0"
     private val optionalScope1 = "optionalScope1"
     private val language = "language"
-    private val callerPackage = "callerPackage"
-    private val callerLocalEntry = "callerLocalEntry"
-    private val callerVersion = "callerVersion"
+    private val resultActivityPackage = "com.bytedance"
+    private val resultActivityClass = "resultActivity"
 
-    private fun createTestAuthRequest(localEntry: String? = null): Auth.Request {
+    private fun createTestAuthRequest(): Auth.Request {
         return Auth.Request(
             scope = scope,
             state = state,
             optionalScope0 = optionalScope0,
             optionalScope1 = optionalScope1,
             language = language,
-            callerLocalEntry = localEntry
+            resultActivityComponent = ResultActivityComponent(resultActivityPackage, resultActivityClass)
         )
     }
 
     @Test
-    fun testAuthWithCustomLocalEntry() {
-        val request = createTestAuthRequest(localEntry = callerLocalEntry)
-        val bundle = request.toBundle(clientKey, callerPackage, callerVersion)
+    fun testAuthToBundle() {
+        val request = createTestAuthRequest()
+        val bundle = request.toBundle(clientKey)
 
-        assertEquals(bundle.getString(Keys.Base.FROM_ENTRY), AppUtils.componentClassName(callerPackage, callerLocalEntry))
-        verifyBundle(bundle)
-    }
-
-    @Test
-    fun testAuthWithDefaultLocalEntry() {
-        val request = createTestAuthRequest(localEntry = null)
-        val bundle = request.toBundle(clientKey, callerPackage, callerVersion)
-
-        assertEquals(bundle.getString(Keys.Base.FROM_ENTRY), AppUtils.componentClassName(callerPackage, BuildConfig.DEFAULT_ENTRY_ACTIVITY))
         verifyBundle(bundle)
     }
 
@@ -64,8 +54,8 @@ class AuthInstrumentedTest {
         assertEquals(bundle.getString(Keys.Auth.OPTIONAL_SCOPE0), optionalScope0)
         assertEquals(bundle.getString(Keys.Auth.OPTIONAL_SCOPE1), optionalScope1)
         assertEquals(bundle.getString(Keys.Auth.LANGUAGE), language)
-        assertEquals(bundle.getString(Keys.Base.CALLER_PKG), callerPackage)
-        assertEquals(bundle.getString(Keys.Base.CALLER_BASE_OPEN_VERSION), callerVersion)
+        assertEquals(bundle.getString(Keys.Base.CALLER_PKG), resultActivityPackage)
+        assertEquals(bundle.getString(Keys.Base.FROM_ENTRY), AppUtils.componentClassName(resultActivityPackage, resultActivityClass))
         assertEquals(bundle.getString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME), BuildConfig.SDK_OVERSEA_NAME)
         assertEquals(bundle.getString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION), BuildConfig.SDK_OVERSEA_VERSION)
     }

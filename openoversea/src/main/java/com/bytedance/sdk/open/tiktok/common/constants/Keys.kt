@@ -17,7 +17,6 @@ object Keys {
         const val ERROR_MSG = "_bytedance_params_error_msg"
         const val FROM_ENTRY = "_bytedance_params_from_entry"
         const val CALLER_PKG = "_bytedance_params_type_caller_package"
-        const val CALLER_BASE_OPEN_VERSION = "__bytedance_base_caller_version"
         const val CALLER_BASE_OPEN_SDK_NAME = "_aweme_params_caller_open_sdk_name"
         const val CALLER_BASE_OPEN_SDK_VERSION = "_aweme_params_caller_open_sdk_version"
         const val CALLER_BASE_OPEN_SDK_COMMON_NAME = "_aweme_params_caller_open_sdk_common_name"

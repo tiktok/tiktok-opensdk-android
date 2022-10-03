@@ -5,13 +5,13 @@ import com.bytedance.sdk.open.tiktok.common.constants.Keys
 
 internal data class WebAuthRequest(
     val clientKey: String,
-    val state: String,
+    val state: String?,
     val scope: String,
     val optionalScope0: String?,
     val optionalScope1: String?,
-    val language: String? = null,
-    val callerPackageName: String,
-    val fromEntry: String,
+    val language: String?,
+    val resultActivityPackageName: String,
+    val resultActivityClassPath: String,
 )
 
 internal fun Bundle.toWebAuthRequest(): WebAuthRequest? {
@@ -21,10 +21,10 @@ internal fun Bundle.toWebAuthRequest(): WebAuthRequest? {
     val optionalScope0 = getString(Keys.Auth.OPTIONAL_SCOPE0)
     val optionalScope1 = getString(Keys.Auth.OPTIONAL_SCOPE1)
     val language = getString(Keys.Auth.LANGUAGE)
-    val callerPackageName = getString(Keys.Base.CALLER_PKG)
-    val fromEntry = getString(Keys.Base.FROM_ENTRY)
+    val resultReceiverPackageName = getString(Keys.Base.CALLER_PKG)
+    val resultClassPath = getString(Keys.Base.FROM_ENTRY)
 
-    if (clientKey.isNullOrEmpty() || state.isNullOrEmpty() || scope.isNullOrEmpty() || callerPackageName.isNullOrEmpty() || fromEntry.isNullOrEmpty()) {
+    if (clientKey.isNullOrEmpty() || scope.isNullOrEmpty() || resultReceiverPackageName.isNullOrEmpty() || resultClassPath.isNullOrEmpty()) {
         return null
     }
     return WebAuthRequest(
@@ -34,7 +34,7 @@ internal fun Bundle.toWebAuthRequest(): WebAuthRequest? {
         optionalScope0,
         optionalScope1,
         language,
-        callerPackageName,
-        fromEntry
+        resultReceiverPackageName,
+        resultClassPath
     )
 }

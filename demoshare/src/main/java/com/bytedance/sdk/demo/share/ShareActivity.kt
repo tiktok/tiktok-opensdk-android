@@ -19,6 +19,7 @@ import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 
 class ShareActivity : AppCompatActivity(), IApiEventHandler {
@@ -67,8 +68,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         if (!composeShareModel()) {
             return
         }
-        // replace `this::class.simpleName` to `null` below to let the default `tiktokapi.TikTokEntryActivity` to handle the IApiEventHandler callbacks
-        val request = shareModel.toShareRequest(callerLocalEntry = this::class.simpleName)
+        val request = shareModel.toShareRequest(
+            ResultActivityComponent(
+                this.packageName,
+                this.localClassName,
+            )
+        )
         val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey.ifEmpty { BuildConfig.CLIENT_KEY })
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         TikTokOpenApiFactory.create(this, this).let {

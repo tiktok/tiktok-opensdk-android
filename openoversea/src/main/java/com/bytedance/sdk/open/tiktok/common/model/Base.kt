@@ -10,30 +10,27 @@ class Base {
     abstract class Request {
         internal abstract val type: Int
 
-        internal open val callerLocalEntry: String? = null
+        internal abstract val resultActivityComponent: ResultActivityComponent
 
         internal abstract fun validate(): Boolean
 
-        open fun toBundle(): Bundle = Bundle()
+        abstract fun toBundle(clientKey: String): Bundle
 
-        abstract fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String? = null): Bundle
-
-        internal open fun toBundle(callerPackageName: String, callerVersion: String?): Bundle {
+        internal open fun toBundle(): Bundle {
             return Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
-                putString(Keys.Base.CALLER_PKG, callerPackageName)
-                putString(Keys.Base.CALLER_BASE_OPEN_VERSION, callerVersion)
-                putString(
-                    Keys.Base.FROM_ENTRY,
-                    AppUtils.componentClassName(
-                        packageName = callerPackageName,
-                        classPath = callerLocalEntry ?: BuildConfig.DEFAULT_ENTRY_ACTIVITY
-                    )
-                )
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, BuildConfig.SDK_OVERSEA_NAME)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, BuildConfig.SDK_OVERSEA_NAME)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, BuildConfig.SDK_OVERSEA_VERSION)
+                putString(Keys.Base.CALLER_PKG, resultActivityComponent.packageName)
+                putString(
+                    Keys.Base.FROM_ENTRY,
+                    AppUtils.componentClassName(
+                        packageName = resultActivityComponent.packageName,
+                        classPath = resultActivityComponent.className
+                    )
+                )
             }
         }
     }

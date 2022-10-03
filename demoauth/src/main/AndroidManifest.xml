@@ -28,13 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".tiktokapi.TikTokEntryActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.bytedance.sdk.account.demo.auth"
-            android:exported="true">
-        </activity>
     </application>
 
 </manifest>
