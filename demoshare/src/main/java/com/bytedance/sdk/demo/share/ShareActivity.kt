@@ -22,7 +22,6 @@ import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 
 class ShareActivity : AppCompatActivity(), IApiEventHandler {
-    private var shareModel: ShareModel? = null
     private lateinit var backButton: Button
     private lateinit var shareButton: Button
     private lateinit var publishButton: Button
@@ -57,37 +56,31 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initData() {
-
-        shareModel = intent.getParcelableExtra(SHARE_MODEL)
+        val shareModel: ShareModel? = intent.getParcelableExtra(SHARE_MODEL)
 
         if (shareModel == null) {
             finish()
-        }
-
-        val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
-        TikTokOpenApiFactory.init(tiktokOpenConfig)
-        tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
-        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(
-            ShareViewModel::class.java
-        )
-
-        if (shareModel == null) {
-
-            finish()
-        }
-        shareViewModel.shareViewState.observe(this) { viewState ->
-            val recyclerViewDataModel = mutableListOf(
-                HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
-                EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc),
-                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.isMusic, onToggleChange = shareViewModel::updateMusicToggle),
-                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.isGreenScreen, onToggleChange = shareViewModel::updateGreenToggle),
-                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.isAnchor, onToggleChange = shareViewModel::updateAnchorToggle),
-                EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc),
-                EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc)
+        } else {
+            val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+            TikTokOpenApiFactory.init(tiktokOpenConfig)
+            tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
+            shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel)).get(
+                ShareViewModel::class.java
             )
-            recyclerAdapter.updateModels(recyclerViewDataModel)
-            if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
-                recyclerAdapter.notifyDataSetChanged()
+            shareViewModel.shareViewState.observe(this) { viewState ->
+                val recyclerViewDataModel = mutableListOf(
+                    HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
+                    EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc),
+                    ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.isMusic, onToggleChange = shareViewModel::updateMusicToggle),
+                    ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.isGreenScreen, onToggleChange = shareViewModel::updateGreenToggle),
+                    ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.isAnchor, onToggleChange = shareViewModel::updateAnchorToggle),
+                    EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc),
+                    EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc)
+                )
+                recyclerAdapter.updateModels(recyclerViewDataModel)
+                if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
+                    recyclerAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
