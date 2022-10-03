@@ -12,14 +12,16 @@ import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
-import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.TextType
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter(
+    private var editTextChange : (TextType, String) -> Unit,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var models: List<DataModel> = listOf()
 
@@ -62,13 +64,9 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
                 return ToggleViewHolder(view)
             }
-            ViewType.EDIT_TEXT -> {
+            else -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
                 EditTextViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
-                MainActivityAdapter.LogoViewHolder(view)
             }
         }
     }
@@ -99,12 +97,12 @@ class ShareActivityAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             is EditModel -> {
                 (holder as EditTextViewHolder).let {
-                    it.title.text = model.title
-                    it.desc.text = model.desc
+                    it.title.text = holder.itemView.context.getString(model.titleRes)
+                    it.desc.text = holder.itemView.context.getString(model.descRes)
                     it.editText.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                         override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            model.onEditTextChange(text.toString())
+                            editTextChange(model.type, text.toString())
                         }
                         override fun afterTextChanged(p0: Editable?) {}
                     })

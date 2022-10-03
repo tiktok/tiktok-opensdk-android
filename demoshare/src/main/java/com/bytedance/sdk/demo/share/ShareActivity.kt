@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.TextType
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.publish.ShareActivityAdapter
-import com.bytedance.sdk.demo.share.tiktokapi.ShareViewModel
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
@@ -43,7 +43,9 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareButton.setOnClickListener { this.publish() }
         initData()
         recyclerView = findViewById(R.id.recycler_view)
-        recyclerAdapter = ShareActivityAdapter()
+        recyclerAdapter = ShareActivityAdapter(
+            editTextChange =:: editTextChange
+        )
         recyclerView.adapter = recyclerAdapter
     }
 
@@ -65,7 +67,8 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
-        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(ShareViewModel::class.java)
+        shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(
+            ShareViewModel::class.java)
 
         if (shareModel == null) {
 
@@ -74,18 +77,22 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.shareViewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
-                EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), text = viewState.hashtagContent, onEditTextChange = shareViewModel::updateHashtag),
-                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.musicSelection, onToggleChange = shareViewModel::updateMusicToggle),
-                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.greenScreen, onToggleChange = shareViewModel::updateGreenToggle),
+                EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc),
+                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.isMusic, onToggleChange = shareViewModel::updateMusicToggle),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.isGreenScreen, onToggleChange = shareViewModel::updateGreenToggle),
                 ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.isAnchor, onToggleChange = shareViewModel::updateAnchorToggle),
-                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), text = viewState.anchorContent, viewState.isAnchor, onEditTextChange = shareViewModel::updateAnchorText),
-                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), text = viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
+                EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc),
+                EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc)
             )
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
                 recyclerAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    private fun editTextChange(type: TextType, text: String) {
+        shareViewModel.updateText(type, text)
     }
 
     private fun publish() {
