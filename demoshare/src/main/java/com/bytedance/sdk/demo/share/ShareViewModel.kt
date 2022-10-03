@@ -26,16 +26,12 @@ class ShareViewModel(
     val shareViewState: LiveData<ShareViewModelViewState> = _shareViewState
 
     data class ShareViewModelViewState(
+        val hashtagContent: String = "",
         val musicSelection: Boolean = false,
         val greenScreen: Boolean = false,
         val isAnchor: Boolean = false,
         val anchorContent: String = "",
-        val anchorExtraEnabled: Boolean = false,
-        val hashtagContent: String = "",
         val extraContent: String = "",
-        val anchorSourceTypeEnabled: Boolean = false,
-        val autoAttachAnchor: Boolean = false,
-        val anchorSourceType: String? = null,
         var isImage: Boolean = false,
         var media: List<String> = arrayListOf(),
     )
@@ -54,9 +50,9 @@ class ShareViewModel(
         shareModel.hashtags = ShareUtils.parseHashtags(currentStateValue.hashtagContent)
         shareModel.disableMusicSelection = currentStateValue.musicSelection
         shareModel.greenScreenFormat = currentStateValue.greenScreen
-        shareModel.autoAttachAnchor = currentStateValue.autoAttachAnchor
+        shareModel.autoAttachAnchor = currentStateValue.isAnchor
 
-        shareModel.anchorSourceType = currentStateValue.anchorSourceType?.let {
+        shareModel.anchorSourceType = currentStateValue.anchorContent?.let {
             ShareUtils.parseAnchorSourceType(
                 it
             )
@@ -81,7 +77,7 @@ class ShareViewModel(
 
     fun updateAnchorToggle(isOn: Boolean) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        _shareViewState.value = currentStateValue.copy(autoAttachAnchor = isOn)
+        _shareViewState.value = currentStateValue.copy(isAnchor = isOn)
     }
 
     fun updateAnchorText(anchor: String) {

@@ -15,6 +15,7 @@ import com.bytedance.sdk.demo.share.tiktokapi.ShareViewModel
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.common.constants.Keys.Share.SHARE_MODEL
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
@@ -55,7 +56,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
     private fun initData() {
 
-        shareModel = intent.getParcelableExtra("share_model")
+        shareModel = intent.getParcelableExtra(SHARE_MODEL)
 
         if (shareModel == null) {
             finish()
@@ -73,12 +74,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.shareViewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
-                EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), onEditTextChange = shareViewModel::updateHashtag),
+                EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), text = viewState.hashtagContent, onEditTextChange = shareViewModel::updateHashtag),
                 ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.musicSelection, onToggleChange = shareViewModel::updateMusicToggle),
                 ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.greenScreen, onToggleChange = shareViewModel::updateGreenToggle),
-                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.anchorExtraEnabled, onToggleChange = shareViewModel::updateAnchorToggle),
-                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled, onEditTextChange = shareViewModel::updateAnchorText),
-                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
+                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.isAnchor, onToggleChange = shareViewModel::updateAnchorToggle),
+                EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), text = viewState.anchorContent, viewState.isAnchor, onEditTextChange = shareViewModel::updateAnchorText),
+                EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), text = viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
             )
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {

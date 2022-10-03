@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             shareModel.clientKey = ""
             shareModel.clientSecret = ""
         }
-        intent.putExtra("share_model", shareModel)
+        intent.putExtra(Keys.Share.SHARE_MODEL, shareModel)
         startActivity(intent)
     }
 
