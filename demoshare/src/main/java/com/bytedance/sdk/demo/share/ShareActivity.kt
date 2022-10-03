@@ -44,7 +44,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         initData()
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
-            editTextChange =:: editTextChange
+            editTextChange = :: editTextChange
         )
         recyclerView.adapter = recyclerAdapter
     }
@@ -68,7 +68,8 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
         shareViewModel = ViewModelProvider(this, ShareViewModel.Factory(tiktokOpenAPI, shareModel!!)).get(
-            ShareViewModel::class.java)
+            ShareViewModel::class.java
+        )
 
         if (shareModel == null) {
 

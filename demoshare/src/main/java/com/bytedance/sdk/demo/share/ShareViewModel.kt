@@ -53,14 +53,14 @@ class ShareViewModel(
     private fun composeShareModel() {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
         shareModel.hashtags = currentStateValue.textStatus[TextType.HASHTAG]?.let {
-            ShareUtils.parseHashtags( it.text )
+            ShareUtils.parseHashtags(it.text)
         }
         shareModel.disableMusicSelection = currentStateValue.isMusic
         shareModel.greenScreenFormat = currentStateValue.isGreenScreen
         shareModel.autoAttachAnchor = currentStateValue.isAnchor
 
         shareModel.anchorSourceType = currentStateValue.anchorContent?.let {
-            ShareUtils.parseAnchorSourceType( it )
+            ShareUtils.parseAnchorSourceType(it)
         }
         shareModel.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)
     }

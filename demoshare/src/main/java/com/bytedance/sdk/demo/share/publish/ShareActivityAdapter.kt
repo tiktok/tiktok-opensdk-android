@@ -20,7 +20,7 @@ import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter(
-    private var editTextChange : (TextType, String) -> Unit,
+    private var editTextChange: (TextType, String) -> Unit,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var models: List<DataModel> = listOf()
