@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.TextType
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
@@ -34,10 +33,10 @@ class ShareViewModel(
         val extraContent: String = "",
         var isImage: Boolean = false,
         var media: List<String> = arrayListOf(),
-        val textStatus: LinkedHashMap<TextType, EditModel> = linkedMapOf(
-            TextType.HASHTAG to EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc),
-            TextType.ANCHOR to EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc),
-            TextType.EXTRA to EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc),
+        val textStatus: Map<TextType, String> = mapOf(
+            TextType.HASHTAG to "",
+            TextType.ANCHOR to "",
+            TextType.EXTRA to "",
         )
     )
 
@@ -53,7 +52,7 @@ class ShareViewModel(
     private fun composeShareModel() {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
         shareModel.hashtags = currentStateValue.textStatus[TextType.HASHTAG]?.let {
-            ShareUtils.parseHashtags(it.text)
+            ShareUtils.parseHashtags(it)
         }
         shareModel.disableMusicSelection = currentStateValue.isMusic
         shareModel.greenScreenFormat = currentStateValue.isGreenScreen
@@ -67,9 +66,9 @@ class ShareViewModel(
 
     fun updateText(type: TextType, text: String) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        val textStatus = currentStateValue.textStatus
+        val textStatus = currentStateValue.textStatus.toMutableMap()
         textStatus[type]?.let {
-            textStatus[type] = it.copy(text = text)
+            textStatus[type] = text
         }
 
         _shareViewState.value = currentStateValue.copy(textStatus = textStatus)

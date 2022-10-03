@@ -70,12 +70,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
             shareViewModel.shareViewState.observe(this) { viewState ->
                 val recyclerViewDataModel = mutableListOf(
                     HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
-                    EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc),
+                    EditModel(TextType.HASHTAG, R.string.demo_app_hashtag_info, R.string.demo_app_hashtag_desc, text = viewState.textStatus[TextType.HASHTAG].toString()),
                     ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.isMusic, onToggleChange = shareViewModel::updateMusicToggle),
                     ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.isGreenScreen, onToggleChange = shareViewModel::updateGreenToggle),
                     ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.isAnchor, onToggleChange = shareViewModel::updateAnchorToggle),
-                    EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc),
-                    EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc)
+                    EditModel(TextType.ANCHOR, R.string.demo_app_anchor_info, R.string.demo_app_anchor_desc, text = viewState.textStatus[TextType.ANCHOR].toString()),
+                    EditModel(TextType.EXTRA, R.string.demo_app_extra_info, R.string.demo_app_extra_desc, text = viewState.textStatus[TextType.EXTRA].toString())
                 )
                 recyclerAdapter.updateModels(recyclerViewDataModel)
                 if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout()) {
