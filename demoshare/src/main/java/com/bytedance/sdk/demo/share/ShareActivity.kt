@@ -73,9 +73,9 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
                 EditModel(getString(R.string.demo_app_hashtag_info), getString(R.string.demo_app_hashtag_desc), onEditTextChange = shareViewModel::updateHashtag),
-                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), onToggleChange = shareViewModel::updateMusicToggle),
-                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), onToggleChange = shareViewModel::updateGreenToggle),
-                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), onToggleChange = shareViewModel::updateAnchorToggle),
+                ToggleModel(getString(R.string.demo_app_music_select_info), getString(R.string.demo_app_music_select_desc), isOn = viewState.musicSelection, onToggleChange = shareViewModel::updateMusicToggle),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.greenScreen, onToggleChange = shareViewModel::updateGreenToggle),
+                ToggleModel(getString(R.string.demo_app_anchor_toggle_info), getString(R.string.demo_app_anchor_toggle_desc), isOn = viewState.anchorExtraEnabled, onToggleChange = shareViewModel::updateAnchorToggle),
                 EditModel(getString(R.string.demo_app_anchor_info), getString(R.string.demo_app_anchor_desc), viewState.anchorContent, viewState.anchorExtraEnabled, onEditTextChange = shareViewModel::updateAnchorText),
                 EditModel(getString(R.string.demo_app_extra_info), getString(R.string.demo_app_extra_desc), viewState.extraContent, onEditTextChange = shareViewModel::updateExtraText)
             )
