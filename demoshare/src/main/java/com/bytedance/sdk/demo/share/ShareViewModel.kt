@@ -8,6 +8,7 @@ import com.bytedance.sdk.demo.share.ShareModel
 import com.bytedance.sdk.demo.share.ShareUtils
 import com.bytedance.sdk.demo.share.toShareRequest
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 
 class ShareViewModel(
     private val tikTokOpenApi: TikTokOpenApi,
@@ -39,9 +40,10 @@ class ShareViewModel(
         var media: List<String> = arrayListOf(),
     )
 
-    fun publish(callerLocalEntry: String) {
+    fun publish(resultActivityComponent: ResultActivityComponent) {
         composeShareModel()
-        val request = shareModel.toShareRequest(callerLocalEntry)
+        val request = shareModel.toShareRequest(resultActivityComponent)
+
         if (request != null) {
             tikTokOpenApi.share(request)
         }

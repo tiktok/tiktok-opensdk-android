@@ -17,6 +17,7 @@ import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 
 class ShareActivity : AppCompatActivity(), IApiEventHandler {
@@ -87,7 +88,12 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun publish() {
-        shareViewModel.publish(this::class.simpleName.toString())
+        shareViewModel.publish(
+            ResultActivityComponent(
+                this.packageName,
+                this.localClassName,
+            )
+        )
     }
 
     // IApiEventHandler
