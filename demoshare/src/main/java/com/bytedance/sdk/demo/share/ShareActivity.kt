@@ -36,8 +36,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
 
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener { finish() }
-        publishButton = findViewById(R.id.share_button)
-        publishButton.setOnClickListener { publish() }
         shareButton = findViewById(R.id.share_button)
         shareButton.setOnClickListener { this.publish() }
         initData()

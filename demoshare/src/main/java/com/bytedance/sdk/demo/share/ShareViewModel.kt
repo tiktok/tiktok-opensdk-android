@@ -58,7 +58,7 @@ class ShareViewModel(
         shareModel.greenScreenFormat = currentStateValue.isGreenScreen
         shareModel.autoAttachAnchor = currentStateValue.isAnchor
 
-        shareModel.anchorSourceType = currentStateValue.anchorContent?.let {
+        shareModel.anchorSourceType = currentStateValue.anchorContent.let {
             ShareUtils.parseAnchorSourceType(it)
         }
         shareModel.shareExtra = ShareUtils.parseJSON(currentStateValue.extraContent)

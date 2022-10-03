@@ -1,5 +1,6 @@
 package com.bytedance.sdk.demo.share.publish
 
+import android.content.res.Resources
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
@@ -92,9 +93,12 @@ class ShareActivityAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
                 return ToggleViewHolder(view)
             }
-            else -> {
+            ViewType.EDIT_TEXT -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
                 EditTextViewHolder(view)
+            }
+            else -> {
+                throw Exception(Resources.getSystem().getString(R.string.demo_app_invalid_view))
             }
         }
     }
