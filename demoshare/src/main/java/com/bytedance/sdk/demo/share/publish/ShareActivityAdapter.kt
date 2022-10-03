@@ -43,14 +43,43 @@ class ShareActivityAdapter(
             toggle = view.findViewById(R.id.toggle)
         }
     }
+
     class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val desc: TextView
         val editText: EditText
+        var editTextWatcher: TextWatcher?
         init {
             title = view.findViewById(R.id.title)
             desc = view.findViewById(R.id.desc)
             editText = view.findViewById(R.id.edittext)
+            editTextWatcher = null
+        }
+
+        fun addTextWatcher(editTextChange: (String) -> Unit) {
+            editTextWatcher = object: TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) = Unit
+
+                override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                    editTextChange(text.toString())
+                }
+
+                override fun afterTextChanged(s: Editable?) = Unit
+
+            }
+            editText.addTextChangedListener(editTextWatcher)
+        }
+
+        fun removeTextWatcher() {
+            editTextWatcher?.let {
+                editText.removeTextChangedListener(it)
+            }
+            editTextWatcher = null
         }
     }
 
@@ -99,13 +128,7 @@ class ShareActivityAdapter(
                 (holder as EditTextViewHolder).let {
                     it.title.text = holder.itemView.context.getString(model.titleRes)
                     it.desc.text = holder.itemView.context.getString(model.descRes)
-                    it.editText.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                        override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            editTextChange(model.type, text.toString())
-                        }
-                        override fun afterTextChanged(p0: Editable?) {}
-                    })
+                    it.addTextWatcher { editTextChange(model.type, it) }
                 }
             }
         }
@@ -119,6 +142,9 @@ class ShareActivityAdapter(
         when (holder) {
             is ToggleViewHolder -> {
                 holder.toggle.setOnCheckedChangeListener(null)
+            }
+            is EditTextViewHolder -> {
+                holder.removeTextWatcher()
             }
             else -> Unit
         }
