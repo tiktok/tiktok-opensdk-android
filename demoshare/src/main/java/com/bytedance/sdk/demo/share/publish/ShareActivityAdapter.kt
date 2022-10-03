@@ -57,7 +57,7 @@ class ShareActivityAdapter(
         }
 
         fun addTextWatcher(editTextChange: (String) -> Unit) {
-            editTextWatcher = object: TextWatcher {
+            editTextWatcher = object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
                     start: Int,
@@ -70,7 +70,6 @@ class ShareActivityAdapter(
                 }
 
                 override fun afterTextChanged(s: Editable?) = Unit
-
             }
             editText.addTextChangedListener(editTextWatcher)
         }
