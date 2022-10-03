@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.bytedance.sdk.demo.share.common.constants.Constants
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.TextType
@@ -15,7 +16,6 @@ import com.bytedance.sdk.demo.share.publish.ShareActivityAdapter
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
-import com.bytedance.sdk.open.tiktok.common.constants.Keys.Share.SHARE_MODEL
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
@@ -56,7 +56,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun initData() {
-        val shareModel: ShareModel? = intent.getParcelableExtra(SHARE_MODEL)
+        val shareModel: ShareModel? = intent.getParcelableExtra(Constants.SHARE_MODEL)
 
         if (shareModel == null) {
             finish()

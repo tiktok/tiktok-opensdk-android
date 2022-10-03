@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bytedance.sdk.demo.share.common.constants.Constants
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             shareModel.clientKey = ""
             shareModel.clientSecret = ""
         }
-        intent.putExtra(Keys.Share.SHARE_MODEL, shareModel)
+        intent.putExtra(Constants.SHARE_MODEL, shareModel)
         startActivity(intent)
     }
 

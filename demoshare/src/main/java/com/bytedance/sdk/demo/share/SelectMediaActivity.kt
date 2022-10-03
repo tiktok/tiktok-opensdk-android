@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.bytedance.sdk.open.tiktok.common.constants.Keys
+import com.bytedance.sdk.demo.share.common.constants.Constants
 
 const val SystemAlbumPermissionRequestCode = 101
 const val OpenGalleryRequestCode = 102
@@ -24,7 +24,7 @@ class SelectMediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.select_media_activity)
-        shareModel = intent.getParcelableExtra(Keys.Share.SHARE_MODEL)!!
+        shareModel = intent.getParcelableExtra(Constants.SHARE_MODEL)!!
         backButton = findViewById(R.id.back_button)
         backButton.setOnClickListener {
             finish()
@@ -37,7 +37,7 @@ class SelectMediaActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.getParcelableExtra<ShareModel>(Keys.Share.SHARE_MODEL)?.let {
+        intent?.getParcelableExtra<ShareModel>(Constants.SHARE_MODEL)?.let {
             shareModel = it
         }
     }
@@ -82,7 +82,7 @@ class SelectMediaActivity : AppCompatActivity() {
 
     private fun goToShareActivity() {
         val intent = Intent(this, ShareActivity::class.java)
-        intent.putExtra(Keys.Share.SHARE_MODEL, shareModel)
+        intent.putExtra(Constants.SHARE_MODEL, shareModel)
         startActivity(intent)
     }
 

@@ -53,7 +53,6 @@ object Keys {
         const val ANCHOR_SOURCE_TYPE = "anchor_source_type"
         const val EXTRA_SHARE_OPTIONS = "_aweme_open_sdk_extra_share_options"
         const val DISABLE_MUSIC_SELECTION = "tiktok_videokit_disable_music_selection"
-        const val SHARE_MODEL = "share_model"
     }
     object Web {
         const val QUERY_RESPONSE_TYPE = "response_type"
