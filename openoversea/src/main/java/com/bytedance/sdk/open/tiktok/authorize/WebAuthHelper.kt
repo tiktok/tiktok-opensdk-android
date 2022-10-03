@@ -27,7 +27,7 @@ internal object WebAuthHelper {
         concatenateScopes(webAuthRequest.optionalScope0, ".0")
         if (optionalScope.isNotEmpty()) { optionalScope.deleteAt(0) }
 
-        val signs = getMd5Signs(context, webAuthRequest.callerPackageName)
+        val signs = getMd5Signs(context, webAuthRequest.resultActivityPackageName)
         val builder = Uri.Builder()
             .scheme(Keys.Web.SCHEMA_HTTPS)
             .authority(BuildConfig.AUTH_HOST)
@@ -41,9 +41,11 @@ internal object WebAuthHelper {
         builder.appendQueryParameter(Keys.Web.QUERY_REDIRECT_URI, redirectUrl)
         with(webAuthRequest) {
             builder.appendQueryParameter(Keys.Web.QUERY_CLIENT_KEY, clientKey)
-            builder.appendQueryParameter(Keys.Web.QUERY_STATE, state)
+            state?.let {
+                builder.appendQueryParameter(Keys.Web.QUERY_STATE, it)
+            }
             builder.appendQueryParameter(Keys.Web.QUERY_SCOPE, scope)
-            builder.appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, hexDigest(callerPackageName))
+            builder.appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, hexDigest(resultActivityPackageName))
             language?.let {
                 builder.appendQueryParameter(Keys.Web.QUERY_ACCEPT_LANGUAGE, it)
             }

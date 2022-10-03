@@ -18,6 +18,7 @@ import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
 import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 
 class MainActivity : AppCompatActivity(), IApiEventHandler {
     private lateinit var viewModel: MainViewModel
@@ -101,7 +102,12 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun authorize() {
-        viewModel.authorize(this::class.simpleName)
+        viewModel.authorize(
+            ResultActivityComponent(
+                this.packageName,
+                this.localClassName,
+            )
+        )
     }
 
     private fun showAlert(title: String, desc: String) {
@@ -118,7 +124,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         if (resp is Auth.Response) {
             with(resp) {
                 val authCode = authCode
-                if (!authCode.isNullOrEmpty()) {
+                if (authCode.isNotEmpty()) {
                     viewModel.getUserBasicInfo(authCode)
                 } else if (errorCode != 0) {
                     showAlert(

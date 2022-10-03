@@ -4,22 +4,23 @@ import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.Base
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 
 class Auth {
     data class Request(
         val scope: String,
-        val state: String,
+        val state: String? = null,
         val optionalScope0: String? = null,
         val optionalScope1: String? = null,
         val language: String? = null,
-        override val callerLocalEntry: String? = null,
+        override val resultActivityComponent: ResultActivityComponent,
     ) : Base.Request() {
         override val type: Int = Constants.TIKTOK.AUTH_REQUEST
 
-        override fun validate(): Boolean = scope.isNotEmpty() && state.isNotEmpty()
+        override fun validate(): Boolean = scope.isNotEmpty()
 
-        override fun toBundle(clientKey: String, callerPackageName: String, callerVersion: String?): Bundle {
-            return super.toBundle(callerPackageName = callerPackageName, callerVersion = callerVersion).apply {
+        override fun toBundle(clientKey: String): Bundle {
+            return super.toBundle().apply {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Auth.STATE, state)
                 putString(Keys.Auth.SCOPE, scope)
@@ -32,7 +33,7 @@ class Auth {
 
     data class Response(
         val authCode: String,
-        val state: String,
+        val state: String?,
         val grantedPermissions: String,
         override val errorCode: Int,
         override val errorMsg: String?,
@@ -52,7 +53,7 @@ class Auth {
 
 internal fun Bundle.toAuthResponse(): Auth.Response {
     val authCode = getString(Keys.Auth.AUTH_CODE, "")
-    val state = getString(Keys.Auth.STATE, "")
+    val state = getString(Keys.Auth.STATE)
     val grantedPermissions = getString(Keys.Auth.GRANTED_PERMISSION, "")
     val errorCode = getInt(Keys.Base.ERROR_CODE)
     val errorMsg = getString(Keys.Base.ERROR_MSG)

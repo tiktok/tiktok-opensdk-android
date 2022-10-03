@@ -71,7 +71,6 @@ open class TikTokOpenApiImpl(
         apiEventHandler.onRequest(request)
         AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.let {
             val entryComponents = EntryComponent(
-                defaultComponent = BuildConfig.DEFAULT_ENTRY_ACTIVITY,
                 tiktokPackage = it.packageName,
                 tiktokComponent = BuildConfig.TIKTOK_SHARE_ACTIVITY,
                 tiktokPlatformComponent = BuildConfig.TIKTOK_AUTH_ACTIVITY

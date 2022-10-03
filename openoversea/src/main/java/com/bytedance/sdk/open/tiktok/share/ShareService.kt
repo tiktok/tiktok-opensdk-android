@@ -14,7 +14,6 @@ import com.bytedance.sdk.open.tiktok.utils.AppUtils.getPlatformSDKVersion
 class ShareService(
     private val context: Context,
     private val clientKey: String,
-    private val callerPackageName: String? = null,
 ) {
     fun share(request: Share.Request, entryComponent: EntryComponent): Boolean {
         if (!request.validate()) {
@@ -24,7 +23,7 @@ class ShareService(
             if (getPlatformSDKVersion(context, entryComponent.tiktokPackage, entryComponent.tiktokPlatformComponent)
                 >= Keys.API.MIN_SDK_NEW_VERSION_API
             ) {
-                putAll(request.toBundle(clientKey = clientKey, callerPackageName = callerPackageName ?: context.packageName))
+                putAll(request.toBundle(clientKey = clientKey))
             }
         }
 

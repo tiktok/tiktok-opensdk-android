@@ -11,6 +11,7 @@ import com.bytedance.sdk.demo.auth.model.ScopeType
 import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
 import com.bytedance.sdk.open.tiktok.authorize.Auth
+import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -108,7 +109,7 @@ class MainViewModel(
         }
     }
 
-    fun authorize(callerLocalEntry: String?) {
+    fun authorize(resultActivityComponent: ResultActivityComponent) {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val webAuthEnabled = currentStateValue.webAuthEnabled
@@ -125,8 +126,7 @@ class MainViewModel(
         }
         val request = Auth.Request(
             scope = enabledScopes.joinBy(","),
-            state = "ww",
-            callerLocalEntry = callerLocalEntry,
+            resultActivityComponent = resultActivityComponent,
         )
         tikTokOpenApi.authorize(request, webAuthEnabled)
     }
