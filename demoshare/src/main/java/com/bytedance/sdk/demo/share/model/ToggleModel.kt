@@ -1,7 +1,10 @@
 package com.bytedance.sdk.demo.share.model
 
-import androidx.lifecycle.MutableLiveData
-
-class ToggleModel(val title: String, val desc: String, val isOn: MutableLiveData<Boolean> = MutableLiveData(false)) : DataModel {
+data class ToggleModel(
+    val title: String,
+    val desc: String,
+    val isOn: Boolean,
+    val onToggleChange: (Boolean) -> Unit
+) : DataModel {
     override val viewType = ViewType.TOGGLE
 }

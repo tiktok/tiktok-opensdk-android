@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bytedance.sdk.demo.share.common.constants.Constants
 import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.HintedTextModel
 import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
-import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.MainToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 import com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_AUTH_ACTIVITY
 import com.bytedance.sdk.open.tiktok.BuildConfig.TIKTOK_SHARE_ACTIVITY
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             shareModel.clientKey = ""
             shareModel.clientSecret = ""
         }
-        intent.putExtra("share_model", shareModel)
+        intent.putExtra(Constants.SHARE_MODEL, shareModel)
         startActivity(intent)
     }
 
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     private fun initHintedModels(): List<HintedTextModel> {
         val hintedText = MutableLiveData("")
         val bundleIdEditable = MutableLiveData(false)
-        val bundleId = HintedTextModel(getString(R.string.demo_app_title_package), getString(R.string.demo_app, getString(R.string.demo_app_title_package)), "com.bytedance.sdk.demo.share", hintedText, bundleIdEditable)
+        val bundleId = HintedTextModel(getString(R.string.demo_app_title_package), getString(R.string.demo_app, getString(R.string.demo_app_title_package)), this.packageName, hintedText, bundleIdEditable)
 
         val clientKeyText = MutableLiveData("")
         val ckEditable = MutableLiveData(false)
@@ -115,12 +116,13 @@ class MainActivity : AppCompatActivity() {
         return arrayListOf(bundleId, clientKey, clientSecretKey)
     }
 
-    private fun initCustomClientKeyModel(): ToggleModel {
+    private fun initCustomClientKeyModel(): MainToggleModel {
         val customization = MutableLiveData<Boolean>(false)
         customization.observeForever { customizable ->
             customEditable.postValue(customizable)
         }
-        return ToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
+
+        return MainToggleModel(getString(R.string.demo_app_info_customize), getString(R.string.demo_app_desc_customize), customization)
     }
 
     private fun initHeaderModel(): HeaderModel {

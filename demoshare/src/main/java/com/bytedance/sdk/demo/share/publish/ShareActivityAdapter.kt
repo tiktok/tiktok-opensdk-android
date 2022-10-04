@@ -1,6 +1,6 @@
 package com.bytedance.sdk.demo.share.publish
 
-import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,14 +13,19 @@ import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
-import com.bytedance.sdk.demo.share.main.MainActivityAdapter
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.EditModel
 import com.bytedance.sdk.demo.share.model.HeaderModel
+import com.bytedance.sdk.demo.share.model.TextType
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ShareActivityAdapter(
+    private var editTextChange: (TextType, String) -> Unit,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var models: List<DataModel> = listOf()
+
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView
         val desc: TextView
@@ -39,14 +44,42 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
             toggle = view.findViewById(R.id.toggle)
         }
     }
+
     class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView
         val desc: TextView
         val editText: EditText
+        var editTextWatcher: TextWatcher?
         init {
             title = view.findViewById(R.id.title)
             desc = view.findViewById(R.id.desc)
             editText = view.findViewById(R.id.edittext)
+            editTextWatcher = null
+        }
+
+        fun addTextWatcher(editTextChange: (String) -> Unit) {
+            editTextWatcher = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) = Unit
+
+                override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                    editTextChange(text.toString())
+                }
+
+                override fun afterTextChanged(s: Editable?) = Unit
+            }
+            editText.addTextChangedListener(editTextWatcher)
+        }
+
+        fun removeTextWatcher() {
+            editTextWatcher?.let {
+                editText.removeTextChangedListener(it)
+            }
+            editTextWatcher = null
         }
     }
 
@@ -65,8 +98,7 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
                 EditTextViewHolder(view)
             }
             else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
-                MainActivityAdapter.LogoViewHolder(view)
+                throw Exception(Resources.getSystem().getString(R.string.demo_app_invalid_view))
             }
         }
     }
@@ -89,38 +121,35 @@ class ShareActivityAdapter(val context: Context, val models: List<DataModel>) : 
                 (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.toggle.isChecked = model.isOn.value ?: false
+                    it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        model.isOn.postValue(isOn)
+                        model.onToggleChange(isOn)
                     }
                 }
             }
             is EditModel -> {
-                (holder as EditTextViewHolder).apply {
-                    title.text = model.title
-                    desc.text = model.desc
-
-                    val textWatcher = object : TextWatcher {
-                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                        override fun afterTextChanged(p0: Editable?) {}
-                        override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            model.text.postValue(text.toString())
-                        }
-                    }
-                    editText.addTextChangedListener(textWatcher)
-                    editText.isEnabled = model.enabled.value ?: false
-                    title.setTextColor(context.getColor(if (editText.isEnabled) R.color.colorTextPrimary else R.color.colorTextTertiary))
-                    model.enabled.observeForever { enabled ->
-                        editText.isEnabled = enabled
-                        if (enabled) {
-                            title.setTextColor(context.getColor(R.color.colorTextPrimary))
-                        } else {
-                            editText.text = null
-                            title.setTextColor(context.getColor(R.color.colorTextTertiary))
-                        }
-                    }
+                (holder as EditTextViewHolder).let {
+                    it.title.text = holder.itemView.context.getString(model.titleRes)
+                    it.desc.text = holder.itemView.context.getString(model.descRes)
+                    it.addTextWatcher { editTextChange(model.type, it) }
                 }
             }
+        }
+    }
+
+    fun updateModels(models: List<DataModel>) {
+        this.models = models
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        when (holder) {
+            is ToggleViewHolder -> {
+                holder.toggle.setOnCheckedChangeListener(null)
+            }
+            is EditTextViewHolder -> {
+                holder.removeTextWatcher()
+            }
+            else -> Unit
         }
     }
 
