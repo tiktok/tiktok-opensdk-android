@@ -1,28 +1,27 @@
 package com.bytedance.sdk.demo.share.publish
 
-import android.content.res.Resources
-import android.os.Build
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.model.DataModel
-import com.bytedance.sdk.demo.share.model.EditModel
+import com.bytedance.sdk.demo.share.model.EditTextModel
+import com.bytedance.sdk.demo.share.model.EditTextType
 import com.bytedance.sdk.demo.share.model.HeaderModel
-import com.bytedance.sdk.demo.share.model.TextType
 import com.bytedance.sdk.demo.share.model.ToggleModel
+import com.bytedance.sdk.demo.share.model.ToggleType
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter(
-    private var editTextChange: (TextType, String) -> Unit,
+    private val onSaveEditTextValue: (EditTextType, String) -> Unit,
+    private val onSaveToggleStatus: (ToggleType, Boolean) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private lateinit var recyclerView: RecyclerView
 
     private var models: List<DataModel> = listOf()
 
@@ -49,38 +48,18 @@ class ShareActivityAdapter(
         val title: TextView
         val desc: TextView
         val editText: EditText
-        var editTextWatcher: TextWatcher?
+        var editTextType: EditTextType? = null
+
         init {
             title = view.findViewById(R.id.title)
             desc = view.findViewById(R.id.desc)
             editText = view.findViewById(R.id.edittext)
-            editTextWatcher = null
         }
+    }
 
-        fun addTextWatcher(editTextChange: (String) -> Unit) {
-            editTextWatcher = object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) = Unit
-
-                override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
-                    editTextChange(text.toString())
-                }
-
-                override fun afterTextChanged(s: Editable?) = Unit
-            }
-            editText.addTextChangedListener(editTextWatcher)
-        }
-
-        fun removeTextWatcher() {
-            editTextWatcher?.let {
-                editText.removeTextChangedListener(it)
-            }
-            editTextWatcher = null
-        }
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -97,16 +76,10 @@ class ShareActivityAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
                 EditTextViewHolder(view)
             }
-            else -> {
-                throw Exception(Resources.getSystem().getString(R.string.demo_app_invalid_view))
-            }
+            else -> throw Exception("Invalid View Type")
         }
     }
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (models.size <= position) {
-            return
-        }
         when (val model = models[position]) {
             is HeaderModel -> {
                 (holder as HeaderViewHolder).let {
@@ -122,16 +95,17 @@ class ShareActivityAdapter(
                     it.title.text = model.title
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
-                    it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        model.onToggleChange(isOn)
+                    it.toggle.setOnCheckedChangeListener { _, isOn ->
+                        onSaveToggleStatus(model.toggleType, isOn)
                     }
                 }
             }
-            is EditModel -> {
+            is EditTextModel -> {
                 (holder as EditTextViewHolder).let {
                     it.title.text = holder.itemView.context.getString(model.titleRes)
                     it.desc.text = holder.itemView.context.getString(model.descRes)
-                    it.addTextWatcher { editTextChange(model.type, it) }
+                    it.editText.setText(model.text)
+                    it.editTextType = model.type
                 }
             }
         }
@@ -141,15 +115,29 @@ class ShareActivityAdapter(
         this.models = models
     }
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
         when (holder) {
             is ToggleViewHolder -> {
                 holder.toggle.setOnCheckedChangeListener(null)
             }
             is EditTextViewHolder -> {
-                holder.removeTextWatcher()
+                holder.editTextType?.let {
+                    onSaveEditTextValue(it, holder.editText.text.toString())
+                }
             }
             else -> Unit
+        }
+    }
+
+    fun saveTextInput() {
+        for (i in 0 until recyclerView.childCount) {
+            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
+            if (holder is EditTextViewHolder) {
+                holder.editTextType?.let {
+                    onSaveEditTextValue(it, holder.editText.text.toString())
+                }
+            }
         }
     }
 

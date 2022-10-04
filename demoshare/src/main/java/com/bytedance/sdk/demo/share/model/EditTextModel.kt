@@ -2,8 +2,8 @@ package com.bytedance.sdk.demo.share.model
 
 import androidx.annotation.StringRes
 
-data class EditModel(
-    val type: TextType,
+data class EditTextModel(
+    val type: EditTextType,
     @StringRes
     val titleRes: Int,
     @StringRes
@@ -14,8 +14,8 @@ data class EditModel(
     override val viewType = ViewType.EDIT_TEXT
 }
 
-enum class TextType(val value: String) {
-    HASHTAG("Hashtag"),
-    ANCHOR("Anchor"),
-    EXTRA("Extra"),
+enum class EditTextType {
+    HASHTAG,
+    ANCHOR,
+    EXTRA,
 }

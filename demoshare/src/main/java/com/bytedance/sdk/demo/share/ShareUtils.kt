@@ -39,17 +39,19 @@ class ShareUtils {
             }
         }
 
-        fun parseJSON(jsonString: String): Map<String, String> {
-            var json = jsonString
-            if (!jsonString.startsWith("{")) {
-                json = "{$json"
-            }
-            if (!json.endsWith("}")) {
-                json = "$json}"
-            }
-            val gson = Gson()
-            (gson.fromJson(json, Map::class.java) as Map<String, String>).let {
-                return it
+        fun parseJSON(jsonString: String): Map<String, String>? {
+            return try {
+                var json = jsonString
+                if (!jsonString.startsWith("{")) {
+                    json = "{$json"
+                }
+                if (!json.endsWith("}")) {
+                    json = "$json}"
+                }
+                val gson = Gson()
+                (gson.fromJson(json, Map::class.java) as Map<String, String>)
+            } catch (e: Exception) {
+                null
             }
         }
     }

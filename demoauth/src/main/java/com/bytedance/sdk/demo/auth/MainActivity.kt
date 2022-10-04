@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.ConfigModel
 import com.bytedance.sdk.demo.auth.model.HeaderModel
 import com.bytedance.sdk.demo.auth.model.LogoModel
-import com.bytedance.sdk.demo.auth.model.ScopeType
 import com.bytedance.sdk.open.tiktok.TikTokOpenApiFactory
 import com.bytedance.sdk.open.tiktok.TikTokOpenConfig
 import com.bytedance.sdk.open.tiktok.api.TikTokOpenApi
@@ -29,12 +28,20 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+        TikTokOpenApiFactory.init(tiktokOpenConfig)
+        tiktokApi = TikTokOpenApiFactory.create(this, this)
+        viewModel = ViewModelProvider(this, MainViewModel.Factory(tiktokApi)).get(MainViewModel::class.java)
+
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = MainRecyclerAdapter(
-            onScopeToggle = ::onScopeToggle
+            onScopeToggle = viewModel::toggleScopeState
         )
         recyclerView.adapter = recyclerAdapter
-        initData()
+        findViewById<TextView>(R.id.auth_button).setOnClickListener {
+            this.authorize()
+        }
+        initRecyclerViewData()
 
         lifecycleScope.launchWhenCreated {
             viewModel.viewEffectFlow.collect {
@@ -55,26 +62,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         }
     }
 
-    private fun onWebAuthEnableToggle(enabled: Boolean) {
-        viewModel.toggleWebAuthEnabled(enabled)
-    }
-
-    private fun onBetaEnabledToggle(enabled: Boolean) {
-        viewModel.toggleBetaEnabled(enabled)
-    }
-
-    private fun onScopeToggle(scopeType: ScopeType, enabled: Boolean) {
-        viewModel.toggleScopeState(scopeType, enabled)
-    }
-
-    private fun initData() {
-        findViewById<TextView>(R.id.auth_button).setOnClickListener {
-            this.authorize()
-        }
-        val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
-        TikTokOpenApiFactory.init(tiktokOpenConfig)
-        tiktokApi = TikTokOpenApiFactory.create(this, this)
-        viewModel = ViewModelProvider(this, MainViewModel.Factory(tiktokApi)).get(MainViewModel::class.java)
+    private fun initRecyclerViewData() {
         viewModel.viewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
                 LogoModel(),
@@ -82,13 +70,15 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
                 ConfigModel(
                     getString(R.string.always_in_web),
                     getString(R.string.always_in_web_description),
-                    viewState.webAuthEnabled
-                ) { onWebAuthEnableToggle(it) },
+                    viewState.webAuthEnabled,
+                    viewModel::toggleWebAuthEnabled
+                ),
                 ConfigModel(
                     getString(R.string.beta_mode),
                     getString(R.string.beta_mode_description),
-                    viewState.betaEnabled
-                ) { onBetaEnabledToggle(it) },
+                    viewState.betaEnabled,
+                    viewModel::toggleBetaEnabled
+                ),
                 HeaderModel(getString(R.string.scope_configuration)),
             )
             viewState.scopeStates.map {

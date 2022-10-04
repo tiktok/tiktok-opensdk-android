@@ -34,7 +34,6 @@
     <string name="demo_app_desc_customize">Customize client Key and Package Name</string>
     <string name="demo_app_placeholder_client_key">Client Key</string>
     <string name="demo_app_placeholder_client_secret_key">Client Secret Key</string>
-    <string name="demo_app_invalid_view">Invalid View</string>
     <string name="demo_app_invalid_model">Invalid Model</string>
     <string name="demo_app_json_format_error_info">Invalid Format</string>
     <string name="demo_app_json_format_error_desc">Share extra is in invalid JSONObject format</string>
