@@ -4,7 +4,13 @@ data class ToggleModel(
     val title: String,
     val desc: String,
     val isOn: Boolean,
-    val onToggleChange: (Boolean) -> Unit
+    val toggleType: ToggleType
 ) : DataModel {
     override val viewType = ViewType.TOGGLE
+}
+
+enum class ToggleType {
+    DISABLE_MUSIC,
+    GREEN_SCREEN,
+    AUTO_ATTACH_ANCHOR,
 }
