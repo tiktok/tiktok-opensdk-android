@@ -1,7 +1,5 @@
 package com.bytedance.sdk.demo.share.model
 
-import androidx.lifecycle.MutableLiveData
-
-class InfoModel(val title: String, val desc: String, val info: MutableLiveData<String> = MutableLiveData("")) : DataModel {
+data class InfoModel(val title: String, val desc: String, val info: String) : DataModel {
     override val viewType = ViewType.INFO
 }

@@ -39,7 +39,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         if (shareModel == null) {
             finish()
         } else {
-            val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
+            val tiktokOpenConfig = TikTokOpenConfig(shareModel.clientKey)
             TikTokOpenApiFactory.init(tiktokOpenConfig)
             tiktokOpenAPI = TikTokOpenApiFactory.create(this, this)
             shareViewModel =
@@ -55,7 +55,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
             onSaveToggleStatus = shareViewModel::updateToggle,
-            onSaveEditTextValue = shareViewModel::updateText
+            onSaveEditTextValue = shareViewModel::updateText,
         )
         recyclerView.adapter = recyclerAdapter
 

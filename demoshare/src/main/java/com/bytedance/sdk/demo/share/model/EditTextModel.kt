@@ -9,12 +9,14 @@ data class EditTextModel(
     @StringRes
     val descRes: Int,
     val text: String = "",
+    val hint: String = "",
     val enabled: Boolean = true
 ) : DataModel {
     override val viewType = ViewType.EDIT_TEXT
 }
 
 enum class EditTextType {
+    CLIENT_KEY,
     HASHTAG,
     ANCHOR,
     EXTRA,

@@ -1,7 +1,5 @@
 package com.bytedance.sdk.demo.share.main
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,55 +10,56 @@ import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.model.DataModel
+import com.bytedance.sdk.demo.share.model.EditTextModel
+import com.bytedance.sdk.demo.share.model.EditTextType
 import com.bytedance.sdk.demo.share.model.HeaderModel
-import com.bytedance.sdk.demo.share.model.HintedTextModel
 import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
-import com.bytedance.sdk.demo.share.model.MainToggleModel
+import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ViewType
 
-class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView
-        val subtitle: TextView
-        val toggle: ToggleButton
-        init {
-            title = view.findViewById(R.id.title)
-            subtitle = view.findViewById(R.id.subtitle)
-            toggle = view.findViewById(R.id.toggle)
-        }
-    }
+class MainActivityAdapter(
+    private val onSaveEditTextValue: (String) -> Unit,
+    private val onSaveToggleStatus: (Boolean) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var models: List<DataModel> = listOf()
+    private lateinit var recyclerView: RecyclerView
+
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val header: TextView
-        init {
-            header = view.findViewById(R.id.header)
-        }
+        val header: TextView = view.findViewById(R.id.header)
+        val desc: TextView = view.findViewById(R.id.desc)
     }
+
+    class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title)
+        val subtitle: TextView = view.findViewById(R.id.subtitle)
+        val toggle: ToggleButton = view.findViewById(R.id.toggle)
+    }
+
+    class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.title)
+        val desc: TextView = view.findViewById(R.id.desc)
+        val editText: EditText = view.findViewById(R.id.edittext)
+        var editTextType: EditTextType? = null
+    }
+
     class InfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView
-        val subtitle: TextView
-        val info: TextView
-        init {
-            title = view.findViewById(R.id.title)
-            subtitle = view.findViewById(R.id.subtitle)
-            info = view.findViewById(R.id.info)
-        }
+        val title: TextView = view.findViewById(R.id.title)
+        val subtitle: TextView = view.findViewById(R.id.subtitle)
+        val info: TextView = view.findViewById(R.id.info)
     }
-    class HintedTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView
-        val subtitle: TextView
-        val editText: EditText
-        init {
-            title = view.findViewById(R.id.title)
-            subtitle = view.findViewById(R.id.subtitle)
-            editText = view.findViewById(R.id.edit_text)
-        }
-    }
+
     class LogoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val logo: ImageView
         init {
             logo = view.findViewById(R.id.image_view)
         }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -77,18 +76,15 @@ class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<Re
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
                 ToggleViewHolder(view)
             }
+            ViewType.EDIT_TEXT -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
+                EditTextViewHolder(view)
+            }
             ViewType.INFO -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.info_item, parent, false)
                 InfoViewHolder(view)
             }
-            ViewType.HINTED_TEXT -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.hinted_item, parent, false)
-                HintedTextViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
-                ToggleViewHolder(view)
-            }
+            else -> throw Exception("Invalid View Type")
         }
     }
 
@@ -98,52 +94,67 @@ class MainActivityAdapter(val models: List<DataModel>) : RecyclerView.Adapter<Re
         }
         when (val model = models[position]) {
             is HeaderModel -> {
-                (holder as HeaderViewHolder).let {
-                    it.header.text = model.title
-                }
             }
-            is MainToggleModel -> {
+            is ToggleModel -> {
                 (holder as ToggleViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.toggle.isChecked = model.isOn.value ?: false
-                    it.toggle.setOnCheckedChangeListener() { _, isOn ->
-                        model.isOn.postValue(isOn)
+                    it.toggle.isChecked = model.isOn
+                    it.toggle.setOnCheckedChangeListener { _, isOn ->
+                        onSaveToggleStatus(isOn)
                     }
                 }
             }
-
-            is HintedTextModel -> {
-                (holder as HintedTextViewHolder).let {
-                    it.title.text = model.title
-                    it.subtitle.text = model.desc
-                    it.editText.setText(model.text.value, TextView.BufferType.EDITABLE)
-                    it.editText.hint = model.placeholder
-                    it.editText.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                        override fun onTextChanged(text: CharSequence?, start: Int, lenBefore: Int, lenAfter: Int) {
-                            model.text.postValue(text.toString())
-                        }
-                        override fun afterTextChanged(p0: Editable?) {}
-                    })
-                    model.isEditable.observeForever { isEditable ->
-                        it.editText.isEnabled = isEditable
-                        if (!isEditable) {
-                            it.editText.text = null
-                        }
-                    }
+            is EditTextModel -> {
+                (holder as EditTextViewHolder).let {
+                    it.title.text = holder.itemView.context.getString(model.titleRes)
+                    it.desc.text = holder.itemView.context.getString(model.descRes)
+                    it.editText.setText(model.text)
+                    it.editText.hint = model.hint
+                    it.editTextType = model.type
+                    it.editText.isEnabled = model.enabled
                 }
             }
             is InfoModel -> {
                 (holder as InfoViewHolder).let {
                     it.title.text = model.title
                     it.subtitle.text = model.desc
-                    it.info.text = model.info.value ?: ""
+                    it.info.text = model.info
                 }
             }
             is LogoModel -> {
             }
             else -> {
+            }
+        }
+    }
+
+    fun updateModels(models: List<DataModel>) {
+        this.models = models
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        when (holder) {
+            is ToggleViewHolder -> {
+                holder.toggle.setOnCheckedChangeListener(null)
+            }
+            is EditTextViewHolder -> {
+                holder.editTextType?.let {
+                    onSaveEditTextValue(holder.editText.text.toString())
+                }
+            }
+            else -> Unit
+        }
+    }
+
+    fun saveTextInput() {
+        for (i in 0 until recyclerView.childCount) {
+            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
+            if (holder is EditTextViewHolder) {
+                holder.editTextType?.let {
+                    onSaveEditTextValue(holder.editText.text.toString())
+                }
             }
         }
     }

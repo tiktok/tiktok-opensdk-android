@@ -11,9 +11,10 @@
     <string name="demo_app">Demo App %s</string>
     <string name="demo_app_title_package">Package Name</string>
     <string name="demo_app_title_client_key">Client Key</string>
-    <string name="demo_app_title_client_secret_key">Client Secret Key</string>
+    <string name="demo_app_title_client_secret_key">Use your app’s client key instead of demo app’s one. Add demo app bundle ID for your app in dev portal to test your app client key</string>
     <string name="demo_app_package_name">Demo App Package Name</string>
-    <string name="demo_app_client_key">Demo App Client Key</string>
+    <string name="demo_app_client_key_info">Demo App Client Key</string>
+    <string name="demo_app_client_key_desc">Demo App Client Key</string>
     <string name="demo_app_hashtag_info">HashTag</string>
     <string name="demo_app_hashtag_desc">Hashtags attached to the video i.e. #abc #def</string>
     <string name="demo_app_extra_info">Extra</string>
@@ -30,8 +31,8 @@
     <string name="demo_app_header_desc">Description of the video kit and the features available in the SDK demo app</string>
     <string name="demo_app_client_secret_key">Demo App Client Secret Key</string>
     <string name="demo_app_base_app_info">Base App Info</string>
-    <string name="demo_app_info_customize">Customize Parameters</string>
-    <string name="demo_app_desc_customize">Customize client Key and Package Name</string>
+    <string name="demo_app_info_customize">Custom Client Key</string>
+    <string name="demo_app_desc_customize">Be able to edit the client key</string>
     <string name="demo_app_placeholder_client_key">Client Key</string>
     <string name="demo_app_placeholder_client_secret_key">Client Secret Key</string>
     <string name="demo_app_invalid_model">Invalid Model</string>

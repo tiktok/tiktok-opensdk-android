@@ -71,6 +71,7 @@ class SelectMediaActivity : AppCompatActivity() {
             SystemAlbumPermissionRequestCode -> {
                 val writeExternalStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED
                 val readExternalStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED
+
                 if (grantResults.isNotEmpty() && writeExternalStorage && readExternalStorage) {
                     openSystemGallery()
                 } else {
