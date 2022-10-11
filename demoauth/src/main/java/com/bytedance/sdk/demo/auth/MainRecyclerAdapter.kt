@@ -48,7 +48,6 @@ class MainRecyclerAdapter(
                     it.title.text = model.type.value
                     it.subtitle.text = holder.itemView.context.getString(model.descRes)
                     it.toggle.isChecked = model.isOn
-                    it.toggle.isEnabled = model.isEnabled
                     it.toggle.setOnCheckedChangeListener { _, isOn ->
                         onScopeToggle(model.type, isOn)
                     }

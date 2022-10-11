@@ -29,17 +29,30 @@ class MainViewModel(
     }
 
     data class MainViewModelViewState(
-        val webAuthEnabled: Boolean = false,
-        val betaEnabled: Boolean = false,
-        val scopeStates: LinkedHashMap<ScopeType, ScopeModel> = linkedMapOf(
-            ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, true, false),
-            ScopeType.USER_INFO_USERNAME to ScopeModel(ScopeType.USER_INFO_USERNAME, R.string.user_name_scope_description, false, false, true),
-            ScopeType.USER_INFO_PHONE to ScopeModel(ScopeType.USER_INFO_PHONE, R.string.phone_scope_description, false, false, true),
-            ScopeType.USER_INFO_EMAIL to ScopeModel(ScopeType.USER_INFO_EMAIL, R.string.email_scope_description, false, false, true),
-            ScopeType.MUSIC_COLLECTION to ScopeModel(ScopeType.MUSIC_COLLECTION, R.string.music_scope_description, false, false, true),
-            ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, false, true),
-            ScopeType.VIDEO_LIST to ScopeModel(ScopeType.VIDEO_LIST, R.string.video_list_scope_description, false, false, true),
-            ScopeType.USER_INTEREST to ScopeModel(ScopeType.USER_INTEREST, R.string.user_interest_scope_description, false, false, true),
+        val webAuthEnabled: Boolean,
+        val scopeStates: LinkedHashMap<ScopeType, ScopeModel>
+    )
+
+    private val _viewEffect: Channel<ViewEffect> = Channel()
+    val viewEffectFlow: Flow<ViewEffect> = _viewEffect.receiveAsFlow()
+
+    private val _viewState: MutableLiveData<MainViewModelViewState>
+    val viewState: LiveData<MainViewModelViewState>
+
+    init {
+        _viewState = MutableLiveData(
+            getDefaultViewState()
+        )
+        viewState = _viewState
+    }
+
+    private fun getDefaultViewState() = MainViewModelViewState(
+        webAuthEnabled = false,
+        scopeStates = linkedMapOf(
+            ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, false),
+            ScopeType.USER_INFO_EMAIL to ScopeModel(ScopeType.USER_INFO_EMAIL, R.string.email_scope_description, false, true),
+            ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, true),
+            ScopeType.VIDEO_LIST to ScopeModel(ScopeType.VIDEO_LIST, R.string.video_list_scope_description, false, true),
         )
     )
 
@@ -60,41 +73,15 @@ class MainViewModel(
         ) : ViewEffect()
     }
 
-    private val _viewEffect: Channel<ViewEffect> = Channel()
-    val viewEffectFlow: Flow<ViewEffect> = _viewEffect.receiveAsFlow()
-
-    private val _viewState: MutableLiveData<MainViewModelViewState> = MutableLiveData(MainViewModelViewState())
-    val viewState: LiveData<MainViewModelViewState> = _viewState
-
     fun toggleWebAuthEnabled(webAuthEnabled: Boolean) {
-        val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         _viewState.value = currentStateValue.copy(
             webAuthEnabled = webAuthEnabled,
         )
     }
 
-    fun toggleBetaEnabled(betaEnabled: Boolean) {
-        val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
-        val currentScopeStates = currentStateValue.scopeStates
-        val newScopeStates = linkedMapOf<ScopeType, ScopeModel>()
-        currentScopeStates.forEach {
-            if (it.key != ScopeType.USER_INFO_BASIC) {
-                newScopeStates[it.key] = it.value.copy(
-                    isOn = false,
-                    isEnabled = betaEnabled,
-                )
-            } else {
-                newScopeStates[it.key] = it.value
-            }
-        }
-        _viewState.value = currentStateValue.copy(
-            betaEnabled = betaEnabled,
-            scopeStates = newScopeStates
-        )
-    }
-
     fun toggleScopeState(scopeType: ScopeType, isOn: Boolean) {
-        val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val scopeStates = currentStateValue.scopeStates
         scopeStates[scopeType]?.let {
             if (it.isEditable) {
@@ -110,7 +97,7 @@ class MainViewModel(
     }
 
     fun authorize(resultActivityComponent: ResultActivityComponent) {
-        val currentStateValue: MainViewModelViewState = _viewState.value ?: MainViewModelViewState()
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val webAuthEnabled = currentStateValue.webAuthEnabled
         val enabledScopes: MutableList<String> = mutableListOf()

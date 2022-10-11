@@ -4,16 +4,17 @@
     <string name="scope_configuration">Scope configuration</string>
     <string name="always_in_web">Always in Web</string>
     <string name="beta_mode">Beta mode</string>
-    <string name="beta_mode_description">Some permissions are only available in Beta mode</string>
     <string name="always_in_web_description">Always authorize in webview</string>
     <string name="basic_scope_description">Read your profile info (avatar, display name)</string>
-    <string name="user_name_scope_description">Read username</string>
-    <string name="phone_scope_description">Read user phone number</string>
     <string name="email_scope_description">Read user email address</string>
-    <string name="music_scope_description">Read songs added to your favorites on TikTok</string>
     <string name="video_upload_scope_description">Read user\'s uploaded videos</string>
     <string name="video_list_scope_description">Read your public videos on TikTok</string>
+    <!-- Beta scope remove -->
+    <string name="user_name_scope_description">Read username</string>
+    <string name="phone_scope_description">Read user phone number</string>
     <string name="user_interest_scope_description">Read user interests</string>
+    <string name="music_scope_description">Read songs added to your favorites on TikTok</string>
+    <!-- Beta scope remove -->
     <string name="access_token_error">Access Token Error</string>
     <string name="user_info_error">User Info Error</string>
     <string name="getting_user_info_succeeds">Getting user info succeeded</string>

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
         val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
         TikTokOpenApiFactory.init(tiktokOpenConfig)
         tiktokApi = TikTokOpenApiFactory.create(this, this)
-        viewModel = ViewModelProvider(this, MainViewModel.Factory(tiktokApi)).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, MainViewModel.Factory(tiktokApi))[MainViewModel::class.java]
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = MainRecyclerAdapter(
@@ -72,12 +72,6 @@ class MainActivity : AppCompatActivity(), IApiEventHandler {
                     getString(R.string.always_in_web_description),
                     viewState.webAuthEnabled,
                     viewModel::toggleWebAuthEnabled
-                ),
-                ConfigModel(
-                    getString(R.string.beta_mode),
-                    getString(R.string.beta_mode_description),
-                    viewState.betaEnabled,
-                    viewModel::toggleBetaEnabled
                 ),
                 HeaderModel(getString(R.string.scope_configuration)),
             )
