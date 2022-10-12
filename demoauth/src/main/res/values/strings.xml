@@ -7,7 +7,7 @@
     <string name="always_in_web_description">Always authorize in webview</string>
     <string name="basic_scope_description">Read your profile info (avatar, display name)</string>
     <string name="email_scope_description">Read user email address</string>
-    <string name="video_upload_scope_description">Read user\'s uploaded videos</string>
+    <string name="video_upload_scope_description">Publish videos to TikTok</string>
     <string name="video_list_scope_description">Read your public videos on TikTok</string>
     <!-- Beta scope remove -->
     <string name="user_name_scope_description">Read username</string>
