@@ -8,13 +8,9 @@
     <string name="share_fail">Sharing media failed: %s</string>
     <string name="tiktok_app_name">TikTok</string>
     <string name="check_if_app_installed">Check if %s installed</string>
-    <string name="demo_app">Demo App %s</string>
-    <string name="demo_app_title_package">Package Name</string>
     <string name="demo_app_title_client_key">Client Key</string>
     <string name="demo_app_title_client_secret_key">Use your app’s client key instead of demo app’s one. Add demo app bundle ID for your app in dev portal to test your app client key</string>
-    <string name="demo_app_package_name">Demo App Package Name</string>
-    <string name="demo_app_client_key_info">Demo App Client Key</string>
-    <string name="demo_app_client_key_desc">Demo App Client Key</string>
+    <!-- remove beta feature-->
     <string name="demo_app_hashtag_info">HashTag</string>
     <string name="demo_app_hashtag_desc">Hashtags attached to the video i.e. #abc #def</string>
     <string name="demo_app_extra_info">Extra</string>
@@ -23,19 +19,16 @@
     <string name="demo_app_anchor_desc">The types of anchors that will be attached to the video</string>
     <string name="demo_app_music_select_info">Disable music selection</string>
     <string name="demo_app_music_select_desc">Suppress automatically attaching music</string>
-    <string name="demo_app_green_screen_info">Use green-screen format</string>
-    <string name="demo_app_green_screen_desc">Automatically apply green-screen effect</string>
     <string name="demo_app_anchor_toggle_info">Auto attach anchor</string>
     <string name="demo_app_anchor_toggle_desc">Automatically attach anchor to the video (Sharing images is not supported)</string>
+    <!-- remove beta feature-->
+
+    <string name="demo_app_green_screen_info">Use green-screen format</string>
+    <string name="demo_app_green_screen_desc">Share the media as the background of a new recording</string>
     <string name="demo_app_header_info">Share meta info</string>
     <string name="demo_app_header_desc">Description of the video kit and the features available in the SDK demo app</string>
     <string name="demo_app_client_secret_key">Demo App Client Secret Key</string>
     <string name="demo_app_base_app_info">Base App Info</string>
     <string name="demo_app_info_customize">Custom Client Key</string>
     <string name="demo_app_desc_customize">Be able to edit the client key</string>
-    <string name="demo_app_placeholder_client_key">Client Key</string>
-    <string name="demo_app_placeholder_client_secret_key">Client Secret Key</string>
-    <string name="demo_app_invalid_model">Invalid Model</string>
-    <string name="demo_app_json_format_error_info">Invalid Format</string>
-    <string name="demo_app_json_format_error_desc">Share extra is in invalid JSONObject format</string>
 </resources>

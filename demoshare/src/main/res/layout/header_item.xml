@@ -9,11 +9,11 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scope configuration"
         android:textStyle="bold"
         android:textSize="20dp"
         android:textColor="@color/colorTextPrimary"
         android:paddingVertical="0dp"/>
+
     <TextView
         android:id="@+id/desc"
         android:layout_height="wrap_content"

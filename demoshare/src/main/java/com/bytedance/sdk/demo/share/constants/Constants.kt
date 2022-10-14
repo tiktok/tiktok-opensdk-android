@@ -1,4 +1,4 @@
-package com.bytedance.sdk.open.tiktok.api
+package com.bytedance.sdk.demo.share.constants
 
 /*
     Copyright 2022 TikTok Pte. Ltd.
@@ -16,8 +16,8 @@ package com.bytedance.sdk.open.tiktok.api
    limitations under the License.
  */
 
-interface TikTokOpenApiInternal : TikTokOpenApi, TikTokOpenApiBeta
-
-interface TikTokOpenApiBeta {
-    val isTikTokLiteAuthSupported: Boolean
+object Constants {
+    const val CLIENT_KEY = "client_key"
+    const val IS_SHARING_IMAGE = "is_sharing_image"
+    const val SELECTED_MEDIAS = "selected_medias"
 }
