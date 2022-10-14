@@ -1,4 +1,20 @@
-package com.bytedance.sdk.demo.share.main
+package com.bytedance.sdk.demo.share
+
+/*
+    Copyright 2022 TikTok Pte. Ltd.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +24,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
-import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.model.DataModel
 import com.bytedance.sdk.demo.share.model.EditTextModel
 import com.bytedance.sdk.demo.share.model.EditTextType
@@ -28,7 +43,6 @@ class MainActivityAdapter(
 
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val header: TextView = view.findViewById(R.id.header)
-        val desc: TextView = view.findViewById(R.id.desc)
     }
 
     class ToggleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -65,7 +79,8 @@ class MainActivityAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (ViewType.typeFrom(viewType)) {
             ViewType.LOGO -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.logo_item, parent, false)
                 LogoViewHolder(view)
             }
             ViewType.HEADER -> {
@@ -84,16 +99,15 @@ class MainActivityAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.info_item, parent, false)
                 InfoViewHolder(view)
             }
-            else -> throw Exception("Invalid View Type")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (models.size <= position) {
-            return
-        }
         when (val model = models[position]) {
             is HeaderModel -> {
+                (holder as HeaderViewHolder).let {
+                    it.header.text = model.title
+                }
             }
             is ToggleModel -> {
                 (holder as ToggleViewHolder).let {

@@ -1,5 +1,21 @@
 package com.bytedance.sdk.open.tiktok
 
+/*
+    Copyright 2022 TikTok Pte. Ltd.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
+
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.base.Anchor
@@ -29,12 +45,7 @@ class ShareInstrumentedTest {
     private val shareExtra = "share_extra"
     private val extraShareOptions: HashMap<String, Any> = hashMapOf(Pair("option1", "value1"), Pair("option2", "value2"))
     private val mediaList = arrayListOf("media_url1", "media_url2")
-    private val anchor = Anchor().apply {
-        anchorBusinessType = 10
-        anchorTitle = "title"
-        anchorContent = "anchor_content"
-        sourceType = "anchor_source_type"
-    }
+    private val anchor = Anchor(anchorBusinessType = 10, anchorTitle = "title", anchorContent = "anchor_content", sourceType = "anchor_source_type")
 
     private fun createTestShareRequest(): Share.Request {
         val mediaContent = MediaContent(Share.MediaType.VIDEO, mediaList)
