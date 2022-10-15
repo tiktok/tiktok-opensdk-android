@@ -61,7 +61,7 @@ internal object WebAuthHelper {
                 builder.appendQueryParameter(Keys.Web.QUERY_STATE, it)
             }
             builder.appendQueryParameter(Keys.Web.QUERY_SCOPE, scope)
-            builder.appendQueryParameter(Keys.Web.QUERY_ENCRIPTION_PACKAGE, hexDigest(resultActivityPackageName))
+            builder.appendQueryParameter(Keys.Web.QUERY_ENCRYPTION_PACKAGE, hexDigest(resultActivityPackageName))
             language?.let {
                 builder.appendQueryParameter(Keys.Web.QUERY_ACCEPT_LANGUAGE, it)
             }

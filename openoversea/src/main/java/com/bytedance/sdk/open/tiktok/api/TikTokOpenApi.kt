@@ -16,16 +16,18 @@ package com.bytedance.sdk.open.tiktok.api
    limitations under the License.
  */
 
+import android.content.Context
 import android.content.Intent
 import com.bytedance.sdk.open.tiktok.authorize.Auth
+import com.bytedance.sdk.open.tiktok.common.constants.Constants
+import com.bytedance.sdk.open.tiktok.helper.AppCheckFactory
 import com.bytedance.sdk.open.tiktok.share.Share
 
 interface TikTokOpenApi {
-    val isAuthSupported: Boolean
-    val isShareSupported: Boolean
-    val isAppInstalled: Boolean
-    val isShareFileProviderSupported: Boolean
-    val sdkVersion: String
+    companion object {
+        fun isShareSupported(context: Context) = AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE) != null
+        fun isShareFileProviderSupported(context: Context) = (AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.isShareFileProviderSupported ?: false)
+    }
 
     fun authorize(request: Auth.Request, useWebAuth: Boolean = false): Boolean
 

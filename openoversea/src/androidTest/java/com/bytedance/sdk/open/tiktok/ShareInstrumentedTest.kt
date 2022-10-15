@@ -21,7 +21,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.base.Anchor
 import com.bytedance.sdk.open.tiktok.base.MediaContent
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
-import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.common.model.ResultActivityComponent
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
@@ -55,7 +54,6 @@ class ShareInstrumentedTest {
             hashTagList = arrayListOf(hashtag1, hashtag2),
             state = state,
             anchor = anchor,
-            targetSceneType = Keys.Scene.LANDPAGE_SCENE_CUT,
             shareExtra = shareExtra,
             extraShareOptions = extraShareOptions,
             resultActivityComponent = ResultActivityComponent(resultActivityPackage, resultActivityClass)
@@ -74,12 +72,12 @@ class ShareInstrumentedTest {
         assertEquals(bundle.getString(Keys.Share.CALLER_LOCAL_ENTRY), AppUtils.componentClassName(resultActivityPackage, resultActivityClass))
         assertEquals(bundle.getString(Keys.Base.FROM_ENTRY), AppUtils.componentClassName(resultActivityPackage, resultActivityClass))
         assertEquals(bundle.getString(Keys.Share.STATE), state)
-        assertEquals(bundle.getString(Keys.Share.OPENPLATFORM_EXTRA), shareExtra)
+        assertEquals(bundle.getString(Keys.Share.OPEN_PLATFORM_EXTRA), shareExtra)
         assertEquals(bundle.getSerializable(Keys.Share.EXTRA_SHARE_OPTIONS), extraShareOptions)
         assertEquals(bundle.getStringArrayList(Keys.VIDEO_PATH), mediaList)
         val parsedAnchor = Gson().fromJson(bundle.getString(Keys.Share.SHARE_ANCHOR_INFO), Anchor::class.java)
         assertEquals(parsedAnchor, anchor)
-        assertEquals(bundle.getInt(Keys.Share.SHARE_TARGET_SCENE), Keys.Scene.LANDPAGE_SCENE_CUT)
+        assertEquals(bundle.getInt(Keys.Share.SHARE_TARGET_SCENE), 0)
     }
 
     @Test
@@ -90,8 +88,7 @@ class ShareInstrumentedTest {
         } returns Unit
         val shareService = ShareService(mockContext, "client_key")
         val request = createTestShareRequest()
-        val entryComponent = EntryComponent("tiktokPackage", "tiktokComponent", "tiktokPlatformComponent")
-        shareService.share(request, entryComponent)
+        shareService.share(request, "tiktokPackage")
         verify(exactly = 1) {
             mockContext.startActivity(allAny())
         }

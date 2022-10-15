@@ -19,25 +19,18 @@ package com.bytedance.sdk.demo.share.publish
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.R
 import com.bytedance.sdk.demo.share.model.DataModel
-import com.bytedance.sdk.demo.share.model.EditTextModel
-import com.bytedance.sdk.demo.share.model.EditTextType
 import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
-import com.bytedance.sdk.demo.share.model.ToggleType
 import com.bytedance.sdk.demo.share.model.ViewType
 
 class ShareActivityAdapter(
-    private val onSaveEditTextValue: (EditTextType, String) -> Unit,
-    private val onSaveToggleStatus: (ToggleType, Boolean) -> Unit
+    private val onSaveToggleStatus: (Boolean) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private lateinit var recyclerView: RecyclerView
 
     private var models: List<DataModel> = listOf()
 
@@ -60,24 +53,6 @@ class ShareActivityAdapter(
         }
     }
 
-    class EditTextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView
-        val desc: TextView
-        val editText: EditText
-        var editTextType: EditTextType? = null
-
-        init {
-            title = view.findViewById(R.id.title)
-            desc = view.findViewById(R.id.desc)
-            editText = view.findViewById(R.id.edittext)
-        }
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (ViewType.typeFrom(viewType)) {
             ViewType.HEADER -> {
@@ -87,10 +62,6 @@ class ShareActivityAdapter(
             ViewType.TOGGLE -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.toggle_item, parent, false)
                 return ToggleViewHolder(view)
-            }
-            ViewType.EDIT_TEXT -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.edittext_item, parent, false)
-                EditTextViewHolder(view)
             }
             else -> throw Exception("Invalid View Type")
         }
@@ -112,16 +83,8 @@ class ShareActivityAdapter(
                     it.subtitle.text = model.desc
                     it.toggle.isChecked = model.isOn
                     it.toggle.setOnCheckedChangeListener { _, isOn ->
-                        onSaveToggleStatus(model.toggleType, isOn)
+                        onSaveToggleStatus(isOn)
                     }
-                }
-            }
-            is EditTextModel -> {
-                (holder as EditTextViewHolder).let {
-                    it.title.text = holder.itemView.context.getString(model.titleRes)
-                    it.desc.text = holder.itemView.context.getString(model.descRes)
-                    it.editText.setText(model.text)
-                    it.editTextType = model.type
                 }
             }
         }
@@ -137,23 +100,7 @@ class ShareActivityAdapter(
             is ToggleViewHolder -> {
                 holder.toggle.setOnCheckedChangeListener(null)
             }
-            is EditTextViewHolder -> {
-                holder.editTextType?.let {
-                    onSaveEditTextValue(it, holder.editText.text.toString())
-                }
-            }
             else -> Unit
-        }
-    }
-
-    fun saveTextInput() {
-        for (i in 0 until recyclerView.childCount) {
-            val holder = recyclerView.getChildViewHolder(recyclerView.getChildAt(i))
-            if (holder is EditTextViewHolder) {
-                holder.editTextType?.let {
-                    onSaveEditTextValue(it, holder.editText.text.toString())
-                }
-            }
         }
     }
 

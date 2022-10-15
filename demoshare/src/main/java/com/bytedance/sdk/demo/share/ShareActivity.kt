@@ -67,17 +67,11 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         findViewById<Button>(R.id.share_button).setOnClickListener { this.publish() }
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = ShareActivityAdapter(
-            onSaveToggleStatus = shareViewModel::updateToggle,
-            onSaveEditTextValue = shareViewModel::updateText,
+            onSaveToggleStatus = shareViewModel::updateGreenScreenStatus,
         )
         recyclerView.adapter = recyclerAdapter
 
         initRecyclerViewData()
-    }
-
-    override fun onDestroy() {
-        recyclerAdapter.saveTextInput()
-        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -92,7 +86,7 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
         shareViewModel.shareViewState.observe(this) { viewState ->
             val recyclerViewDataModel = mutableListOf(
                 HeaderModel(getString(R.string.demo_app_header_info), getString(R.string.demo_app_header_desc)),
-                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.toggleStatus[ToggleType.GREEN_SCREEN] ?: false, toggleType = ToggleType.GREEN_SCREEN),
+                ToggleModel(getString(R.string.demo_app_green_screen_info), getString(R.string.demo_app_green_screen_desc), isOn = viewState.greenScreenEnabled, toggleType = ToggleType.GREEN_SCREEN),
             )
             recyclerAdapter.updateModels(recyclerViewDataModel)
             if (recyclerView.scrollState == RecyclerView.SCROLL_STATE_IDLE && !recyclerView.isComputingLayout) {
@@ -102,7 +96,6 @@ class ShareActivity : AppCompatActivity(), IApiEventHandler {
     }
 
     private fun publish() {
-        recyclerAdapter.saveTextInput()
         shareViewModel.publish(
             ResultActivityComponent(
                 this.packageName,

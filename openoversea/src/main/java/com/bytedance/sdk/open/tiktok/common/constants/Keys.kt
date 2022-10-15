@@ -22,8 +22,6 @@ object Keys {
     const val REDIRECT_URL_PATH = "/oauth/authorize/callback/"
     const val SDK_VERSION_ERROR = -1
     const val SDK_VERSION_KEY = "BD_PLATFORM_SDK_VERSION"
-    const val AUTH_REQUEST_CODE = 100
-//    cosnt val SHARE_TO_IM_CODE = 101
     const val VERSION = "1"
 
     object Base {
@@ -43,7 +41,6 @@ object Keys {
         const val CLIENT_KEY = "_bytedance_params_client_key"
         const val STATE = "_bytedance_params_state"
         const val GRANTED_PERMISSION = "_bytedance_params_granted_permission"
-        const val REDIRECT_URI = "_bytedance_params_redirect_uri"
         const val SCOPE = "_bytedance_params_scope"
         const val OPTIONAL_SCOPE0 = "_bytedance_params_optional_scope0"
         const val OPTIONAL_SCOPE1 = "_bytedance_params_optional_scope1"
@@ -59,13 +56,12 @@ object Keys {
         const val SHARE_DEFAULT_HASHTAG = "_aweme_open_sdk_params_target_scene"
         const val SHARE_HASHTAG_LIST = "_aweme_open_sdk_params_hashtag_list"
         const val SHARE_FORMAT = "_aweme_open_sdk_params_share_format"
-        const val SHARE_MICROAPP_INFO = "_aweme_open_sdk_params_micro_app_info"
         const val TYPE = "_aweme_open_sdk_params_type"
         const val ERROR_CODE = "_aweme_open_sdk_params_error_code"
         const val ERROR_MSG = "_aweme_open_sdk_params_error_msg"
         const val SHARE_SUB_ERROR_CODE = "_aweme_open_sdk_params_sub_error_code"
         const val SHARE_ANCHOR_INFO = "_aweme_open_sdk_params_anchor_info"
-        const val OPENPLATFORM_EXTRA = "extra"
+        const val OPEN_PLATFORM_EXTRA = "extra"
         const val ANCHOR_SOURCE_TYPE = "anchor_source_type"
         const val EXTRA_SHARE_OPTIONS = "_aweme_open_sdk_extra_share_options"
         const val DISABLE_MUSIC_SELECTION = "tiktok_videokit_disable_music_selection"
@@ -87,24 +83,13 @@ object Keys {
         const val REDIRECT_QUERY_ERROR_CODE = "errCode"
         const val REDIRECT_QUERY_ERROR_MESSAGE = "error_string"
         const val REDIRECT_QUERY_SCOPE = "scopes"
-        const val QUERY_ENCRIPTION_PACKAGE = "app_identity"
+        const val QUERY_ENCRYPTION_PACKAGE = "app_identity"
         const val QUERY_PLATFORM = "device_platform"
         const val QUERY_ACCEPT_LANGUAGE = "accept_language"
     }
     object API {
         const val AUTH_REQUIRE_API = 1
-        // sharing
-        const val SHARE_REQUIRED_MIN_VERSION = 2
-        // adapt to old version because of changing api name
         const val MIN_SDK_NEW_VERSION_API = 3
-        // skipping 4 as Tiktok repo already was using version 4
         const val SHARE_SUPPORT_FILEPROVIDER = 5
-        // Special for Lite Authorize
-        const val AUTHORIZE_FOR_TIKTOK_LITE = 6
-    }
-    object Scene { // TODO: chen.wu remove? not used?
-        const val LANDPAGE_SCENE_DEFAULT = 0
-        const val LANDPAGE_SCENE_EDIT = 1
-        const val LANDPAGE_SCENE_CUT = 2
     }
 }

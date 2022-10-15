@@ -62,7 +62,7 @@ class Share {
                 putAll(mediaContent.toBundle())
                 putInt(Keys.Share.SHARE_FORMAT, shareFormat.format)
                 putInt(Keys.Share.SHARE_TARGET_SCENE, targetSceneType)
-                putString(Keys.Share.OPENPLATFORM_EXTRA, shareExtra)
+                putString(Keys.Share.OPEN_PLATFORM_EXTRA, shareExtra)
                 putSerializable(Keys.Share.EXTRA_SHARE_OPTIONS, extraShareOptions)
 
                 hashTagList.let {

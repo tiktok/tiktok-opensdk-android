@@ -19,10 +19,12 @@ package com.bytedance.sdk.open.tiktok.authorize
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Bundle
@@ -45,7 +47,6 @@ import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.model.Base
 import com.bytedance.sdk.open.tiktok.utils.OpenUtils.setViewVisibility
-import com.bytedance.sdk.open.tiktok.utils.ViewUtils
 
 internal class WebAuthActivity : Activity() {
     private lateinit var mContentWebView: WebView
@@ -69,8 +70,11 @@ internal class WebAuthActivity : Activity() {
             }
         }
 
-    // TODO: chen.wu change to connection monitoring https://developer.android.com/training/monitoring-device-state/connectivity-status-type when SDK >= LOLLIPOP
-    fun isNetworkAvailable(): Boolean = true
+    fun isNetworkAvailable(): Boolean {
+        val connectivityManager: ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = connectivityManager.activeNetworkInfo
+        return info?.isConnected ?: false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +90,7 @@ internal class WebAuthActivity : Activity() {
         webAuthRequest = webAuthRequestFromBundle
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         handleRequestIntent()
-        ViewUtils.setStatusBarColor(this, Color.TRANSPARENT)
+        window.statusBarColor = Color.TRANSPARENT
     }
 
     override fun onBackPressed() {
@@ -223,16 +227,13 @@ internal class WebAuthActivity : Activity() {
     }
 
     private fun parseErrorAndRedirectToClient(uri: Uri) {
-        val errorCodeStr = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_CODE)
-        val errorMsgStr = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_MESSAGE)
-        var errorCode = Constants.BaseError.ERROR_UNKNOWN
-        if (!TextUtils.isEmpty(errorCodeStr)) {
-            try {
-                errorCodeStr?.apply { errorCode = this.toInt() }
-            } catch (e: Exception) {
-                e.printStackTrace() // TODO: chen.wu remove
-            }
+        val errorCodeStr: String? = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_CODE)
+        val errorCode = try {
+            errorCodeStr?.toInt() ?: Constants.BaseError.ERROR_UNKNOWN
+        } catch (e: Exception) {
+            Constants.BaseError.ERROR_UNKNOWN
         }
+        val errorMsgStr: String? = uri.getQueryParameter(Keys.Web.REDIRECT_QUERY_ERROR_MESSAGE)
         redirectToClientApp(errorCode, errorMsg = errorMsgStr)
     }
 

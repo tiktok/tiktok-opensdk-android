@@ -23,8 +23,8 @@ import android.text.TextUtils
 
 internal object SignatureUtils {
     // validate tiktok or musically app's signature
-    fun validateSign(context: Context?, pkgName: String, sign: String): Boolean {
-        if (TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(sign) || context == null) {
+    fun validateSign(context: Context, pkgName: String, sign: String): Boolean {
+        if (TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(sign)) {
             return false
         }
         val signList = getMd5Signs(context, pkgName)
@@ -38,7 +38,7 @@ internal object SignatureUtils {
             return null
         }
         val packageInfo: PackageInfo = try {
-            context.packageManager.getPackageInfo(pkgName!!, PackageManager.GET_SIGNATURES)
+            context.packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES)
         } catch (ex: PackageManager.NameNotFoundException) {
             return null
         }

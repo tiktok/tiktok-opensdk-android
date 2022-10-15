@@ -22,13 +22,11 @@ internal object Md5Utils {
     private val hexDigits = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
 
     fun hexDigest(string: String): String? {
-        var res: String? = null
-        try {
-            res = hexDigest(string.toByteArray())
+        return try {
+            hexDigest(string.toByteArray())
         } catch (e: Exception) {
-            e.printStackTrace() // TODO: chen.wu remove?
+            null
         }
-        return res
     }
 
     fun hexDigest(bytes: ByteArray): String? {

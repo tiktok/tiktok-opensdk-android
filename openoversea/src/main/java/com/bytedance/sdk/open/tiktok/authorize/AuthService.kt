@@ -21,7 +21,7 @@ import android.content.Context
 import android.content.Intent
 import com.bytedance.sdk.open.tiktok.utils.AppUtils.componentClassName
 
-class AuthService(
+internal class AuthService(
     private val context: Context,
     private val clientKey: String,
 ) {

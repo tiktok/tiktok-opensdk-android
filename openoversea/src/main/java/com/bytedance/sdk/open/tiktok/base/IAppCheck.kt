@@ -25,7 +25,9 @@ interface IAppCheck {
 
     val isShareFileProviderSupported: Boolean
 
-    val packageName: String
+    val appPackageName: String
 
-    fun isAppSupportAPI(requiredApi: Int): Boolean
+    val sharePackageName: String
+
+    val signature: String
 }

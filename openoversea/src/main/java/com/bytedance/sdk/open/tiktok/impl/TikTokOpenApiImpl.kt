@@ -26,23 +26,17 @@ import com.bytedance.sdk.open.tiktok.authorize.toAuthResponse
 import com.bytedance.sdk.open.tiktok.common.constants.Constants
 import com.bytedance.sdk.open.tiktok.common.constants.Keys
 import com.bytedance.sdk.open.tiktok.common.handler.IApiEventHandler
-import com.bytedance.sdk.open.tiktok.common.model.EntryComponent
 import com.bytedance.sdk.open.tiktok.helper.AppCheckFactory
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareService
 import com.bytedance.sdk.open.tiktok.share.toShareResponse
 
-open class TikTokOpenApiImpl(
+internal open class TikTokOpenApiImpl(
     private val context: Context,
     private val authService: AuthService,
     private val shareService: ShareService,
     private val apiEventHandler: IApiEventHandler,
 ) : TikTokOpenApi {
-    override val isAuthSupported = (AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH) != null)
-    override val isShareSupported = AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE) != null
-    override val isAppInstalled = (AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.isAppInstalled ?: false) // TODO: chen.wu change to AUTH? to be consistent with internal?
-    override val isShareFileProviderSupported = (AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.isShareFileProviderSupported ?: false)
-    override val sdkVersion = BuildConfig.SDK_OVERSEA_VERSION
 
     override fun handleIntent(intent: Intent?): Boolean {
         if (intent == null) {
@@ -77,7 +71,7 @@ open class TikTokOpenApiImpl(
         apiEventHandler.onRequest(internalRequest)
         if (!useWebAuth) {
             AppCheckFactory.getApiCheck(context, Constants.APIType.AUTH)?.let {
-                return authService.authorizeNative(internalRequest, it.packageName, BuildConfig.TIKTOK_AUTH_ACTIVITY)
+                return authService.authorizeNative(internalRequest, it.appPackageName, BuildConfig.TIKTOK_AUTH_ACTIVITY)
             }
         }
         return webAuth(internalRequest)
@@ -86,12 +80,7 @@ open class TikTokOpenApiImpl(
     override fun share(request: Share.Request): Boolean {
         apiEventHandler.onRequest(request)
         AppCheckFactory.getApiCheck(context, Constants.APIType.SHARE)?.let {
-            val entryComponents = EntryComponent(
-                tiktokPackage = it.packageName,
-                tiktokComponent = BuildConfig.TIKTOK_SHARE_ACTIVITY,
-                tiktokPlatformComponent = BuildConfig.TIKTOK_AUTH_ACTIVITY
-            )
-            return shareService.share(request, entryComponents)
+            return shareService.share(request, it.appPackageName)
         }
         return false
     }
