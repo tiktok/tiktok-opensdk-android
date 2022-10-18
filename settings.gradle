@@ -1,3 +1,5 @@
-include ':openoversea'
-include ':demoauth'
-include ':demoshare'
+include ':demo-auth'
+include ':demo-share'
+include ':tiktok-core'
+include ':tiktok-share'
+include ':tiktok-auth'
