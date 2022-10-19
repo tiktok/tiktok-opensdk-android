@@ -16,6 +16,8 @@ package com.bytedance.sdk.demo.auth
    limitations under the License.
 */
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -64,15 +66,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                     is MainViewModel.ViewEffect.ShowGeneralAlert -> showAlert(getString(it.titleRes), getString(it.descriptionRes))
                     is MainViewModel.ViewEffect.ShowAlertWithResponseError -> showAlert(getString(it.titleRes), it.description)
                     is MainViewModel.ViewEffect.GettingUserInfoSuccess -> {
-                        val descriptionBuilder = StringBuilder().apply {
-                            append(getString(R.string.user_info_description_access_token, it.accessToken))
-                            append("\n")
-                            append(getString(R.string.user_info_description_display_name, it.displayName))
-                        }
-                        showAlert(
-                            title = getString(R.string.getting_user_info_succeeds),
-                            desc = descriptionBuilder.toString()
-                        )
+                        showGettingUserInfoSuccessDialog(it.accessToken, it.displayName)
                     }
                 }
             }
@@ -116,13 +110,35 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
         )
     }
 
+    private fun showGettingUserInfoSuccessDialog(accessToken: String, displayName: String) {
+        val descriptionBuilder = StringBuilder().apply {
+            append(getString(R.string.user_info_description_access_token, accessToken))
+            append("\n")
+            append(getString(R.string.user_info_description_display_name, displayName))
+        }
+        AlertDialog
+            .Builder(this)
+            .setTitle(getString(R.string.getting_user_info_succeeds))
+            .setMessage(descriptionBuilder.toString())
+            .setPositiveButton(getString(R.string.copy_access_token)) { dialog, _ ->
+                val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("access token", accessToken)
+                clipboard.setPrimaryClip(clip)
+                dialog.cancel()
+            }
+            .setNegativeButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
+    }
+
     private fun showAlert(title: String, desc: String) {
         AlertDialog
             .Builder(this)
             .setTitle(title)
             .setMessage(desc)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
-            .create().show()
+            .create()
+            .show()
     }
 
     //  IApiEventHandler

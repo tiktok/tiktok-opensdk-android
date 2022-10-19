@@ -12,7 +12,8 @@
     <string name="user_info_error">User Info Error</string>
     <string name="getting_user_info_succeeds">Getting user info succeeded</string>
     <string name="user_info_description_access_token">Access Token: %1$s</string>
-    <string name="user_info_description_display_name">Display name: %1$s</string>>
+    <string name="user_info_description_display_name">Display name: %1$s</string>
+    <string name="copy_access_token">Copy access token</string>
     <string name="ok">OK</string>
     <string name="error">Error</string>
     <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
