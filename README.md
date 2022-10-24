@@ -22,37 +22,55 @@ repositories {
 2. Open Gradle Scripts > build.gradle (Module: app) and add the following implementation statement to the dependencies{} section: {TODO: update location and version}
 ```gradle
 dependencies {
-    implementation 'com.bytedance.ies.ugc.aweme:opensdk-oversea-external:0.2.1.1'
+    implementation 'com.bytedance.ies.ugc.aweme:tiktok-core:1.0.0'
+    implementation 'com.bytedance.ies.ugc.aweme:tiktok-auth:1.0.0'   // to use authorization api
+    implementation 'com.bytedance.ies.ugc.aweme:tiktok-share:1.0.0'    // to use share api
 }
 ```
-TODO: update package name and version number
 
 3. Edit your Application
 
-First you need to initialize TikTokOpenApiFactory by using client key in your custom Application.
+To use auth sdk api, you can initialize an AuthApi object with your client key and customized api event handler, checkout MainActivity in demo-auth package
 ```kotlin
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState);
-    String clientKey = "[CLIENT_KEY]";
-    val tiktokOpenConfig = TikTokOpenConfig(BuildConfig.CLIENT_KEY)
-    TikTokOpenApiFactory.init(tiktokOpenConfig)
+authApi = AuthApi(
+    context = this,
+    clientKey = [your_client_key],
+    apiEventHandler = [your_api_event_handler]
+)
+authApi.authorize(
+    request = request,
+    useWebAuth = true / false
+)
+
+// use authApi to handle result intent in activity
+override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    authApi.handleResultIntent(intent)
 }
+
 ```
 
-4. Edit Your Manifest
+To use share sdk api, you can initialize an ShareApi object with your client key and customized api event handler, checkout ShareActivity in demo-share package
+```kotlin
+shareApi = ShareApi(
+    context = this,
+    clientKey = [your_client_key],
+    apiEventHandler = [your_api_event_handler]
+)
+shareApi.share(
+    request = request,
+)
 
-Open the `/app/manifest/AndroidManifest.xml` file.
-Register `TikTokEntryActivity` for receiving callbacks in Manifest. If you have customized an activity to receive callbacks, you may skip this step.
-```xml
-// If you have customized activity to receive callbacks, you can skip the step
-<activity
-    android:name=".tiktokapi.TikTokEntryActivity"
-    android:exported="true">
-</activity>
+// use shareApi to handle result intent in activity
+override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    shareApi.handleResultIntent(intent)
+}
+
 ```
 
 > Note:
-Due to changes in Android 11 regarding package visibility, when impementing Tiktok SDK for devices targeting Android 11 and higher, add the following to the Android Manifest file:
+Due to changes in Android 11 regarding package visibility, when implementing Tiktok SDK for devices targeting Android 11 and higher, add the following to the Android Manifest file:
 ```xml
 <queries>
     <package android:name="com.zhiliaoapp.musically" />
@@ -61,14 +79,6 @@ Due to changes in Android 11 regarding package visibility, when impementing Tikt
 ```
 Sync your project and get the latest version of SDK package.
 At this point, you should already set up the basic development environment.
-
-## Contribution (remove?)
-
-Please check [Contributing](CONTRIBUTING.md) for more details.
-
-## Code of Conduct (remove?)
-
-Please check [Code of Conduct](CODE_OF_CONDUCT.md) for more details.
 
 ## Security
 
