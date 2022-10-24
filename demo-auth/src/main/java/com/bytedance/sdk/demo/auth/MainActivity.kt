@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                     is MainViewModel.ViewEffect.ShowGeneralAlert -> showAlert(getString(it.titleRes), getString(it.descriptionRes))
                     is MainViewModel.ViewEffect.ShowAlertWithResponseError -> showAlert(getString(it.titleRes), it.description)
                     is MainViewModel.ViewEffect.GettingUserInfoSuccess -> {
-                        showGettingUserInfoSuccessDialog(it.accessToken, it.displayName)
+                        showGettingUserInfoSuccessDialog(it.grantedPermissions, it.accessToken, it.displayName)
                     }
                 }
             }
@@ -106,12 +106,14 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
     private fun authorize() {
         viewModel.authorize(
             packageName = BuildConfig.APPLICATION_ID, // the package name of your app, must be same as what we have on developer portal
-            resultActivityFullPath = "$packageName.${this::class.simpleName}" // com.bytedance.sdk.demo.auth.MainActivty, the full path of activity which will receive the sdk results
+            resultActivityFullPath = "$packageName.${this::class.simpleName}" // com.bytedance.sdk.demo.auth.MainActivity, the full path of activity which will receive the sdk results
         )
     }
 
-    private fun showGettingUserInfoSuccessDialog(accessToken: String, displayName: String) {
+    private fun showGettingUserInfoSuccessDialog(grantedPermission: String, accessToken: String, displayName: String) {
         val descriptionBuilder = StringBuilder().apply {
+            append(getString(R.string.user_info_description_granted_permission, grantedPermission))
+            append("\n")
             append(getString(R.string.user_info_description_access_token, accessToken))
             append("\n")
             append(getString(R.string.user_info_description_display_name, displayName))
@@ -148,7 +150,8 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
         with(resp) {
             val authCode = authCode
             if (authCode.isNotEmpty()) {
-                viewModel.getUserBasicInfo(authCode)
+                viewModel.updateGrantedScope(grantedPermissions)
+                viewModel.getUserBasicInfo(authCode, grantedPermissions)
             } else if (errorCode != 0) {
                 showAlert(
                     getString(R.string.error),

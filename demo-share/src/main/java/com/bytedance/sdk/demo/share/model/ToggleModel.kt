@@ -27,7 +27,5 @@ data class ToggleModel(
 
 enum class ToggleType {
     ENABLE_CUSTOMIZE_KEY,
-    DISABLE_MUSIC,
     GREEN_SCREEN,
-    AUTO_ATTACH_ANCHOR,
 }

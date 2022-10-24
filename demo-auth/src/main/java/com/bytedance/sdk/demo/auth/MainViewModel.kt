@@ -83,6 +83,7 @@ class MainViewModel(
             val description: String,
         ) : ViewEffect()
         data class GettingUserInfoSuccess(
+            val grantedPermissions: String,
             val accessToken: String,
             val displayName: String,
         ) : ViewEffect()
@@ -111,6 +112,23 @@ class MainViewModel(
         }
     }
 
+    fun updateGrantedScope(grantedPermissions: String) {
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
+        val scopeStates = currentStateValue.scopeStates
+        val grantedScopesList = grantedPermissions.split(",").mapNotNull { ScopeType.fromValue(it) }
+        val newScopeStates = linkedMapOf<ScopeType, ScopeModel>()
+        scopeStates.entries.forEach {
+            if (grantedScopesList.contains(it.key)) {
+                newScopeStates[it.key] = it.value.copy(isOn = true)
+            } else {
+                newScopeStates[it.key] = it.value.copy(isOn = false)
+            }
+        }
+        _viewState.value = currentStateValue.copy(
+            scopeStates = newScopeStates,
+        )
+    }
+
     fun authorize(packageName: String, resultActivityFullPath: String) {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
@@ -134,7 +152,7 @@ class MainViewModel(
         authApi.authorize(request, webAuthEnabled)
     }
 
-    fun getUserBasicInfo(authCode: String) {
+    fun getUserBasicInfo(authCode: String, grantedPermissions: String) {
         UserInfoQuery.getAccessToken(authCode) { response, errorMsg ->
             errorMsg?.let {
                 sendViewEffect(ViewEffect.ShowAlertWithResponseError(R.string.access_token_error, errorMsg))
@@ -147,7 +165,7 @@ class MainViewModel(
                         return@getUserInfo
                     }
                     userInfo?.let {
-                        sendViewEffect(ViewEffect.GettingUserInfoSuccess(accessTokenInfo.accessToken, it.nickName))
+                        sendViewEffect(ViewEffect.GettingUserInfoSuccess(grantedPermissions, accessTokenInfo.accessToken, it.nickName))
                     }
                 }
             }

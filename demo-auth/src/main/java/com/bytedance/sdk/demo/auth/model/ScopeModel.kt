@@ -17,7 +17,6 @@ package com.bytedance.sdk.demo.auth.model
 */
 
 import androidx.annotation.StringRes
-import com.bytedance.sdk.demo.auth.R
 
 data class ScopeModel(
     val type: ScopeType,
@@ -29,8 +28,14 @@ data class ScopeModel(
     override val viewType = ViewType.SCOPE
 }
 
-enum class ScopeType(val value: String, val descRes: Int) {
-    USER_INFO_BASIC("user.info.basic", R.string.basic_scope_description),
-    VIDEO_UPLOAD("video.upload", R.string.video_upload_scope_description),
-    VIDEO_LIST("video.list", R.string.video_list_scope_description),
+enum class ScopeType(val value: String) {
+    USER_INFO_BASIC("user.info.basic"),
+    VIDEO_UPLOAD("video.upload"),
+    VIDEO_LIST("video.list");
+
+    companion object {
+        fun fromValue(value: String): ScopeType? {
+            return values().find { it.value == value }
+        }
+    }
 }
