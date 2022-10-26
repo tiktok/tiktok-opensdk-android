@@ -24,7 +24,7 @@
     <!-- remove beta feature-->
 
     <string name="demo_app_green_screen_info">Use green-screen format</string>
-    <string name="demo_app_green_screen_desc">Share the media as the background of a new recording</string>
+    <string name="demo_app_green_screen_desc">Share the media as the background of a new recording "\n"Only support 1 photo or 1 video for Greenscreen</string>
     <string name="demo_app_header_info">Share meta info</string>
     <string name="demo_app_header_desc">Description of the video kit and the features available in the SDK demo app</string>
     <string name="demo_app_client_secret_key">Demo App Client Secret Key</string>

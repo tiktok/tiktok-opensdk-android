@@ -26,7 +26,7 @@
         android:id="@+id/subtitle"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:maxLines="2"
+        android:maxLines="4"
         android:ellipsize="end"
         android:text="aaa"
         android:textSize="17dp"
