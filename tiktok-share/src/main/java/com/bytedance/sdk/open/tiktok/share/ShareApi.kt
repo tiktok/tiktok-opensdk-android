@@ -57,6 +57,14 @@ class ShareApi(
         AppCheckFactory.getApiCheck(context, APIType.SHARE)?.let {
             return share(request, it.appPackageName)
         }
+        apiEventHandler.onResponse(
+            Share.Response(
+                errorCode = Constants.ShareError.UNSUPPORTED,
+                errorMsg = "TikTok is not installed or doesn't support the sharing feature",
+                state = null,
+                subErrorCode = null,
+            )
+        )
         return false
     }
 

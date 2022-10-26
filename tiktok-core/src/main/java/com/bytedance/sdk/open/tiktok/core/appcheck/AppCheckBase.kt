@@ -35,19 +35,22 @@ internal abstract class AppCheckBase(open val context: Context) : IAppCheck {
 
     override val isShareSupported: Boolean
         get() = isAppSupportAPI(
-            sharePackageName, SHARE_ACTIVITY_NAME,
+            sharePackageName,
+            SHARE_ACTIVITY_NAME,
             Keys.API.MIN_SDK_NEW_VERSION_API
         )
 
     override val isAppInstalled: Boolean
         get() = isAppSupportAPI(
-            appPackageName, AUTH_ACTIVITY_NAME,
+            appPackageName,
+            AUTH_ACTIVITY_NAME,
             Keys.API.AUTH_REQUIRE_API
         )
 
     override val isShareFileProviderSupported: Boolean
         get() = isAppSupportAPI(
-            sharePackageName, SHARE_ACTIVITY_NAME,
+            sharePackageName,
+            SHARE_ACTIVITY_NAME,
             Keys.API.SHARE_SUPPORT_FILEPROVIDER
         )
 

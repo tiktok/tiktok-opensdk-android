@@ -41,7 +41,7 @@ internal object Constants {
         /**
          * Unsupported
          */
-        const val UNSUPPORT = -5
+        const val UNSUPPORTED = -5
 
         /********** subErrorCode ****************/
         /**

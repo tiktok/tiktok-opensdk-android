@@ -5,24 +5,12 @@
     <string name="installed">Installed</string>
     <string name="uninstalled">Uninstalled</string>
     <string name="share_success">Media sharing was successful.</string>
-    <string name="share_fail">Sharing media failed: %s</string>
     <string name="tiktok_app_name">TikTok</string>
     <string name="check_if_app_installed">Check if %s installed</string>
     <string name="demo_app_title_client_key">Client Key</string>
     <string name="demo_app_title_client_secret_key">Use your app’s client key instead of demo app’s one. Add demo app bundle ID for your app in dev portal to test your app client key</string>
-    <!-- remove beta feature-->
-    <string name="demo_app_hashtag_info">HashTag</string>
-    <string name="demo_app_hashtag_desc">Hashtags attached to the video i.e. #abc #def</string>
-    <string name="demo_app_extra_info">Extra</string>
-    <string name="demo_app_extra_desc">JSONObject string of information included in Share request</string>
-    <string name="demo_app_anchor_info">Anchor source type</string>
-    <string name="demo_app_anchor_desc">The types of anchors that will be attached to the video</string>
-    <string name="demo_app_music_select_info">Disable music selection</string>
-    <string name="demo_app_music_select_desc">Suppress automatically attaching music</string>
-    <string name="demo_app_anchor_toggle_info">Auto attach anchor</string>
-    <string name="demo_app_anchor_toggle_desc">Automatically attach anchor to the video (Sharing images is not supported)</string>
-    <!-- remove beta feature-->
-
+    <string name="sharing_fail">Sharing failed</string>
+    <string name="sharing_fail_with_error">Sharing failed: %1$s</string>
     <string name="demo_app_green_screen_info">Use green-screen format</string>
     <string name="demo_app_green_screen_desc">Share the media as the background of a new recording "\n"Only support 1 photo or 1 video for Greenscreen</string>
     <string name="demo_app_header_info">Share meta info</string>

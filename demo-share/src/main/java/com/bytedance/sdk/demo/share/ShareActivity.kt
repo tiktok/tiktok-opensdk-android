@@ -21,6 +21,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -100,20 +101,26 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
         )
     }
 
+    private fun showDialogAlert(title: String, desc: String) {
+        AlertDialog
+            .Builder(this)
+            .setTitle(title)
+            .setMessage(desc)
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
+            .create()
+            .show()
+    }
+
     // IApiEventHandler
     override fun onRequest(req: Share.Request) = Unit
 
     override fun onResponse(resp: Share.Response) {
         with(resp) {
             if (isSuccess) {
-                Toast.makeText(applicationContext, "Media sharing was successful .", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, R.string.share_success, Toast.LENGTH_SHORT)
                     .show()
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Sharing media failed: $errorMsg",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showDialogAlert(getString(R.string.sharing_fail), getString(R.string.sharing_fail_with_error, errorMsg))
             }
         }
     }
