@@ -77,6 +77,8 @@ Due to changes in Android 11 regarding package visibility, when implementing Tik
     <package android:name="com.ss.android.ugc.trill" />
 </queries>
 ```
+If users face the issue that TikTok is stuck on splash screen after sharing to TikTok, please ask users to manually grant Files and Media Permission to TikTok(https://support.google.com/googleplay/answer/9431959?hl=en) OR update their TikTok apps to version v26.7.0 or above.
+
 Sync your project and get the latest version of SDK package.
 At this point, you should already set up the basic development environment.
 
