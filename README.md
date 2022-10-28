@@ -3,7 +3,7 @@
 ## Introduction
 
 TikTok Android OpenSDK is a gradle project to seamlessly work with native TikTok app on functions such as authorization and video/image sharing.
-There will more features to help partners, developers and TikTok user experience.
+There will be more features to help partners, developers and TikTok user experience.
 
 ## Get Started
 You should confirm that your project has a Minimum API level of 21: Android 5.0 (Lollipop) or higher.
@@ -19,7 +19,7 @@ repositories {
 }
 ```
 
-2. Open Gradle Scripts > build.gradle (Module: app) and add the following implementation statement to the dependencies{} section: {TODO: update location and version}
+2. Open Gradle Scripts > build.gradle (Module: app) and add the following implementation statement to the dependencies{} section: 
 ```gradle
 dependencies {
     implementation 'com.bytedance.ies.ugc.aweme:tiktok-core:1.0.0'
@@ -30,10 +30,10 @@ dependencies {
 
 3. Edit your Application
 
-To use auth sdk api, you can initialize an AuthApi object with your client key and customized api event handler, checkout MainActivity in demo-auth package
+To use Auth sdk api, you can initialize an AuthApi object with your client key and customized api event handler. Please refer to MainActivity in demo-auth package as an example.
 ```kotlin
 authApi = AuthApi(
-    context = this,
+    context = [your_activity_or_application_context],
     clientKey = [your_client_key],
     apiEventHandler = [your_api_event_handler]
 )
@@ -50,10 +50,10 @@ override fun onNewIntent(intent: Intent) {
 
 ```
 
-To use share sdk api, you can initialize an ShareApi object with your client key and customized api event handler, checkout ShareActivity in demo-share package
+To use Share sdk api, you can initialize a ShareApi object with your client key and customized api event handler. Please refer to ShareActivity in demo-share package as an example.
 ```kotlin
 shareApi = ShareApi(
-    context = this,
+    context = [your_activity_or_application_context],
     clientKey = [your_client_key],
     apiEventHandler = [your_api_event_handler]
 )
