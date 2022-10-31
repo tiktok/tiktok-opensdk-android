@@ -16,7 +16,7 @@ package com.bytedance.sdk.open.tiktok.auth.constants
    limitations under the License.
  */
 
-object Keys {
+internal object Keys {
 
     object Auth {
         const val AUTH_CODE = "_bytedance_params_authcode"

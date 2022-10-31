@@ -21,7 +21,6 @@ import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.EXTRA
 import com.bytedance.sdk.open.tiktok.core.model.Base
 import com.bytedance.sdk.open.tiktok.share.constants.Constants
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
-import com.bytedance.sdk.open.tiktok.share.model.Anchor
 import com.bytedance.sdk.open.tiktok.share.model.MediaContent
 
 class Share {
@@ -37,13 +36,7 @@ class Share {
 
     data class Request(
         val mediaContent: MediaContent,
-        val targetSceneType: Int = 0,
-        val hashTagList: ArrayList<String> = arrayListOf(),
         val shareFormat: Format = Format.DEFAULT,
-        val anchor: Anchor? = null,
-        val state: String? = null,
-        val shareExtra: String? = null,
-        val extraShareOptions: HashMap<String, Any>? = null,
         override val packageName: String,
         override val resultActivityFullPath: String,
     ) : Base.Request() {
@@ -58,26 +51,8 @@ class Share {
             return super.toBundle(sdkName, sdkVersion).apply {
                 putString(Keys.Share.CLIENT_KEY, clientKey)
                 putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
-                putString(Keys.Share.STATE, state)
                 putAll(mediaContent.toBundle())
                 putInt(Keys.Share.SHARE_FORMAT, shareFormat.format)
-                putInt(Keys.Share.SHARE_TARGET_SCENE, targetSceneType)
-                putString(Keys.Share.OPEN_PLATFORM_EXTRA, shareExtra)
-                putSerializable(Keys.Share.EXTRA_SHARE_OPTIONS, extraShareOptions)
-
-                hashTagList.let {
-                    if (it.isNotEmpty()) {
-                        putString(Keys.Share.SHARE_DEFAULT_HASHTAG, it[0])
-                    }
-                    putStringArrayList(Keys.Share.SHARE_HASHTAG_LIST, it)
-                }
-                anchor?.apply {
-                    if (this.anchorBusinessType == 10) { // TODO: chen.wu check this anchor business type
-                        putAll(this.toBundle())
-                    }
-                    putString(Keys.Share.ANCHOR_SOURCE_TYPE, sourceType)
-                }
-
                 putString(Keys.Share.CALLER_PKG, packageName)
                 putString(
                     Keys.Share.CALLER_LOCAL_ENTRY,
