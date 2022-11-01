@@ -120,7 +120,14 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
                 Toast.makeText(applicationContext, R.string.share_success, Toast.LENGTH_SHORT)
                     .show()
             } else {
-                showDialogAlert(getString(R.string.sharing_fail), getString(R.string.sharing_fail_with_error, errorMsg))
+                showDialogAlert(
+                    getString(R.string.error),
+                    getString(
+                        R.string.error_code_with_message,
+                        subErrorCode,
+                        errorMsg
+                    )
+                )
             }
         }
     }
