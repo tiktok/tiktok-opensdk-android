@@ -10,5 +10,5 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:background="@android:color/transparent"
-        android:src="@mipmap/logo_light"/>
+        android:src="@drawable/logo"/>
 </LinearLayout>
