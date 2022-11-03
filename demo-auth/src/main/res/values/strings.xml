@@ -17,6 +17,7 @@
     <string name="copy_access_token">Copy access token</string>
     <string name="ok">OK</string>
     <string name="error">Error</string>
+    <string name="error_dialog_title">Authorization Failed!</string>
     <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
     <string name="invalid_scope">Invalid scope</string>
     <string name="invalid_scope_description">Please select at least one scope</string>

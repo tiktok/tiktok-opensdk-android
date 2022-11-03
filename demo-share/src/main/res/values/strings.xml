@@ -20,5 +20,6 @@
     <string name="demo_app_info_customize">Custom Client Key</string>
     <string name="demo_app_desc_customize">Be able to edit the client key</string>
     <string name="error">Error</string>
+    <string name="error_dialog_title">Share Failed!</string>
     <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
 </resources>

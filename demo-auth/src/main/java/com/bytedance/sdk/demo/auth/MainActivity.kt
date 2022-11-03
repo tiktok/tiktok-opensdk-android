@@ -32,7 +32,6 @@ import com.bytedance.sdk.demo.auth.model.LogoModel
 import com.bytedance.sdk.open.tiktok.auth.Auth
 import com.bytedance.sdk.open.tiktok.auth.AuthApi
 import com.bytedance.sdk.open.tiktok.auth.AuthApiEventHandler
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity(), AuthApiEventHandler {
     private lateinit var viewModel: MainViewModel
@@ -154,7 +153,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                 viewModel.getUserBasicInfo(authCode, grantedPermissions)
             } else if (errorCode != 0) {
                 showAlert(
-                    getString(R.string.error),
+                    getString(R.string.error_dialog_title),
                     getString(
                         R.string.error_code_with_message,
                         errorCode,
