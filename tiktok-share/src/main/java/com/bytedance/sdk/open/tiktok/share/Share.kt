@@ -44,6 +44,9 @@ class Share {
         override var type: Int = Constants.SHARE_REQUEST
 
         override fun validate(): Boolean {
+            if (shareFormat == Format.GREEN_SCREEN) {
+                return mediaContent.mediaPaths.size == 1
+            }
             return mediaContent.validate()
         }
 
