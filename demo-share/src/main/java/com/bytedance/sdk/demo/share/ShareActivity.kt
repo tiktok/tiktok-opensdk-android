@@ -121,7 +121,7 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
                     .show()
             } else {
                 showDialogAlert(
-                    getString(R.string.error),
+                    getString(R.string.error_dialog_title),
                     getString(
                         R.string.error_code_with_message,
                         subErrorCode,
