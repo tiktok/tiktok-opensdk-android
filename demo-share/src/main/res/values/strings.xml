@@ -12,7 +12,9 @@
     <string name="sharing_fail">Sharing failed</string>
     <string name="sharing_fail_with_error">Sharing failed: %1$s</string>
     <string name="demo_app_green_screen_info">Use green-screen format</string>
-    <string name="demo_app_green_screen_desc">Share the media as the background of a new recording. Only support 1 photo or 1 video for Greenscreen</string>
+    <string name="demo_app_green_screen_desc">Share the media as the background of a new recording. Only support 1 photo or 1 video for green-screen format.</string>
+    <string name="unable_to_change_config">Unable to change the config</string>
+    <string name="demo_app_green_screen_unsupported">Only support 1 photo or 1 video for green-screen format.</string>
     <string name="demo_app_header_info">Share meta info</string>
     <string name="demo_app_header_desc">Description of the video kit and the features available in the SDK demo app</string>
     <string name="demo_app_client_secret_key">Demo App Client Secret Key</string>

@@ -24,6 +24,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.constants.Constants.CLIENT_KEY
 import com.bytedance.sdk.demo.share.constants.Constants.IS_SHARING_IMAGE
@@ -71,6 +72,17 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
         recyclerView.adapter = recyclerAdapter
 
         initRecyclerViewData()
+
+        lifecycleScope.launchWhenCreated {
+            shareViewModel.viewEffectFlow.collect {
+                when (it) {
+                    is ShareViewModel.ViewEffect.GREEN_SCREEN_UNSUPPORTED -> showDialogAlert(
+                        getString(R.string.unable_to_change_config),
+                        getString(R.string.demo_app_green_screen_unsupported)
+                    )
+                }
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

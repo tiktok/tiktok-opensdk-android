@@ -20,9 +20,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareApi
 import com.bytedance.sdk.open.tiktok.share.model.MediaContent
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 class ShareViewModel(
     private val shareApi: ShareApi,
@@ -41,10 +46,17 @@ class ShareViewModel(
         }
     }
 
+    sealed class ViewEffect {
+        object GREEN_SCREEN_UNSUPPORTED : ViewEffect()
+    }
+
     private val _shareViewState: MutableLiveData<ShareViewModelViewState> = MutableLiveData(
         ShareViewModelViewState()
     )
     val shareViewState: LiveData<ShareViewModelViewState> = _shareViewState
+
+    private val _viewEffect: Channel<ViewEffect> = Channel()
+    val viewEffectFlow: Flow<ViewEffect> = _viewEffect.receiveAsFlow()
 
     data class ShareViewModelViewState(
         val greenScreenEnabled: Boolean = false
@@ -71,6 +83,13 @@ class ShareViewModel(
 
     fun updateGreenScreenStatus(enabled: Boolean) {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        _shareViewState.value = currentStateValue.copy(greenScreenEnabled = enabled)
+        if (enabled && mediaUrls.size > 1) {
+            viewModelScope.launch {
+                _viewEffect.send(ViewEffect.GREEN_SCREEN_UNSUPPORTED)
+            }
+            _shareViewState.value = currentStateValue.copy(greenScreenEnabled = false)
+        } else {
+            _shareViewState.value = currentStateValue.copy(greenScreenEnabled = enabled)
+        }
     }
 }
