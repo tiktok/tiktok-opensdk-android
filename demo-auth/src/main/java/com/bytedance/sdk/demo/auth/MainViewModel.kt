@@ -45,6 +45,7 @@ class MainViewModel(
 
     data class MainViewModelViewState(
         val webAuthEnabled: Boolean,
+        val browserAuthEnabled: Boolean,
         val scopeStates: LinkedHashMap<ScopeType, ScopeModel>
     )
 
@@ -63,6 +64,7 @@ class MainViewModel(
 
     private fun getDefaultViewState() = MainViewModelViewState(
         webAuthEnabled = false,
+        browserAuthEnabled = false,
         scopeStates = linkedMapOf(
             ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, false),
             ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, true),
@@ -89,10 +91,21 @@ class MainViewModel(
         ) : ViewEffect()
     }
 
-    fun toggleWebAuthEnabled(webAuthEnabled: Boolean) {
+    fun toggleWebAuthEnabled(newWebAuthEnabled: Boolean) {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
+        val newBrowserAuthEnabled = if (newWebAuthEnabled) false else currentStateValue.browserAuthEnabled
         _viewState.value = currentStateValue.copy(
-            webAuthEnabled = webAuthEnabled,
+            webAuthEnabled = newWebAuthEnabled,
+            browserAuthEnabled = newBrowserAuthEnabled,
+        )
+    }
+
+    fun toggleBrowserAuthEnabled(newBrowserAuthEnabled: Boolean) {
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
+        val newWebAuthEnabled = if (newBrowserAuthEnabled) false else currentStateValue.webAuthEnabled
+        _viewState.value = currentStateValue.copy(
+            webAuthEnabled = newWebAuthEnabled,
+            browserAuthEnabled = newBrowserAuthEnabled,
         )
     }
 
@@ -133,6 +146,7 @@ class MainViewModel(
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val webAuthEnabled = currentStateValue.webAuthEnabled
+        val browserAuthEnabled = currentStateValue.browserAuthEnabled
         val enabledScopes: MutableList<String> = mutableListOf()
         currentScopeStates.forEach {
             if (it.value.isOn) {
@@ -149,7 +163,14 @@ class MainViewModel(
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath
         )
-        authApi.authorize(request, webAuthEnabled)
+        val authType = if (webAuthEnabled) {
+            AuthApi.AuthMethod.WebView
+        } else if (browserAuthEnabled) {
+            AuthApi.AuthMethod.ChromeTab
+        } else {
+            AuthApi.AuthMethod.TikTokApp
+        }
+        authApi.authorize(request, authType)
     }
 
     fun getUserBasicInfo(authCode: String, grantedPermissions: String) {

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.parcelize'
 }
 
 android {
@@ -16,6 +17,10 @@ android {
 
         buildConfigField "String", "SHARE_SDK_NAME", "\"$SHARE_SDK_NAME\""
         buildConfigField "String", "SHARE_SDK_VERSION", "\"$ARTIFACT_VERSION\""
+    }
+    lintOptions {
+        abortOnError false
+        ignoreWarnings true
     }
 
     buildTypes {

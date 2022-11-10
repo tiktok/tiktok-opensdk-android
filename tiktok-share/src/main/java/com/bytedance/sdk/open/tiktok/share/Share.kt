@@ -22,6 +22,8 @@ import com.bytedance.sdk.open.tiktok.core.model.Base
 import com.bytedance.sdk.open.tiktok.share.constants.Constants
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
 import com.bytedance.sdk.open.tiktok.share.model.MediaContent
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 class Share {
     enum class Format(val format: Int) {
@@ -34,6 +36,7 @@ class Share {
         IMAGE;
     }
 
+    @Parcelize
     data class Request(
         val mediaContent: MediaContent,
         val shareFormat: Format = Format.DEFAULT,
@@ -41,6 +44,7 @@ class Share {
         override val resultActivityFullPath: String,
     ) : Base.Request() {
 
+        @IgnoredOnParcel
         override var type: Int = Constants.SHARE_REQUEST
 
         override fun validate(): Boolean {

@@ -24,8 +24,11 @@ import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_CODE
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_MSG
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.EXTRA
 import com.bytedance.sdk.open.tiktok.core.model.Base
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 class Auth {
+    @Parcelize
     data class Request(
         val scope: String,
         val state: String? = null,
@@ -35,6 +38,7 @@ class Auth {
         override val packageName: String,
         override val resultActivityFullPath: String
     ) : Base.Request() {
+        @IgnoredOnParcel
         override val type: Int = AUTH_REQUEST
 
         override fun validate(): Boolean = scope.isNotEmpty()
