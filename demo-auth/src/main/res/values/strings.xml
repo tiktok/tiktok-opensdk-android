@@ -3,8 +3,10 @@
     <string name="config">Config</string>
     <string name="scope_configuration">Scope configuration</string>
     <string name="always_in_web">Always in Web</string>
+    <string name="always_in_browser">Always in Browser</string>
     <string name="beta_mode">Beta mode</string>
     <string name="always_in_web_description">Always authorize in webview</string>
+    <string name="always_in_browser_description">Always authorize in chrome tab</string>
     <string name="basic_scope_description">Read your profile info (avatar, display name)</string>
     <string name="video_upload_scope_description">Publish videos to TikTok</string>
     <string name="video_list_scope_description">Read your public videos on TikTok</string>

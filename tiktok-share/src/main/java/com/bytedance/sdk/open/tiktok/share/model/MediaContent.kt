@@ -17,10 +17,14 @@ package com.bytedance.sdk.open.tiktok.share.model
  */
 
 import android.os.Bundle
+import android.os.Parcelable
 import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
+import kotlinx.parcelize.Parcelize
 
-data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<String>) {
+@Parcelize
+data class MediaContent(val mediaType: Share.MediaType, val mediaPaths: ArrayList<String>) :
+    Parcelable {
     fun toBundle(): Bundle {
         val pathKey = when (mediaType) {
             Share.MediaType.IMAGE -> Keys.IMAGE_PATH

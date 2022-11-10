@@ -27,17 +27,26 @@ internal object Constants {
      */
     const val AUTH_RESPONSE = 2
 
+    /*
+     * web auth
+     */
     const val WEB_AUTH_HOST = "open-api.tiktok.com"
     const val WEB_AUTH_ENDPOINT = "/platform/oauth/connect/"
     const val WEB_AUTH_REDIRECT_URL_PATH = "/oauth/authorize/callback/"
 
+    /*
+     * browser auth
+     */
+    const val BROWSER_AUTH_REDIRECT_HOST = "response.bridge.bytedance.com"
+    const val BROWSER_AUTH_REDIRECT_PATH = "/oauth"
+
     object AuthError {
         /**
-         * newwork no connection
+         * network no connection
          */
         const val NETWORK_NO_CONNECTION = -12
         /**
-         * newwork connection timeout
+         * network connection timeout
          */
         const val NETWORK_CONNECT_TIMEOUT = -13
         /**
@@ -45,15 +54,15 @@ internal object Constants {
          */
         const val NETWORK_TIMEOUT = -14
         /**
-         * newwork IO error
+         * network IO error
          */
         const val NETWORK_IO_ERROR = -15
         /**
-         * newwork error: uknown host
+         * network error: uknown host
          */
         const val NETWORK_UNKNOWN_HOST_ERROR = -16
         /**
-         * newwork error
+         * network error
          */
         const val NETWORK_SSL_ERROR = -21
 

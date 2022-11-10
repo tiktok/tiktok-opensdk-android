@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.parcelize'
 }
 
 android {
@@ -16,6 +17,10 @@ android {
 
         buildConfigField "String", "AUTH_SDK_NAME", "\"$AUTH_SDK_NAME\""
         buildConfigField "String", "AUTH_SDK_VERSION", "\"$ARTIFACT_VERSION\""
+    }
+    lintOptions {
+        abortOnError false
+        ignoreWarnings true
     }
 
     buildTypes {
@@ -37,6 +42,7 @@ dependencies {
 
     api project(path: ':tiktok-core')
     implementation "androidx.annotation:annotation:$androidxAnnotation"
+    implementation "androidx.browser:browser:$androidxBrowser"
     implementation "com.google.code.gson:gson:$gson"
     testImplementation "junit:junit:$junitVersion"
 

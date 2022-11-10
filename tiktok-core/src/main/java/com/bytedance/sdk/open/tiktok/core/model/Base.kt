@@ -17,11 +17,12 @@ package com.bytedance.sdk.open.tiktok.core.model
  */
 
 import android.os.Bundle
+import android.os.Parcelable
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
 import com.bytedance.sdk.open.tiktok.core.constants.Keys
 
 class Base {
-    abstract class Request {
+    abstract class Request : Parcelable {
         abstract val type: Int
 
         abstract val packageName: String
