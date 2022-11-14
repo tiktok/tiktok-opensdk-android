@@ -19,7 +19,7 @@ package com.bytedance.sdk.demo.share
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -82,10 +82,7 @@ class SelectMediaActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             SYSTEM_ALBUM_PERMISSION_REQUEST_CODE -> {
-                val writeExternalStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED
-                val readExternalStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED
-
-                if (grantResults.isNotEmpty() && writeExternalStorage && readExternalStorage) {
+                if (grantResults.isNotEmpty() && grantResults.all { true }) {
                     openSystemGallery()
                 } else {
                     Toast.makeText(this, "Please grant necessary permissions", Toast.LENGTH_SHORT).show()
@@ -121,10 +118,20 @@ class SelectMediaActivity : AppCompatActivity() {
     }
 
     private fun requestPermission() {
-        val mPermissionList = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
+        val mPermissionList =
+            if (Build.VERSION.SDK_INT < 33) {
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            } else {
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                )
+            }
+
         ActivityCompat.requestPermissions(this, mPermissionList, SYSTEM_ALBUM_PERMISSION_REQUEST_CODE)
     }
 
