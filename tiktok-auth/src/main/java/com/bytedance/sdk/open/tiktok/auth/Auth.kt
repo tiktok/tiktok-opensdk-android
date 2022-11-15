@@ -28,12 +28,19 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 class Auth {
+    /*
+       * Auth.Request
+       *
+       * @param scope the scopes required, scopes should be concatenated with ",", e.g. "scope1, scope2, scope3"
+       * @param state state in request should match the state from the response received.
+       * @param language the language.
+       * @param packageName the package name of your app.
+       * @param resultActivityFullPath the path of the activity being used to receive the authorization result information
+     */
     @Parcelize
     data class Request(
         val scope: String,
         val state: String? = null,
-        val optionalScope0: String? = null,
-        val optionalScope1: String? = null,
         val language: String? = null,
         override val packageName: String,
         override val resultActivityFullPath: String
@@ -48,13 +55,21 @@ class Auth {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Auth.STATE, state)
                 putString(Keys.Auth.SCOPE, scope)
-                putString(Keys.Auth.OPTIONAL_SCOPE0, optionalScope0)
-                putString(Keys.Auth.OPTIONAL_SCOPE1, optionalScope1)
                 putString(Keys.Auth.LANGUAGE, language)
             }
         }
     }
 
+    /*
+       * Auth.Response
+       *
+       * @param authCode the authorization code received from TikTok.
+       * @param state state from response should match the state in your request.
+       * @param grantedPermissions the granted permission
+       * @param errorCode the error code for authorization result .
+       * @param errorMsg the error message
+       * @param extras the extra information
+     */
     data class Response(
         val authCode: String,
         val state: String?,

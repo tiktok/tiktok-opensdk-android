@@ -34,6 +34,12 @@ import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.AUTH_ACTIVI
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
 import com.bytedance.sdk.open.tiktok.core.utils.AppUtils.componentClassName
 
+/**
+ * Provides an interface for requesting authorization from TikTok.
+ * @param context your component context
+ * @param clientKey your app client key
+ * @param apiEventHandler the event handler class which will be used to handle authorization result
+ */
 class AuthApi(
     private val context: Context,
     private val clientKey: String,
@@ -69,12 +75,12 @@ class AuthApi(
         return false
     }
 
-    fun authorize(request: Auth.Request, authMethod: AuthMethod): Boolean {
+    fun authorize(
+        request: Auth.Request,
+        authMethod: AuthMethod = AuthMethod.TikTokApp
+    ): Boolean {
         val internalRequest = request.copy(
             scope = request.scope.replace(" ", ""),
-            optionalScope0 = request.optionalScope0?.replace(" ", ""),
-            optionalScope1 = request.optionalScope1?.replace(" ", ""),
-
         )
         apiEventHandler.onRequest(internalRequest)
         return when (authMethod) {
@@ -149,7 +155,8 @@ class AuthApi(
                     context,
                     "$clientKey://${BROWSER_AUTH_REDIRECT_HOST}$BROWSER_AUTH_REDIRECT_PATH",
                     authRequest,
-                    clientKey
+                    clientKey,
+                    WebAuthHelper.OSFrom.BROWSER
                 )
             )
         )

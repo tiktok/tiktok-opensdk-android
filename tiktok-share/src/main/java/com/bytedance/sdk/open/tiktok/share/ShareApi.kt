@@ -28,6 +28,12 @@ import com.bytedance.sdk.open.tiktok.core.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.share.constants.Constants
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
 
+/**
+ * Provides an interface for sharing media to TikTok.
+ * @param context your component context
+ * @param clientKey your app client key
+ * @param apiEventHandler the event handler class which will be used to handle sharing result
+ */
 class ShareApi(
     private val context: Context,
     private val clientKey: String,

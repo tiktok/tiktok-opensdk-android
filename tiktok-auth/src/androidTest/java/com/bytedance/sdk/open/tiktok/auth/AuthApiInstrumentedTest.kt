@@ -38,8 +38,6 @@ class AuthApiInstrumentedTest {
     private val state = "state"
     private val clientKey = "clientKey"
     private val scope = "scope1,scope2"
-    private val optionalScope0 = "optionalScope0"
-    private val optionalScope1 = "optionalScope1"
     private val language = "language"
     private val packageName = "com.bytedance"
     private val resultActivityFullPath = "com.bytedance.auth.resultActivity"
@@ -68,8 +66,6 @@ class AuthApiInstrumentedTest {
         return Auth.Request(
             scope = scope,
             state = state,
-            optionalScope0 = optionalScope0,
-            optionalScope1 = optionalScope1,
             language = language,
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath
@@ -89,8 +85,6 @@ class AuthApiInstrumentedTest {
         assertEquals(bundle.getString(Keys.Auth.STATE), state)
         assertEquals(bundle.getString(Keys.Auth.CLIENT_KEY), clientKey)
         assertEquals(bundle.getString(Keys.Auth.SCOPE), scope)
-        assertEquals(bundle.getString(Keys.Auth.OPTIONAL_SCOPE0), optionalScope0)
-        assertEquals(bundle.getString(Keys.Auth.OPTIONAL_SCOPE1), optionalScope1)
         assertEquals(bundle.getString(Keys.Auth.LANGUAGE), language)
         assertEquals(bundle.getString(Base.CALLER_PKG), packageName)
         assertEquals(bundle.getString(Base.FROM_ENTRY), resultActivityFullPath)
@@ -108,7 +102,7 @@ class AuthApiInstrumentedTest {
         val request = createTestAuthRequest()
         authApi.authorize(
             request,
-            useWebAuth = false
+            authMethod = AuthApi.AuthMethod.TikTokApp
         )
         verify(exactly = 1) {
             mockContext.startActivity(allAny())
