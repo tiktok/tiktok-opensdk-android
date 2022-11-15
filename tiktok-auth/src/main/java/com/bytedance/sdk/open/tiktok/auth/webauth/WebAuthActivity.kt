@@ -115,7 +115,7 @@ internal class WebAuthActivity : Activity() {
         } else {
             isLoading = true
             contentWebView.webViewClient = AuthWebViewClient()
-            contentWebView.loadUrl(composeLoadUrl(this, REDIRECT_URL, authRequest, clientKey))
+            contentWebView.loadUrl(composeLoadUrl(this, REDIRECT_URL, authRequest, clientKey, WebAuthHelper.OSFrom.WEBVIEW))
         }
     }
 

@@ -26,6 +26,10 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 class Share {
+    /*
+     * DEFAULT: Sharing video or image from your app to TikTok
+     * GREEN_SCREEN: Sharing video or image as green-screen effect video. Green-screen video use the sharing video/image as the background and the creator's figure in the front.
+     */
     enum class Format(val format: Int) {
         DEFAULT(0),
         GREEN_SCREEN(1);
@@ -36,6 +40,14 @@ class Share {
         IMAGE;
     }
 
+    /*
+       * Share.Request
+       *
+       * @param mediaContent the media content to share.
+       * @param shareFormat the sharing format.
+       * @param packageName the package name of your app.
+       * @param resultActivityFullPath the path of the activity being used to receive the share result information
+     */
     @Parcelize
     data class Request(
         val mediaContent: MediaContent,
@@ -69,10 +81,19 @@ class Share {
         }
     }
 
+    /*
+       * Share.Response
+       *
+       * @param state the sharing state.
+       * @param errorCode the error code for sharing result .
+       * @param subErrorCode the code which provides more detail information.
+       * @param errorMsg the error message
+       * @param extras the extra information
+     */
     data class Response(
         var state: String?,
-        var subErrorCode: Int?,
         override val errorCode: Int,
+        var subErrorCode: Int?,
         override val errorMsg: String?,
         override val extras: Bundle? = null,
     ) : Base.Response() {

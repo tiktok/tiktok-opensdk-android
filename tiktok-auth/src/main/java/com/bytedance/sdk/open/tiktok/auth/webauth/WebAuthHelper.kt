@@ -29,25 +29,20 @@ import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils.getMd5Signs
 import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils.packageSignature
 
 internal object WebAuthHelper {
+    enum class OSFrom(val value: String) {
+        WEBVIEW("webview"),
+        BROWSER("browser")
+    }
+
+    private const val DEVICE_ANDROID = "android"
+
     fun composeLoadUrl(
         context: Context,
         redirectUrl: String,
         authRequest: Auth.Request,
         clientKey: String,
+        osFrom: OSFrom
     ): String {
-        val optionalScope = StringBuilder()
-        fun concatenateScopes(scopeStr: String?, suffix: String) {
-            if (!scopeStr.isNullOrEmpty()) {
-                val scopes = scopeStr.split(",").toTypedArray()
-                scopes.forEach {
-                    optionalScope.append(",$it$suffix")
-                }
-            }
-        }
-        concatenateScopes(authRequest.optionalScope1, ".1")
-        concatenateScopes(authRequest.optionalScope0, ".0")
-        if (optionalScope.isNotEmpty()) { optionalScope.deleteAt(0) }
-
         val signs = getMd5Signs(context, authRequest.packageName)
         val builder = Uri.Builder()
             .scheme(Keys.WebAuth.SCHEMA_HTTPS)
@@ -55,8 +50,9 @@ internal object WebAuthHelper {
             .path(WEB_AUTH_ENDPOINT)
             .appendQueryParameter(Keys.WebAuth.QUERY_RESPONSE_TYPE, Keys.WebAuth.VALUE_RESPONSE_TYPE_CODE)
             .appendQueryParameter(Keys.WebAuth.QUERY_FROM, Keys.WebAuth.VALUE_FROM_OPENSDK)
-            .appendQueryParameter(Keys.WebAuth.QUERY_OPTIONAL_SCOPE, optionalScope.toString())
-            .appendQueryParameter(Keys.WebAuth.QUERY_PLATFORM, "android")
+            .appendQueryParameter(Keys.WebAuth.QUERY_PLATFORM, DEVICE_ANDROID)
+            .appendQueryParameter(Keys.WebAuth.QUERY_OS_TYPE, DEVICE_ANDROID)
+            .appendQueryParameter(Keys.WebAuth.QUERY_OS_FROM, osFrom.value)
 
         packageSignature(signs)?.let { builder.appendQueryParameter(Keys.WebAuth.QUERY_SIGNATURE, it) }
         builder.appendQueryParameter(Keys.WebAuth.QUERY_REDIRECT_URI, redirectUrl)

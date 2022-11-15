@@ -24,8 +24,6 @@ internal object Keys {
         const val STATE = "_bytedance_params_state"
         const val GRANTED_PERMISSION = "_bytedance_params_granted_permission"
         const val SCOPE = "_bytedance_params_scope"
-        const val OPTIONAL_SCOPE0 = "_bytedance_params_optional_scope0"
-        const val OPTIONAL_SCOPE1 = "_bytedance_params_optional_scope1"
         const val LANGUAGE = "language"
     }
     object WebAuth {
@@ -35,7 +33,6 @@ internal object Keys {
         const val QUERY_STATE = "state"
         const val QUERY_FROM = "from"
         const val QUERY_SCOPE = "scope"
-        const val QUERY_OPTIONAL_SCOPE = "optionalScope"
         const val QUERY_SIGNATURE = "signature"
         const val VALUE_FROM_OPENSDK = "opensdk"
         const val VALUE_RESPONSE_TYPE_CODE = "code"
@@ -47,6 +44,8 @@ internal object Keys {
         const val REDIRECT_QUERY_SCOPE = "scopes"
         const val QUERY_ENCRYPTION_PACKAGE = "app_identity"
         const val QUERY_PLATFORM = "device_platform"
+        const val QUERY_OS_TYPE = "os_type"
+        const val QUERY_OS_FROM = "os_from"
         const val QUERY_ACCEPT_LANGUAGE = "accept_language"
     }
 }
