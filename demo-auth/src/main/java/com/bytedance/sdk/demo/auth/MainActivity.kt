@@ -90,12 +90,6 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                     viewState.webAuthEnabled,
                     viewModel::toggleWebAuthEnabled
                 ),
-                ConfigModel(
-                    getString(R.string.always_in_browser),
-                    getString(R.string.always_in_browser_description),
-                    viewState.browserAuthEnabled,
-                    viewModel::toggleBrowserAuthEnabled
-                ),
                 HeaderModel(getString(R.string.scope_configuration)),
             )
             viewState.scopeStates.map {
