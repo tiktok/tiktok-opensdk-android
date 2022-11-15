@@ -47,7 +47,6 @@ class AuthApi(
 ) {
     enum class AuthMethod {
         WebView,
-        ChromeTab,
         TikTokApp
     }
 
@@ -94,7 +93,6 @@ class AuthApi(
                 authorizeWebView(internalRequest)
             }
             AuthMethod.WebView -> authorizeWebView(internalRequest)
-            AuthMethod.ChromeTab -> launchChromeTab(internalRequest)
         }
     }
 
@@ -140,26 +138,5 @@ class AuthApi(
                 false
             }
         }
-    }
-
-    private fun launchChromeTab(authRequest: Auth.Request): Boolean {
-        if (!authRequest.validate()) {
-            return false
-        }
-        val builder = CustomTabsIntent.Builder()
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(
-            context,
-            Uri.parse(
-                WebAuthHelper.composeLoadUrl(
-                    context,
-                    "$clientKey://${BROWSER_AUTH_REDIRECT_HOST}$BROWSER_AUTH_REDIRECT_PATH",
-                    authRequest,
-                    clientKey,
-                    WebAuthHelper.OSFrom.BROWSER
-                )
-            )
-        )
-        return true
     }
 }
