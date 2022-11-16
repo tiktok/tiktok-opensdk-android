@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    api project(path: ':tiktok-core')
+    api project(path: ':tiktok-open-sdk-core')
     implementation "com.google.code.gson:gson:$gson"
 
     androidTestImplementation "io.mockk:mockk-android:$mockk"

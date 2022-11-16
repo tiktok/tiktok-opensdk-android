@@ -19,14 +19,11 @@ package com.bytedance.sdk.open.tiktok.auth
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.browser.customtabs.CustomTabsIntent
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIRECT_HOST
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIRECT_PATH
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthActivity
-import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.parseRedirectUriToAuthResponse
 import com.bytedance.sdk.open.tiktok.core.appcheck.AppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType

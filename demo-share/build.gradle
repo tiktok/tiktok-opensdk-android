@@ -40,8 +40,7 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':tiktok-share')
-
+    implementation project(path: ':tiktok-open-sdk-share')
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion"

@@ -40,7 +40,7 @@ android {
 
 dependencies {
 
-    api project(path: ':tiktok-core')
+    api project(path: ':tiktok-open-sdk-core')
     implementation "androidx.annotation:annotation:$androidxAnnotation"
     implementation "androidx.browser:browser:$androidxBrowser"
     implementation "com.google.code.gson:gson:$gson"
