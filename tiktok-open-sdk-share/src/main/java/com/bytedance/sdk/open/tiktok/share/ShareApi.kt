@@ -20,7 +20,7 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.bytedance.sdk.open.tiktok.core.appcheck.AppCheckFactory
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.SHARE_ACTIVITY_NAME
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.TIKTOK_SHARE_COMPONENT_PATH
@@ -41,8 +41,8 @@ class ShareApi(
 ) {
 
     companion object {
-        fun isShareSupported(context: Context) = AppCheckFactory.getApiCheck(context, APIType.SHARE) != null
-        fun isShareFileProviderSupported(context: Context) = (AppCheckFactory.getApiCheck(context, APIType.SHARE)?.isShareFileProviderSupported ?: false)
+        fun isShareSupported(context: Context) = TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE) != null
+        fun isShareFileProviderSupported(context: Context) = (TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE)?.isShareFileProviderSupported ?: false)
     }
 
     fun handleResultIntent(intent: Intent?): Boolean {
@@ -60,7 +60,7 @@ class ShareApi(
 
     fun share(request: Share.Request): Boolean {
         apiEventHandler.onRequest(request)
-        AppCheckFactory.getApiCheck(context, APIType.SHARE)?.let {
+        TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE)?.let {
             return share(request, it.appPackageName)
         }
         apiEventHandler.onResponse(

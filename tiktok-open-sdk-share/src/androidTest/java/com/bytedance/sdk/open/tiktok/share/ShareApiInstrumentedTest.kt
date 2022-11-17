@@ -18,8 +18,8 @@ package com.bytedance.sdk.open.tiktok.share
 
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.bytedance.sdk.open.tiktok.core.appcheck.AppCheckFactory
-import com.bytedance.sdk.open.tiktok.core.appcheck.IAppCheck
+import com.bytedance.sdk.open.tiktok.core.appcheck.ITikTokAppCheck
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
@@ -38,7 +38,7 @@ class ShareApiInstrumentedTest {
     private val packageName = "com.bytedance"
     private val resultActivityFullPath = "com.bytedance.share.resultActivity"
     private val mediaList = arrayListOf("media_url1", "media_url2")
-    private val appCheck = object : IAppCheck {
+    private val appCheck = object : ITikTokAppCheck {
         override val isAuthSupported: Boolean
             get() = true
         override val isShareSupported: Boolean
@@ -90,8 +90,8 @@ class ShareApiInstrumentedTest {
                 override fun onResponse(resp: Share.Response) = Unit
             }
         )
-        mockkObject(AppCheckFactory)
-        every { AppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        mockkObject(TikTokAppCheckFactory)
+        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
         val request = createTestShareRequest()
         shareApi.share(request)
         verify(exactly = 1) {

@@ -28,7 +28,7 @@ import com.bytedance.sdk.open.tiktok.core.constants.Keys
 import com.bytedance.sdk.open.tiktok.core.utils.AppUtils.componentClassName
 import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils.validateSign
 
-internal abstract class AppCheckBase(open val context: Context) : IAppCheck {
+internal abstract class TikTokAppCheckBase(open val context: Context) : ITikTokAppCheck {
 
     override val isAuthSupported: Boolean
         get() = (isAppInstalled && validateSign(context, appPackageName, signature))

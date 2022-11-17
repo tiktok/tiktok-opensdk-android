@@ -25,7 +25,7 @@ import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIR
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIRECT_PATH
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.parseRedirectUriToAuthResponse
-import com.bytedance.sdk.open.tiktok.core.appcheck.AppCheckFactory
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.AUTH_ACTIVITY_NAME
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
@@ -81,7 +81,7 @@ class AuthApi(
         apiEventHandler.onRequest(internalRequest)
         return when (authMethod) {
             AuthMethod.TikTokApp -> {
-                AppCheckFactory.getApiCheck(
+                TikTokAppCheckFactory.getApiCheck(
                     context,
                     APIType.AUTH
                 )?.let {

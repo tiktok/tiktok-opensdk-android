@@ -16,7 +16,7 @@ package com.bytedance.sdk.open.tiktok.core.appcheck
    limitations under the License.
  */
 
-interface IAppCheck {
+interface ITikTokAppCheck {
     val isAuthSupported: Boolean
 
     val isShareSupported: Boolean
