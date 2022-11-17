@@ -42,6 +42,11 @@ class AuthApi(
     private val clientKey: String,
     private val apiEventHandler: AuthApiEventHandler,
 ) {
+    companion object {
+        fun isAuthorizedWithTikTokAppSupported(context: Context) =
+            TikTokAppCheckFactory.getApiCheck(context, APIType.AUTH) != null
+    }
+
     enum class AuthMethod {
         WebView,
         TikTokApp
