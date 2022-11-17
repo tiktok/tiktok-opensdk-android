@@ -21,8 +21,8 @@ import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_REQUEST
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
-import com.bytedance.sdk.open.tiktok.core.appcheck.AppCheckFactory
-import com.bytedance.sdk.open.tiktok.core.appcheck.IAppCheck
+import com.bytedance.sdk.open.tiktok.core.appcheck.ITikTokAppCheck
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
 import io.mockk.every
@@ -45,7 +45,7 @@ class AuthApiInstrumentedTest {
         override fun onRequest(req: Auth.Request) = Unit
         override fun onResponse(resp: Auth.Response) = Unit
     }
-    private val appCheck = object : IAppCheck {
+    private val appCheck = object : ITikTokAppCheck {
         override val isAuthSupported: Boolean
             get() = true
         override val isShareSupported: Boolean
@@ -97,8 +97,8 @@ class AuthApiInstrumentedTest {
             mockContext.startActivity(allAny())
         } returns Unit
         val authApi = AuthApi(mockContext, clientKey, apiEventHandler)
-        mockkObject(AppCheckFactory)
-        every { AppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        mockkObject(TikTokAppCheckFactory)
+        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
         val request = createTestAuthRequest()
         authApi.authorize(
             request,

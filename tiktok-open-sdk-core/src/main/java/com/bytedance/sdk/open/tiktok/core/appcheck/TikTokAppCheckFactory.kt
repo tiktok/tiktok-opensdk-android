@@ -3,9 +3,9 @@ package com.bytedance.sdk.open.tiktok.core.appcheck
 import android.content.Context
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
 
-object AppCheckFactory {
+object TikTokAppCheckFactory {
 
-    fun getApiCheck(context: Context, apiType: Constants.APIType): IAppCheck? {
+    fun getApiCheck(context: Context, apiType: Constants.APIType): ITikTokAppCheck? {
         when (apiType) {
             Constants.APIType.AUTH -> for (appCheck in getAppCheckArray(context)) {
                 if (appCheck.isAuthSupported) {
@@ -21,12 +21,12 @@ object AppCheckFactory {
         return null
     }
 
-    private fun getAppCheckArray(context: Context) = arrayListOf<IAppCheck>(
-        object : AppCheckBase(context) {
+    private fun getAppCheckArray(context: Context) = arrayListOf<ITikTokAppCheck>(
+        object : TikTokAppCheckBase(context) {
             override val signature: String = "194326e82c84a639a52e5c023116f12a"
             override val appPackageName: String = "com.zhiliaoapp.musically"
         },
-        object : AppCheckBase(context) {
+        object : TikTokAppCheckBase(context) {
             override val signature: String = "aea615ab910015038f73c47e45d21466"
             override val appPackageName: String = "com.ss.android.ugc.trill"
         },
