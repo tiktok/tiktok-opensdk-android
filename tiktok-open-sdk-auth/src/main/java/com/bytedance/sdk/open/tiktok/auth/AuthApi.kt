@@ -43,6 +43,7 @@ class AuthApi(
     private val apiEventHandler: AuthApiEventHandler,
 ) {
     companion object {
+        @JvmStatic
         fun isAuthorizedWithTikTokAppSupported(context: Context) =
             TikTokAppCheckFactory.getApiCheck(context, APIType.AUTH) != null
     }
