@@ -83,7 +83,7 @@ internal class WebAuthActivity : Activity() {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_open_web_authorize)
+        setContentView(R.layout.tiktok_layout_open_web_authorize)
         initView()
         val authRequestFromBundle = intent.getParcelableExtra<Auth.Request>(AUTH_REQUEST_KEY_IN_BUNDLE)
         val clientKeyFromBundle = intent.getStringExtra(CLIENT_KEY_IN_BUNDLE)
@@ -251,7 +251,7 @@ internal class WebAuthActivity : Activity() {
 
     private fun onCancel(errCode: Int) = redirectToClientApp(getCancelResponse())
 
-    private fun getLoadingView(root: ViewGroup?): View? = LayoutInflater.from(this).inflate(R.layout.layout_open_loading_view, root, false)
+    private fun getLoadingView(root: ViewGroup?): View? = LayoutInflater.from(this).inflate(R.layout.tiktok_layout_open_loading_view, root, false)
 
     private fun showSslErrorDialog(handler: SslErrorHandler?, error: SslError) {
         try {
@@ -284,7 +284,7 @@ internal class WebAuthActivity : Activity() {
 
     private fun showNetworkErrorDialog(errCode: Int) {
         if (!::baseErrorDialog.isInitialized) {
-            val mDialogView = LayoutInflater.from(this).inflate(R.layout.layout_open_network_error_dialog, null, false)
+            val mDialogView = LayoutInflater.from(this).inflate(R.layout.tiktok_layout_open_network_error_dialog, null, false)
             baseErrorDialog = AlertDialog.Builder(ContextThemeWrapper(this, android.R.style.Theme_Holo))
                 .setView(mDialogView)
                 .setCancelable(false)
