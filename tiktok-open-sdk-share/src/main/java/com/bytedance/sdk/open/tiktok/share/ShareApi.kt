@@ -41,7 +41,9 @@ class ShareApi(
 ) {
 
     companion object {
+        @JvmStatic
         fun isShareSupported(context: Context) = TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE) != null
+        @JvmStatic
         fun isShareFileProviderSupported(context: Context) = (TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE)?.isShareFileProviderSupported ?: false)
     }
 
