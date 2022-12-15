@@ -20,6 +20,7 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.SHARE_ACTIVITY_NAME
@@ -80,6 +81,7 @@ class ShareApi(
         if (!request.validate()) {
             return false
         }
+        grantTikTokPermissionToSharedFiles(request)
         val intent = Intent().apply {
             component = ComponentName(
                 packageName,
@@ -102,6 +104,19 @@ class ShareApi(
             true
         } catch (e: Exception) {
             false
+        }
+    }
+
+    private fun grantTikTokPermissionToSharedFiles(request: Share.Request) {
+        request.mediaContent.mediaPaths.forEach {
+            context.grantUriPermission(
+                "com.ss.android.ugc.trill",
+                Uri.parse(it), Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            context.grantUriPermission(
+                "com.zhiliaoapp.musically",
+                Uri.parse(it), Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
         }
     }
 }
