@@ -61,7 +61,8 @@ class SelectMediaActivity : AppCompatActivity() {
             val uris = mutableListOf<String>()
             data?.clipData?.let { clipData ->
                 for (i in 0 until clipData.itemCount) {
-                    uris.add(clipData.getItemAt(i).uri.toString())
+                    val uri = clipData.getItemAt(i).uri
+                    uris.add(uri.toString())
                 }
                 mediaUrls = ArrayList(uris)
                 goToShareActivity()
