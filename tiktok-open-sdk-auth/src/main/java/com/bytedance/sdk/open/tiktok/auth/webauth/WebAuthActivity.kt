@@ -111,7 +111,7 @@ internal class WebAuthActivity : Activity() {
     private fun handleRequestIntent() {
         if (!isNetworkAvailable()) {
             isShowNetworkError = true
-            showNetworkErrorDialog(Constants.AuthError.NETWORK_NO_CONNECTION)
+            showNetworkErrorDialog(Constants.NETWORK_NO_CONNECTION)
         } else {
             isLoading = true
             contentWebView.webViewClient = AuthWebViewClient()
@@ -189,7 +189,7 @@ internal class WebAuthActivity : Activity() {
                 }
                 contentWebView.loadUrl(url)
             } else {
-                showNetworkErrorDialog(Constants.AuthError.NETWORK_NO_CONNECTION)
+                showNetworkErrorDialog(Constants.NETWORK_NO_CONNECTION)
             }
             return true
         }
@@ -215,7 +215,7 @@ internal class WebAuthActivity : Activity() {
 
         override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
             lastErrorCode = errorCode
-            showNetworkErrorDialog(Constants.AuthError.NETWORK_IO_ERROR)
+            showNetworkErrorDialog(Constants.NETWORK_IO_ERROR)
             isShowNetworkError = true
         }
 
@@ -278,7 +278,7 @@ internal class WebAuthActivity : Activity() {
 
     private fun cancelLoad(handler: SslErrorHandler?) {
         handler?.cancel()
-        showNetworkErrorDialog(Constants.AuthError.NETWORK_IO_ERROR)
+        showNetworkErrorDialog(Constants.NETWORK_IO_ERROR)
         isShowNetworkError = true
     }
 
