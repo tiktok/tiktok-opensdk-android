@@ -68,7 +68,7 @@ class ShareApi(
         }
         apiEventHandler.onResponse(
             Share.Response(
-                errorCode = Constants.ShareError.UNSUPPORTED,
+                errorCode = Constants.SHARE_UNSUPPORTED_ERROR,
                 errorMsg = "TikTok is not installed or doesn't support the sharing feature",
                 state = null,
                 subErrorCode = null,
