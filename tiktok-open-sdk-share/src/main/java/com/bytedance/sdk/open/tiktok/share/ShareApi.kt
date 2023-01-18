@@ -62,7 +62,7 @@ class ShareApi(
                 errorCode = Constants.SHARE_UNSUPPORTED_ERROR,
                 errorMsg = "TikTok is not installed or doesn't support the sharing feature",
                 state = null,
-                subErrorCode = null,
+                subErrorCode = Constants.SHARE_UNSUPPORTED_ERROR,
             )
         )
         return false

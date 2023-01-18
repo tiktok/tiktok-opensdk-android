@@ -18,5 +18,5 @@ internal object Constants {
      */
     const val SHARE_RESPONSE = 4
 
-    const val SHARE_UNSUPPORTED_ERROR = -5
+    const val SHARE_UNSUPPORTED_ERROR = -3
 }
