@@ -11,6 +11,7 @@ import android.os.Bundle
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_REQUEST
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
+import com.bytedance.sdk.open.tiktok.auth.constants.Keys.Auth.AUTH_ERROR
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_CODE
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_MSG
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.EXTRA
@@ -68,6 +69,7 @@ class Auth {
         override val errorCode: Int,
         override val errorMsg: String?,
         override val extras: Bundle? = null,
+        val authError: String? = null,
     ) : Base.Response() {
         override val type: Int = AUTH_RESPONSE
 
@@ -88,12 +90,14 @@ internal fun Bundle.toAuthResponse(): Auth.Response {
     val errorCode = getInt(ERROR_CODE)
     val errorMsg = getString(ERROR_MSG)
     val extras = getBundle(EXTRA)
+    val authError = getString(AUTH_ERROR)
     return Auth.Response(
         authCode = authCode,
         state = state,
         grantedPermissions = grantedPermissions,
         errorCode = errorCode,
         errorMsg = errorMsg,
-        extras = extras
+        extras = extras,
+        authError = authError
     )
 }

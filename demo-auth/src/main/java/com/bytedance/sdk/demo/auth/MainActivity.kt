@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                     getString(
                         R.string.error_code_with_message,
                         errorCode,
-                        errorMsg
+                        authError ?: errorMsg
                     )
                 )
             }

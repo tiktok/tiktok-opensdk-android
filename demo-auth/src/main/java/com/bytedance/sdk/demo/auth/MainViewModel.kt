@@ -138,7 +138,6 @@ class MainViewModel(
         val request = Auth.Request(
             scope = enabledScopes.joinToString(),
             packageName = packageName,
-            language = "zh-Hant-TW",
             resultActivityFullPath = resultActivityFullPath
         )
         val authType = if (webAuthEnabled) {
