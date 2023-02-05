@@ -19,6 +19,7 @@ import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.TIKTOK_SHAR
 import com.bytedance.sdk.open.tiktok.core.utils.AppUtils
 import com.bytedance.sdk.open.tiktok.share.constants.Constants
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
+import com.bytedance.sdk.open.tiktok.share.model.MediaContent
 
 /**
  * Provides an interface for sharing media to TikTok.
@@ -89,6 +90,8 @@ class ShareApi(
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            type = getShareContentType(request.mediaContent)
+            action = getShareContentAction(request.mediaContent)
         }
         return try {
             context.startActivity(intent)
@@ -108,6 +111,22 @@ class ShareApi(
                 "com.zhiliaoapp.musically",
                 Uri.parse(it), Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
+        }
+    }
+
+    private fun getShareContentType(mediaContent: MediaContent): String {
+        return if (mediaContent.mediaType == Share.MediaType.IMAGE) {
+            "image/*"
+        } else {
+            "video/*"
+        }
+    }
+
+    private fun getShareContentAction(mediaContent: MediaContent): String {
+        return if (mediaContent.mediaPaths.size > 1) {
+            Intent.ACTION_SEND_MULTIPLE
+        } else {
+            Intent.ACTION_SEND
         }
     }
 }
