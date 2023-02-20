@@ -8,21 +8,26 @@ package com.bytedance.sdk.demo.auth.userinfo.model
  */
 
 import retrofit2.Call
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface GetUserInfoService {
-    @POST("/oauth/access_token/")
+    @FormUrlEncoded
+    @POST("/v2/oauth/token/")
     fun getAccessToken(
-        @Query("code")code: String,
-        @Query("client_key")clientKey: String,
-        @Query("client_secret")clientSecret: String,
-        @Query("grant_type")grantType: String
+        @Field("code") code: String,
+        @Field("client_key") clientKey: String,
+        @Field("client_secret") clientSecret: String,
+        @Field("grant_type") grantType: String
     ): Call<AccessTokenResponse>
 
-    @POST("/oauth/userinfo/")
+    @GET("/v2/user/info/")
     fun getUserInfo(
-        @Query("access_token")accessToken: String,
-        @Query("open_id")openId: String
+        @Header("Authorization") accessToken: String,
+        @Query("fields") fields: String = "open_id,union_id,avatar_url,display_name"
     ): Call<UserInfoResponse>
 }

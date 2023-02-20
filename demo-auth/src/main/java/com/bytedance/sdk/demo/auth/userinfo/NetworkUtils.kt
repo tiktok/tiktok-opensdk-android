@@ -16,7 +16,7 @@ object NetworkUtils {
     private lateinit var baseUrl: String
 
     fun <T> createApi(apiClass: Class<T>): T {
-        baseUrl = "https:\\\\open-api.tiktok.com"
+        baseUrl = "https:\\\\open.tiktokapis.com"
 
         val retrofitBuilder = Retrofit.Builder()
 

@@ -13,7 +13,5 @@ data class UserInfo(
     @SerializedName("open_id")val openId: String,
     @SerializedName("union_id")val unionId: String,
     @SerializedName("display_name")val nickName: String,
-    @SerializedName("avatar")val avatar: String,
-    @SerializedName("error_code")val errorCode: Int,
-    @SerializedName("description")val description: String
+    @SerializedName("avatar_url")val avatarUrl: String,
 )
