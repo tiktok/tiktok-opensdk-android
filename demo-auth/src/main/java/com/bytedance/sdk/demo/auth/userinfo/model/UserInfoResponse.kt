@@ -10,6 +10,10 @@ package com.bytedance.sdk.demo.auth.userinfo.model
 import com.google.gson.annotations.SerializedName
 
 data class UserInfoResponse(
-    @SerializedName("message")val message: String,
-    @SerializedName("data")val data: UserInfo
-)
+    @SerializedName("error")val error: Map<String, String>,
+    @SerializedName("data")val data: Map<String, UserInfo>
+) {
+    fun getUserInfoData(): UserInfo? {
+        return data["user"]
+    }
+}

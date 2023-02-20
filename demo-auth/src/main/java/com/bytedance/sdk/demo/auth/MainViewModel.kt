@@ -155,7 +155,7 @@ class MainViewModel(
                 return@getAccessToken
             }
             response?.let { accessTokenInfo ->
-                UserInfoQuery.getUserInfo(accessTokenInfo.accessToken, accessTokenInfo.openid) { userInfo, errorMessage ->
+                UserInfoQuery.getUserInfo("${accessTokenInfo.tokenType} ${accessTokenInfo.accessToken}") { userInfo, errorMessage ->
                     errorMessage?.let {
                         sendViewEffect(ViewEffect.ShowAlertWithResponseError(R.string.user_info_error, errorMessage))
                         return@getUserInfo
