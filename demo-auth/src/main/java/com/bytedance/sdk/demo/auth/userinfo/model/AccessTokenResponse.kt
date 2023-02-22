@@ -18,4 +18,3 @@ data class AccessTokenResponse(
     @SerializedName("refresh_expires_in")val refreshExpiresIn: Long,
     @SerializedName("token_type") val tokenType: String,
 )
-
