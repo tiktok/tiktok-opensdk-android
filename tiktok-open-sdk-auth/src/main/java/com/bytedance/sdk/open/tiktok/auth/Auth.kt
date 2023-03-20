@@ -32,22 +32,22 @@ class Auth {
     @Parcelize
     data class Request(
         val scope: String,
+        val redirectUri: String,
         val state: String? = null,
         val language: String? = null,
-        override val packageName: String,
-        override val resultActivityFullPath: String
     ) : Base.Request() {
         @IgnoredOnParcel
         override val type: Int = AUTH_REQUEST
 
         override fun validate(): Boolean = scope.isNotEmpty()
 
-        override fun toBundle(clientKey: String, sdkName: String, sdkVersion: String): Bundle {
-            return super.toBundle(sdkName, sdkVersion).apply {
+        override fun toBundle(clientKey: String): Bundle {
+            return super.toBundle(BuildConfig.AUTH_SDK_NAME, BuildConfig.AUTH_SDK_VERSION).apply {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Auth.STATE, state)
                 putString(Keys.Auth.SCOPE, scope)
                 putString(Keys.Auth.LANGUAGE, language)
+                putString(Keys.Auth.REDIRECT_URI, redirectUri)
             }
         }
     }

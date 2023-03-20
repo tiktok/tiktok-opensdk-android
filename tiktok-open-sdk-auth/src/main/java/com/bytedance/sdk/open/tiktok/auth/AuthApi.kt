@@ -7,6 +7,7 @@ package com.bytedance.sdk.open.tiktok.auth
  * LICENSE file in the root directory of this source tree.
  */
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -17,10 +18,10 @@ import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIR
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthActivity
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.parseRedirectUriToAuthResponse
 import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
+import com.bytedance.sdk.open.tiktok.core.constants.Constants
 import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
-import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.AUTH_ACTIVITY_NAME
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
-import com.bytedance.sdk.open.tiktok.core.utils.AppUtils.componentClassName
+import com.bytedance.sdk.open.tiktok.core.utils.AppUtils
 
 /**
  * Provides an interface for requesting authorization from TikTok.
@@ -29,7 +30,7 @@ import com.bytedance.sdk.open.tiktok.core.utils.AppUtils.componentClassName
  * @param apiEventHandler the event handler class which will be used to handle authorization result
  */
 class AuthApi(
-    private val context: Context,
+    private val activity: Activity,
     private val clientKey: String,
     private val apiEventHandler: AuthApiEventHandler,
 ) {
@@ -79,7 +80,7 @@ class AuthApi(
         return when (authMethod) {
             AuthMethod.TikTokApp -> {
                 TikTokAppCheckFactory.getApiCheck(
-                    context,
+                    activity,
                     APIType.AUTH
                 )?.let {
                     return authorizeNative(internalRequest, it.appPackageName)
@@ -95,16 +96,14 @@ class AuthApi(
             return false
         }
         val bundle = authRequest.toBundle(
-            clientKey = clientKey,
-            sdkName = BuildConfig.AUTH_SDK_NAME,
-            sdkVersion = BuildConfig.AUTH_SDK_VERSION
+            clientKey = clientKey
         )
-        val intent = Intent().apply {
-            component = ComponentName(authorizeAppPackageName, componentClassName(authorizeAppPackageName, AUTH_ACTIVITY_NAME))
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            component = ComponentName(authorizeAppPackageName, AppUtils.componentClassName(authorizeAppPackageName, Constants.TIKTOK.AUTH_ACTIVITY_NAME))
             putExtras(bundle)
         }
         return try {
-            context.startActivity(intent)
+            activity.startActivityForResult(intent, 0)
             true
         } catch (e: Exception) {
             false
@@ -120,13 +119,13 @@ class AuthApi(
                 putParcelable(WebAuthActivity.AUTH_REQUEST_KEY_IN_BUNDLE, authRequest)
             }
             val intent = Intent(
-                context,
+                activity,
                 WebAuthActivity::class.java
             ).apply {
                 putExtras(bundle)
             }
             try {
-                context.startActivity(intent)
+                activity.startActivityForResult(intent, 0)
                 true
             } catch (e: Exception) {
                 false

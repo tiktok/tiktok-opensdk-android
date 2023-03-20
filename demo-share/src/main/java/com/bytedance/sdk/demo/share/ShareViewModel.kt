@@ -68,7 +68,7 @@ class ShareViewModel(
                 Share.Format.DEFAULT
             },
             packageName = packageName,
-            resultActivityFullPath = resultActivityFullPath
+            resultActivityFullPath = resultActivityFullPath,
         )
     }
 

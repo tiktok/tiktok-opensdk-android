@@ -82,8 +82,6 @@ class ShareApi(
             putExtras(
                 request.toBundle(
                     clientKey = clientKey,
-                    sdkName = BuildConfig.SHARE_SDK_NAME,
-                    sdkVersion = BuildConfig.SHARE_SDK_VERSION
                 )
             )
             if (context !is Activity) {

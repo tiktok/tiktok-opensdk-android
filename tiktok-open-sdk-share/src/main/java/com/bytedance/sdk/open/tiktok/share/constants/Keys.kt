@@ -10,13 +10,11 @@ package com.bytedance.sdk.open.tiktok.share.constants
 internal object Keys {
     const val IMAGE_PATH = "AWEME_EXTRA_IMAGE_MESSAGE_PATH"
     const val VIDEO_PATH = "AWEME_EXTRA_VIDEO_MESSAGE_PATH"
-    const val VERSION = "1"
 
     object Share {
         const val STATE = "_aweme_open_sdk_params_state"
         const val CLIENT_KEY = "_aweme_open_sdk_params_client_key"
         const val CALLER_PKG = "_aweme_open_sdk_params_caller_package"
-        const val CALLER_SDK_VERSION = "_aweme_open_sdk_params_caller_sdk_version"
         const val CALLER_LOCAL_ENTRY = "_aweme_open_sdk_params_caller_local_entry"
         const val SHARE_FORMAT = "_aweme_open_sdk_params_share_format"
         const val TYPE = "_aweme_open_sdk_params_type"

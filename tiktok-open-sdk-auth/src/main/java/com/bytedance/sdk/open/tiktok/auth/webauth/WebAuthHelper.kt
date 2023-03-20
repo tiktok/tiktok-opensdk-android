@@ -34,7 +34,7 @@ internal object WebAuthHelper {
         clientKey: String,
         osFrom: OSFrom
     ): String {
-        val signs = getMd5Signs(context, authRequest.packageName)
+        val signs = getMd5Signs(context, authRequest.redirectUri)
         val builder = Uri.Builder()
             .scheme(Keys.WebAuth.SCHEMA_HTTPS)
             .authority(WEB_AUTH_HOST)
@@ -53,7 +53,11 @@ internal object WebAuthHelper {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_STATE, it)
             }
             builder.appendQueryParameter(Keys.WebAuth.QUERY_SCOPE, scope)
-            builder.appendQueryParameter(Keys.WebAuth.QUERY_ENCRYPTION_PACKAGE, hexDigest(packageName))
+            builder.appendQueryParameter(
+                Keys.WebAuth.QUERY_ENCRYPTION_PACKAGE,
+                hexDigest(this.redirectUri)
+            )
+
             language?.let {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_LANGUAGE, it)
             }
