@@ -43,8 +43,8 @@ class Share {
     data class Request(
         val mediaContent: MediaContent,
         val shareFormat: Format = Format.DEFAULT,
-        override val packageName: String,
-        override val resultActivityFullPath: String,
+        val packageName: String,
+        val resultActivityFullPath: String,
     ) : Base.Request() {
 
         @IgnoredOnParcel
@@ -57,10 +57,9 @@ class Share {
             return mediaContent.validate()
         }
 
-        override fun toBundle(clientKey: String, sdkName: String, sdkVersion: String): Bundle {
-            return super.toBundle(sdkName, sdkVersion).apply {
+        override fun toBundle(clientKey: String): Bundle {
+            return super.toBundle(BuildConfig.SHARE_SDK_NAME, BuildConfig.SHARE_SDK_VERSION).apply {
                 putString(Keys.Share.CLIENT_KEY, clientKey)
-                putString(Keys.Share.CALLER_SDK_VERSION, Keys.VERSION)
                 putAll(mediaContent.toBundle())
                 putInt(Keys.Share.SHARE_FORMAT, shareFormat.format)
                 putString(Keys.Share.CALLER_PKG, packageName)

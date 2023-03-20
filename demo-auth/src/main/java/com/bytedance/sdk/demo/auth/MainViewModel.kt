@@ -120,7 +120,7 @@ class MainViewModel(
         )
     }
 
-    fun authorize(packageName: String, resultActivityFullPath: String) {
+    fun authorize() {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val webAuthEnabled = currentStateValue.webAuthEnabled
@@ -137,8 +137,7 @@ class MainViewModel(
         }
         val request = Auth.Request(
             scope = enabledScopes.joinToString(),
-            packageName = packageName,
-            resultActivityFullPath = resultActivityFullPath
+            redirectUri = BuildConfig.REDIRECT_URL,
         )
         val authType = if (webAuthEnabled) {
             AuthApi.AuthMethod.WebView

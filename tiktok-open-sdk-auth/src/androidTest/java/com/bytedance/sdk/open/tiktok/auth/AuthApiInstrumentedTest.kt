@@ -30,8 +30,7 @@ class AuthApiInstrumentedTest {
     private val clientKey = "clientKey"
     private val scope = "scope1,scope2"
     private val language = "language"
-    private val packageName = "com.bytedance"
-    private val resultActivityFullPath = "com.bytedance.auth.resultActivity"
+    private val redirectUri = "demoapp://oauth_response"
     private val apiEventHandler = object : AuthApiEventHandler {
         override fun onRequest(req: Auth.Request) = Unit
         override fun onResponse(resp: Auth.Response) = Unit
@@ -58,8 +57,7 @@ class AuthApiInstrumentedTest {
             scope = scope,
             state = state,
             language = language,
-            packageName = packageName,
-            resultActivityFullPath = resultActivityFullPath
+            redirectUri = redirectUri,
         )
     }
 
@@ -77,8 +75,7 @@ class AuthApiInstrumentedTest {
         assertEquals(bundle.getString(Keys.Auth.CLIENT_KEY), clientKey)
         assertEquals(bundle.getString(Keys.Auth.SCOPE), scope)
         assertEquals(bundle.getString(Keys.Auth.LANGUAGE), language)
-        assertEquals(bundle.getString(Base.CALLER_PKG), packageName)
-        assertEquals(bundle.getString(Base.FROM_ENTRY), resultActivityFullPath)
+        assertEquals(bundle.getString(Keys.Auth.REDIRECT_URI), redirectUri)
     }
 
     @Test

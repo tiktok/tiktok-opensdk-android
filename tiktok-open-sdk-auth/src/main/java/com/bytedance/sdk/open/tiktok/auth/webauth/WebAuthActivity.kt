@@ -10,7 +10,6 @@ package com.bytedance.sdk.open.tiktok.auth.webauth
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -37,6 +36,7 @@ import com.bytedance.sdk.open.tiktok.auth.R
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_HOST
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_REDIRECT_URL_PATH
+import com.bytedance.sdk.open.tiktok.auth.constants.Keys
 import com.bytedance.sdk.open.tiktok.auth.utils.OpenUtils.setViewVisibility
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.composeLoadUrl
 import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.parseRedirectUriToAuthResponse
@@ -127,8 +127,7 @@ internal class WebAuthActivity : Activity() {
     private fun sendInnerResponse(authRequest: Auth.Request, resp: Auth.Response): Boolean {
         val bundle = resp.toBundle()
         val intent = Intent()
-        val componentName = ComponentName(authRequest.packageName, authRequest.resultActivityFullPath)
-        intent.component = componentName
+        bundle.putString(Keys.Auth.REDIRECT_URI, authRequest.redirectUri)
         intent.putExtras(bundle)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)

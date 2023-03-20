@@ -16,23 +16,15 @@ class Base {
     abstract class Request : Parcelable {
         abstract val type: Int
 
-        abstract val packageName: String
-
-        abstract val resultActivityFullPath: String
-
         abstract fun validate(): Boolean
 
-        abstract fun toBundle(clientKey: String, sdkName: String, sdkVersion: String): Bundle
+        abstract fun toBundle(clientKey: String): Bundle
 
         fun toBundle(sdkName: String, sdkVersion: String): Bundle {
             return Bundle().apply {
                 putInt(Keys.Base.TYPE, type)
-                putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_NAME, sdkName)
-                putString(Keys.Base.CALLER_BASE_OPEN_SDK_COMMON_VERSION, sdkVersion)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_NAME, sdkName)
                 putString(Keys.Base.CALLER_BASE_OPEN_SDK_VERSION, sdkVersion)
-                putString(Keys.Base.CALLER_PKG, packageName)
-                putString(Keys.Base.FROM_ENTRY, resultActivityFullPath)
             }
         }
     }

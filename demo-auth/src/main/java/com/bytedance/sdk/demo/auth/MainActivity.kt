@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         authApi = AuthApi(
-            context = this,
+            activity = this,
             clientKey = BuildConfig.CLIENT_KEY,
             apiEventHandler = this
         )
@@ -94,10 +94,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
     }
 
     private fun authorize() {
-        viewModel.authorize(
-            packageName = BuildConfig.APPLICATION_ID, // the package name of your app, must be same as what we have on developer portal
-            resultActivityFullPath = "$packageName.${this::class.simpleName}" // com.bytedance.sdk.demo.auth.MainActivity, the full path of activity which will receive the sdk results
-        )
+        viewModel.authorize()
     }
 
     private fun showGettingUserInfoSuccessDialog(grantedPermission: String, accessToken: String, displayName: String) {

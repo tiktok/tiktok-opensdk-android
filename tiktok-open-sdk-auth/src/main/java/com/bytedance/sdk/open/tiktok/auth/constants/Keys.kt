@@ -17,6 +17,7 @@ internal object Keys {
         const val SCOPE = "_bytedance_params_scope"
         const val LANGUAGE = "language"
         const val AUTH_ERROR = "_bytedance_params_auth_error"
+        const val REDIRECT_URI = "_bytedance_params_redirect_uri"
     }
     object WebAuth {
         const val QUERY_RESPONSE_TYPE = "response_type"
