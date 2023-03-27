@@ -7,7 +7,7 @@ package com.bytedance.sdk.open.tiktok.auth
  * LICENSE file in the root directory of this source tree.
  */
 
-import android.content.Context
+import android.app.Activity
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_REQUEST
@@ -64,7 +64,7 @@ class AuthApiInstrumentedTest {
     @Test
     fun testAuthToBundle() {
         val request = createTestAuthRequest()
-        val bundle = request.toBundle(clientKey, "", "")
+        val bundle = request.toBundle(clientKey)
 
         verifyBundle(bundle)
     }
@@ -80,20 +80,20 @@ class AuthApiInstrumentedTest {
 
     @Test
     fun testAuthWithNativeFlow() {
-        val mockContext = mockk<Context>(relaxed = true)
+        val mockActivity = mockk<Activity>(relaxed = true)
         every {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         } returns Unit
-        val authApi = AuthApi(mockContext, clientKey, apiEventHandler)
+        val authApi = AuthApi(mockActivity, clientKey, apiEventHandler)
         mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.AUTH) }.returns(appCheck)
         val request = createTestAuthRequest()
         authApi.authorize(
             request,
             authMethod = AuthApi.AuthMethod.TikTokApp
         )
         verify(exactly = 1) {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivityForResult(allAny(), 0)
         }
     }
 }
