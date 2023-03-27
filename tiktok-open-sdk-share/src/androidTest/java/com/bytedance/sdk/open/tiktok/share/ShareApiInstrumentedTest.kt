@@ -7,7 +7,7 @@ package com.bytedance.sdk.open.tiktok.share
  * LICENSE file in the root directory of this source tree.
  */
 
-import android.content.Context
+import android.app.Activity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.core.appcheck.ITikTokAppCheck
 import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
@@ -27,6 +27,8 @@ class ShareApiInstrumentedTest {
     private val clientKey = "clientKey"
     private val mediaSingleList = arrayListOf("media_url1")
     private val mediaMultiList = arrayListOf("media_url1", "media_url2")
+    private val packageName = "com.bytedance"
+    private val resultActivityFullPath = "com.bytedance.share.resultActivity"
 
     private val appCheck = object : ITikTokAppCheck {
         override val isAuthSupported: Boolean
@@ -50,6 +52,8 @@ class ShareApiInstrumentedTest {
         return Share.Request(
             mediaContent = mediaContent,
             shareFormat = Share.Format.DEFAULT,
+            packageName = packageName,
+            resultActivityFullPath = resultActivityFullPath,
         )
     }
 
@@ -58,6 +62,8 @@ class ShareApiInstrumentedTest {
         return Share.Request(
             mediaContent = mediaContent,
             shareFormat = Share.Format.GREEN_SCREEN,
+            packageName = packageName,
+            resultActivityFullPath = resultActivityFullPath,
         )
     }
 
@@ -66,6 +72,8 @@ class ShareApiInstrumentedTest {
         return Share.Request(
             mediaContent = mediaContent,
             shareFormat = Share.Format.DEFAULT,
+            packageName = packageName,
+            resultActivityFullPath = resultActivityFullPath,
         )
     }
 
@@ -74,6 +82,8 @@ class ShareApiInstrumentedTest {
         return Share.Request(
             mediaContent = mediaContent,
             shareFormat = Share.Format.GREEN_SCREEN,
+            packageName = packageName,
+            resultActivityFullPath = resultActivityFullPath,
         )
     }
 
@@ -115,89 +125,89 @@ class ShareApiInstrumentedTest {
 
     @Test
     fun testSendingSingleDefaultShareRequest() {
-        val mockContext = mockk<Context>(relaxed = true)
+        val mockActivity = mockk<Activity>(relaxed = true)
         every {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         } returns Unit
         val shareApi = ShareApi(
-            mockContext, "client_key",
+            mockActivity, "client_key",
             object : ShareApiEventHandler {
                 override fun onRequest(req: Share.Request) = Unit
                 override fun onResponse(resp: Share.Response) = Unit
             }
         )
         mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.SHARE) }.returns(appCheck)
 
         shareApi.share(createTestSingleDefaultShareRequest())
         verify(exactly = 1) {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         }
     }
 
     @Test
     fun testSendingSingleGreenScreenShareRequest() {
-        val mockContext = mockk<Context>(relaxed = true)
+        val mockActivity = mockk<Activity>(relaxed = true)
         every {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         } returns Unit
         val shareApi = ShareApi(
-            mockContext, "client_key",
+            mockActivity, "client_key",
             object : ShareApiEventHandler {
                 override fun onRequest(req: Share.Request) = Unit
                 override fun onResponse(resp: Share.Response) = Unit
             }
         )
         mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.SHARE) }.returns(appCheck)
 
         shareApi.share(createTestSingleGreenScreenShareRequest())
         verify(exactly = 1) {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         }
     }
 
     @Test
     fun testSendingMultiDefaultShareRequest() {
-        val mockContext = mockk<Context>(relaxed = true)
+        val mockActivity = mockk<Activity>(relaxed = true)
         every {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         } returns Unit
         val shareApi = ShareApi(
-            mockContext, "client_key",
+            mockActivity, "client_key",
             object : ShareApiEventHandler {
                 override fun onRequest(req: Share.Request) = Unit
                 override fun onResponse(resp: Share.Response) = Unit
             }
         )
         mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.SHARE) }.returns(appCheck)
 
         shareApi.share(createTestMultiDefaultShareRequest())
         verify(exactly = 1) {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         }
     }
 
     @Test
     fun testSendingMultiGreenScreenShareRequest() {
-        val mockContext = mockk<Context>(relaxed = true)
+        val mockActivity = mockk<Activity>(relaxed = true)
         every {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         } returns Unit
         val shareApi = ShareApi(
-            mockContext, "client_key",
+            mockActivity, "client_key",
             object : ShareApiEventHandler {
                 override fun onRequest(req: Share.Request) = Unit
                 override fun onResponse(resp: Share.Response) = Unit
             }
         )
         mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockContext, Constants.APIType.SHARE) }.returns(appCheck)
+        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.SHARE) }.returns(appCheck)
 
         shareApi.share(createTestMultiGreenScreenShareRequest())
         verify(exactly = 0) {
-            mockContext.startActivity(allAny())
+            mockActivity.startActivity(allAny())
         }
     }
 }
