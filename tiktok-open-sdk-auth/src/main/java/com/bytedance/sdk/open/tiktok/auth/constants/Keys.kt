@@ -17,28 +17,29 @@ internal object Keys {
         const val SCOPE = "_bytedance_params_scope"
         const val LANGUAGE = "language"
         const val AUTH_ERROR = "_bytedance_params_auth_error"
+        const val AUTH_ERROR_DESCRIPTION = "_bytedance_params_auth_error_description"
         const val REDIRECT_URI = "_bytedance_params_redirect_uri"
     }
+
     object WebAuth {
         const val QUERY_RESPONSE_TYPE = "response_type"
         const val QUERY_REDIRECT_URI = "redirect_uri"
         const val QUERY_CLIENT_KEY = "client_key"
         const val QUERY_STATE = "state"
-        const val QUERY_FROM = "from"
+        const val QUERY_SDK_NAME = "sdk_name"
         const val QUERY_SCOPE = "scope"
-        const val QUERY_SIGNATURE = "signature"
-        const val VALUE_FROM_OPENSDK = "opensdk"
-        const val VALUE_RESPONSE_TYPE_CODE = "code"
         const val SCHEMA_HTTPS = "https"
+        const val QUERY_APP_IDENTITY = "app_identity"
+        const val QUERY_CERTIFICATE = "certificate"
+        const val QUERY_PLATFORM = "device_platform"
+        const val QUERY_LANGUAGE = "lang"
+
         const val REDIRECT_QUERY_CODE = "code"
         const val REDIRECT_QUERY_STATE = "state"
         const val REDIRECT_QUERY_ERROR_CODE = "errCode"
+        const val REDIRECT_QUERY_ERROR = "error"
+        const val REDIRECT_QUERY_ERROR_DESCRIPTION = "error_description"
         const val REDIRECT_QUERY_ERROR_MESSAGE = "error_string"
         const val REDIRECT_QUERY_SCOPE = "scopes"
-        const val QUERY_ENCRYPTION_PACKAGE = "app_identity"
-        const val QUERY_PLATFORM = "device_platform"
-        const val QUERY_OS_TYPE = "os_type"
-        const val QUERY_OS_FROM = "os_from"
-        const val QUERY_LANGUAGE = "lang"
     }
 }

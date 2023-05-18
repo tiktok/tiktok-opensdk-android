@@ -9,64 +9,24 @@ package com.bytedance.sdk.open.tiktok.auth
 
 import android.app.Activity
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
-import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIRECT_HOST
-import com.bytedance.sdk.open.tiktok.auth.constants.Constants.BROWSER_AUTH_REDIRECT_PATH
-import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthActivity
-import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper.parseRedirectUriToAuthResponse
-import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
+import com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthHelper
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckUtil
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
-import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
-import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
+import com.bytedance.sdk.open.tiktok.core.constants.Keys
 import com.bytedance.sdk.open.tiktok.core.utils.AppUtils
 
 /**
  * Provides an interface for requesting authorization from TikTok.
- * @param context your component context
- * @param clientKey your app client key
- * @param apiEventHandler the event handler class which will be used to handle authorization result
+ * @param activity your activity
  */
-class AuthApi(
-    private val activity: Activity,
-    private val clientKey: String,
-    private val apiEventHandler: AuthApiEventHandler,
-) {
-    companion object {
-        @JvmStatic
-        fun isAuthorizedWithTikTokAppSupported(context: Context) =
-            TikTokAppCheckFactory.getApiCheck(context, APIType.AUTH) != null
-    }
+class AuthApi(private val activity: Activity) {
 
     enum class AuthMethod {
-        WebView,
+        ChromeTab,
         TikTokApp
-    }
-
-    fun handleResultIntent(intent: Intent?): Boolean {
-        if (intent == null) {
-            return false
-        }
-        val data = intent.data
-        val bundle = intent.extras
-        if (data != null &&
-            clientKey == data.scheme &&
-            BROWSER_AUTH_REDIRECT_HOST == data.host &&
-            BROWSER_AUTH_REDIRECT_PATH == data.path
-        ) {
-            val response = parseRedirectUriToAuthResponse(data)
-            apiEventHandler.onResponse(response)
-            return true
-        } else if (bundle != null) {
-            val type = bundle.getInt(Base.TYPE)
-            if (type == AUTH_RESPONSE) {
-                apiEventHandler.onResponse(bundle.toAuthResponse())
-                return true
-            }
-        }
-        return false
     }
 
     fun authorize(
@@ -76,18 +36,16 @@ class AuthApi(
         val internalRequest = request.copy(
             scope = request.scope.replace(" ", ""),
         )
-        apiEventHandler.onRequest(internalRequest)
         return when (authMethod) {
             AuthMethod.TikTokApp -> {
-                TikTokAppCheckFactory.getApiCheck(
-                    activity,
-                    APIType.AUTH
+                TikTokAppCheckUtil.getInstalledTikTokApp(
+                    activity
                 )?.let {
                     return authorizeNative(internalRequest, it.appPackageName)
                 }
-                authorizeWebView(internalRequest)
+                launchChromeTab(internalRequest)
             }
-            AuthMethod.WebView -> authorizeWebView(internalRequest)
+            AuthMethod.ChromeTab -> launchChromeTab(internalRequest)
         }
     }
 
@@ -95,11 +53,9 @@ class AuthApi(
         if (authorizeAppPackageName.isEmpty() || !authRequest.validate()) {
             return false
         }
-        val bundle = authRequest.toBundle(
-            clientKey = clientKey
-        )
+        val bundle = authRequest.toBundle()
         val intent = Intent(Intent.ACTION_VIEW).apply {
-            component = ComponentName(authorizeAppPackageName, AppUtils.componentClassName(authorizeAppPackageName, Constants.TIKTOK.AUTH_ACTIVITY_NAME))
+            component = ComponentName(authorizeAppPackageName, AppUtils.concatPackageAndClassPath(authorizeAppPackageName, Constants.TIKTOK.AUTH_ACTIVITY_NAME))
             putExtras(bundle)
         }
         return try {
@@ -110,26 +66,42 @@ class AuthApi(
         }
     }
 
-    private fun authorizeWebView(authRequest: Auth.Request): Boolean {
-        return if (!authRequest.validate()) {
-            false
-        } else {
-            val bundle = Bundle().apply {
-                putString(WebAuthActivity.CLIENT_KEY_IN_BUNDLE, clientKey)
-                putParcelable(WebAuthActivity.AUTH_REQUEST_KEY_IN_BUNDLE, authRequest)
-            }
-            val intent = Intent(
-                activity,
-                WebAuthActivity::class.java
-            ).apply {
-                putExtras(bundle)
-            }
-            try {
-                activity.startActivityForResult(intent, 0)
-                true
-            } catch (e: Exception) {
-                false
+    private fun launchChromeTab(authRequest: Auth.Request): Boolean {
+        if (!authRequest.validate()) {
+            return false
+        }
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(
+            activity,
+            Uri.parse(
+                WebAuthHelper.composeLoadUrl(
+                    activity,
+                    authRequest,
+                    activity.packageName,
+                )
+            )
+        )
+        return true
+    }
+
+    fun getAuthResponseFromIntent(intent: Intent?, redirectUrl: String): Auth.Response? {
+        if (intent == null) {
+            return null
+        }
+        val data = intent.data
+        val bundle = intent.extras
+        if (data != null &&
+            redirectUrl == "${data.scheme}://${data.host}"
+        ) {
+            if (bundle != null &&
+                bundle.getInt(Keys.Base.TYPE) == com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
+            ) {
+                return bundle.toAuthResponse()
+            } else {
+                return WebAuthHelper.parseRedirectUriToAuthResponse(data)
             }
         }
+        return null
     }
 }

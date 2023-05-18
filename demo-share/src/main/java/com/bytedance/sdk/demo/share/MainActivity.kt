@@ -22,7 +22,7 @@ import com.bytedance.sdk.demo.share.model.InfoModel
 import com.bytedance.sdk.demo.share.model.LogoModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ToggleType
-import com.bytedance.sdk.open.tiktok.share.ShareApi
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckUtil
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initInfoText(): InfoModel {
-        return if (ShareApi.isShareSupported(this)) {
+        return if (TikTokAppCheckUtil.isTikTokAppInstalled(this)) {
             InfoModel(
                 getString(R.string.target_app_installed), getString(R.string.check_if_app_installed, getString(R.string.tiktok_app_name)),
                 getString(R.string.installed)

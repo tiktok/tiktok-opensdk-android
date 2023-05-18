@@ -20,11 +20,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.auth.model.ConfigModel
 import com.bytedance.sdk.demo.auth.model.HeaderModel
 import com.bytedance.sdk.demo.auth.model.LogoModel
-import com.bytedance.sdk.open.tiktok.auth.Auth
 import com.bytedance.sdk.open.tiktok.auth.AuthApi
-import com.bytedance.sdk.open.tiktok.auth.AuthApiEventHandler
 
-class MainActivity : AppCompatActivity(), AuthApiEventHandler {
+class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var authApi: AuthApi
     private lateinit var recyclerView: RecyclerView
@@ -33,11 +31,7 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        authApi = AuthApi(
-            activity = this,
-            clientKey = BuildConfig.CLIENT_KEY,
-            apiEventHandler = this
-        )
+        authApi = AuthApi(activity = this)
         viewModel = ViewModelProvider(this, MainViewModel.Factory(authApi))[MainViewModel::class.java]
 
         recyclerView = findViewById(R.id.recycler_view)
@@ -61,12 +55,48 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                 }
             }
         }
+        handleAuthResponse(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (::authApi.isInitialized) {
-            authApi.handleResultIntent(intent)
+        handleAuthResponse(intent)
+    }
+
+    private fun handleAuthResponse(intent: Intent) {
+        authApi.getAuthResponseFromIntent(intent, BuildConfig.REDIRECT_URL)?.let {
+            val authCode = it.authCode
+            if (authCode.isNotEmpty()) {
+                viewModel.updateGrantedScope(it.grantedPermissions)
+                viewModel.getUserBasicInfo(authCode, it.grantedPermissions)
+            } else if (it.errorCode != 0) {
+                val description = if (it.errorMsg != null) {
+                    getString(
+                        R.string.error_code_with_message,
+                        it.errorCode,
+                        it.errorMsg
+                    )
+                } else {
+                    if (it.authErrorDescription != null) {
+                        getString(
+                            R.string.error_code_with_error_description,
+                            it.errorCode,
+                            it.authError,
+                            it.authErrorDescription
+                        )
+                    } else {
+                        getString(
+                            R.string.error_code_with_error,
+                            it.errorCode,
+                            it.authError,
+                        )
+                    }
+                }
+                showAlert(
+                    getString(R.string.error_dialog_title),
+                    description
+                )
+            }
         }
     }
 
@@ -76,10 +106,10 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
                 LogoModel(),
                 HeaderModel(getString(R.string.config)),
                 ConfigModel(
-                    getString(R.string.always_in_web),
-                    getString(R.string.always_in_web_description),
-                    viewState.webAuthEnabled,
-                    viewModel::toggleWebAuthEnabled
+                    getString(R.string.always_in_browser),
+                    getString(R.string.always_in_browser_description),
+                    viewState.browserAuthEnabled,
+                    viewModel::toggleBrowserAuthEnabled
                 ),
                 HeaderModel(getString(R.string.scope_configuration)),
             )
@@ -128,27 +158,5 @@ class MainActivity : AppCompatActivity(), AuthApiEventHandler {
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
             .create()
             .show()
-    }
-
-    //  IApiEventHandler
-    override fun onRequest(req: Auth.Request) = Unit
-
-    override fun onResponse(resp: Auth.Response) {
-        with(resp) {
-            val authCode = authCode
-            if (authCode.isNotEmpty()) {
-                viewModel.updateGrantedScope(grantedPermissions)
-                viewModel.getUserBasicInfo(authCode, grantedPermissions)
-            } else if (errorCode != 0) {
-                showAlert(
-                    getString(R.string.error_dialog_title),
-                    getString(
-                        R.string.error_code_with_message,
-                        errorCode,
-                        authError ?: errorMsg
-                    )
-                )
-            }
-        }
     }
 }

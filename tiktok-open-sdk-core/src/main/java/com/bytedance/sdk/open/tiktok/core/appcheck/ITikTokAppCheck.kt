@@ -8,17 +8,9 @@ package com.bytedance.sdk.open.tiktok.core.appcheck
  */
 
 interface ITikTokAppCheck {
-    val isAuthSupported: Boolean
-
-    val isShareSupported: Boolean
-
-    val isAppInstalled: Boolean
-
-    val isShareFileProviderSupported: Boolean
+    fun isAppInstalled(): Boolean
 
     val appPackageName: String
-
-    val sharePackageName: String
 
     val signature: String
 }

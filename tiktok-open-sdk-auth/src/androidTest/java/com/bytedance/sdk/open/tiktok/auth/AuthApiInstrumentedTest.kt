@@ -13,8 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_REQUEST
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
 import com.bytedance.sdk.open.tiktok.core.appcheck.ITikTokAppCheck
-import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
-import com.bytedance.sdk.open.tiktok.core.constants.Constants
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckUtil
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base
 import io.mockk.every
 import io.mockk.mockk
@@ -31,29 +30,18 @@ class AuthApiInstrumentedTest {
     private val scope = "scope1,scope2"
     private val language = "language"
     private val redirectUri = "demoapp://oauth_response"
-    private val apiEventHandler = object : AuthApiEventHandler {
-        override fun onRequest(req: Auth.Request) = Unit
-        override fun onResponse(resp: Auth.Response) = Unit
-    }
+
     private val appCheck = object : ITikTokAppCheck {
-        override val isAuthSupported: Boolean
-            get() = true
-        override val isShareSupported: Boolean
-            get() = true
-        override val isAppInstalled: Boolean
-            get() = true
-        override val isShareFileProviderSupported: Boolean
-            get() = true
+        override fun isAppInstalled(): Boolean = true
         override val appPackageName: String
             get() = "com.tiktok"
-        override val sharePackageName: String
-            get() = "AuthActivity"
         override val signature: String
             get() = "adgfdsgsg"
     }
 
     private fun createTestAuthRequest(): Auth.Request {
         return Auth.Request(
+            clientKey = clientKey,
             scope = scope,
             state = state,
             language = language,
@@ -64,7 +52,7 @@ class AuthApiInstrumentedTest {
     @Test
     fun testAuthToBundle() {
         val request = createTestAuthRequest()
-        val bundle = request.toBundle(clientKey)
+        val bundle = request.toBundle()
 
         verifyBundle(bundle)
     }
@@ -84,9 +72,9 @@ class AuthApiInstrumentedTest {
         every {
             mockActivity.startActivity(allAny())
         } returns Unit
-        val authApi = AuthApi(mockActivity, clientKey, apiEventHandler)
-        mockkObject(TikTokAppCheckFactory)
-        every { TikTokAppCheckFactory.getApiCheck(mockActivity, Constants.APIType.AUTH) }.returns(appCheck)
+        val authApi = AuthApi(mockActivity)
+        mockkObject(TikTokAppCheckUtil)
+        every { TikTokAppCheckUtil.getInstalledTikTokApp(mockActivity) }.returns(appCheck)
         val request = createTestAuthRequest()
         authApi.authorize(
             request,

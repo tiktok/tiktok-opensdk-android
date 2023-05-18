@@ -39,7 +39,7 @@ authApi = AuthApi(
 )
 authApi.authorize(
     request = request,
-    authMethod = AuthMethod.TikTokApp / AuthMethod.WebView
+    authMethod = AuthMethod.TikTokApp / AuthMethod.Browser
 )
 
 // use authApi to handle result intent in activity

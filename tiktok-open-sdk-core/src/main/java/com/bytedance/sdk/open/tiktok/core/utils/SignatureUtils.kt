@@ -8,45 +8,75 @@ package com.bytedance.sdk.open.tiktok.core.utils
  */
 
 import android.content.Context
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.text.TextUtils
+import android.content.pm.Signature
+import android.os.Build
+import java.security.MessageDigest
 
 object SignatureUtils {
-    // validate tiktok or musically app's signature
     fun validateSign(context: Context, pkgName: String, sign: String): Boolean {
-        if (TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(sign)) {
-            return false
-        }
-        val signList = getMd5Signs(context, pkgName)
-        return signList?.find {
-            sign.equals(it, ignoreCase = true)
-        } != null
+        return getSignatureList(context, pkgName).toSet().contains(sign)
     }
 
-    fun getMd5Signs(context: Context, pkgName: String?): List<String?>? {
-        if (pkgName.isNullOrEmpty()) {
-            return null
-        }
-        val packageInfo: PackageInfo = try {
-            context.packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES)
-        } catch (ex: PackageManager.NameNotFoundException) {
-            return null
-        }
-        val signList: List<String?>? = packageInfo.signatures?.map {
-            Md5Utils.hexDigest(it.toByteArray())
-        }
-        return signList
-    }
-
-    fun packageSignature(signs: List<String?>?): String? {
-        if (signs != null && !signs.isEmpty()) {
-            val sb = StringBuilder()
-            for (sign in signs) {
-                sb.append(",").append(sign)
+    private fun getSignatureList(context: Context, pkgName: String): List<String> {
+        val packageManager = context.packageManager
+        val signatureList: List<String> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val sig = packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
+            if (sig.hasMultipleSigners()) {
+                sig.apkContentsSigners.map {
+                    it.toCharsString()
+                }
+            } else {
+                sig.signingCertificateHistory.map {
+                    it.toCharsString()
+                }
             }
-            return if (sb.isEmpty()) null else sb.substring(1)
+        } else {
+            val sig = packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES).signatures
+            sig.map {
+                it.toCharsString()
+            }
         }
-        return null
+        return signatureList
+    }
+
+    fun getCallerSHA256Certificates(context: Context, pkgName: String): String {
+        val packageManager = context.packageManager
+        val signatureList: List<String> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val sig = packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
+            if (sig.hasMultipleSigners()) {
+                sig.apkContentsSigners.map {
+                    it.hashBy256()
+                }
+            } else {
+                sig.signingCertificateHistory.map {
+                    it.hashBy256()
+                }
+            }
+        } else {
+            val sig = packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES).signatures
+            sig.map {
+                it.hashBy256()
+            }
+        }
+        return signatureList.joinToString(",")
+    }
+
+    private fun Signature.hashBy256(): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        digest.update(toByteArray())
+        return digest.digest().bytesToHex()
+    }
+
+    private fun ByteArray.bytesToHex(): String {
+        val hexArray = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
+        val hexChars = CharArray(size * 2)
+        var v: Int
+        for (j in indices) {
+            v = this[j].toInt() and 0xFF
+            hexChars[j * 2] = hexArray[v.ushr(4)]
+            hexChars[j * 2 + 1] = hexArray[v and 0x0F]
+        }
+        return String(hexChars)
     }
 }

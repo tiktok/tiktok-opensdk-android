@@ -24,4 +24,5 @@
     <string name="error">Error</string>
     <string name="error_dialog_title">Share Failed!</string>
     <string name="error_code_with_message">Error Code: %1$d\nError message: %2$s</string>
+    <string name="sharing_fail_error">TikTok is not installed or your request is invalid</string>
 </resources>

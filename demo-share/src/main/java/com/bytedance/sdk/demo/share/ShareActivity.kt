@@ -24,35 +24,26 @@ import com.bytedance.sdk.demo.share.model.HeaderModel
 import com.bytedance.sdk.demo.share.model.ToggleModel
 import com.bytedance.sdk.demo.share.model.ToggleType
 import com.bytedance.sdk.demo.share.publish.ShareActivityAdapter
-import com.bytedance.sdk.open.tiktok.share.Share
 import com.bytedance.sdk.open.tiktok.share.ShareApi
-import com.bytedance.sdk.open.tiktok.share.ShareApiEventHandler
 
-class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
+class ShareActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: ShareActivityAdapter
     private lateinit var shareViewModel: ShareViewModel
     private lateinit var shareApi: ShareApi
+    private lateinit var clientKey: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.share_activity)
 
         val isSharingImage = intent.getBooleanExtra(IS_SHARING_IMAGE, false)
-        val clientKey = intent.getStringExtra(CLIENT_KEY)
-        val mediaUrls = intent.getStringArrayListExtra(SELECTED_MEDIAS)
-        if (clientKey == null || mediaUrls == null) {
-            finish()
-        } else {
-            shareApi = ShareApi(
-                context = this,
-                clientKey = clientKey,
-                apiEventHandler = this
-            )
-            shareViewModel =
-                ViewModelProvider(this, ShareViewModel.Factory(shareApi, isSharingImage, mediaUrls))[ShareViewModel::class.java]
-        }
+        clientKey = intent.getStringExtra(CLIENT_KEY) ?: BuildConfig.CLIENT_KEY
+        val mediaUrls = intent.getStringArrayListExtra(SELECTED_MEDIAS) ?: arrayListOf()
+        shareApi = ShareApi(activity = this)
+        shareViewModel =
+            ViewModelProvider(this, ShareViewModel.Factory(shareApi, isSharingImage, mediaUrls))[ShareViewModel::class.java]
 
         findViewById<Button>(R.id.back_button).setOnClickListener { finish() }
         findViewById<Button>(R.id.share_button).setOnClickListener { this.publish() }
@@ -74,12 +65,29 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
                 }
             }
         }
+        handleShareResponse(intent)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (::shareApi.isInitialized) {
-            shareApi.handleResultIntent(intent)
+        handleShareResponse(intent)
+    }
+
+    private fun handleShareResponse(intent: Intent) {
+        shareApi.getShareResponseFromIntent(intent)?.let {
+            if (it.isSuccess) {
+                Toast.makeText(applicationContext, R.string.share_success, Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                showDialogAlert(
+                    getString(R.string.error_dialog_title),
+                    getString(
+                        R.string.error_code_with_message,
+                        it.subErrorCode,
+                        it.errorMsg
+                    )
+                )
+            }
         }
     }
 
@@ -98,10 +106,14 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
     }
 
     private fun publish() {
-        shareViewModel.publish(
-            packageName = BuildConfig.APPLICATION_ID, // the package name of your app, must be same as what we have on developer portal
+        val res = shareViewModel.publish(
+            clientKey,
+            packageName = packageName, // the package name of your activity
             resultActivityFullPath = "$packageName.${this::class.simpleName}" // com.bytedance.sdk.demo.share.ShareActivity, the full path of activity which will receive the sdk results
         )
+        if (!res) {
+            showDialogAlert(getString(R.string.error_dialog_title), getString(R.string.sharing_fail_error))
+        }
     }
 
     private fun showDialogAlert(title: String, desc: String) {
@@ -112,26 +124,5 @@ class ShareActivity : AppCompatActivity(), ShareApiEventHandler {
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
             .create()
             .show()
-    }
-
-    // IApiEventHandler
-    override fun onRequest(req: Share.Request) = Unit
-
-    override fun onResponse(resp: Share.Response) {
-        with(resp) {
-            if (isSuccess) {
-                Toast.makeText(applicationContext, R.string.share_success, Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                showDialogAlert(
-                    getString(R.string.error_dialog_title),
-                    getString(
-                        R.string.error_code_with_message,
-                        subErrorCode,
-                        errorMsg
-                    )
-                )
-            }
-        }
     }
 }
