@@ -15,49 +15,43 @@ import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_ENDPOINT
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_HOST
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
-import com.bytedance.sdk.open.tiktok.core.utils.Md5Utils.hexDigest
-import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils.getMd5Signs
-import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils.packageSignature
+import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils
+import java.security.MessageDigest
 
 internal object WebAuthHelper {
-    enum class OSFrom(val value: String) {
-        WEBVIEW("webview"),
-        BROWSER("browser")
-    }
-
     private const val DEVICE_ANDROID = "android"
 
     fun composeLoadUrl(
         context: Context,
-        redirectUrl: String,
         authRequest: Auth.Request,
-        clientKey: String,
-        osFrom: OSFrom
+        packageName: String,
     ): String {
-        val signs = getMd5Signs(context, authRequest.redirectUri)
         val builder = Uri.Builder()
             .scheme(Keys.WebAuth.SCHEMA_HTTPS)
             .authority(WEB_AUTH_HOST)
             .path(WEB_AUTH_ENDPOINT)
-            .appendQueryParameter(Keys.WebAuth.QUERY_RESPONSE_TYPE, Keys.WebAuth.VALUE_RESPONSE_TYPE_CODE)
-            .appendQueryParameter(Keys.WebAuth.QUERY_FROM, Keys.WebAuth.VALUE_FROM_OPENSDK)
+            .appendQueryParameter(Keys.WebAuth.QUERY_RESPONSE_TYPE, "code")
+            .appendQueryParameter(Keys.WebAuth.QUERY_SDK_NAME, "tiktok_sdk_auth")
             .appendQueryParameter(Keys.WebAuth.QUERY_PLATFORM, DEVICE_ANDROID)
-            .appendQueryParameter(Keys.WebAuth.QUERY_OS_TYPE, DEVICE_ANDROID)
-            .appendQueryParameter(Keys.WebAuth.QUERY_OS_FROM, osFrom.value)
+            .appendQueryParameter(
+                Keys.WebAuth.QUERY_APP_IDENTITY,
+                MessageDigest
+                    .getInstance("SHA-256")
+                    .digest(packageName.toByteArray())
+                    .fold("") { str, it -> str + "%02x".format(it) }
+            )
+            .appendQueryParameter(
+                Keys.WebAuth.QUERY_CERTIFICATE,
+                SignatureUtils.getCallerSHA256Certificates(context, packageName)
+            )
 
-        packageSignature(signs)?.let { builder.appendQueryParameter(Keys.WebAuth.QUERY_SIGNATURE, it) }
-        builder.appendQueryParameter(Keys.WebAuth.QUERY_REDIRECT_URI, redirectUrl)
         with(authRequest) {
+            builder.appendQueryParameter(Keys.WebAuth.QUERY_REDIRECT_URI, redirectUri)
             builder.appendQueryParameter(Keys.WebAuth.QUERY_CLIENT_KEY, clientKey)
             state?.let {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_STATE, it)
             }
             builder.appendQueryParameter(Keys.WebAuth.QUERY_SCOPE, scope)
-            builder.appendQueryParameter(
-                Keys.WebAuth.QUERY_ENCRYPTION_PACKAGE,
-                hexDigest(this.redirectUri)
-            )
-
             language?.let {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_LANGUAGE, it)
             }
@@ -79,6 +73,8 @@ internal object WebAuthHelper {
             )
         } else {
             val errorCodeStr: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR_CODE)
+            val authError: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR)
+            val authErrorDescription: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR_DESCRIPTION)
             val errorCode = try {
                 errorCodeStr?.toInt() ?: Constants.BaseError.ERROR_UNKNOWN
             } catch (e: Exception) {
@@ -91,7 +87,9 @@ internal object WebAuthHelper {
                 grantedPermissions = "",
                 errorCode = errorCode,
                 errorMsg = errorMsgStr,
-                extras = extras
+                extras = extras,
+                authError = authError,
+                authErrorDescription = authErrorDescription
             )
         }
     }

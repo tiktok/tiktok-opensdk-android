@@ -21,17 +21,6 @@ internal object Constants {
     /*
      * web auth
      */
-    const val WEB_AUTH_HOST = "open-api.tiktok.com"
-    const val WEB_AUTH_ENDPOINT = "/platform/oauth/connect/"
-    const val WEB_AUTH_REDIRECT_URL_PATH = "/oauth/authorize/callback/"
-
-    /*
-     * browser auth
-     */
-    const val BROWSER_AUTH_REDIRECT_HOST = "response.bridge.bytedance.com"
-    const val BROWSER_AUTH_REDIRECT_PATH = "/oauth"
-
-    const val NETWORK_NO_CONNECTION = -12
-
-    const val NETWORK_IO_ERROR = -15
+    const val WEB_AUTH_HOST = "www.tiktok.com"
+    const val WEB_AUTH_ENDPOINT = "/v2/auth/authorize"
 }

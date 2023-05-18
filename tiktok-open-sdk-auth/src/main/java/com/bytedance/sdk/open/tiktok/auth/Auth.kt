@@ -12,6 +12,7 @@ import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_REQUEST
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys.Auth.AUTH_ERROR
+import com.bytedance.sdk.open.tiktok.auth.constants.Keys.Auth.AUTH_ERROR_DESCRIPTION
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_CODE
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_MSG
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.EXTRA
@@ -23,14 +24,14 @@ class Auth {
     /*
        * Auth.Request
        *
+       * @param clientKey your app's client key.
        * @param scope the scopes required, scopes should be concatenated with ",", e.g. "scope1, scope2, scope3"
        * @param state state in request should match the state from the response received.
        * @param language the language.
-       * @param packageName the package name of your app.
-       * @param resultActivityFullPath the path of the activity being used to receive the authorization result information
      */
     @Parcelize
     data class Request(
+        val clientKey: String,
         val scope: String,
         val redirectUri: String,
         val state: String? = null,
@@ -41,7 +42,7 @@ class Auth {
 
         override fun validate(): Boolean = scope.isNotEmpty()
 
-        override fun toBundle(clientKey: String): Bundle {
+        override fun toBundle(): Bundle {
             return super.toBundle(BuildConfig.AUTH_SDK_NAME, BuildConfig.AUTH_SDK_VERSION).apply {
                 putString(Keys.Auth.CLIENT_KEY, clientKey)
                 putString(Keys.Auth.STATE, state)
@@ -61,15 +62,18 @@ class Auth {
        * @param errorCode the error code for authorization result .
        * @param errorMsg the error message
        * @param extras the extra information
+       * @param authError auth error type
+       * @param authError auth error type description
      */
     data class Response(
         val authCode: String,
         val state: String?,
         val grantedPermissions: String,
-        override val errorCode: Int,
-        override val errorMsg: String?,
+        override val errorCode: Int, // Deprecated
+        override val errorMsg: String?, // Deprecated
         override val extras: Bundle? = null,
         val authError: String? = null,
+        val authErrorDescription: String? = null,
     ) : Base.Response() {
         override val type: Int = AUTH_RESPONSE
 
@@ -91,6 +95,7 @@ internal fun Bundle.toAuthResponse(): Auth.Response {
     val errorMsg = getString(ERROR_MSG)
     val extras = getBundle(EXTRA)
     val authError = getString(AUTH_ERROR)
+    val authErrorDescription = getString(AUTH_ERROR_DESCRIPTION)
     return Auth.Response(
         authCode = authCode,
         state = state,
@@ -98,6 +103,7 @@ internal fun Bundle.toAuthResponse(): Auth.Response {
         errorCode = errorCode,
         errorMsg = errorMsg,
         extras = extras,
-        authError = authError
+        authError = authError,
+        authErrorDescription = authErrorDescription,
     )
 }

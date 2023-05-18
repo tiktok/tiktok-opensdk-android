@@ -35,7 +35,7 @@ class MainViewModel(
     }
 
     data class MainViewModelViewState(
-        val webAuthEnabled: Boolean,
+        val browserAuthEnabled: Boolean,
         val scopeStates: LinkedHashMap<ScopeType, ScopeModel>
     )
 
@@ -53,7 +53,7 @@ class MainViewModel(
     }
 
     private fun getDefaultViewState() = MainViewModelViewState(
-        webAuthEnabled = false,
+        browserAuthEnabled = false,
         scopeStates = linkedMapOf(
             ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, false),
             ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, true),
@@ -80,10 +80,10 @@ class MainViewModel(
         ) : ViewEffect()
     }
 
-    fun toggleWebAuthEnabled(newWebAuthEnabled: Boolean) {
+    fun toggleBrowserAuthEnabled(newBrowserAuthEnabled: Boolean) {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         _viewState.value = currentStateValue.copy(
-            webAuthEnabled = newWebAuthEnabled,
+            browserAuthEnabled = newBrowserAuthEnabled,
         )
     }
 
@@ -123,7 +123,7 @@ class MainViewModel(
     fun authorize() {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
-        val webAuthEnabled = currentStateValue.webAuthEnabled
+        val browserAuthEnabled = currentStateValue.browserAuthEnabled
         val enabledScopes: MutableList<String> = mutableListOf()
         currentScopeStates.forEach {
             if (it.value.isOn) {
@@ -136,11 +136,12 @@ class MainViewModel(
             return
         }
         val request = Auth.Request(
+            clientKey = BuildConfig.CLIENT_KEY,
             scope = enabledScopes.joinToString(),
             redirectUri = BuildConfig.REDIRECT_URL,
         )
-        val authType = if (webAuthEnabled) {
-            AuthApi.AuthMethod.WebView
+        val authType = if (browserAuthEnabled) {
+            AuthApi.AuthMethod.ChromeTab
         } else {
             AuthApi.AuthMethod.TikTokApp
         }
@@ -148,6 +149,7 @@ class MainViewModel(
     }
 
     fun getUserBasicInfo(authCode: String, grantedPermissions: String) {
+        // The following code is only for demo purpose, you should store client secret on your server and send this request to get access token on your server
         UserInfoQuery.getAccessToken(authCode) { response, errorMsg ->
             errorMsg?.let {
                 sendViewEffect(ViewEffect.ShowAlertWithResponseError(R.string.access_token_error, errorMsg))

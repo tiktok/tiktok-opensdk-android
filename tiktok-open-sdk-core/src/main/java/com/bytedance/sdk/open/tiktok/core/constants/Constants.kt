@@ -15,14 +15,6 @@ object Constants {
     }
 
     object TIKTOK {
-        const val SHARE_ACTIVITY_NAME = "share.SystemShareActivity"
-
         const val AUTH_ACTIVITY_NAME = "openauthorize.AwemeAuthorizedActivity"
-
-        const val TIKTOK_SHARE_COMPONENT_PATH = "com.ss.android.ugc.aweme"
-    }
-
-    enum class APIType {
-        AUTH, SHARE
     }
 }

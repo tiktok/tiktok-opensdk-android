@@ -1,11 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.open.tiktok.auth">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <application>
-        <activity android:name="com.bytedance.sdk.open.tiktok.auth.webauth.WebAuthActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:screenOrientation="behind"/>
-    </application>
-</manifest>
+<manifest package="com.bytedance.sdk.open.tiktok.auth"/>

@@ -53,14 +53,23 @@ class ShareViewModel(
         val greenScreenEnabled: Boolean = false
     )
 
-    fun publish(packageName: String, resultActivityFullPath: String) {
+    fun publish(
+        clientKey: String,
+        packageName: String,
+        resultActivityFullPath: String
+    ): Boolean {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
-        val request = currentStateValue.toShareRequest(packageName, resultActivityFullPath)
-        shareApi.share(request)
+        val request = currentStateValue.toShareRequest(clientKey, packageName, resultActivityFullPath)
+        return shareApi.share(request)
     }
 
-    private fun ShareViewModelViewState.toShareRequest(packageName: String, resultActivityFullPath: String): Share.Request {
+    private fun ShareViewModelViewState.toShareRequest(
+        clientKey: String,
+        packageName: String,
+        resultActivityFullPath: String
+    ): Share.Request {
         return Share.Request(
+            clientKey = clientKey,
             mediaContent = MediaContent(if (isSharingImage) Share.MediaType.IMAGE else Share.MediaType.VIDEO, mediaUrls),
             shareFormat = if (greenScreenEnabled) {
                 Share.Format.GREEN_SCREEN

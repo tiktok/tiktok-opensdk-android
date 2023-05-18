@@ -9,63 +9,22 @@ package com.bytedance.sdk.open.tiktok.share
 
 import android.app.Activity
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckFactory
-import com.bytedance.sdk.open.tiktok.core.constants.Constants.APIType
-import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.SHARE_ACTIVITY_NAME
-import com.bytedance.sdk.open.tiktok.core.constants.Constants.TIKTOK.TIKTOK_SHARE_COMPONENT_PATH
-import com.bytedance.sdk.open.tiktok.core.utils.AppUtils
+import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckUtil
 import com.bytedance.sdk.open.tiktok.share.constants.Constants
 import com.bytedance.sdk.open.tiktok.share.constants.Keys
 import com.bytedance.sdk.open.tiktok.share.model.MediaContent
 
 /**
  * Provides an interface for sharing media to TikTok.
- * @param context your component context
- * @param clientKey your app client key
- * @param apiEventHandler the event handler class which will be used to handle sharing result
+ * @param activity your activity
  */
-class ShareApi(
-    private val context: Context,
-    private val clientKey: String,
-    private val apiEventHandler: ShareApiEventHandler,
-) {
-
-    companion object {
-        @JvmStatic
-        fun isShareSupported(context: Context) = TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE) != null
-        @JvmStatic
-        fun isShareFileProviderSupported(context: Context) = (TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE)?.isShareFileProviderSupported ?: false)
-    }
-
-    fun handleResultIntent(intent: Intent?): Boolean {
-        if (intent == null) {
-            return false
-        }
-        val bundle = intent.extras ?: return false
-        val type = bundle.getInt(Keys.Share.TYPE)
-        if (type == Constants.SHARE_RESPONSE) {
-            apiEventHandler.onResponse(bundle.toShareResponse())
-            return true
-        }
-        return false
-    }
+class ShareApi(private val activity: Activity) {
 
     fun share(request: Share.Request): Boolean {
-        apiEventHandler.onRequest(request)
-        TikTokAppCheckFactory.getApiCheck(context, APIType.SHARE)?.let {
+        TikTokAppCheckUtil.getInstalledTikTokApp(activity)?.let {
             return share(request, it.appPackageName)
         }
-        apiEventHandler.onResponse(
-            Share.Response(
-                errorCode = Constants.SHARE_UNSUPPORTED_ERROR,
-                errorMsg = "TikTok is not installed or doesn't support the sharing feature",
-                state = null,
-                subErrorCode = Constants.SHARE_UNSUPPORTED_ERROR,
-            )
-        )
         return false
     }
 
@@ -73,42 +32,20 @@ class ShareApi(
         if (!request.validate()) {
             return false
         }
-        grantTikTokPermissionToSharedFiles(request)
         val intent = Intent().apply {
             component = ComponentName(
                 packageName,
-                AppUtils.componentClassName(TIKTOK_SHARE_COMPONENT_PATH, SHARE_ACTIVITY_NAME)
+                "com.ss.android.ugc.aweme.share.SystemShareActivity"
             )
-            putExtras(
-                request.toBundle(
-                    clientKey = clientKey,
-                )
-            )
-            if (context !is Activity) {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            putExtras(request.toBundle())
             type = getShareContentType(request.mediaContent)
             action = getShareContentAction(request.mediaContent)
         }
         return try {
-            context.startActivity(intent)
+            activity.startActivityForResult(intent, 0)
             true
         } catch (e: Exception) {
             false
-        }
-    }
-
-    private fun grantTikTokPermissionToSharedFiles(request: Share.Request) {
-        request.mediaContent.mediaPaths.forEach {
-            context.grantUriPermission(
-                "com.ss.android.ugc.trill",
-                Uri.parse(it), Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-            context.grantUriPermission(
-                "com.zhiliaoapp.musically",
-                Uri.parse(it), Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
         }
     }
 
@@ -126,5 +63,18 @@ class ShareApi(
         } else {
             Intent.ACTION_SEND
         }
+    }
+
+    fun getShareResponseFromIntent(intent: Intent?): Share.Response? {
+        if (intent == null) {
+            return null
+        }
+        val bundle = intent.extras
+        if (bundle != null &&
+            bundle.getInt(Keys.Share.TYPE) == Constants.SHARE_RESPONSE
+        ) {
+            return bundle.toShareResponse()
+        }
+        return null
     }
 }

@@ -34,6 +34,7 @@ class Share {
     /*
        * Share.Request
        *
+       * @param clientKey your app's client key.
        * @param mediaContent the media content to share.
        * @param shareFormat the sharing format.
        * @param packageName the package name of your app.
@@ -41,6 +42,7 @@ class Share {
      */
     @Parcelize
     data class Request(
+        val clientKey: String,
         val mediaContent: MediaContent,
         val shareFormat: Format = Format.DEFAULT,
         val packageName: String,
@@ -57,7 +59,7 @@ class Share {
             return mediaContent.validate()
         }
 
-        override fun toBundle(clientKey: String): Bundle {
+        override fun toBundle(): Bundle {
             return super.toBundle(BuildConfig.SHARE_SDK_NAME, BuildConfig.SHARE_SDK_VERSION).apply {
                 putString(Keys.Share.CLIENT_KEY, clientKey)
                 putAll(mediaContent.toBundle())

@@ -18,7 +18,7 @@ class Base {
 
         abstract fun validate(): Boolean
 
-        abstract fun toBundle(clientKey: String): Bundle
+        abstract fun toBundle(): Bundle
 
         fun toBundle(sdkName: String, sdkVersion: String): Bundle {
             return Bundle().apply {

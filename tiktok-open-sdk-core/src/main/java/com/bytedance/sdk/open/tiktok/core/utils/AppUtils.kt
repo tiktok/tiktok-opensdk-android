@@ -8,7 +8,7 @@ package com.bytedance.sdk.open.tiktok.core.utils
  */
 
 object AppUtils {
-    fun componentClassName(packageName: String, classPath: String): String {
+    fun concatPackageAndClassPath(packageName: String, classPath: String): String {
         return "$packageName.$classPath"
     }
 }
