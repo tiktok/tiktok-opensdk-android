@@ -52,12 +52,27 @@ class MainViewModel(
         viewState = _viewState
     }
 
-    private fun getDefaultViewState() = MainViewModelViewState(
+    private fun getDefaultViewState() = MainViewModel.MainViewModelViewState(
         browserAuthEnabled = false,
         scopeStates = linkedMapOf(
-            ScopeType.USER_INFO_BASIC to ScopeModel(ScopeType.USER_INFO_BASIC, R.string.basic_scope_description, true, false),
-            ScopeType.VIDEO_UPLOAD to ScopeModel(ScopeType.VIDEO_UPLOAD, R.string.video_upload_scope_description, false, true),
-            ScopeType.VIDEO_LIST to ScopeModel(ScopeType.VIDEO_LIST, R.string.video_list_scope_description, false, true),
+            ScopeType.USER_INFO_BASIC to ScopeModel(
+                ScopeType.USER_INFO_BASIC,
+                R.string.basic_scope_description,
+                true,
+                false
+            ),
+            ScopeType.VIDEO_UPLOAD to ScopeModel(
+                ScopeType.VIDEO_UPLOAD,
+                R.string.video_upload_scope_description,
+                false,
+                true
+            ),
+            ScopeType.VIDEO_LIST to ScopeModel(
+                ScopeType.VIDEO_LIST,
+                R.string.video_list_scope_description,
+                false,
+                true
+            ),
         )
     )
 
@@ -120,7 +135,7 @@ class MainViewModel(
         )
     }
 
-    fun authorize() {
+    fun authorize(codeVerifier: String) {
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val browserAuthEnabled = currentStateValue.browserAuthEnabled
@@ -139,6 +154,7 @@ class MainViewModel(
             clientKey = BuildConfig.CLIENT_KEY,
             scope = enabledScopes.joinToString(),
             redirectUri = BuildConfig.REDIRECT_URL,
+            codeVerifier = codeVerifier,
         )
         val authType = if (browserAuthEnabled) {
             AuthApi.AuthMethod.ChromeTab
@@ -148,9 +164,9 @@ class MainViewModel(
         authApi.authorize(request, authType)
     }
 
-    fun getUserBasicInfo(authCode: String, grantedPermissions: String) {
+    fun getUserBasicInfo(authCode: String, grantedPermissions: String, codeVerifier: String) {
         // The following code is only for demo purpose, you should store client secret on your server and send this request to get access token on your server
-        UserInfoQuery.getAccessToken(authCode) { response, errorMsg ->
+        UserInfoQuery.getAccessToken(authCode, BuildConfig.REDIRECT_URL, codeVerifier) { response, errorMsg ->
             errorMsg?.let {
                 sendViewEffect(ViewEffect.ShowAlertWithResponseError(R.string.access_token_error, errorMsg))
                 return@getAccessToken

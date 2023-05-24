@@ -101,6 +101,8 @@ class AuthApi(private val activity: Activity) {
             } else {
                 return WebAuthHelper.parseRedirectUriToAuthResponse(data)
             }
+        } else if (bundle != null) {
+            return bundle.toAuthResponse()
         }
         return null
     }

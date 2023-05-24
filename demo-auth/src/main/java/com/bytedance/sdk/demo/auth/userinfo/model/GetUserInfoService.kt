@@ -22,7 +22,9 @@ interface GetUserInfoService {
         @Field("code") code: String,
         @Field("client_key") clientKey: String,
         @Field("client_secret") clientSecret: String,
-        @Field("grant_type") grantType: String
+        @Field("grant_type") grantType: String,
+        @Field("redirect_uri") redirectUri: String,
+        @Field("code_verifier") codeVerifier: String,
     ): Call<AccessTokenResponse>
 
     @GET("/v2/user/info/")

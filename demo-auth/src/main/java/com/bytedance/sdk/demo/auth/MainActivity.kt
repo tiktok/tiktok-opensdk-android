@@ -9,6 +9,7 @@ package com.bytedance.sdk.demo.auth
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
@@ -21,6 +22,7 @@ import com.bytedance.sdk.demo.auth.model.ConfigModel
 import com.bytedance.sdk.demo.auth.model.HeaderModel
 import com.bytedance.sdk.demo.auth.model.LogoModel
 import com.bytedance.sdk.open.tiktok.auth.AuthApi
+import com.bytedance.sdk.open.tiktok.auth.utils.PKCEUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         authApi = AuthApi(activity = this)
         viewModel = ViewModelProvider(this, MainViewModel.Factory(authApi))[MainViewModel::class.java]
-
         recyclerView = findViewById(R.id.recycler_view)
         recyclerAdapter = MainRecyclerAdapter(
             onScopeToggle = viewModel::toggleScopeState
@@ -64,11 +65,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleAuthResponse(intent: Intent) {
+        val prefs = getSharedPreferences(KEY_CODE_VERIFIER, Context.MODE_PRIVATE)
+        val codeVerifier = prefs.getString(KEY_CODE_VERIFIER, "").toString()
         authApi.getAuthResponseFromIntent(intent, BuildConfig.REDIRECT_URL)?.let {
             val authCode = it.authCode
             if (authCode.isNotEmpty()) {
                 viewModel.updateGrantedScope(it.grantedPermissions)
-                viewModel.getUserBasicInfo(authCode, it.grantedPermissions)
+                viewModel.getUserBasicInfo(authCode, it.grantedPermissions, codeVerifier)
             } else if (it.errorCode != 0) {
                 val description = if (it.errorMsg != null) {
                     getString(
@@ -80,7 +83,6 @@ class MainActivity : AppCompatActivity() {
                     if (it.authErrorDescription != null) {
                         getString(
                             R.string.error_code_with_error_description,
-                            it.errorCode,
                             it.authError,
                             it.authErrorDescription
                         )
@@ -124,7 +126,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authorize() {
-        viewModel.authorize()
+        val prefs = getSharedPreferences(KEY_CODE_VERIFIER, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString(KEY_CODE_VERIFIER, PKCEUtils.generateCodeVerifier())
+        editor.apply()
+
+        val codeVerifier = prefs.getString(KEY_CODE_VERIFIER, "").toString()
+        viewModel.authorize(codeVerifier)
     }
 
     private fun showGettingUserInfoSuccessDialog(grantedPermission: String, accessToken: String, displayName: String) {
@@ -158,5 +166,9 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.ok)) { dialog, _ -> dialog.cancel() }
             .create()
             .show()
+    }
+
+    companion object {
+        private const val KEY_CODE_VERIFIER = "key_code_verifier"
     }
 }
