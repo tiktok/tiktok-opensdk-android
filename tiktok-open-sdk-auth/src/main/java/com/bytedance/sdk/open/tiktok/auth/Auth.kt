@@ -13,6 +13,7 @@ import com.bytedance.sdk.open.tiktok.auth.constants.Constants.AUTH_RESPONSE
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys.Auth.AUTH_ERROR
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys.Auth.AUTH_ERROR_DESCRIPTION
+import com.bytedance.sdk.open.tiktok.auth.utils.PKCEUtils
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_CODE
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.ERROR_MSG
 import com.bytedance.sdk.open.tiktok.core.constants.Keys.Base.EXTRA
@@ -26,6 +27,8 @@ class Auth {
        *
        * @param clientKey your app's client key.
        * @param scope the scopes required, scopes should be concatenated with ",", e.g. "scope1, scope2, scope3"
+       * @param redirectUri the specified endpoint URI which Auth server redirects after the users granted permissions for the client
+       * @param codeVerifier randomly generated string on the application side for the authorization request
        * @param state state in request should match the state from the response received.
        * @param language the language.
      */
@@ -34,6 +37,7 @@ class Auth {
         val clientKey: String,
         val scope: String,
         val redirectUri: String,
+        val codeVerifier: String,
         val state: String? = null,
         val language: String? = null,
     ) : Base.Request() {
@@ -49,6 +53,7 @@ class Auth {
                 putString(Keys.Auth.SCOPE, scope)
                 putString(Keys.Auth.LANGUAGE, language)
                 putString(Keys.Auth.REDIRECT_URI, redirectUri)
+                putString(Keys.Auth.CODE_CHALLENGE, PKCEUtils.generateCodeChallenge(codeVerifier))
             }
         }
     }
@@ -63,7 +68,7 @@ class Auth {
        * @param errorMsg the error message
        * @param extras the extra information
        * @param authError auth error type
-       * @param authError auth error type description
+       * @param authErrorDescription auth error type description
      */
     data class Response(
         val authCode: String,

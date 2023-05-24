@@ -30,6 +30,7 @@ class AuthApiInstrumentedTest {
     private val scope = "scope1,scope2"
     private val language = "language"
     private val redirectUri = "demoapp://oauth_response"
+    private val codeVerifier = "gaeCq5mVvbhA8Ce6w5O9XBVIKMkySgv-_9A-rnhm9Ns"
 
     private val appCheck = object : ITikTokAppCheck {
         override fun isAppInstalled(): Boolean = true
@@ -46,6 +47,7 @@ class AuthApiInstrumentedTest {
             state = state,
             language = language,
             redirectUri = redirectUri,
+            codeVerifier = codeVerifier,
         )
     }
 

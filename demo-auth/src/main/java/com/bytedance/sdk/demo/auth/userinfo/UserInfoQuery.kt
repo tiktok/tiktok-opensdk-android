@@ -20,9 +20,16 @@ import retrofit2.Response
 object UserInfoQuery {
     private const val CLIENT_SECRET = "28cd717c25d74a38c00dc87301523448"
 
-    fun getAccessToken(authCode: String, callback: ((response: AccessTokenResponse?, errorMessage: String?) -> Unit)) {
+    fun getAccessToken(authCode: String, redirectUri: String, codeVerifier: String, callback: ((response: AccessTokenResponse?, errorMessage: String?) -> Unit)) {
         val accessTokenApi = NetworkUtils.createApi(GetUserInfoService::class.java)
-        accessTokenApi.getAccessToken(authCode, BuildConfig.CLIENT_KEY, CLIENT_SECRET, "authorization_code").enqueue(object : Callback<AccessTokenResponse> {
+        accessTokenApi.getAccessToken(
+            code = authCode,
+            clientKey = BuildConfig.CLIENT_KEY,
+            clientSecret = CLIENT_SECRET,
+            grantType = "authorization_code",
+            redirectUri = redirectUri,
+            codeVerifier = codeVerifier,
+        ).enqueue(object : Callback<AccessTokenResponse> {
             override fun onResponse(call: Call<AccessTokenResponse>, response: Response<AccessTokenResponse>) {
                 if (response.isSuccessful) {
                     Log.d("access token response", "message is ${response.message()}")

@@ -19,6 +19,7 @@ internal object Keys {
         const val AUTH_ERROR = "_bytedance_params_auth_error"
         const val AUTH_ERROR_DESCRIPTION = "_bytedance_params_auth_error_description"
         const val REDIRECT_URI = "_bytedance_params_redirect_uri"
+        const val CODE_CHALLENGE = "_bytedance_params_code_challenge"
     }
 
     object WebAuth {
@@ -33,13 +34,14 @@ internal object Keys {
         const val QUERY_CERTIFICATE = "certificate"
         const val QUERY_PLATFORM = "device_platform"
         const val QUERY_LANGUAGE = "lang"
+        const val QUERY_CODE_CHALLENGE = "code_challenge"
 
         const val REDIRECT_QUERY_CODE = "code"
         const val REDIRECT_QUERY_STATE = "state"
         const val REDIRECT_QUERY_ERROR_CODE = "errCode"
         const val REDIRECT_QUERY_ERROR = "error"
         const val REDIRECT_QUERY_ERROR_DESCRIPTION = "error_description"
-        const val REDIRECT_QUERY_ERROR_MESSAGE = "error_string"
         const val REDIRECT_QUERY_SCOPE = "scopes"
+        const val REDIRECT_QUERY_ERROR_MESSAGE = "error"
     }
 }

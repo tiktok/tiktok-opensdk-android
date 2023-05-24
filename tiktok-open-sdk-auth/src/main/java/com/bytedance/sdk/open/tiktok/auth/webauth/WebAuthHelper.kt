@@ -14,6 +14,7 @@ import com.bytedance.sdk.open.tiktok.auth.Auth
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_ENDPOINT
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_HOST
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
+import com.bytedance.sdk.open.tiktok.auth.utils.PKCEUtils
 import com.bytedance.sdk.open.tiktok.core.constants.Constants
 import com.bytedance.sdk.open.tiktok.core.utils.SignatureUtils
 import java.security.MessageDigest
@@ -52,6 +53,7 @@ internal object WebAuthHelper {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_STATE, it)
             }
             builder.appendQueryParameter(Keys.WebAuth.QUERY_SCOPE, scope)
+            builder.appendQueryParameter(Keys.WebAuth.QUERY_CODE_CHALLENGE, PKCEUtils.generateCodeChallenge(codeVerifier))
             language?.let {
                 builder.appendQueryParameter(Keys.WebAuth.QUERY_LANGUAGE, it)
             }
