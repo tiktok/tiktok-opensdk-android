@@ -21,14 +21,14 @@ import com.bytedance.sdk.open.tiktok.share.model.MediaContent
  */
 class ShareApi(private val activity: Activity) {
 
-    fun share(request: Share.Request): Boolean {
+    fun share(request: ShareRequest): Boolean {
         TikTokAppCheckUtil.getInstalledTikTokApp(activity)?.let {
             return share(request, it.appPackageName)
         }
         return false
     }
 
-    private fun share(request: Share.Request, packageName: String): Boolean {
+    private fun share(request: ShareRequest, packageName: String): Boolean {
         if (!request.validate()) {
             return false
         }
@@ -50,7 +50,7 @@ class ShareApi(private val activity: Activity) {
     }
 
     private fun getShareContentType(mediaContent: MediaContent): String {
-        return if (mediaContent.mediaType == Share.MediaType.IMAGE) {
+        return if (mediaContent.mediaType == MediaType.IMAGE) {
             "image/*"
         } else {
             "video/*"
@@ -65,7 +65,7 @@ class ShareApi(private val activity: Activity) {
         }
     }
 
-    fun getShareResponseFromIntent(intent: Intent?): Share.Response? {
+    fun getShareResponseFromIntent(intent: Intent?): ShareResponse? {
         if (intent == null) {
             return null
         }

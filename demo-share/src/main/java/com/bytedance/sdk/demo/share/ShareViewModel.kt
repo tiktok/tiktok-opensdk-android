@@ -12,8 +12,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.bytedance.sdk.open.tiktok.share.Share
+import com.bytedance.sdk.open.tiktok.share.Format
+import com.bytedance.sdk.open.tiktok.share.MediaType
 import com.bytedance.sdk.open.tiktok.share.ShareApi
+import com.bytedance.sdk.open.tiktok.share.ShareRequest
 import com.bytedance.sdk.open.tiktok.share.model.MediaContent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -67,14 +69,14 @@ class ShareViewModel(
         clientKey: String,
         packageName: String,
         resultActivityFullPath: String
-    ): Share.Request {
-        return Share.Request(
+    ): ShareRequest {
+        return ShareRequest(
             clientKey = clientKey,
-            mediaContent = MediaContent(if (isSharingImage) Share.MediaType.IMAGE else Share.MediaType.VIDEO, mediaUrls),
+            mediaContent = MediaContent(if (isSharingImage) MediaType.IMAGE else MediaType.VIDEO, mediaUrls),
             shareFormat = if (greenScreenEnabled) {
-                Share.Format.GREEN_SCREEN
+                Format.GREEN_SCREEN
             } else {
-                Share.Format.DEFAULT
+                Format.DEFAULT
             },
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath,
