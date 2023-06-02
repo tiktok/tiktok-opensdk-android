@@ -11,8 +11,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytedance.sdk.demo.share.model.EditTextModel
@@ -27,15 +27,11 @@ import com.bytedance.sdk.open.tiktok.core.appcheck.TikTokAppCheckUtil
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: MainActivityAdapter
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainViewModel = ViewModelProvider(this, MainViewModel.Factory()).get(
-            MainViewModel::class.java
-        )
-
         findViewById<Button>(R.id.share_button).setOnClickListener { this.share() }
 
         recyclerView = findViewById(R.id.recycler_view)

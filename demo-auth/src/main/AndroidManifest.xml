@@ -23,7 +23,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:taskAffinity="com.bytedance.sdk.demo.auth"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleInstance">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

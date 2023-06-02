@@ -11,16 +11,9 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.bytedance.sdk.demo.share.constants.Constants.CLIENT_KEY
 
 class MainViewModel : ViewModel() {
-    @SuppressWarnings("unchecked")
-    class Factory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return MainViewModel() as T
-        }
-    }
 
     private val _mainViewState: MutableLiveData<MainViewModelViewState> = MutableLiveData(
         MainViewModelViewState()

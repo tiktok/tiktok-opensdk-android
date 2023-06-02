@@ -28,7 +28,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     @SuppressWarnings("unchecked")
-    class Factory(val authApi: AuthApi) : ViewModelProvider.Factory {
+    class Factory(private val authApi: AuthApi) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel(authApi) as T
         }
