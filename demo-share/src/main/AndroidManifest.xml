@@ -46,7 +46,7 @@
         <activity
             android:name=".ShareActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:taskAffinity="com.bytedance.sdk.demo.share"
             android:exported="true">
         </activity>
