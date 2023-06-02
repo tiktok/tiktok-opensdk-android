@@ -10,7 +10,8 @@ package com.bytedance.sdk.open.tiktok.auth.webauth
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import com.bytedance.sdk.open.tiktok.auth.Auth
+import com.bytedance.sdk.open.tiktok.auth.AuthRequest
+import com.bytedance.sdk.open.tiktok.auth.AuthResponse
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_ENDPOINT
 import com.bytedance.sdk.open.tiktok.auth.constants.Constants.WEB_AUTH_HOST
 import com.bytedance.sdk.open.tiktok.auth.constants.Keys
@@ -24,7 +25,7 @@ internal object WebAuthHelper {
 
     fun composeLoadUrl(
         context: Context,
-        authRequest: Auth.Request,
+        authRequest: AuthRequest,
         packageName: String,
     ): String {
         val builder = Uri.Builder()
@@ -62,10 +63,10 @@ internal object WebAuthHelper {
         return builder.build().toString()
     }
 
-    fun parseRedirectUriToAuthResponse(uri: Uri, extras: Bundle? = null): Auth.Response {
+    fun parseRedirectUriToAuthResponse(uri: Uri, extras: Bundle? = null): AuthResponse {
         val authCode = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_CODE)
         return if (authCode != null) {
-            Auth.Response(
+            AuthResponse(
                 authCode = authCode,
                 state = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_STATE),
                 grantedPermissions = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_SCOPE)
@@ -83,7 +84,7 @@ internal object WebAuthHelper {
                 Constants.BaseError.ERROR_UNKNOWN
             }
             val errorMsgStr: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR_MESSAGE)
-            Auth.Response(
+            AuthResponse(
                 authCode = "",
                 state = null,
                 grantedPermissions = "",

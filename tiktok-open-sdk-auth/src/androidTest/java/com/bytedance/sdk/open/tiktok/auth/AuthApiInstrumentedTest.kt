@@ -40,8 +40,8 @@ class AuthApiInstrumentedTest {
             get() = "adgfdsgsg"
     }
 
-    private fun createTestAuthRequest(): Auth.Request {
-        return Auth.Request(
+    private fun createTestAuthRequest(): AuthRequest {
+        return AuthRequest(
             clientKey = clientKey,
             scope = scope,
             state = state,

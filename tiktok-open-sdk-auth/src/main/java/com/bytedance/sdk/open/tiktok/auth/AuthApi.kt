@@ -30,7 +30,7 @@ class AuthApi(private val activity: Activity) {
     }
 
     fun authorize(
-        request: Auth.Request,
+        request: AuthRequest,
         authMethod: AuthMethod = AuthMethod.TikTokApp
     ): Boolean {
         val internalRequest = request.copy(
@@ -49,7 +49,7 @@ class AuthApi(private val activity: Activity) {
         }
     }
 
-    private fun authorizeNative(authRequest: Auth.Request, authorizeAppPackageName: String): Boolean {
+    private fun authorizeNative(authRequest: AuthRequest, authorizeAppPackageName: String): Boolean {
         if (authorizeAppPackageName.isEmpty() || !authRequest.validate()) {
             return false
         }
@@ -66,7 +66,7 @@ class AuthApi(private val activity: Activity) {
         }
     }
 
-    private fun launchChromeTab(authRequest: Auth.Request): Boolean {
+    private fun launchChromeTab(authRequest: AuthRequest): Boolean {
         if (!authRequest.validate()) {
             return false
         }
@@ -85,7 +85,7 @@ class AuthApi(private val activity: Activity) {
         return true
     }
 
-    fun getAuthResponseFromIntent(intent: Intent?, redirectUrl: String): Auth.Response? {
+    fun getAuthResponseFromIntent(intent: Intent?, redirectUrl: String): AuthResponse? {
         if (intent == null) {
             return null
         }

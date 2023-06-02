@@ -37,45 +37,45 @@ class ShareApiInstrumentedTest {
             get() = "adgfdsgsg"
     }
 
-    private fun createTestSingleDefaultShareRequest(): Share.Request {
-        val mediaContent = MediaContent(Share.MediaType.VIDEO, mediaSingleList)
-        return Share.Request(
+    private fun createTestSingleDefaultShareRequest(): ShareRequest {
+        val mediaContent = MediaContent(MediaType.VIDEO, mediaSingleList)
+        return ShareRequest(
             clientKey,
             mediaContent = mediaContent,
-            shareFormat = Share.Format.DEFAULT,
+            shareFormat = Format.DEFAULT,
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath,
         )
     }
 
-    private fun createTestSingleGreenScreenShareRequest(): Share.Request {
-        val mediaContent = MediaContent(Share.MediaType.VIDEO, mediaSingleList)
-        return Share.Request(
+    private fun createTestSingleGreenScreenShareRequest(): ShareRequest {
+        val mediaContent = MediaContent(MediaType.VIDEO, mediaSingleList)
+        return ShareRequest(
             clientKey,
             mediaContent = mediaContent,
-            shareFormat = Share.Format.GREEN_SCREEN,
+            shareFormat = Format.GREEN_SCREEN,
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath,
         )
     }
 
-    private fun createTestMultiDefaultShareRequest(): Share.Request {
-        val mediaContent = MediaContent(Share.MediaType.VIDEO, mediaMultiList)
-        return Share.Request(
+    private fun createTestMultiDefaultShareRequest(): ShareRequest {
+        val mediaContent = MediaContent(MediaType.VIDEO, mediaMultiList)
+        return ShareRequest(
             clientKey,
             mediaContent = mediaContent,
-            shareFormat = Share.Format.DEFAULT,
+            shareFormat = Format.DEFAULT,
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath,
         )
     }
 
-    private fun createTestMultiGreenScreenShareRequest(): Share.Request {
-        val mediaContent = MediaContent(Share.MediaType.VIDEO, mediaMultiList)
-        return Share.Request(
+    private fun createTestMultiGreenScreenShareRequest(): ShareRequest {
+        val mediaContent = MediaContent(MediaType.VIDEO, mediaMultiList)
+        return ShareRequest(
             clientKey,
             mediaContent = mediaContent,
-            shareFormat = Share.Format.GREEN_SCREEN,
+            shareFormat = Format.GREEN_SCREEN,
             packageName = packageName,
             resultActivityFullPath = resultActivityFullPath,
         )
@@ -86,7 +86,7 @@ class ShareApiInstrumentedTest {
         val shareSingleDefaultRequest = createTestSingleDefaultShareRequest()
 
         val bundle = shareSingleDefaultRequest.toBundle()
-        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Share.Format.DEFAULT.format)
+        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Format.DEFAULT.format)
         assertEquals(bundle.getStringArrayList(Keys.VIDEO_PATH), mediaSingleList)
     }
 
@@ -95,7 +95,7 @@ class ShareApiInstrumentedTest {
         val shareSingleGreenScreenRequest = createTestSingleGreenScreenShareRequest()
 
         val bundle = shareSingleGreenScreenRequest.toBundle()
-        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Share.Format.GREEN_SCREEN.format)
+        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Format.GREEN_SCREEN.format)
         assertEquals(bundle.getStringArrayList(Keys.VIDEO_PATH), mediaSingleList)
     }
 
@@ -104,7 +104,7 @@ class ShareApiInstrumentedTest {
         val shareShareMultiDefaultRequest = createTestMultiDefaultShareRequest()
 
         val bundle = shareShareMultiDefaultRequest.toBundle()
-        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Share.Format.DEFAULT.format)
+        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Format.DEFAULT.format)
         assertEquals(bundle.getStringArrayList(Keys.VIDEO_PATH), mediaMultiList)
     }
 
@@ -113,7 +113,7 @@ class ShareApiInstrumentedTest {
         val shareMultiGreenScreenRequest = createTestMultiGreenScreenShareRequest()
 
         val bundle = shareMultiGreenScreenRequest.toBundle()
-        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Share.Format.GREEN_SCREEN.format)
+        assertEquals(bundle.getInt(Keys.Share.SHARE_FORMAT), Format.GREEN_SCREEN.format)
         assertEquals(bundle.getStringArrayList(Keys.VIDEO_PATH), mediaMultiList)
     }
 

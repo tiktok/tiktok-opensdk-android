@@ -16,8 +16,8 @@ import androidx.lifecycle.viewModelScope
 import com.bytedance.sdk.demo.auth.model.ScopeModel
 import com.bytedance.sdk.demo.auth.model.ScopeType
 import com.bytedance.sdk.demo.auth.userinfo.UserInfoQuery
-import com.bytedance.sdk.open.tiktok.auth.Auth
 import com.bytedance.sdk.open.tiktok.auth.AuthApi
+import com.bytedance.sdk.open.tiktok.auth.AuthRequest
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -150,7 +150,7 @@ class MainViewModel(
             sendViewEffect(ViewEffect.ShowGeneralAlert(R.string.invalid_scope, R.string.invalid_scope_description))
             return
         }
-        val request = Auth.Request(
+        val request = AuthRequest(
             clientKey = BuildConfig.CLIENT_KEY,
             scope = enabledScopes.joinToString(),
             redirectUri = BuildConfig.REDIRECT_URL,
