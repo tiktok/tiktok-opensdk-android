@@ -33,6 +33,7 @@ class ShareApi(private val activity: Activity) {
             return false
         }
         val intent = Intent().apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             component = ComponentName(
                 packageName,
                 "com.ss.android.ugc.aweme.share.SystemShareActivity"
