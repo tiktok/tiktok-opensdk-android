@@ -79,7 +79,7 @@ internal object WebAuthHelper {
             val authError: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR)
             val authErrorDescription: String? = uri.getQueryParameter(Keys.WebAuth.REDIRECT_QUERY_ERROR_DESCRIPTION)
             val errorCode = try {
-                errorCodeStr?.toInt() ?: Constants.BaseError.ERROR_UNKNOWN
+                errorCodeStr?.toInt() ?: Constants.BaseError.ERROR_DENIED
             } catch (e: Exception) {
                 Constants.BaseError.ERROR_UNKNOWN
             }

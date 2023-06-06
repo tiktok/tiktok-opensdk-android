@@ -11,7 +11,7 @@ object Constants {
     object BaseError {
         const val OK = 0
         const val ERROR_UNKNOWN = -1
-        const val ERROR_CANCEL = -2
+        const val ERROR_DENIED = -2
     }
 
     object TIKTOK {
