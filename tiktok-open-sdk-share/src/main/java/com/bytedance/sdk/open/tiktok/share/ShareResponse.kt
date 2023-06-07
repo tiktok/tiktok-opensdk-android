@@ -22,9 +22,9 @@ import com.bytedance.sdk.open.tiktok.share.constants.Keys
    * @param extras the extra information
  */
 data class ShareResponse(
-    var state: String?,
+    val state: String?,
     override val errorCode: Int,
-    var subErrorCode: Int?,
+    val subErrorCode: Int?,
     override val errorMsg: String?,
     override val extras: Bundle? = null,
 ) : Base.Response() {
