@@ -38,24 +38,6 @@ android {
         jvmTarget = '1.8'
         freeCompilerArgs += ["-Xjvm-default=all"]
     }
-    signingConfigs {
-        def propsFile = file("../keystore/keystore.properties")
-        def props = new Properties()
-        props.load(new FileInputStream(propsFile))
-        debug {
-            storeFile file("../keystore/release/release.jks")
-            storePassword props['storePassword']
-            keyAlias props['keyAlias']
-            keyPassword props['keyPassword']
-        }
-
-        release {
-            storeFile file("../keystore/release/release.jks")
-            storePassword props['storePassword']
-            keyAlias props['keyAlias']
-            keyPassword props['keyPassword']
-        }
-    }
 }
 
 dependencies {
