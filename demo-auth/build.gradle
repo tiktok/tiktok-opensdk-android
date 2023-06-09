@@ -9,7 +9,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.bytedance.sdk.demo.auth"
+        applicationId "com.tiktok.sdk.demo.auth"
         minSdkVersion 21
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bytedance.sdk.demo.share">
+    package="com.tiktok.sdk.demo.share">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Required only if your app targets Android 13 and above. -->
@@ -23,9 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TiktokAwemeOpenSDK">
         <activity
-            android:name=".MainActivity"
+            android:name="com.tiktok.sdk.demo.share.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:taskAffinity="com.bytedance.sdk.demo.share"
+            android:taskAffinity="com.tiktok.sdk.demo.share"
             android:exported="true"
             android:launchMode="singleTop">
 
@@ -36,18 +36,18 @@
         </activity>
 
         <activity
-            android:name=".SelectMediaActivity"
+            android:name="com.tiktok.sdk.demo.share.SelectMediaActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:launchMode="singleTop"
-            android:taskAffinity="com.bytedance.sdk.demo.share"
+            android:taskAffinity="com.tiktok.sdk.demo.share"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".ShareActivity"
+            android:name="com.tiktok.sdk.demo.share.ShareActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:launchMode="singleTop"
-            android:taskAffinity="com.bytedance.sdk.demo.share"
+            android:taskAffinity="com.tiktok.sdk.demo.share"
             android:exported="true">
         </activity>
 
