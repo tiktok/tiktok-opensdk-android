@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bytedance.sdk.demo.auth">
+    package="com.tiktok.sdk.demo.auth">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,9 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TiktokAwemeOpenSDK">
         <activity
-            android:name=".MainActivity"
+            android:name="com.tiktok.sdk.demo.auth.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:taskAffinity="com.bytedance.sdk.demo.auth"
+            android:taskAffinity="com.tiktok.sdk.demo.auth"
             android:exported="true"
             android:launchMode="singleInstance">
 
