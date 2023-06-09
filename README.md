@@ -55,9 +55,9 @@ repositories {
 5. Add the following implementation statement to the `dependencies{}` section:
 ```gradle
 dependencies {
-    implementation 'com.bytedance.ies.ugc.aweme:tiktok-open-sdk-core:2.0.0'
-    implementation 'com.bytedance.ies.ugc.aweme:tiktok-open-sdk-auth:2.0.0'   // to use authorization api
-    implementation 'com.bytedance.ies.ugc.aweme:tiktok-open-sdk-share:2.0.0'    // to use share api
+    implementation 'com.tiktok.open.sdk:tiktok-open-sdk-core:2.0.0'
+    implementation 'com.tiktok.open.sdk:tiktok-open-sdk-auth:2.0.0'   // to use authorization api
+    implementation 'com.tiktok.open.sdk:tiktok-open-sdk-share:2.0.0'    // to use share api
 }
 ```
 
