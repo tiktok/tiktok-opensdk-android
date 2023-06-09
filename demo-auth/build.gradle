@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "CLIENT_KEY", '"awp9h9mdmo510fct"'
-        buildConfigField "String", "REDIRECT_URL", '"demoapp://oauth_response"'
+        buildConfigField "String", "REDIRECT_URL", '"demoapp://oauthresponse"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
