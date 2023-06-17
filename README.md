@@ -75,7 +75,7 @@ At this point, the basic development environment setup is complete.
 
 ## Security
 
-If you discover a potential security issue in this project, or think you may have discovered a security issue, please notify Bytedance via our [feedback form](https://developers.tiktok.com/support/).
+If you discover a potential security issue in this project, or think you may have discovered a security issue, please notify TikTok via our [feedback form](https://developers.tiktok.com/support/).
 Please do NOT create a public GitHub issue.
 
 ## License
