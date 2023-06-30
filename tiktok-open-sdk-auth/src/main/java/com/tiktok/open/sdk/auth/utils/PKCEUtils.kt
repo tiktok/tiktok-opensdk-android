@@ -8,11 +8,13 @@ object PKCEUtils {
     private const val BYTE_ARRAY_SIZE = 32
 
     fun generateCodeVerifier(): String {
-        val codeVerifierBytes = ByteArray(BYTE_ARRAY_SIZE)
+        val alphanumeric = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         val secureRandom = SecureRandom()
-        secureRandom.nextBytes(codeVerifierBytes)
+        val codeVerifier = (1..BYTE_ARRAY_SIZE)
+            .map { alphanumeric[secureRandom.nextInt(alphanumeric.size)] }
+            .joinToString("")
 
-        return String(codeVerifierBytes, Charsets.US_ASCII)
+        return codeVerifier
     }
 
     internal fun generateCodeChallenge(codeVerifier: String): String {
