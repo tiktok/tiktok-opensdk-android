@@ -71,9 +71,7 @@ class ShareApi(private val activity: Activity) {
             return null
         }
         val bundle = intent.extras
-        if (bundle != null &&
-            bundle.getInt(Keys.Share.TYPE) == Constants.SHARE_RESPONSE
-        ) {
+        if (bundle?.getInt(Keys.Share.TYPE) == Constants.SHARE_RESPONSE) {
             return bundle.toShareResponse()
         }
         return null
