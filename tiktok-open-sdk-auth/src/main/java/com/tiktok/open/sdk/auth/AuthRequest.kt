@@ -38,7 +38,7 @@ data class AuthRequest(
     @IgnoredOnParcel
     override val type: Int = Constants.AUTH_REQUEST
 
-    override fun validate(): Boolean = scope.isNotEmpty()
+    override fun validate(): Boolean = scope.isNotEmpty() && clientKey.isNotEmpty() && redirectUri.isNotEmpty() && codeVerifier.isNotEmpty()
 
     override fun toBundle(): Bundle {
         return super.toBundle(BuildConfig.AUTH_SDK_NAME, BuildConfig.AUTH_SDK_VERSION).apply {
