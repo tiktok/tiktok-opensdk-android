@@ -91,17 +91,9 @@ class AuthApi(private val activity: Activity) {
         }
         val data = intent.data
         val bundle = intent.extras
-        if (data != null &&
-            redirectUrl == "${data.scheme}://${data.host}"
-        ) {
-            if (bundle != null &&
-                bundle.getInt(Keys.Base.TYPE) == com.tiktok.open.sdk.auth.constants.Constants.AUTH_RESPONSE
-            ) {
-                return bundle.toAuthResponse()
-            } else {
-                return WebAuthHelper.parseRedirectUriToAuthResponse(data)
-            }
-        } else if (bundle != null) {
+        if (data?.toString()?.startsWith(redirectUrl) == true) {
+            return WebAuthHelper.parseRedirectUriToAuthResponse(data)
+        } else if (bundle?.getInt(Keys.Base.TYPE) == com.tiktok.open.sdk.auth.constants.Constants.AUTH_RESPONSE) {
             return bundle.toAuthResponse()
         }
         return null
