@@ -12,6 +12,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -92,10 +93,13 @@ class SelectMediaActivity : AppCompatActivity() {
     }
 
     private fun openSystemGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = if (isSharingImage) {
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        } else {
+            Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        }
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET
-        intent.type = if (isSharingImage) "image/*" else "video/*"
         startActivityForResult(intent, OPEN_GALLERY_REQUEST_CODE)
     }
 
