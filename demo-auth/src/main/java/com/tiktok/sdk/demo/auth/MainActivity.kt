@@ -113,6 +113,12 @@ class MainActivity : AppCompatActivity() {
                     viewState.browserAuthEnabled,
                     viewModel::toggleBrowserAuthEnabled
                 ),
+                ConfigModel(
+                    getString(R.string.disable_auto_auth),
+                    getString(R.string.disable_auto_auth_description),
+                    viewState.autoAuthDisabled,
+                    viewModel::toggleAutoAuthEnabled
+                ),
                 HeaderModel(getString(R.string.scope_configuration)),
             )
             viewState.scopeStates.map {
