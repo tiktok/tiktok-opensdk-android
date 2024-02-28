@@ -32,6 +32,7 @@ data class AuthRequest(
     val scope: String,
     val redirectUri: String,
     val codeVerifier: String,
+    val autoAuthDisabled: Boolean = false,
     val state: String? = null,
     val language: String? = null,
 ) : Base.Request() {
@@ -48,6 +49,7 @@ data class AuthRequest(
             putString(Keys.Auth.LANGUAGE, language)
             putString(Keys.Auth.REDIRECT_URI, redirectUri)
             putString(Keys.Auth.CODE_CHALLENGE, PKCEUtils.generateCodeChallenge(codeVerifier))
+            putBoolean(Keys.Auth.AUTO_AUTH_DISABLED, autoAuthDisabled)
         }
     }
 }
