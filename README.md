@@ -79,4 +79,4 @@ If you discover a potential security issue in this project, or think you may hav
 Please do NOT create a public GitHub issue.
 
 ## License
-This project is licensed under the [Apache-2.0 License](LICENSE).
+This source code is licensed under the license found in the LICENSE file in the root directory of this source tree.
