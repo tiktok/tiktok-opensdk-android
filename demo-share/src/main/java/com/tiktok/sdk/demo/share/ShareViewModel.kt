@@ -16,6 +16,7 @@ import com.tiktok.open.sdk.share.Format
 import com.tiktok.open.sdk.share.MediaType
 import com.tiktok.open.sdk.share.ShareApi
 import com.tiktok.open.sdk.share.ShareRequest
+import com.tiktok.open.sdk.share.model.LaunchResult
 import com.tiktok.open.sdk.share.model.MediaContent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -59,7 +60,7 @@ class ShareViewModel(
         clientKey: String,
         packageName: String,
         resultActivityFullPath: String
-    ): Boolean {
+    ): LaunchResult {
         val currentStateValue: ShareViewModelViewState = _shareViewState.value ?: ShareViewModelViewState()
         val request = currentStateValue.toShareRequest(clientKey, packageName, resultActivityFullPath)
         return shareApi.share(request)

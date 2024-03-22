@@ -17,10 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.tiktok.open.sdk.core.appcheck.TikTokAppCheckUtil
 import com.tiktok.open.sdk.share.ShareApi
 import com.tiktok.sdk.demo.share.constants.Constants.CLIENT_KEY
 import com.tiktok.sdk.demo.share.constants.Constants.IS_SHARING_IMAGE
 import com.tiktok.sdk.demo.share.constants.Constants.SELECTED_MEDIAS
+import com.tiktok.sdk.demo.share.constants.Constants.SUCCESS
 import com.tiktok.sdk.demo.share.model.HeaderModel
 import com.tiktok.sdk.demo.share.model.ToggleModel
 import com.tiktok.sdk.demo.share.model.ToggleType
@@ -33,6 +35,7 @@ class ShareActivity : AppCompatActivity() {
     private lateinit var shareViewModel: ShareViewModel
     private lateinit var shareApi: ShareApi
     private lateinit var clientKey: String
+    private var shouldCheckTikTokInstalled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +79,11 @@ class ShareActivity : AppCompatActivity() {
         handleShareResponse(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        handleInstallationResult(intent)
+    }
+
     private fun handleShareResponse(intent: Intent) {
         shareApi.getShareResponseFromIntent(intent)?.let {
             if (it.isSuccess) {
@@ -92,6 +100,13 @@ class ShareActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun handleInstallationResult(intent: Intent) {
+        if (shouldCheckTikTokInstalled && !TikTokAppCheckUtil.isTikTokAppInstalled(this)) {
+            showDialogAlert(getString(R.string.error_dialog_title), getString(R.string.sharing_fail_error))
+        }
+        shouldCheckTikTokInstalled = false
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -114,9 +129,10 @@ class ShareActivity : AppCompatActivity() {
             packageName = packageName, // the package name of your activity
             resultActivityFullPath = "$packageName.${this::class.simpleName}" // com.tiktok.sdk.demo.share.ShareActivity, the full path of activity which will receive the sdk results
         )
-        if (!res) {
-            showDialogAlert(getString(R.string.error_dialog_title), getString(R.string.sharing_fail_error))
+        if (res.result != SUCCESS) {
+            showDialogAlert(getString(R.string.error_dialog_title), getString(R.string.sharing_fail_error)) // add error code and message
         }
+        shouldCheckTikTokInstalled = true
     }
 
     private fun showDialogAlert(title: String, desc: String) {
