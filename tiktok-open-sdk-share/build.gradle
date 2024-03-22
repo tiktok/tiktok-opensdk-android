@@ -41,6 +41,10 @@ android {
 dependencies {
     api project(path: ':tiktok-open-sdk-core')
     implementation "com.google.code.gson:gson:$gson"
+    implementation "androidx.browser:browser:$androidxBrowser"
+    implementation "com.google.android.gms:play-services-base:$playStoreBase"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineCoreVersion"
+    implementation "com.google.android.gms:play-services-ads-identifier:$playStoreIdentifier"
 
     androidTestImplementation "io.mockk:mockk-android:$mockk"
     androidTestImplementation "androidx.test.ext:junit:$androidTestJunitVersion"
