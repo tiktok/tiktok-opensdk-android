@@ -22,7 +22,8 @@ data class ScopeModel(
 enum class ScopeType(val value: String) {
     USER_INFO_BASIC("user.info.basic"),
     VIDEO_UPLOAD("video.upload"),
-    VIDEO_LIST("video.list");
+    VIDEO_LIST("video.list"),
+    FEED_FORYOU_LIST("feed.foryou.list");
 
     companion object {
         fun fromValue(value: String): ScopeType? {

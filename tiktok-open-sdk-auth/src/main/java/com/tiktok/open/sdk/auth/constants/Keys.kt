@@ -20,6 +20,7 @@ internal object Keys {
         const val AUTH_ERROR_DESCRIPTION = "_bytedance_params_auth_error_description"
         const val REDIRECT_URI = "_bytedance_params_redirect_uri"
         const val CODE_CHALLENGE = "_bytedance_params_code_challenge"
+        const val AUTO_AUTH_DISABLED = "_bytedance_params_auto_auth_disabled"
     }
 
     object WebAuth {
