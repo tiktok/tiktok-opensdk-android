@@ -10,10 +10,28 @@ package com.tiktok.open.sdk.share
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.tiktok.open.sdk.core.appcheck.TikTokAppCheckUtil
 import com.tiktok.open.sdk.share.constants.Constants
+import com.tiktok.open.sdk.share.constants.Constants.SHARE_TIKTOK_INSTALL_LANDING_FAIL
 import com.tiktok.open.sdk.share.constants.Keys
+import com.tiktok.open.sdk.share.constants.LocaleMappings.TIKTOK_T_LOCALES
+import com.tiktok.open.sdk.share.constants.OneLinkConstants.SCHEMA_HTTPS
+import com.tiktok.open.sdk.share.constants.OneLinkConstants.TIKTOK_M_PLAYSTORE_ENDPOINT
+import com.tiktok.open.sdk.share.constants.OneLinkConstants.TIKTOK_M_PLAYSTORE_HOST
+import com.tiktok.open.sdk.share.constants.OneLinkConstants.TIKTOK_T_PLAYSTORE_ENDPOINT
+import com.tiktok.open.sdk.share.constants.OneLinkConstants.TIKTOK_T_PLAYSTORE_HOST
+import com.tiktok.open.sdk.share.constants.ShareErrorCodes.SUCCESS
+import com.tiktok.open.sdk.share.model.LaunchResult
 import com.tiktok.open.sdk.share.model.MediaContent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 /**
  * Provides an interface for sharing media to TikTok.
@@ -21,11 +39,24 @@ import com.tiktok.open.sdk.share.model.MediaContent
  */
 class ShareApi(private val activity: Activity) {
 
-    fun share(request: ShareRequest): Boolean {
+    fun share(request: ShareRequest): LaunchResult {
         TikTokAppCheckUtil.getInstalledTikTokApp(activity)?.let {
-            return share(request, it.appPackageName)
+            share(request, it.appPackageName)
+            return LaunchResult(
+                result = SUCCESS,
+            )
         }
-        return false
+
+        return try {
+            openLandOption()
+            LaunchResult(
+                result = SUCCESS,
+            )
+        } catch (e: Exception) {
+            LaunchResult(
+                result = SHARE_TIKTOK_INSTALL_LANDING_FAIL,
+            )
+        }
     }
 
     private fun share(request: ShareRequest, packageName: String): Boolean {
@@ -75,5 +106,52 @@ class ShareApi(private val activity: Activity) {
             return bundle.toShareResponse()
         }
         return null
+    }
+
+    private fun getHostAndEndpoint(): Pair<String, String> {
+        return if (TIKTOK_T_LOCALES.contains(Locale.getDefault().country)) {
+            Pair(TIKTOK_T_PLAYSTORE_HOST, TIKTOK_T_PLAYSTORE_ENDPOINT)
+        } else {
+            Pair(TIKTOK_M_PLAYSTORE_HOST, TIKTOK_M_PLAYSTORE_ENDPOINT)
+        }
+    }
+
+    private fun composeUrl(gaId: String, host: String, endpoint: String): Uri.Builder {
+
+        return Uri.Builder()
+            .scheme(SCHEMA_HTTPS)
+            .authority(host)
+            .path(endpoint)
+            .appendQueryParameter("advertising_id", gaId)
+    }
+
+    private fun openLandOption() {
+        val apiAvailability = GoogleApiAvailability.getInstance()
+        val hostAndEndpoint = getHostAndEndpoint()
+        val resultCode = apiAvailability.isGooglePlayServicesAvailable(activity)
+        GlobalScope.launch(Dispatchers.IO) {
+            val gaId = if (resultCode == ConnectionResult.SUCCESS) {
+                try {
+                    AdvertisingIdClient.getAdvertisingIdInfo(activity).id.toString()
+                } catch (e: Exception) {
+                    ""
+                }
+            } else {
+                ""
+            }
+            launch(Dispatchers.Main) {
+                try {
+                    CustomTabsIntent.Builder().build().launchUrl(
+                        activity,
+                        composeUrl(
+                            gaId,
+                            hostAndEndpoint.first,
+                            hostAndEndpoint.second
+                        ).build()
+                    )
+                } catch (e: Exception) {
+                }
+            }
+        }
     }
 }

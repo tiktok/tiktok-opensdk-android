@@ -36,6 +36,7 @@ class MainViewModel(
 
     data class MainViewModelViewState(
         val browserAuthEnabled: Boolean,
+        val autoAuthDisabled: Boolean,
         val scopeStates: LinkedHashMap<ScopeType, ScopeModel>
     )
 
@@ -54,6 +55,7 @@ class MainViewModel(
 
     private fun getDefaultViewState() = MainViewModelViewState(
         browserAuthEnabled = false,
+        autoAuthDisabled = false,
         scopeStates = linkedMapOf(
             ScopeType.USER_INFO_BASIC to ScopeModel(
                 ScopeType.USER_INFO_BASIC,
@@ -70,6 +72,12 @@ class MainViewModel(
             ScopeType.VIDEO_LIST to ScopeModel(
                 ScopeType.VIDEO_LIST,
                 R.string.video_list_scope_description,
+                false,
+                true
+            ),
+            ScopeType.FEED_FORYOU_LIST to ScopeModel(
+                ScopeType.FEED_FORYOU_LIST,
+                R.string.feed_foryou_list_description,
                 false,
                 true
             ),
@@ -99,6 +107,13 @@ class MainViewModel(
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         _viewState.value = currentStateValue.copy(
             browserAuthEnabled = newBrowserAuthEnabled,
+        )
+    }
+
+    fun toggleAutoAuthEnabled(autoAuthDisabled: Boolean) {
+        val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
+        _viewState.value = currentStateValue.copy(
+            autoAuthDisabled = autoAuthDisabled,
         )
     }
 
@@ -144,6 +159,7 @@ class MainViewModel(
         val currentStateValue: MainViewModelViewState = _viewState.value ?: getDefaultViewState()
         val currentScopeStates = currentStateValue.scopeStates
         val browserAuthEnabled = currentStateValue.browserAuthEnabled
+        val autoAuthDisabled = currentStateValue.autoAuthDisabled
         val enabledScopes: MutableList<String> = mutableListOf()
         currentScopeStates.forEach {
             if (it.value.isOn) {
@@ -165,6 +181,7 @@ class MainViewModel(
             scope = enabledScopes.joinToString(),
             redirectUri = BuildConfig.REDIRECT_URL,
             codeVerifier = codeVerifier,
+            autoAuthDisabled = autoAuthDisabled,
         )
         val authType = if (browserAuthEnabled) {
             AuthApi.AuthMethod.ChromeTab

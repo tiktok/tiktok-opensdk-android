@@ -4,9 +4,12 @@
     <string name="scope_configuration">Scope configuration</string>
     <string name="always_in_browser">Always in Browser</string>
     <string name="always_in_browser_description">Always authorize in browser</string>
+    <string name="disable_auto_auth">Disable auto Auth</string>
+    <string name="disable_auto_auth_description">Disable automatic authorization</string>
     <string name="basic_scope_description">Read your profile info (avatar, display name)</string>
     <string name="video_upload_scope_description">Share videos as a draft to your TikTok account</string>
     <string name="video_list_scope_description">Read your public videos on TikTok</string>
+    <string name="feed_foryou_list_description">Read a user\'s TikTok For You videos</string>
     <string name="access_token_error">Access Token Error</string>
     <string name="user_info_error">User Info Error</string>
     <string name="getting_user_info_succeeds">Getting user info succeeded</string>
