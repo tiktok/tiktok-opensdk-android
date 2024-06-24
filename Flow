@@ -1,0 +1,12 @@
+import random
+
+def increase_tiktok_followers(username):
+    current_followers = random.randint(1000, 1000000)  # عدد متابعين عشوائي بين 1000 و 1000000
+    followers_increase = random.randint(1000, 10000)  # زيادة العدد بين 1000 و 10000
+    new_followers_count = current_followers + followers_increase
+    return f"المتابعين الجدد لـ {username} هم: {new_followers_count}"
+
+# استخدام الدالة
+username = "ahmad_ayman.1"
+new_followers = increase_tiktok_followers(username)
+print(new_followers)
