@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "CLIENT_KEY", '"awp9h9mdmo510fct"'
-        buildConfigField "String", "REDIRECT_URL", '"demoapp://oauthresponse"'
+        buildConfigField "String", "REDIRECT_URL", '"https://open-platform.tiktokapis.com/callback"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
